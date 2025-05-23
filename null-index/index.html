@@ -166,7 +166,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -236,7 +236,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-05-23 00:00:00 / 修改时间：09:53:28" itemprop="dateCreated datePublished" datetime="2025-05-23T00:00:00+08:00">2025-05-23</time>
+      <time title="创建时间：2025-05-23 00:00:00 / 修改时间：12:37:27" itemprop="dateCreated datePublished" datetime="2025-05-23T00:00:00+08:00">2025-05-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -259,14 +259,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.9k</span>
+      <span>2.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -303,10 +303,30 @@
 <p>设置vocab_size小于9时，会报错</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuntimeError: Internal: src/trainer_interface.cc(582) [(static_cast&lt;int&gt;(required_chars_.size() + meta_pieces_.size())) &lt;= (trainer_spec_.vocab_size())] Vocabulary size is smaller than required_chars. 8 vs 9. Increase vocab_size or decrease character_coverage with --character_coverage option.</span><br></pre></td></tr></table></figure>
 
-<p>这是因为SentencePieceTrainer会自动添加 <unk>、&lt;s&gt;、&lt;&#x2F;s&gt;、▁，加上这个例子本来的5个字符，需要至少9个字符才能分词。</p>
+<p>这是因为SentencePieceTrainer会自动添加未知符： <unk>、BOS：&lt;s&gt;、EOS：&lt;&#x2F;s&gt;、▁，加上这个例子本来的5个字符，需要至少9个字符才能分词。</p>
 <p>而设置的上限即分词算法能计算到最大标记总数，例如，考虑一个简单的例子“ab ac bc cd de”，其上限是：字符总数（5）+</p>
 <p>”▁？“型（4）+”▁？？“型（5）+”？？“型（5）+自动添加（4）&#x3D;23。</p>
 <p>一般遇到设定词典大小过大的问题时，可能是数据不够丰富导致的，这时可以选择增加数据或者减少词典大小。</p>
+<h4 id="分词器训练与使用"><a href="#分词器训练与使用" class="headerlink" title="分词器训练与使用"></a>分词器训练与使用</h4><ul>
+<li>训练：（参数文档参考<a target="_blank" rel="noopener" href="https://github.com/google/sentencepiece/blob/master/doc/options.md">sentencepiece&#x2F;doc&#x2F;options.md at master · google&#x2F;sentencepiece</a>）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">spm.SentencePieceTrainer.train(</span><br><span class="line">        input=tiny_file,         # 输入文件为之前生成的 tiny.txt</span><br><span class="line">        model_prefix=prefix,     # 模型前缀路径</span><br><span class="line">        model_type=&quot;bpe&quot;,        # 使用 Byte-Pair Encoding (BPE) 训练分词器</span><br><span class="line">        vocab_size=vocab_size,   # 词汇表大小</span><br><span class="line">        self_test_sample_size=0, # 自测样本大小设置为 0</span><br><span class="line">        input_format=&quot;text&quot;,     # 输入文件格式为纯文本</span><br><span class="line">        character_coverage=1.0,  # 覆盖所有字符（包括非常见字符）</span><br><span class="line">        num_threads=os.cpu_count(),  # 使用 CPU 的线程数</span><br><span class="line">        split_digits=True,       # 拆分数字</span><br><span class="line">        allow_whitespace_only_pieces=True,  # 允许仅由空格组成的词元</span><br><span class="line">        byte_fallback=True,      # 启用字节级回退</span><br><span class="line">        unk_surface=r&quot; \342\201\207 &quot;,  # UNK token 表示未知字符的方式</span><br><span class="line">        normalization_rule_name=&quot;identity&quot;  # 使用“identity”归一化规则</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>加载：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sp_model = SentencePieceProcessor(model_file=model_path)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>编码：(s：str)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sp_model.encode(s)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>解码：(t: List[int])</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sp_model.decode(t)</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -326,7 +346,7 @@
 
 
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/null-index/page/2/">2</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/null-index/page/2/">2</a><a class="page-number" href="/null-index/page/3/">3</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -349,14 +369,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">7k</span>
+    <span title="站点总字数">9k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">13 分钟</span>
+    <span title="站点阅读时长">17 分钟</span>
   </span>
 </div>
 
