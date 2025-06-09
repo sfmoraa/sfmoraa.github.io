@@ -19,26 +19,22 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="本博客为2024挑战杯项目基于大模型的多模态风险内容识别系统的涉诈短信识别功能的实现。 方案选择Huggingface格式LLama模型+Lora代码微调 环境准备GPU服务器：RTX 4090，24G双GPU，cuda12 Python: 3.11 由于40系GPU不支持某些高效的通信模式，需要设置环境变量： 12export NCCL_P2P_DISABLE&#x3D;1export NCCL_IB_D">
-<meta property="og:type" content="article">
-<meta property="og:title" content="使用LoRA微调Llama-2-7b-hf实现涉诈短信识别">
-<meta property="og:url" content="http://example.com/posts/2505.001v1/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Feixiang Shu&#39;s Blog">
+<meta property="og:url" content="http://example.com/null-index/page/6/index.html">
 <meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
-<meta property="og:description" content="本博客为2024挑战杯项目基于大模型的多模态风险内容识别系统的涉诈短信识别功能的实现。 方案选择Huggingface格式LLama模型+Lora代码微调 环境准备GPU服务器：RTX 4090，24G双GPU，cuda12 Python: 3.11 由于40系GPU不支持某些高效的通信模式，需要设置环境变量： 12export NCCL_P2P_DISABLE&#x3D;1export NCCL_IB_D">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-05-18T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-05-24T05:00:06.952Z">
 <meta property="article:author" content="Feixiang Shu">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/posts/2505.001v1/">
+<link rel="canonical" href="http://example.com/null-index/page/6/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2505.001v1/","path":"/posts/2505.001v1/","title":"使用LoRA微调Llama-2-7b-hf实现涉诈短信识别"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"null-index/page/6/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>使用LoRA微调Llama-2-7b-hf实现涉诈短信识别 | Feixiang Shu's Blog</title>
+<title>Feixiang Shu's Blog</title>
   
 
 
@@ -90,7 +86,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">Feixiang Shu's Blog</p>
+      <h1 class="site-title">Feixiang Shu's Blog</h1>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -143,7 +139,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -156,7 +152,6 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E9%80%89%E6%8B%A9"><span class="nav-number">1.</span> <span class="nav-text">方案选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%87%86%E5%A4%87"><span class="nav-number">3.</span> <span class="nav-text">模型准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E4%B8%8B%E8%BD%BD"><span class="nav-number">3.0.1.</span> <span class="nav-text">模型下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81"><span class="nav-number">3.0.2.</span> <span class="nav-text">模型验证</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LoRA%E5%BE%AE%E8%B0%83%E6%95%B0%E6%8D%AE%E9%9B%86%E5%87%86%E5%A4%87"><span class="nav-number">4.</span> <span class="nav-text">LoRA微调数据集准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E8%B0%83%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">微调代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C%E9%AA%8C%E8%AF%81"><span class="nav-number">6.</span> <span class="nav-text">效果验证</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -201,17 +196,16 @@
 
     </div>
 
-    <div class="main-inner post posts-expand">
+    <div class="main-inner index posts-expand">
 
-
-  
+    
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://example.com/posts/2505.001v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -225,13 +219,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="使用LoRA微调Llama-2-7b-hf实现涉诈短信识别 | Feixiang Shu's Blog">
+      <meta itemprop="name" content=" | Feixiang Shu's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          使用LoRA微调Llama-2-7b-hf实现涉诈短信识别
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/2505.001v1/" class="post-title-link" itemprop="url">使用LoRA微调Llama-2-7b-hf实现涉诈短信识别</a>
+        </h2>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -288,7 +282,8 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>本博客为2024挑战杯项目<strong>基于大模型的多模态风险内容识别系统</strong>的涉诈短信识别功能的实现。</p>
+    <div class="post-body" itemprop="articleBody">
+          <p>本博客为2024挑战杯项目<strong>基于大模型的多模态风险内容识别系统</strong>的涉诈短信识别功能的实现。</p>
 <h2 id="方案选择"><a href="#方案选择" class="headerlink" title="方案选择"></a>方案选择</h2><p>Huggingface格式LLama模型+Lora代码微调</p>
 <h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>GPU服务器：RTX 4090，24G双GPU，cuda12</p>
 <p>Python: 3.11</p>
@@ -366,6 +361,7 @@
 </tr>
 </tbody></table>
 
+      
     </div>
 
     
@@ -373,21 +369,8 @@
     
 
     <footer class="post-footer">
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/posts/2501.001v1/" rel="prev" title="学习资料汇总">
-                  <i class="fa fa-angle-left"></i> 学习资料汇总
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/posts/2505.002v1/" rel="next" title="TinyLLM学习日记">
-                  TinyLLM学习日记 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
+        <div class="post-eof"></div>
+      
     </footer>
   </article>
 </div>
@@ -395,7 +378,9 @@
 
 
 
-
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/null-index/page/7/">7</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/7/"><i class="fa fa-angle-right"></i></a>
+  </nav>
 
 </div>
   </main>

@@ -19,22 +19,36 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Feixiang Shu&#39;s Blog">
-<meta property="og:url" content="http://example.com/null-index/index.html">
+    <meta name="description" content="论文概况题目：Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning 通讯作者：Bryan Hooi：bhooi@comp.nus.edu.sg 作者院校：新加坡国立大学、洛约拉马利蒙特大学、纽约大学、Meta AI 发表于：ICLR 2024">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文阅读——Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning">
+<meta property="og:url" content="http://example.com/posts/2506.002v1/index.html">
 <meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="论文概况题目：Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning 通讯作者：Bryan Hooi：bhooi@comp.nus.edu.sg 作者院校：新加坡国立大学、洛约拉马利蒙特大学、纽约大学、Meta AI 发表于：ICLR 2024">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234331255.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234853934.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235316790.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235548998.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235916094.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141355323.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141404895.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609154424517.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250610002752820.png">
+<meta property="article:published_time" content="2025-06-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-09T16:28:07.766Z">
 <meta property="article:author" content="Feixiang Shu">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234331255.png">
 
 
-<link rel="canonical" href="http://example.com/null-index/">
+<link rel="canonical" href="http://example.com/posts/2506.002v1/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"null-index/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2506.002v1/","path":"/posts/2506.002v1/","title":"论文阅读——Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Feixiang Shu's Blog</title>
+<title>论文阅读——Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning | Feixiang Shu's Blog</title>
   
 
 
@@ -86,7 +100,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Feixiang Shu's Blog</h1>
+      <p class="site-title">Feixiang Shu's Blog</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -139,7 +153,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -152,6 +166,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E6%A6%82%E5%86%B5"><span class="nav-number">1.</span> <span class="nav-text">论文概况</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E5%86%85%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">论文内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.2.</span> <span class="nav-text">相关工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">2.3.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E6%96%B9%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">论文方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C"><span class="nav-number">2.5.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">复现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-LLM-Direct"><span class="nav-number">3.1.</span> <span class="nav-text">1 LLM Direct</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -196,16 +211,17 @@
 
     </div>
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/posts/2506.002v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -219,13 +235,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Feixiang Shu's Blog">
+      <meta itemprop="name" content="论文阅读——Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning | Feixiang Shu's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2506.002v1/" class="post-title-link" itemprop="url">论文阅读——Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          论文阅读——Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -286,8 +302,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.19523">Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning</a></p>
+    <div class="post-body" itemprop="articleBody"><h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.19523">Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning</a></p>
 <p><strong>通讯作者</strong>：Bryan Hooi：<a href="mailto:&#98;&#104;&#111;&#111;&#x69;&#64;&#x63;&#111;&#109;&#112;&#46;&#x6e;&#x75;&#x73;&#46;&#101;&#x64;&#x75;&#46;&#115;&#103;">bhooi@comp.nus.edu.sg</a></p>
 <p><strong>作者院校</strong>：新加坡国立大学、洛约拉马利蒙特大学、纽约大学、Meta AI</p>
 <p><strong>发表于</strong>：ICLR 2024</p>
@@ -332,7 +347,6 @@
 <h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609154424517.png" alt="image-20250609154424517"></p>
 <h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h1><h2 id="1-LLM-Direct"><a href="#1-LLM-Direct" class="headerlink" title="1 LLM Direct"></a>1 LLM Direct</h2><p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250610002752820.png" alt="image-20250610002752820"></p>
 
-      
     </div>
 
     
@@ -340,8 +354,18 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2506.001v1/" rel="prev" title="动手学深度学习——线性神经网络">
+                  <i class="fa fa-angle-left"></i> 动手学深度学习——线性神经网络
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
@@ -349,9 +373,7 @@
 
 
 
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/null-index/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/7/">7</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+
 
 </div>
   </main>
