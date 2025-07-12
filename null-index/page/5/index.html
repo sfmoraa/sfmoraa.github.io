@@ -166,13 +166,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -206,7 +206,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2505.002v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2505.004v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -224,7 +224,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2505.002v1/" class="post-title-link" itemprop="url">TinyLLM学习日记</a>
+          <a href="/posts/2505.004v1/" class="post-title-link" itemprop="url">论文阅读——Don’t Say No: Jailbreaking LLM by Suppressing Refusal</a>
         </h2>
 
         <div class="post-meta-container">
@@ -234,15 +234,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2025-05-22 00:00:00" itemprop="dateCreated datePublished" datetime="2025-05-22T00:00:00+08:00">2025-05-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-05-24 13:00:17" itemprop="dateModified" datetime="2025-05-24T13:00:17+08:00">2025-05-24</time>
+      <time title="创建时间：2025-05-26 00:00:00 / 修改时间：23:01:07" itemprop="dateCreated datePublished" datetime="2025-05-26T00:00:00+08:00">2025-05-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -250,11 +244,15 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/LLM%E5%AE%9E%E8%B7%B5/" itemprop="url" rel="index"><span itemprop="name">LLM实践</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/LLM%E5%AE%9E%E8%B7%B5/TinyLLM/" itemprop="url" rel="index"><span itemprop="name">TinyLLM</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E8%B6%8A%E7%8B%B1/" itemprop="url" rel="index"><span itemprop="name">越狱</span></a>
         </span>
     </span>
 
@@ -265,14 +263,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4.9k</span>
+      <span>2.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>9 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -283,86 +281,156 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>我希望通过训练一个TinyLLM来打好大模型训练的基础，过程中会遇到很多问题，因此在这里记录学习日记。比较重要的是，要学习理解好一些封装好的接口的使用，避免知其然不知其所以然。</p>
-<p>本部分的教程使用的是<a target="_blank" rel="noopener" href="https://github.com/datawhalechina/tiny-universe">datawhalechina&#x2F;tiny-universe: 《大模型白盒子构建指南》：一个全手搓的Tiny-Universe</a>中的<a target="_blank" rel="noopener" href="https://github.com/datawhalechina/tiny-universe/tree/main/content/TinyLLM">TinyLLM</a>部分，不会再对原教程赘述，只记录相关探索的笔记。</p>
-<h1 id="Step-1-训练Tokenizer"><a href="#Step-1-训练Tokenizer" class="headerlink" title="Step 1: 训练Tokenizer"></a>Step 1: 训练Tokenizer</h1><h2 id="SentencePiece库的使用"><a href="#SentencePiece库的使用" class="headerlink" title="SentencePiece库的使用"></a>SentencePiece库的使用</h2><h3 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h3><p>TinyLLM使用了 <code>SentencePiece</code> 库来训练自定义的 <code>Tokenizer</code>，我希望增进对其的理解，参考资料：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/630696264">大模型词表扩充必备工具SentencePiece - 知乎</a>。</p>
-<ul>
-<li><p>Tokenizer有三种粒度：word&#x2F;character&#x2F;subword</p>
-</li>
-<li><p>subword平衡了两种方法，常见的子词算法有Byte-Pair Encoding (BPE) &#x2F; Byte-level BPE（BBPE）、Unigram LM、WordPiece、SentencePiece等。</p>
-<ul>
-<li>BPE，即字节对编码。其核心思想是从字母开始，不断找词频最高、且连续的两个token合并，直到达到目标词数。</li>
-<li>BBPE的核心思想是将BPE从字符级别扩展到子节（Byte）级别。BPE的一个问题是如果遇到了unicode编码，基本字符集可能会很大。BBPE就是以一个字节为一种“字符”，不管实际字符集用了几个字节来表示一个字符。这样的话，基础字符集的大小就锁定在了256（2^8）。采用BBPE的好处是可以跨语言共用词表，显著压缩词表的大小。而坏处就是，对于类似中文这样的语言，一段文字的序列长度会显著增长。因此，BBPE based模型可能比BPE based模型表现的更好。然而，BBPE sequence比起BPE来说略长，这也导致了更长的训练&#x2F;推理时间。BBPE其实与BPE在实现上并无大的不同，只不过基础词表使用256的字节集。</li>
-</ul>
-</li>
-</ul>
-<h3 id="SentencePiece-特性"><a href="#SentencePiece-特性" class="headerlink" title="SentencePiece 特性"></a>SentencePiece 特性</h3><ul>
-<li>固定最终词汇表大小</li>
-<li>使用原始句子训练</li>
-<li>空格被视为基本符号 “▁” ，因此可以无歧义地对文本进行detokenize</li>
-</ul>
-<h3 id="SentencePiece-实验"><a href="#SentencePiece-实验" class="headerlink" title="SentencePiece 实验"></a>SentencePiece 实验</h3><p>使用一个简单的示例进行测试：“aa bb cc aab abbd bb.”</p>
-<p>测试代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import sentencepiece as spm</span><br><span class="line">dataset_path = &#x27;./demo.txt&#x27;</span><br><span class="line">vocab_size=10</span><br><span class="line">spm.SentencePieceTrainer.train(input=dataset_path,model_type=&quot;bpe&quot;, model_prefix=&#x27;demo&#x27;, vocab_size=vocab_size)</span><br><span class="line"></span><br><span class="line">sp = spm.SentencePieceProcessor()</span><br><span class="line">sp.load(&#x27;demo.model&#x27;)</span><br><span class="line"></span><br><span class="line">text=&#x27;aa bb cc aab abbd bb.&#x27;</span><br><span class="line">print(sp.encode_as_pieces(text))</span><br><span class="line">print(sp.encode_as_ids(text))</span><br><span class="line"></span><br><span class="line">for i in range(vocab_size):</span><br><span class="line">    print(i,sp.id_to_piece(i))</span><br></pre></td></tr></table></figure>
-
-<p>使用该代码可以看到分词器对这一简单句子的分词结果。</p>
-<p>设置vocab_size小于9时，会报错</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuntimeError: Internal: src/trainer_interface.cc(582) [(static_cast&lt;int&gt;(required_chars_.size() + meta_pieces_.size())) &lt;= (trainer_spec_.vocab_size())] Vocabulary size is smaller than required_chars. 8 vs 9. Increase vocab_size or decrease character_coverage with --character_coverage option.</span><br></pre></td></tr></table></figure>
-
-<p>这是因为SentencePieceTrainer会自动添加未知符： <unk>、BOS：&lt;s&gt;、EOS：&lt;&#x2F;s&gt;、▁，加上这个例子本来的5个字符，需要至少9个字符才能分词。</p>
-<p>而设置的上限即分词算法能计算到最大标记总数，例如，考虑一个简单的例子“ab ac bc cd de”，其上限是：字符总数（5）+</p>
-<p>”▁？“型（4）+”▁？？“型（5）+”？？“型（5）+自动添加（4）&#x3D;23。</p>
-<p>一般遇到设定词典大小过大的问题时，可能是数据不够丰富导致的，这时可以选择增加数据或者减少词典大小。</p>
-<h3 id="分词器训练与使用"><a href="#分词器训练与使用" class="headerlink" title="分词器训练与使用"></a>分词器训练与使用</h3><ul>
-<li>训练：（参数文档参考<a target="_blank" rel="noopener" href="https://github.com/google/sentencepiece/blob/master/doc/options.md">sentencepiece&#x2F;doc&#x2F;options.md at master · google&#x2F;sentencepiece</a>）</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">spm.SentencePieceTrainer.train(</span><br><span class="line">        input=tiny_file,         # 输入文件为之前生成的 tiny.txt</span><br><span class="line">        model_prefix=prefix,     # 模型前缀路径</span><br><span class="line">        model_type=&quot;bpe&quot;,        # 使用 Byte-Pair Encoding (BPE) 训练分词器</span><br><span class="line">        vocab_size=vocab_size,   # 词汇表大小</span><br><span class="line">        self_test_sample_size=0, # 自测样本大小设置为 0</span><br><span class="line">        input_format=&quot;text&quot;,     # 输入文件格式为纯文本</span><br><span class="line">        character_coverage=1.0,  # 覆盖所有字符（包括非常见字符）</span><br><span class="line">        num_threads=os.cpu_count(),  # 使用 CPU 的线程数</span><br><span class="line">        split_digits=True,       # 拆分数字</span><br><span class="line">        allow_whitespace_only_pieces=True,  # 允许仅由空格组成的词元</span><br><span class="line">        byte_fallback=True,      # 启用字节级回退</span><br><span class="line">        unk_surface=r&quot; \342\201\207 &quot;,  # UNK token 表示未知字符的方式</span><br><span class="line">        normalization_rule_name=&quot;identity&quot;  # 使用“identity”归一化规则</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>加载：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sp_model = SentencePieceProcessor(model_file=model_path)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>编码：(s：str)</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sp_model.encode(s)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>解码：(t: List[int])</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sp_model.decode(t)</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="Step-2-数据预处理"><a href="#Step-2-数据预处理" class="headerlink" title="Step 2: 数据预处理"></a>Step 2: 数据预处理</h1><h2 id="functools-partial"><a href="#functools-partial" class="headerlink" title="functools.partial"></a>functools.partial</h2><p><code>functools.partial</code> 是 Python 标准库中 <code>functools</code> 模块提供的一个高阶函数，主要用于部分应用函数参数。它允许固定函数的部分参数，生成一个新的简化版函数，从而减少后续调用时的参数传递量。</p>
-<p>代码将<code>process_shard(args, vocab_size, tokenizer_model_path)</code></p>
-<p>封装为<code>fun = partial(process_shard, vocab_size=vocab_size, tokenizer_model_path=TOKENIZER_MODEL)</code></p>
-<p>则后续调用时形如<code>fun((0,&#39;path&#39;))</code>，传入一个元组</p>
-<h2 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h2><p>将文本数据使用Step1训练的分词器转换为数字序列，并编码为可训练的格式（为每一段文本添加BOS），最后以二进制形式保存</p>
-<h2 id="加载已预处理好的数据集"><a href="#加载已预处理好的数据集" class="headerlink" title="加载已预处理好的数据集"></a>加载已预处理好的数据集</h2><p>TinyLLM中设计了一个 <code>PretokDataset</code> 类</p>
-<p>核心加载数据的代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">while True:</span><br><span class="line">    # 随机打乱分片文件</span><br><span class="line">    rng.shuffle(shard_filenames)</span><br><span class="line">    for shard in shard_filenames:</span><br><span class="line">        # 使用 memmap 读取文件，使得数据留在磁盘上，减少内存占用</span><br><span class="line">        m = np.memmap(shard, dtype=np.uint16, mode=&quot;r&quot;)</span><br><span class="line">        # 计算该分片中的批次数量</span><br><span class="line">        num_batches = len(m) // self.max_seq_len</span><br><span class="line">        num_batches -= 1  # 去掉最后一个不完整的批次</span><br><span class="line">        assert num_batches &gt; 0, &quot;这个分片文件太小了？请检查。&quot;</span><br><span class="line">        # 随机打乱批次索引</span><br><span class="line">        ixs = list(range(num_batches))</span><br><span class="line">        rng.shuffle(ixs)</span><br><span class="line">        # 对每个批次生成输入 x 和目标输出 y</span><br><span class="line">        for ix in ixs:</span><br><span class="line">            start = ix * self.max_seq_len  # 批次起始索引</span><br><span class="line">            end = start + self.max_seq_len + 1  # 批次结束索引</span><br><span class="line">            # 将数据转换为 NumPy 数组并拷贝到 RAM 中</span><br><span class="line">            chunk = torch.from_numpy((m[start:end]).astype(np.int64))</span><br><span class="line">            # 模型输入 x 是当前批次的前 max_seq_len 个词元</span><br><span class="line">            x = chunk[:-1]</span><br><span class="line">            # 模型输出 y 是下一个词元</span><br><span class="line">            y = chunk[1:]</span><br><span class="line">            # 生成 x, y 对</span><br><span class="line">            yield x, y</span><br></pre></td></tr></table></figure>
-
-<p>可以看出这里使用的是步长与窗口大小相等的滑动窗口采样方法，之后可以尝试修改这部分数据加载机制以更大程度地利用数据。</p>
-<h1 id="Step-3-训练模型"><a href="#Step-3-训练模型" class="headerlink" title="Step 3: 训练模型"></a>Step 3: 训练模型</h1><p>TInyLLM使用的模型是与 LLaMA2 结构相同的 Decoder-only Transformer 模型，此部分根据源码进行解读分析。</p>
-<p>在最基本的大模型架构基础上，使用了以下策略：</p>
-<h2 id="对残差投影进行特殊的缩放初始化"><a href="#对残差投影进行特殊的缩放初始化" class="headerlink" title="对残差投影进行特殊的缩放初始化"></a>对残差投影进行特殊的缩放初始化</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for pn, p in self.named_parameters():</span><br><span class="line">    if pn.endswith(&#x27;w3.weight&#x27;) or pn.endswith(&#x27;wo.weight&#x27;):</span><br><span class="line">        torch.nn.init.normal_(p, mean=0.0, std=0.02/math.sqrt(2 * args.n_layers))</span><br></pre></td></tr></table></figure>
-
-<p>这是对DecoderLayer内的MLP层的第三层线性变换和Attention层的输出权重矩阵进行放缩</p>
-<h2 id="旋转编码"><a href="#旋转编码" class="headerlink" title="旋转编码"></a>旋转编码</h2><p>参考<a target="_blank" rel="noopener" href="https://www.zhihu.com/tardis/bd/art/647109286">十分钟读懂旋转编码（RoPE）</a></p>
-<p>TinyLLM这里的实现与LLAMA里的一致，之后再专门研究学习一下编码。</p>
-<h2 id="学习率调整"><a href="#学习率调整" class="headerlink" title="学习率调整"></a>学习率调整</h2><p>包括线性预热、余弦退火和最小学习率限制。</p>
-<h2 id="自动混合精度训练"><a href="#自动混合精度训练" class="headerlink" title="自动混合精度训练"></a>自动混合精度训练</h2><p>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38253797/article/details/116210911">【Trick2】torch.cuda.amp自动混合精度训练 —— 节省显存并加快推理速度_torch.cuda.amp.gradscaler()-CSDN博客</a>。</p>
-<p>因为在某些上下文中torch.FloatTensor有优势，有的torch.HalfTensor有优势。动态估计的原理就是在不出现inf或者NaN梯度值的情况下尽可能增大scaler的值。在每次scaler.step(optimizer)中，都会检查是否有inf或NaN的梯度出现：</p>
+          <h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a href="%5B2404.16369%5D(https://arxiv.org/pdf/2404.16369)">Don’t Say No: Jailbreaking LLM by Suppressing Refusal</a></p>
+<p><strong>通讯作者</strong>：Wenjie Wang：<a href="mailto:&#119;&#97;&#110;&#x67;&#x77;&#x6a;&#49;&#x40;&#x73;&#104;&#97;&#110;&#103;&#104;&#x61;&#105;&#116;&#x65;&#x63;&#x68;&#46;&#x65;&#100;&#117;&#46;&#x63;&#110;">wangwj1@shanghaitech.edu.cn</a></p>
+<p><strong>作者院校</strong>：上海科技大学、中国科学技术大学、浙江大学</p>
+<p><strong>发表于</strong>：arXiv</p>
+<h1 id="论文内容"><a href="#论文内容" class="headerlink" title="论文内容"></a>论文内容</h1><h2 id="1-研究背景与问题"><a href="#1-研究背景与问题" class="headerlink" title="1 研究背景与问题"></a>1 研究背景与问题</h2><h3 id="1-1-LLM安全对齐的挑战"><a href="#1-1-LLM安全对齐的挑战" class="headerlink" title="1.1 LLM安全对齐的挑战"></a>1.1 LLM安全对齐的挑战</h3><p>大型语言模型（LLMs）通过RLHF、模型微调等技术实现安全对齐，但仍面临越狱攻击（Jailbreaking）威胁，攻击者通过精心设计的输入诱导模型生成有害内容。这样的传统方法存在限制，现有方法（如GCG）通过优化对抗后缀最大化肯定响应（如“Sure, here is…”），但存在两大问题：</p>
 <ol>
-<li>如果出现了inf或者NaN，scaler.step(optimizer)会忽略此次的权重更新（optimizer.step() )，并且将scaler的大小缩小（乘上backoff_factor）；</li>
-<li>如果没有出现inf或者NaN，那么权重正常更新，并且当连续多次（growth_interval指定）没有出现inf或者NaN，则scaler.update()会将scaler的大小增加（乘上growth_factor）。</li>
+<li><p><strong>Token Shift现象</strong>：损失函数平均计算所有token的损失，忽略前几个关键token的重要性。</p>
+</li>
+<li><p><strong>拒绝抑制不足</strong>：未显式抑制模型的拒绝响应（如“I cannot assist”）。</p>
+</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 实例化一个GradScaler对象</span><br><span class="line">scaler = amp.GradScaler(enabled=True)</span><br><span class="line"># 将梯度放大 防止梯度消失</span><br><span class="line">scaler.scale(loss).backward()</span><br><span class="line"># 更新优化器和梯度缩放器</span><br><span class="line">scaler.step(optimizer)</span><br><span class="line">scaler.update()</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="Step-4-使用模型生成文本"><a href="#Step-4-使用模型生成文本" class="headerlink" title="Step 4: 使用模型生成文本"></a>Step 4: 使用模型生成文本</h1><p>推理时，为提示词加上BOS，然后逐个字符生成，可以使用<em>temperature</em>、top_k来控制生成的随机性。</p>
+<h3 id="1-2-现有评估方法的缺陷"><a href="#1-2-现有评估方法的缺陷" class="headerlink" title="1.2 现有评估方法的缺陷"></a>1.2 现有评估方法的缺陷</h3><ul>
+<li><p><strong>关键词匹配</strong>（Refusal Matching）：通过检测响应的前若干个长度是否不包含拒绝关键词（如“Sorry”）来判断攻击成功与否，但存在高误判率（见Table 2）。这是由于如果选定的检测长度过短，这个指标会忽视后续的拒绝内容，而过长则会将有害内容后面的拒绝内容检测到。</p>
+<p><img src="/images/post_images/2025-05-26-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Don%E2%80%99t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526013110599.png" alt="image-20250526013110599"></p>
+<p><img src="/images/post_images/2025-05-26-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Don%E2%80%99t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526121404360.png" alt="image-20250526121404360"></p>
+</li>
+</ul>
+<hr>
+<h2 id="2-核心方法：DSN攻击"><a href="#2-核心方法：DSN攻击" class="headerlink" title="2 核心方法：DSN攻击"></a>2 核心方法：DSN攻击</h2><h3 id="2-1-拒绝抑制（Suppress-Refusal）"><a href="#2-1-拒绝抑制（Suppress-Refusal）" class="headerlink" title="2.1 拒绝抑制（Suppress Refusal）"></a>2.1 拒绝抑制（Suppress Refusal）</h3><ul>
+<li><p><strong>Unlikelihood损失</strong>：降低模型生成预定义拒绝关键词的概率：<br>$$<br>\mathcal{L}<em>{Un}(p,q) &#x3D; -\sum</em>{i}p_ilog(1-q_i)<br>$$</p>
+<p>$$<br>\mathcal{L}<em>{\text{refusal}}(x</em>{1:n}) &#x3D; \sum_{y \in RKL} \sum_{i&#x3D;n+1}^{n+H-RTL(y)} \mathcal{L}<em>{Un}(y,x</em>{i:i+RTL(y)})<br>$$<br>其中，<code>RKL</code>为拒绝关键词列表（如“sorry, i cannot”, “unethical”），<code>RTL</code>为每个拒绝关键词的长度。该式的含义是在给定输入的条件下，对于拒绝关键词列表里的每个拒绝关键词，限定输出长度区间内的每一个RTL长度的窗口都要最小化Unlikelihood损失。</p>
+</li>
+</ul>
+<h3 id="2-2-肯定响应诱导（Elicit-Affirmative-Response）"><a href="#2-2-肯定响应诱导（Elicit-Affirmative-Response）" class="headerlink" title="2.2 肯定响应诱导（Elicit Affirmative Response）"></a>2.2 肯定响应诱导（Elicit Affirmative Response）</h3><ul>
+<li><p><strong>余弦衰减加权（Cosine Decay）</strong>：对生成序列的前几个token赋予更高权重，缓解Token Shift：<br>$$<br>CD(i) &#x3D; 0.5 + 0.5 \cos\left(\frac{i}{H} \cdot \frac{\pi}{2}\right)<br>$$<br>其中i表示第i个token，H是序列长度。加权后生成目标响应的概率为：<br>$$<br>p_{CD}(x_{n+1:n+H}|x_{1:n}) &#x3D; \prod_{i&#x3D;1}^H CD(i) \cdot p(x_{n+i}|x_{1:n+i-1})<br>$$</p>
+</li>
+<li><p><strong>肯定响应损失</strong>：<br>$$<br>\mathcal{L}<em>{\text{affirmative}}(x</em>{1:n}) &#x3D;-\log p_{CD}(\hat{x}<em>{n+1:n+H}|x</em>{1:n})<br>$$<br>该式的含义是在给定输入的条件下，最大化尽早生成指定输出的概率。</p>
+</li>
+</ul>
+<h3 id="2-3-综合损失函数"><a href="#2-3-综合损失函数" class="headerlink" title="2.3 综合损失函数"></a>2.3 综合损失函数</h3><p>$$<br>\mathcal{L}<em>{DSN}(x</em>{1:n}) &#x3D; \mathcal{L}<em>{\text{affirmative}}(x</em>{1:n})+ \alpha \cdot \mathcal{L}<em>{\text{refusal}}(x</em>{1:n})<br>$$</p>
+<p>$$<br>adv^*\leftarrow argmin\mathcal{L}<em>{DSN}(x</em>{1:n}\oplus adv)<br>$$</p>
+<p>目标为找到使综合损失最小的后缀adv*。</p>
+<h2 id="3-集成评估（Ensemble-Evaluation）"><a href="#3-集成评估（Ensemble-Evaluation）" class="headerlink" title="3. 集成评估（Ensemble Evaluation）"></a>3. 集成评估（Ensemble Evaluation）</h2><h3 id="3-1-评估框架"><a href="#3-1-评估框架" class="headerlink" title="3.1 评估框架"></a>3.1 评估框架</h3><table>
+<thead>
+<tr>
+<th>模块</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>NLI矛盾检测</strong></td>
+<td>使用自然语言推理模型检测响应中的语义矛盾，越大说明越低的回复连续性（算法1）</td>
+</tr>
+<tr>
+<td><strong>HarmBench评估器</strong></td>
+<td>基于微调的Llama-2分类器判断有害性</td>
+</tr>
+<tr>
+<td><strong>GPT-4评估器</strong></td>
+<td>通过提示工程判断生成内容是否符合攻击目标</td>
+</tr>
+</tbody></table>
+<p><img src="/images/post_images/2025-05-26-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Don%E2%80%99t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526152512651.png" alt="image-20250526152512651"></p>
+<p>将输出划分为n个句子，计算每个句子与用户提问的一致性，以及句子之间的关系，然后根据句子长度加权得到总的矛盾得分，与预设阈值比较。</p>
+<h3 id="3-2-评估效果对比"><a href="#3-2-评估效果对比" class="headerlink" title="3.2 评估效果对比"></a>3.2 评估效果对比</h3><table>
+<thead>
+<tr>
+<th>评估方法</th>
+<th>准确率（%）</th>
+<th>AUC</th>
+<th>F1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Refusal Matching</td>
+<td>74</td>
+<td>0.72</td>
+<td>0.79</td>
+</tr>
+<tr>
+<td>NLI</td>
+<td>80</td>
+<td>0.80</td>
+<td>0.81</td>
+</tr>
+<tr>
+<td><strong>集成评估</strong></td>
+<td><strong>82</strong></td>
+<td><strong>0.79</strong></td>
+<td><strong>0.86</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4-实验结果与分析"><a href="#4-实验结果与分析" class="headerlink" title="4. 实验结果与分析"></a>4. 实验结果与分析</h2><h3 id="4-1-攻击成功率（ASR）"><a href="#4-1-攻击成功率（ASR）" class="headerlink" title="4.1 攻击成功率（ASR）"></a>4.1 攻击成功率（ASR）</h3><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>GCG（ASR%）</th>
+<th>DSN（ASR%）</th>
+<th>提升幅度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Llama2-13B</td>
+<td>24</td>
+<td>38</td>
+<td>+58%</td>
+</tr>
+<tr>
+<td>Vicuna-13B</td>
+<td>89</td>
+<td>95</td>
+<td>+7%</td>
+</tr>
+<tr>
+<td>Mistral-7B</td>
+<td>92</td>
+<td>98</td>
+<td>+6%</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>迁移性测试</strong>：DSN后缀迁移至GPT-3.5 Turbo的ASR达95%（GCG为34%）。</li>
+</ul>
+<h3 id="4-2-消融实验"><a href="#4-2-消融实验" class="headerlink" title="4.2 消融实验"></a>4.2 消融实验</h3><ul>
+<li><strong>余弦衰减的作用</strong>：移除后，Llama2-7B的ASR从38%降至22%。</li>
+<li><strong>拒绝抑制系数α</strong>：α&#x3D;0.5时性能最优（见图3）。</li>
+</ul>
+<hr>
+<h2 id="5-贡献与讨论"><a href="#5-贡献与讨论" class="headerlink" title="5. 贡献与讨论"></a>5. 贡献与讨论</h2><h3 id="5-1-主要贡献"><a href="#5-1-主要贡献" class="headerlink" title="5.1 主要贡献"></a>5.1 主要贡献</h3><ol>
+<li><strong>理论创新</strong>：<ul>
+<li>揭示Token Shift现象，提出余弦衰减加权。</li>
+<li>首次将拒绝抑制纳入越狱攻击目标函数。</li>
+</ul>
+</li>
+<li><strong>实用价值</strong>：<ul>
+<li>DSN攻击在真实场景中仅需附加优化后缀（20 token），易于部署。</li>
+<li>集成评估减少误判率（F1提升7%）。</li>
+</ul>
+</li>
+</ol>
+<h3 id="5-2-局限性"><a href="#5-2-局限性" class="headerlink" title="5.2 局限性"></a>5.2 局限性</h3><ul>
+<li><strong>黑盒模型挑战</strong>：对GPT-4、Claude等高度对齐模型攻击仍困难。</li>
+<li><strong>防御措施</strong>：PPL过滤可部分防御，但可通过添加无关前缀绕过（PPL从11k降至1.1k）。</li>
+</ul>
+<hr>
+<h2 id="6-总结与展望"><a href="#6-总结与展望" class="headerlink" title="6. 总结与展望"></a>6. 总结与展望</h2><p>本文通过改进损失函数和评估方法，显著提升了越狱攻击的效果和评估可靠性。未来方向包括：</p>
+<ul>
+<li>将DSN扩展至多模态攻击</li>
+<li>探索动态拒绝关键词生成</li>
+<li>结合对抗训练提升模型鲁棒性</li>
+</ul>
+<h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h1><h2 id="代码修改记录"><a href="#代码修改记录" class="headerlink" title="代码修改记录"></a>代码修改记录</h2><ol>
+<li>由于环境的numpy版本过高，源代码中的np.infty全部被替换为np.inf</li>
+<li>eval2_gpt.py中有笔误“whehter”，改为“whether”</li>
+<li>eval2_gpt.py中的get_eval2_gpt4_results改为使用了硅基流动接口的deepseek-ai&#x2F;DeepSeek-V3模型</li>
+<li></li>
+</ol>
+<p>TODO：</p>
+<p>改一下device，支持多卡</p>
 
       
     </div>
@@ -382,7 +450,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/null-index/page/6/">6</a><a class="page-number" href="/null-index/page/7/">7</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/null-index/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/9/">9</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -405,14 +473,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">31k</span>
+    <span title="站点总字数">33k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">57 分钟</span>
+    <span title="站点阅读时长">1:01</span>
   </span>
 </div>
 
