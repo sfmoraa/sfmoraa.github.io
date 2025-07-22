@@ -19,22 +19,30 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Feixiang Shu&#39;s Blog">
-<meta property="og:url" content="http://example.com/null-index/index.html">
+    <meta name="description" content="论文概况题目：Graph foundation models: Concepts, opportunities and challenges 通讯作者：Chuan Shi： shichuan@bupt.edu.cn 作者院校：北京邮电大学，新加坡管理大学，伊利诺伊大学芝加哥分校等 发表于：TPAMI 2025 代码仓库：无 论文内容摘要基础模型已成为各类人工智能应用中的核心组件，在自然语言处理及多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文阅读（综述）——Graph foundation models: Concepts, opportunities and challenges">
+<meta property="og:url" content="http://example.com/posts/2507.003v1/index.html">
 <meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="论文概况题目：Graph foundation models: Concepts, opportunities and challenges 通讯作者：Chuan Shi： shichuan@bupt.edu.cn 作者院校：北京邮电大学，新加坡管理大学，伊利诺伊大学芝加哥分校等 发表于：TPAMI 2025 代码仓库：无 论文内容摘要基础模型已成为各类人工智能应用中的核心组件，在自然语言处理及多">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/post_images/2025-07-14-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%EF%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%89%E2%80%94%E2%80%94Graph-foundation-models-Concepts,-opportunities-and-challenges/image-20250714200217665.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-07-14-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%EF%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%89%E2%80%94%E2%80%94Graph-foundation-models-Concepts,-opportunities-and-challenges/image-20250717174948713.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-07-14-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%EF%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%89%E2%80%94%E2%80%94Graph-foundation-models-Concepts,-opportunities-and-challenges/image-20250722162852718.png">
+<meta property="article:published_time" content="2025-07-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-22T14:39:20.597Z">
 <meta property="article:author" content="Feixiang Shu">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/post_images/2025-07-14-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%EF%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%89%E2%80%94%E2%80%94Graph-foundation-models-Concepts,-opportunities-and-challenges/image-20250714200217665.png">
 
 
-<link rel="canonical" href="http://example.com/null-index/">
+<link rel="canonical" href="http://example.com/posts/2507.003v1/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"null-index/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2507.003v1/","path":"/posts/2507.003v1/","title":"论文阅读（综述）——Graph foundation models: Concepts, opportunities and challenges"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Feixiang Shu's Blog</title>
+<title>论文阅读（综述）——Graph foundation models: Concepts, opportunities and challenges | Feixiang Shu's Blog</title>
   
 
 
@@ -86,7 +94,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Feixiang Shu's Blog</h1>
+      <p class="site-title">Feixiang Shu's Blog</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -139,7 +147,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -152,6 +160,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E6%A6%82%E5%86%B5"><span class="nav-number">1.</span> <span class="nav-text">论文概况</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E5%86%85%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">论文内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.3.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.3.1.</span> <span class="nav-text">图深度学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E6%95%B0%E6%8D%AE%E7%89%B9%E6%80%A7"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">图数据特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E5%B9%B2%E7%BB%93%E6%9E%84"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">主干结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%8C%83%E5%BC%8F"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">学习范式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.3.2.</span> <span class="nav-text">语言基础模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E6%95%B0%E6%8D%AE%E7%89%B9%E6%80%A7"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">语言数据特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E5%B9%B2%E7%BB%93%E6%9E%84-1"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">主干结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%8C%83%E5%BC%8F-1"><span class="nav-number">2.3.2.3.</span> <span class="nav-text">学习范式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.4.</span> <span class="nav-text">图基础模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%88%AB%E4%B8%80%EF%BC%9AGNN-BASED-MODELS"><span class="nav-number">2.5.</span> <span class="nav-text">类别一：GNN-BASED MODELS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-%E4%B8%BB%E5%B9%B2%E7%BB%93%E6%9E%84"><span class="nav-number">2.5.1.</span> <span class="nav-text">A. 主干结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%88MPNNs%EF%BC%89%EF%BC%9A"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">基于消息传递的方法（MPNNs）：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%9B%BEtransformer%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">基于图transformer的方法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-%E9%A2%84%E8%AE%AD%E7%BB%83"><span class="nav-number">2.5.2.</span> <span class="nav-text">B. 预训练</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%9A%84%E9%A2%84%E8%AE%AD%E7%BB%83%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">2.5.2.1.</span> <span class="nav-text">基于对比学习的预训练方法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%94%9F%E6%88%90%E7%9A%84%E9%A2%84%E8%AE%AD%E7%BB%83%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">2.5.2.2.</span> <span class="nav-text">基于生成的预训练方法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E9%80%82%E5%BA%94"><span class="nav-number">2.5.3.</span> <span class="nav-text">C. 适应</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%AE%E8%B0%83%EF%BC%9A"><span class="nav-number">2.5.3.1.</span> <span class="nav-text">微调：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA%E8%AF%8D%E8%B0%83%E4%BC%98%EF%BC%9A"><span class="nav-number">2.5.3.2.</span> <span class="nav-text">提示词调优：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.5.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%88%AB%E4%BA%8C%EF%BC%9ALLM-BASED-MODELS"><span class="nav-number">2.6.</span> <span class="nav-text">类别二：LLM-BASED MODELS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-%E4%B8%BB%E5%B9%B2%E7%BB%93%E6%9E%84-1"><span class="nav-number">2.6.1.</span> <span class="nav-text">A. 主干结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E5%88%B0%E8%AF%8D%E5%85%83%EF%BC%88graph-to-token%EF%BC%89%EF%BC%9A"><span class="nav-number">2.6.1.1.</span> <span class="nav-text">图到词元（graph-to-token）：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E5%88%B0%E6%96%87%E6%9C%AC%EF%BC%88graph-to-text%EF%BC%89%EF%BC%9A"><span class="nav-number">2.6.1.2.</span> <span class="nav-text">图到文本（graph-to-text）：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-%E9%A2%84%E8%AE%AD%E7%BB%83-1"><span class="nav-number">2.6.2.</span> <span class="nav-text">B. 预训练</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E5%BB%BA%E6%A8%A1%EF%BC%88LM%EF%BC%89%EF%BC%9A"><span class="nav-number">2.6.2.1.</span> <span class="nav-text">语言建模（LM）：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A9%E7%A0%81%E8%AF%AD%E8%A8%80%E5%BB%BA%E6%A8%A1%EF%BC%88MLM%EF%BC%89%EF%BC%9A"><span class="nav-number">2.6.2.2.</span> <span class="nav-text">掩码语言建模（MLM）：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E9%80%82%E5%BA%94-1"><span class="nav-number">2.6.3.</span> <span class="nav-text">C. 适应</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E5%B7%A5%E6%8F%90%E7%A4%BA%E5%9E%8B%EF%BC%9A"><span class="nav-number">2.6.3.1.</span> <span class="nav-text">人工提示型：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%8F%90%E7%A4%BA%E5%9E%8B%EF%BC%9A"><span class="nav-number">2.6.3.2.</span> <span class="nav-text">自动提示型：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D-%E8%AE%A8%E8%AE%BA"><span class="nav-number">2.6.4.</span> <span class="nav-text">D.讨论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%88%AB%E4%B8%89%EF%BC%9AGNN-LLM-BASED-MODELS"><span class="nav-number">2.7.</span> <span class="nav-text">类别三：GNN+LLM-BASED MODELS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-%E4%B8%BB%E5%B9%B2%E7%BB%93%E6%9E%84-2"><span class="nav-number">2.7.1.</span> <span class="nav-text">A. 主干结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A5%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%BA%E6%A0%B8%E5%BF%83%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">2.7.1.1.</span> <span class="nav-text">以图神经网络为核心的方法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E7%A7%B0%E5%BC%8F%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">2.7.1.2.</span> <span class="nav-text">对称式方法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A5LLM%E4%B8%BA%E6%A0%B8%E5%BF%83%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">2.7.1.3.</span> <span class="nav-text">以LLM为核心的方法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-%E9%A2%84%E8%AE%AD%E7%BB%83-2"><span class="nav-number">2.7.2.</span> <span class="nav-text">B. 预训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E9%80%82%E5%BA%94-2"><span class="nav-number">2.7.3.</span> <span class="nav-text">C. 适应</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%AE%E8%B0%83%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">2.7.3.1.</span> <span class="nav-text">微调方法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA%E8%B0%83%E4%BC%98%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">2.7.3.2.</span> <span class="nav-text">提示调优方法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D-%E8%AE%A8%E8%AE%BA-1"><span class="nav-number">2.7.4.</span> <span class="nav-text">D.讨论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%91%E6%88%98%E4%B8%8E%E5%B1%95%E6%9C%9B"><span class="nav-number">2.8.</span> <span class="nav-text">挑战与展望</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-%E6%95%B0%E6%8D%AE%E4%B8%8E%E8%AF%84%E4%BC%B0%E9%9D%A2%E4%B8%B4%E7%9A%84%E6%8C%91%E6%88%98"><span class="nav-number">2.8.1.</span> <span class="nav-text">A.  数据与评估面临的挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%AF%84%E4%BC%B0%E4%B8%8E%E8%B4%A8%E9%87%8F%EF%BC%9A"><span class="nav-number">2.8.1.1.</span> <span class="nav-text">数据评估与质量：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E4%BD%93%E7%B3%BB%EF%BC%9A"><span class="nav-number">2.8.1.2.</span> <span class="nav-text">评估体系：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-%E6%A8%A1%E5%9E%8B%E7%9B%B8%E5%85%B3%E6%8C%91%E6%88%98"><span class="nav-number">2.8.2.</span> <span class="nav-text">B. 模型相关挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="nav-number">2.8.2.1.</span> <span class="nav-text">模型架构：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%EF%BC%9A"><span class="nav-number">2.8.2.2.</span> <span class="nav-text">模型训练：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E5%BA%94%E7%94%A8%E5%B1%82%E9%9D%A2%E6%8C%91%E6%88%98"><span class="nav-number">2.8.3.</span> <span class="nav-text">C.应用层面挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%80%E6%89%8B%E7%BA%A7%E5%BA%94%E7%94%A8%EF%BC%9A"><span class="nav-number">2.8.3.1.</span> <span class="nav-text">杀手级应用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E4%BF%A1%E5%BA%A6%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">2.8.3.2.</span> <span class="nav-text">可信度问题：</span></a></li></ol></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -196,16 +205,17 @@
 
     </div>
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/posts/2507.003v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -219,13 +229,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Feixiang Shu's Blog">
+      <meta itemprop="name" content="论文阅读（综述）——Graph foundation models: Concepts, opportunities and challenges | Feixiang Shu's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2507.003v1/" class="post-title-link" itemprop="url">论文阅读（综述）——Graph foundation models: Concepts, opportunities and challenges</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          论文阅读（综述）——Graph foundation models: Concepts, opportunities and challenges
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -286,8 +296,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10915556">Graph foundation models: Concepts, opportunities and challenges</a></p>
+    <div class="post-body" itemprop="articleBody"><h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10915556">Graph foundation models: Concepts, opportunities and challenges</a></p>
 <p><strong>通讯作者</strong>：Chuan Shi： <a href="mailto:&#x73;&#x68;&#x69;&#x63;&#104;&#117;&#x61;&#110;&#x40;&#x62;&#x75;&#x70;&#x74;&#46;&#x65;&#x64;&#x75;&#x2e;&#99;&#110;">shichuan@bupt.edu.cn</a></p>
 <p><strong>作者院校</strong>：北京邮电大学，新加坡管理大学，伊利诺伊大学芝加哥分校等</p>
 <p><strong>发表于</strong>：TPAMI 2025</p>
@@ -556,7 +565,6 @@
 <li>现实场景中的图数据常面临噪声、类别不平衡、数据残缺和多模态特征等挑战，如何利用非常规图数据构建GFMs或适配现有模型，将成为未来研究的重点方向。</li>
 </ul>
 
-      
     </div>
 
     
@@ -564,8 +572,18 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2507.002v1/" rel="prev" title="论文阅读——PACT: Pruning and Clustering-Based Token Reduction for Faster Visual Language Models">
+                  <i class="fa fa-angle-left"></i> 论文阅读——PACT: Pruning and Clustering-Based Token Reduction for Faster Visual Language Models
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
@@ -573,9 +591,7 @@
 
 
 
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/null-index/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/10/">10</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+
 
 </div>
   </main>
