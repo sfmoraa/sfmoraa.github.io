@@ -166,7 +166,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -206,7 +206,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2506.002v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2508.001v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -224,7 +224,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2506.002v1/" class="post-title-link" itemprop="url">论文阅读——Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning</a>
+          <a href="/posts/2508.001v1/" class="post-title-link" itemprop="url">论文阅读——Representation Learning with Large Language Models for Recommendation</a>
         </h2>
 
         <div class="post-meta-container">
@@ -234,15 +234,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2025-06-08 00:00:00" itemprop="dateCreated datePublished" datetime="2025-06-08T00:00:00+08:00">2025-06-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-06-10 00:28:07" itemprop="dateModified" datetime="2025-06-10T00:28:07+08:00">2025-06-10</time>
+      <time title="创建时间：2025-08-03 00:00:00 / 修改时间：23:13:25" itemprop="dateCreated datePublished" datetime="2025-08-03T00:00:00+08:00">2025-08-03</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -269,7 +263,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>720</span>
+      <span>371</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -287,50 +281,13 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.19523">Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning</a></p>
-<p><strong>通讯作者</strong>：Bryan Hooi：<a href="mailto:&#98;&#104;&#111;&#111;&#x69;&#64;&#x63;&#111;&#109;&#112;&#46;&#x6e;&#x75;&#x73;&#46;&#101;&#x64;&#x75;&#46;&#115;&#103;">bhooi@comp.nus.edu.sg</a></p>
-<p><strong>作者院校</strong>：新加坡国立大学、洛约拉马利蒙特大学、纽约大学、Meta AI</p>
-<p><strong>发表于</strong>：ICLR 2024</p>
-<p><strong>代码仓库</strong>：<a target="_blank" rel="noopener" href="https://github.com/XiaoxinHe/TAPE">https://github.com/XiaoxinHe/TAPE</a></p>
-<h1 id="论文内容"><a href="#论文内容" class="headerlink" title="论文内容"></a>论文内容</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>​	文本属性图（TAGs）广泛存在（如论文引用网络），但现有方法存在局限，本文核心创新为提出LLM生成的解释作为特征：</p>
-<ul>
-<li>通过提示LLM输出<strong>预测标签</strong>和<strong>决策解释</strong>，提取其知识与推理能力。</li>
-<li>设计 <strong>LLM-to-LM解释器</strong>，将文本解释转化为GNN可用的向量特征。</li>
-</ul>
-<h2 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h2><ul>
-<li><strong>浅层特征+GNN</strong>：使用skip-gram等算法提取文本浅层特征，然后用GCN等图学习算法，但问题在于浅层特征语义捕捉能力弱。</li>
-<li><strong>小型LM微调+GNN</strong>：使用BERT等语言模型进行特征编码，然后再使用GNN，但问题在于计算成本高，且缺乏复杂推理能力。</li>
-<li><strong>LLM+图结构理解</strong>：虽然已有工作研究LLM对于图结构的理解，但未针对TAG任务优化。</li>
-</ul>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ul>
-<li><p>文本属性图</p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234331255.png" alt="image-20250608234331255"></p>
-</li>
-<li><p>LM特征提取</p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234853934.png" alt="image-20250608234853934"></p>
-</li>
-<li><p>LLM</p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235316790.png" alt="image-20250608235316790"></p>
-</li>
-<li><p>图神经网络</p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235548998.png" alt="image-20250608235548998"></p>
-</li>
-</ul>
-<h2 id="论文方法"><a href="#论文方法" class="headerlink" title="论文方法"></a>论文方法</h2><p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235916094.png" alt="image-20250608235916094"></p>
-<ul>
-<li><p>对于每一个论文，将摘要、标题、问题输入大模型，要求大模型预测的分类以及相应的解释。</p>
-</li>
-<li><p>微调LM来从LLM生成的预测和解释中提取特征用于后续的GNN。</p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141355323.png" alt="image-20250609141355323"></p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141404895.png" alt="image-20250609141404895"></p>
-</li>
-<li><p>大模型生成的预测使用独热编码，并线性变换拼接到特征向量中</p>
-</li>
-<li><p>分别利用orig（原始文本）、expl（LLM生成的解释）、pred（LLM生成的预测）特征来训练GNN模型，平均后作为预测结果</p>
-</li>
-</ul>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609154424517.png" alt="image-20250609154424517"></p>
-<h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h1><h2 id="1-LLM-Direct"><a href="#1-LLM-Direct" class="headerlink" title="1 LLM Direct"></a>1 LLM Direct</h2><p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250610002752820.png" alt="image-20250610002752820"></p>
+          <h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a target="_blank" rel="noopener" href="https://dl.acm.org/doi/pdf/10.1145/3589334.3645458">Representation Learning with Large Language Models for Recommendation</a></p>
+<p><strong>通讯作者</strong>：Chao Huang： <a href="mailto:&#99;&#104;&#97;&#111;&#x68;&#x75;&#97;&#110;&#103;&#55;&#x35;&#x40;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">chaohuang75@gmail.com</a></p>
+<p><strong>作者院校</strong>：香港大学，百度</p>
+<p><strong>发表于</strong>：WWW 2024</p>
+<p><strong>代码仓库</strong>：<a target="_blank" rel="noopener" href="https://github.com/HKUDS/RLMRec">“RLMRec: Representation Learning with Large Language Models for Recommendation”</a></p>
+<h1 id="论文内容"><a href="#论文内容" class="headerlink" title="论文内容"></a>论文内容</h1><h2 id="概括总结"><a href="#概括总结" class="headerlink" title="概括总结"></a>概括总结</h2><p>提出了RLMRec框架，使用表示学习连接基于 ID 的推荐系统与 LLM。在保留现有推荐系统的准确性和效率的同时利用 LLM在语义层面捕捉用户复杂的行为和偏好。通过互信息最大化方法，阐明了文本信号如何提升表示质量。RLMRec 采用对比对齐和生成对齐技术，将传统推荐模型的关系嵌入与 LLM 侧的语义表示进行对齐，从而实现更优效果。</p>
+<p><img src="/images/post_images/2025-08-03-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Representation-Learning-with-Large-Language-Models-for-Recommendation/image-20250803231321265.png" alt="image-20250803231321265"></p>
 
       
     </div>
@@ -350,7 +307,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/null-index/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/10/">10</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/null-index/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/15/">15</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -373,14 +330,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">43k</span>
+    <span title="站点总字数">45k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:18</span>
+    <span title="站点阅读时长">1:22</span>
   </span>
 </div>
 
