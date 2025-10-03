@@ -64,9 +64,8 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha256-UF1fgpAiu3tPJN/uCqEUHNe7pnr+QR0SQDNfgglgtcM=" crossorigin="anonymous">
-  <script class="next-config" data-name="katex" type="application/json">{"copy_tex_js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js","integrity":"sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="}}</script>
-  <script src="/js/third-party/math/katex.js" defer></script>
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
 
 
 
@@ -276,14 +275,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>720</span>
+      <span>1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>2 分钟</span>
     </span>
 </div>
 
@@ -294,50 +293,102 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.19523">Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning</a></p>
-<p><strong>通讯作者</strong>：Bryan Hooi：<a href="mailto:&#98;&#104;&#111;&#111;&#x69;&#64;&#x63;&#111;&#109;&#112;&#46;&#x6e;&#x75;&#x73;&#46;&#101;&#x64;&#x75;&#46;&#115;&#103;">bhooi@comp.nus.edu.sg</a></p>
-<p><strong>作者院校</strong>：新加坡国立大学、洛约拉马利蒙特大学、纽约大学、Meta AI</p>
+          <h1 id="论文概况">论文概况</h1>
+<p><strong>题目</strong>：<a
+target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.19523">Harnessing explanations
+Llm-to-lm interpreter for enhanced text-attributed graph representation
+learning</a></p>
+<p><strong>通讯作者</strong>：Bryan Hooi：bhooi@comp.nus.edu.sg</p>
+<p><strong>作者院校</strong>：新加坡国立大学、洛约拉马利蒙特大学、纽约大学、Meta
+AI</p>
 <p><strong>发表于</strong>：ICLR 2024</p>
-<p><strong>代码仓库</strong>：<a target="_blank" rel="noopener" href="https://github.com/XiaoxinHe/TAPE">https://github.com/XiaoxinHe/TAPE</a></p>
-<h1 id="论文内容"><a href="#论文内容" class="headerlink" title="论文内容"></a>论文内容</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>​	文本属性图（TAGs）广泛存在（如论文引用网络），但现有方法存在局限，本文核心创新为提出LLM生成的解释作为特征：</p>
+<p><strong>代码仓库</strong>：https://github.com/XiaoxinHe/TAPE</p>
+<h1 id="论文内容">论文内容</h1>
+<h2 id="引言">引言</h2>
+<p>​
+文本属性图（TAGs）广泛存在（如论文引用网络），但现有方法存在局限，本文核心创新为提出LLM生成的解释作为特征：</p>
 <ul>
 <li>通过提示LLM输出<strong>预测标签</strong>和<strong>决策解释</strong>，提取其知识与推理能力。</li>
-<li>设计 <strong>LLM-to-LM解释器</strong>，将文本解释转化为GNN可用的向量特征。</li>
+<li>设计
+<strong>LLM-to-LM解释器</strong>，将文本解释转化为GNN可用的向量特征。</li>
 </ul>
-<h2 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h2><ul>
+<h2 id="相关工作">相关工作</h2>
+<ul>
 <li><strong>浅层特征+GNN</strong>：使用skip-gram等算法提取文本浅层特征，然后用GCN等图学习算法，但问题在于浅层特征语义捕捉能力弱。</li>
 <li><strong>小型LM微调+GNN</strong>：使用BERT等语言模型进行特征编码，然后再使用GNN，但问题在于计算成本高，且缺乏复杂推理能力。</li>
 <li><strong>LLM+图结构理解</strong>：虽然已有工作研究LLM对于图结构的理解，但未针对TAG任务优化。</li>
 </ul>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ul>
-<li><p>文本属性图</p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234331255.png" alt="image-20250608234331255"></p>
-</li>
-<li><p>LM特征提取</p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234853934.png" alt="image-20250608234853934"></p>
-</li>
-<li><p>LLM</p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235316790.png" alt="image-20250608235316790"></p>
-</li>
-<li><p>图神经网络</p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235548998.png" alt="image-20250608235548998"></p>
-</li>
-</ul>
-<h2 id="论文方法"><a href="#论文方法" class="headerlink" title="论文方法"></a>论文方法</h2><p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235916094.png" alt="image-20250608235916094"></p>
+<h2 id="定义">定义</h2>
 <ul>
-<li><p>对于每一个论文，将摘要、标题、问题输入大模型，要求大模型预测的分类以及相应的解释。</p>
-</li>
-<li><p>微调LM来从LLM生成的预测和解释中提取特征用于后续的GNN。</p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141355323.png" alt="image-20250609141355323"></p>
-<p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141404895.png" alt="image-20250609141404895"></p>
-</li>
-<li><p>大模型生成的预测使用独热编码，并线性变换拼接到特征向量中</p>
-</li>
-<li><p>分别利用orig（原始文本）、expl（LLM生成的解释）、pred（LLM生成的预测）特征来训练GNN模型，平均后作为预测结果</p>
-</li>
+<li><p>文本属性图</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234331255.png"
+alt="image-20250608234331255" />
+<figcaption aria-hidden="true">image-20250608234331255</figcaption>
+</figure></li>
+<li><p>LM特征提取</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234853934.png"
+alt="image-20250608234853934" />
+<figcaption aria-hidden="true">image-20250608234853934</figcaption>
+</figure></li>
+<li><p>LLM</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235316790.png"
+alt="image-20250608235316790" />
+<figcaption aria-hidden="true">image-20250608235316790</figcaption>
+</figure></li>
+<li><p>图神经网络</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235548998.png"
+alt="image-20250608235548998" />
+<figcaption aria-hidden="true">image-20250608235548998</figcaption>
+</figure></li>
 </ul>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609154424517.png" alt="image-20250609154424517"></p>
-<h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h1><h2 id="1-LLM-Direct"><a href="#1-LLM-Direct" class="headerlink" title="1 LLM Direct"></a>1 LLM Direct</h2><p><img src="/images/post_images/2025-06-08-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250610002752820.png" alt="image-20250610002752820"></p>
+<h2 id="论文方法">论文方法</h2>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235916094.png"
+alt="image-20250608235916094" />
+<figcaption aria-hidden="true">image-20250608235916094</figcaption>
+</figure>
+<ul>
+<li><p>对于每一个论文，将摘要、标题、问题输入大模型，要求大模型预测的分类以及相应的解释。</p></li>
+<li><p>微调LM来从LLM生成的预测和解释中提取特征用于后续的GNN。</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141355323.png"
+alt="image-20250609141355323" />
+<figcaption aria-hidden="true">image-20250609141355323</figcaption>
+</figure>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141404895.png"
+alt="image-20250609141404895" />
+<figcaption aria-hidden="true">image-20250609141404895</figcaption>
+</figure></li>
+<li><p>大模型生成的预测使用独热编码，并线性变换拼接到特征向量中</p></li>
+<li><p>分别利用orig（原始文本）、expl（LLM生成的解释）、pred（LLM生成的预测）特征来训练GNN模型，平均后作为预测结果</p></li>
+</ul>
+<h2 id="结果">结果</h2>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609154424517.png"
+alt="image-20250609154424517" />
+<figcaption aria-hidden="true">image-20250609154424517</figcaption>
+</figure>
+<h1 id="复现">复现</h1>
+<h2 id="llm-direct">1 LLM Direct</h2>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250610002752820.png"
+alt="image-20250610002752820" />
+<figcaption aria-hidden="true">image-20250610002752820</figcaption>
+</figure>
 
       
     </div>
@@ -380,14 +431,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">61k</span>
+    <span title="站点总字数">65k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:50</span>
+    <span title="站点阅读时长">1:59</span>
   </span>
 </div>
 

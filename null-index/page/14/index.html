@@ -64,9 +64,8 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha256-UF1fgpAiu3tPJN/uCqEUHNe7pnr+QR0SQDNfgglgtcM=" crossorigin="anonymous">
-  <script class="next-config" data-name="katex" type="application/json">{"copy_tex_js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js","integrity":"sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="}}</script>
-  <script src="/js/third-party/math/katex.js" defer></script>
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
 
 
 
@@ -270,7 +269,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.5k</span>
+      <span>2.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -288,46 +287,94 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a href="%5B2404.16369%5D(https://arxiv.org/pdf/2404.16369)">Don’t Say No: Jailbreaking LLM by Suppressing Refusal</a></p>
-<p><strong>通讯作者</strong>：Wenjie Wang：<a href="mailto:&#119;&#97;&#110;&#x67;&#x77;&#x6a;&#49;&#x40;&#x73;&#104;&#97;&#110;&#103;&#104;&#x61;&#105;&#116;&#x65;&#x63;&#x68;&#46;&#x65;&#100;&#117;&#46;&#x63;&#110;">wangwj1@shanghaitech.edu.cn</a></p>
+          <h1 id="论文概况">论文概况</h1>
+<p><strong>题目</strong>：<a
+href="%5B2404.16369%5D(https://arxiv.org/pdf/2404.16369)">Don’t Say No:
+Jailbreaking LLM by Suppressing Refusal</a></p>
+<p><strong>通讯作者</strong>：Wenjie
+Wang：wangwj1@shanghaitech.edu.cn</p>
 <p><strong>作者院校</strong>：上海科技大学、中国科学技术大学、浙江大学</p>
 <p><strong>发表于</strong>：arXiv</p>
-<h1 id="论文内容"><a href="#论文内容" class="headerlink" title="论文内容"></a>论文内容</h1><h2 id="1-研究背景与问题"><a href="#1-研究背景与问题" class="headerlink" title="1 研究背景与问题"></a>1 研究背景与问题</h2><h3 id="1-1-LLM安全对齐的挑战"><a href="#1-1-LLM安全对齐的挑战" class="headerlink" title="1.1 LLM安全对齐的挑战"></a>1.1 LLM安全对齐的挑战</h3><p>大型语言模型（LLMs）通过RLHF、模型微调等技术实现安全对齐，但仍面临越狱攻击（Jailbreaking）威胁，攻击者通过精心设计的输入诱导模型生成有害内容。这样的传统方法存在限制，现有方法（如GCG）通过优化对抗后缀最大化肯定响应（如“Sure, here is…”），但存在两大问题：</p>
-<ol>
-<li><p><strong>Token Shift现象</strong>：损失函数平均计算所有token的损失，忽略前几个关键token的重要性。</p>
-</li>
-<li><p><strong>拒绝抑制不足</strong>：未显式抑制模型的拒绝响应（如“I cannot assist”）。</p>
-</li>
+<h1 id="论文内容">论文内容</h1>
+<h2 id="研究背景与问题">1 研究背景与问题</h2>
+<h3 id="llm安全对齐的挑战">1.1 LLM安全对齐的挑战</h3>
+<p>大型语言模型（LLMs）通过RLHF、模型微调等技术实现安全对齐，但仍面临越狱攻击（Jailbreaking）威胁，攻击者通过精心设计的输入诱导模型生成有害内容。这样的传统方法存在限制，现有方法（如GCG）通过优化对抗后缀最大化肯定响应（如“Sure,
+here is…”），但存在两大问题：</p>
+<ol type="1">
+<li><p><strong>Token
+Shift现象</strong>：损失函数平均计算所有token的损失，忽略前几个关键token的重要性。</p></li>
+<li><p><strong>拒绝抑制不足</strong>：未显式抑制模型的拒绝响应（如“I
+cannot assist”）。</p></li>
 </ol>
-<h3 id="1-2-现有评估方法的缺陷"><a href="#1-2-现有评估方法的缺陷" class="headerlink" title="1.2 现有评估方法的缺陷"></a>1.2 现有评估方法的缺陷</h3><ul>
-<li><p><strong>关键词匹配</strong>（Refusal Matching）：通过检测响应的前若干个长度是否不包含拒绝关键词（如“Sorry”）来判断攻击成功与否，但存在高误判率（见Table 2）。这是由于如果选定的检测长度过短，这个指标会忽视后续的拒绝内容，而过长则会将有害内容后面的拒绝内容检测到。</p>
-<p><img src="/images/post_images/2025-05-26-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Don%E2%80%99t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526013110599.png" alt="image-20250526013110599"></p>
-<p><img src="/images/post_images/2025-05-26-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Don%E2%80%99t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526121404360.png" alt="image-20250526121404360"></p>
-</li>
+<h3 id="现有评估方法的缺陷">1.2 现有评估方法的缺陷</h3>
+<ul>
+<li><p><strong>关键词匹配</strong>（Refusal
+Matching）：通过检测响应的前若干个长度是否不包含拒绝关键词（如“Sorry”）来判断攻击成功与否，但存在高误判率（见Table
+2）。这是由于如果选定的检测长度过短，这个指标会忽视后续的拒绝内容，而过长则会将有害内容后面的拒绝内容检测到。</p>
+<figure>
+<img
+src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526013110599.png"
+alt="image-20250526013110599" />
+<figcaption aria-hidden="true">image-20250526013110599</figcaption>
+</figure>
+<figure>
+<img
+src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526121404360.png"
+alt="image-20250526121404360" />
+<figcaption aria-hidden="true">image-20250526121404360</figcaption>
+</figure></li>
 </ul>
-<hr>
-<h2 id="2-核心方法：DSN攻击"><a href="#2-核心方法：DSN攻击" class="headerlink" title="2 核心方法：DSN攻击"></a>2 核心方法：DSN攻击</h2><h3 id="2-1-拒绝抑制（Suppress-Refusal）"><a href="#2-1-拒绝抑制（Suppress-Refusal）" class="headerlink" title="2.1 拒绝抑制（Suppress Refusal）"></a>2.1 拒绝抑制（Suppress Refusal）</h3><ul>
-<li><p><strong>Unlikelihood损失</strong>：降低模型生成预定义拒绝关键词的概率：<br>$$<br>\mathcal{L}<em>{Un}(p,q) &#x3D; -\sum</em>{i}p_ilog(1-q_i)<br>$$</p>
-<p>$$<br>\mathcal{L}<em>{\text{refusal}}(x</em>{1:n}) &#x3D; \sum_{y \in RKL} \sum_{i&#x3D;n+1}^{n+H-RTL(y)} \mathcal{L}<em>{Un}(y,x</em>{i:i+RTL(y)})<br>$$<br>其中，<code>RKL</code>为拒绝关键词列表（如“sorry, i cannot”, “unethical”），<code>RTL</code>为每个拒绝关键词的长度。该式的含义是在给定输入的条件下，对于拒绝关键词列表里的每个拒绝关键词，限定输出长度区间内的每一个RTL长度的窗口都要最小化Unlikelihood损失。</p>
-</li>
+<hr />
+<h2 id="核心方法dsn攻击">2 核心方法：DSN攻击</h2>
+<h3 id="拒绝抑制suppress-refusal">2.1 拒绝抑制（Suppress Refusal）</h3>
+<ul>
+<li><p><strong>Unlikelihood损失</strong>：降低模型生成预定义拒绝关键词的概率：
+<span
+class="math display">ℒ<sub><em>U</em><em>n</em></sub>(<em>p</em>, <em>q</em>) = −∑<sub><em>i</em></sub><em>p</em><sub><em>i</em></sub><em>l</em><em>o</em><em>g</em>(1 − <em>q</em><sub><em>i</em></sub>)</span></p>
+<p><span class="math display">$$
+\mathcal{L}_{\text{refusal}}(x_{1:n}) = \sum_{y \in RKL}
+\sum_{i=n+1}^{n+H-RTL(y)} \mathcal{L}_{Un}(y,x_{i:i+RTL(y)})
+$$</span> 其中，<code>RKL</code>为拒绝关键词列表（如“sorry, i cannot”,
+“unethical”），<code>RTL</code>为每个拒绝关键词的长度。该式的含义是在给定输入的条件下，对于拒绝关键词列表里的每个拒绝关键词，限定输出长度区间内的每一个RTL长度的窗口都要最小化Unlikelihood损失。</p></li>
 </ul>
-<h3 id="2-2-肯定响应诱导（Elicit-Affirmative-Response）"><a href="#2-2-肯定响应诱导（Elicit-Affirmative-Response）" class="headerlink" title="2.2 肯定响应诱导（Elicit Affirmative Response）"></a>2.2 肯定响应诱导（Elicit Affirmative Response）</h3><ul>
-<li><p><strong>余弦衰减加权（Cosine Decay）</strong>：对生成序列的前几个token赋予更高权重，缓解Token Shift：<br>$$<br>CD(i) &#x3D; 0.5 + 0.5 \cos\left(\frac{i}{H} \cdot \frac{\pi}{2}\right)<br>$$<br>其中i表示第i个token，H是序列长度。加权后生成目标响应的概率为：<br>$$<br>p_{CD}(x_{n+1:n+H}|x_{1:n}) &#x3D; \prod_{i&#x3D;1}^H CD(i) \cdot p(x_{n+i}|x_{1:n+i-1})<br>$$</p>
-</li>
-<li><p><strong>肯定响应损失</strong>：<br>$$<br>\mathcal{L}<em>{\text{affirmative}}(x</em>{1:n}) &#x3D;-\log p_{CD}(\hat{x}<em>{n+1:n+H}|x</em>{1:n})<br>$$<br>该式的含义是在给定输入的条件下，最大化尽早生成指定输出的概率。</p>
-</li>
+<h3 id="肯定响应诱导elicit-affirmative-response">2.2
+肯定响应诱导（Elicit Affirmative Response）</h3>
+<ul>
+<li><p><strong>余弦衰减加权（Cosine
+Decay）</strong>：对生成序列的前几个token赋予更高权重，缓解Token Shift：
+<span class="math display">$$
+CD(i) = 0.5 + 0.5 \cos\left(\frac{i}{H} \cdot \frac{\pi}{2}\right)
+$$</span> 其中i表示第i个token，H是序列长度。加权后生成目标响应的概率为：
+<span class="math display">$$
+p_{CD}(x_{n+1:n+H}|x_{1:n}) = \prod_{i=1}^H CD(i) \cdot
+p(x_{n+i}|x_{1:n+i-1})
+$$</span></p></li>
+<li><p><strong>肯定响应损失</strong>： <span
+class="math display">ℒ<sub>affirmative</sub>(<em>x</em><sub>1 : <em>n</em></sub>) = −log <em>p</em><sub><em>C</em><em>D</em></sub>(<em>x̂</em><sub><em>n</em> + 1 : <em>n</em> + <em>H</em></sub>|<em>x</em><sub>1 : <em>n</em></sub>)</span>
+该式的含义是在给定输入的条件下，最大化尽早生成指定输出的概率。</p></li>
 </ul>
-<h3 id="2-3-综合损失函数"><a href="#2-3-综合损失函数" class="headerlink" title="2.3 综合损失函数"></a>2.3 综合损失函数</h3><p>$$<br>\mathcal{L}<em>{DSN}(x</em>{1:n}) &#x3D; \mathcal{L}<em>{\text{affirmative}}(x</em>{1:n})+ \alpha \cdot \mathcal{L}<em>{\text{refusal}}(x</em>{1:n})<br>$$</p>
-<p>$$<br>adv^*\leftarrow argmin\mathcal{L}<em>{DSN}(x</em>{1:n}\oplus adv)<br>$$</p>
+<h3 id="综合损失函数">2.3 综合损失函数</h3>
+<p><span
+class="math display">ℒ<sub><em>D</em><em>S</em><em>N</em></sub>(<em>x</em><sub>1 : <em>n</em></sub>) = ℒ<sub>affirmative</sub>(<em>x</em><sub>1 : <em>n</em></sub>) + <em>α</em> ⋅ ℒ<sub>refusal</sub>(<em>x</em><sub>1 : <em>n</em></sub>)</span></p>
+<p><span
+class="math display"><em>a</em><em>d</em><em>v</em><sup>*</sup> ← <em>a</em><em>r</em><em>g</em><em>m</em><em>i</em><em>n</em>ℒ<sub><em>D</em><em>S</em><em>N</em></sub>(<em>x</em><sub>1 : <em>n</em></sub> ⊕ <em>a</em><em>d</em><em>v</em>)</span></p>
 <p>目标为找到使综合损失最小的后缀adv*。</p>
-<h2 id="3-集成评估（Ensemble-Evaluation）"><a href="#3-集成评估（Ensemble-Evaluation）" class="headerlink" title="3. 集成评估（Ensemble Evaluation）"></a>3. 集成评估（Ensemble Evaluation）</h2><h3 id="3-1-评估框架"><a href="#3-1-评估框架" class="headerlink" title="3.1 评估框架"></a>3.1 评估框架</h3><table>
+<h2 id="集成评估ensemble-evaluation">3. 集成评估（Ensemble
+Evaluation）</h2>
+<h3 id="评估框架">3.1 评估框架</h3>
+<table>
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 75%" />
+</colgroup>
 <thead>
 <tr>
 <th>模块</th>
 <th>功能</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td><strong>NLI矛盾检测</strong></td>
 <td>使用自然语言推理模型检测响应中的语义矛盾，越大说明越低的回复连续性（算法1）</td>
 </tr>
@@ -339,10 +386,17 @@
 <td><strong>GPT-4评估器</strong></td>
 <td>通过提示工程判断生成内容是否符合攻击目标</td>
 </tr>
-</tbody></table>
-<p><img src="/images/post_images/2025-05-26-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Don%E2%80%99t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526152512651.png" alt="image-20250526152512651"></p>
+</tbody>
+</table>
+<figure>
+<img
+src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526152512651.png"
+alt="image-20250526152512651" />
+<figcaption aria-hidden="true">image-20250526152512651</figcaption>
+</figure>
 <p>将输出划分为n个句子，计算每个句子与用户提问的一致性，以及句子之间的关系，然后根据句子长度加权得到总的矛盾得分，与预设阈值比较。</p>
-<h3 id="3-2-评估效果对比"><a href="#3-2-评估效果对比" class="headerlink" title="3.2 评估效果对比"></a>3.2 评估效果对比</h3><table>
+<h3 id="评估效果对比">3.2 评估效果对比</h3>
+<table>
 <thead>
 <tr>
 <th>评估方法</th>
@@ -351,7 +405,8 @@
 <th>F1</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>Refusal Matching</td>
 <td>74</td>
 <td>0.72</td>
@@ -369,9 +424,12 @@
 <td><strong>0.79</strong></td>
 <td><strong>0.86</strong></td>
 </tr>
-</tbody></table>
-<hr>
-<h2 id="4-实验结果与分析"><a href="#4-实验结果与分析" class="headerlink" title="4. 实验结果与分析"></a>4. 实验结果与分析</h2><h3 id="4-1-攻击成功率（ASR）"><a href="#4-1-攻击成功率（ASR）" class="headerlink" title="4.1 攻击成功率（ASR）"></a>4.1 攻击成功率（ASR）</h3><table>
+</tbody>
+</table>
+<hr />
+<h2 id="实验结果与分析">4. 实验结果与分析</h2>
+<h3 id="攻击成功率asr">4.1 攻击成功率（ASR）</h3>
+<table>
 <thead>
 <tr>
 <th>模型</th>
@@ -380,7 +438,8 @@
 <th>提升幅度</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>Llama2-13B</td>
 <td>24</td>
 <td>38</td>
@@ -398,42 +457,48 @@
 <td>98</td>
 <td>+6%</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <ul>
-<li><strong>迁移性测试</strong>：DSN后缀迁移至GPT-3.5 Turbo的ASR达95%（GCG为34%）。</li>
+<li><strong>迁移性测试</strong>：DSN后缀迁移至GPT-3.5
+Turbo的ASR达95%（GCG为34%）。</li>
 </ul>
-<h3 id="4-2-消融实验"><a href="#4-2-消融实验" class="headerlink" title="4.2 消融实验"></a>4.2 消融实验</h3><ul>
+<h3 id="消融实验">4.2 消融实验</h3>
+<ul>
 <li><strong>余弦衰减的作用</strong>：移除后，Llama2-7B的ASR从38%降至22%。</li>
-<li><strong>拒绝抑制系数α</strong>：α&#x3D;0.5时性能最优（见图3）。</li>
+<li><strong>拒绝抑制系数α</strong>：α=0.5时性能最优（见图3）。</li>
 </ul>
-<hr>
-<h2 id="5-贡献与讨论"><a href="#5-贡献与讨论" class="headerlink" title="5. 贡献与讨论"></a>5. 贡献与讨论</h2><h3 id="5-1-主要贡献"><a href="#5-1-主要贡献" class="headerlink" title="5.1 主要贡献"></a>5.1 主要贡献</h3><ol>
-<li><strong>理论创新</strong>：<ul>
+<hr />
+<h2 id="贡献与讨论">5. 贡献与讨论</h2>
+<h3 id="主要贡献">5.1 主要贡献</h3>
+<ol type="1">
+<li><strong>理论创新</strong>：
+<ul>
 <li>揭示Token Shift现象，提出余弦衰减加权。</li>
 <li>首次将拒绝抑制纳入越狱攻击目标函数。</li>
-</ul>
-</li>
-<li><strong>实用价值</strong>：<ul>
+</ul></li>
+<li><strong>实用价值</strong>：
+<ul>
 <li>DSN攻击在真实场景中仅需附加优化后缀（20 token），易于部署。</li>
 <li>集成评估减少误判率（F1提升7%）。</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h3 id="5-2-局限性"><a href="#5-2-局限性" class="headerlink" title="5.2 局限性"></a>5.2 局限性</h3><ul>
+<h3 id="局限性">5.2 局限性</h3>
+<ul>
 <li><strong>黑盒模型挑战</strong>：对GPT-4、Claude等高度对齐模型攻击仍困难。</li>
 <li><strong>防御措施</strong>：PPL过滤可部分防御，但可通过添加无关前缀绕过（PPL从11k降至1.1k）。</li>
 </ul>
-<hr>
-<h2 id="6-总结与展望"><a href="#6-总结与展望" class="headerlink" title="6. 总结与展望"></a>6. 总结与展望</h2><p>本文通过改进损失函数和评估方法，显著提升了越狱攻击的效果和评估可靠性。未来方向包括：</p>
-<ul>
-<li>将DSN扩展至多模态攻击</li>
-<li>探索动态拒绝关键词生成</li>
-<li>结合对抗训练提升模型鲁棒性</li>
-</ul>
-<h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h1><h2 id="代码修改记录"><a href="#代码修改记录" class="headerlink" title="代码修改记录"></a>代码修改记录</h2><ol>
+<hr />
+<h2 id="总结与展望">6. 总结与展望</h2>
+<p>本文通过改进损失函数和评估方法，显著提升了越狱攻击的效果和评估可靠性。未来方向包括：
+- 将DSN扩展至多模态攻击 - 探索动态拒绝关键词生成 -
+结合对抗训练提升模型鲁棒性</p>
+<h1 id="复现">复现</h1>
+<h2 id="代码修改记录">代码修改记录</h2>
+<ol type="1">
 <li>由于环境的numpy版本过高，源代码中的np.infty全部被替换为np.inf</li>
 <li>eval2_gpt.py中有笔误“whehter”，改为“whether”</li>
-<li>eval2_gpt.py中的get_eval2_gpt4_results改为使用了硅基流动接口的deepseek-ai&#x2F;DeepSeek-V3模型</li>
+<li>eval2_gpt.py中的get_eval2_gpt4_results改为使用了硅基流动接口的deepseek-ai/DeepSeek-V3模型</li>
 <li></li>
 </ol>
 <p>TODO：</p>
@@ -480,14 +545,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">61k</span>
+    <span title="站点总字数">65k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:50</span>
+    <span title="站点阅读时长">1:59</span>
   </span>
 </div>
 

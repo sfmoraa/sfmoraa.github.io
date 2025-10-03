@@ -64,9 +64,8 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha256-UF1fgpAiu3tPJN/uCqEUHNe7pnr+QR0SQDNfgglgtcM=" crossorigin="anonymous">
-  <script class="next-config" data-name="katex" type="application/json">{"copy_tex_js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js","integrity":"sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="}}</script>
-  <script src="/js/third-party/math/katex.js" defer></script>
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
 
 
 
@@ -276,7 +275,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>661</span>
+      <span>727</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -294,17 +293,34 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2310.00149">One for All: Towards Training One Graph Model for All Classification Tasks</a></p>
-<p><strong>通讯作者</strong>：Muhan Zhang： <a href="mailto:&#x6d;&#117;&#104;&#x61;&#110;&#64;&#112;&#107;&#x75;&#x2e;&#x65;&#100;&#117;&#46;&#x63;&#x6e;">muhan@pku.edu.cn</a></p>
+          <h1 id="论文概况">论文概况</h1>
+<p><strong>题目</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2310.00149">One
+for All: Towards Training One Graph Model for All Classification
+Tasks</a></p>
+<p><strong>通讯作者</strong>：Muhan Zhang： muhan@pku.edu.cn</p>
 <p><strong>作者院校</strong>：华盛顿大学，南洋理工大学，北京大学</p>
 <p><strong>发表于</strong>：ICLR 2024</p>
-<p><strong>代码仓库</strong>：<a target="_blank" rel="noopener" href="https://github.com/LechengKong/OneForAll">LechengKong&#x2F;OneForAll: A fundational graph learning framework that solves cross-domain&#x2F;cross-task classification problems using one model.</a></p>
-<h1 id="论文内容"><a href="#论文内容" class="headerlink" title="论文内容"></a>论文内容</h1><h2 id="概括总结"><a href="#概括总结" class="headerlink" title="概括总结"></a>概括总结</h2><p>图学习领域有三大挑战：1 不同领域的图数据具有异质属性且服从不同分布；2 图任务可分为节点级、边级和图级任务，具有不同嵌入策略；3 适用于情境学习的图提示范式尚未明确。</p>
+<p><strong>代码仓库</strong>：<a
+target="_blank" rel="noopener" href="https://github.com/LechengKong/OneForAll">LechengKong/OneForAll: A
+fundational graph learning framework that solves cross-domain/cross-task
+classification problems using one model.</a></p>
+<h1 id="论文内容">论文内容</h1>
+<h2 id="概括总结">概括总结</h2>
+<p>图学习领域有三大挑战：1 不同领域的图数据具有异质属性且服从不同分布；2
+图任务可分为节点级、边级和图级任务，具有不同嵌入策略；3
+适用于情境学习的图提示范式尚未明确。</p>
 <p>文章提出OFA框架作为解决上述挑战的通用方案：OFA通过自然语言描述节点和边构建文本属性图，将异质图数据统一表征，并利用语言模型将跨领域的文本属性编码至同一嵌入空间。</p>
 <p>OFA提出”目标节点”概念，用统一的任务表征范式标准化不同图任务，并针对图情境学习设计新型图提示范式。</p>
-<p><img src="/images/post_images/2025-07-28-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94One-for-All-Towards-Training-One-Graph-Model-for-All-Classification-Tasks/image-20250805200733065.png" alt="image-20250805200733065"></p>
-<p>OFA使用LLM将文本编码到同一嵌入空间以消除领域差异，然后定义兴趣节点来处理不同层级任务，兴趣节点与兴趣提示节点相连，兴趣提示节点与类别节点相连，形成 “输入图 + 提示子图” 的混合图，然后通过图模型输出类别节点的嵌入。</p>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>目前仅支持分类任务，无法处理回归任务，且跨域知识迁移存在局限。</p>
+<figure>
+<img
+src="/images/post_images/2025-07-28-论文阅读——One-for-All-Towards-Training-One-Graph-Model-for-All-Classification-Tasks/image-20250805200733065.png"
+alt="image-20250805200733065" />
+<figcaption aria-hidden="true">image-20250805200733065</figcaption>
+</figure>
+<p>OFA使用LLM将文本编码到同一嵌入空间以消除领域差异，然后定义兴趣节点来处理不同层级任务，兴趣节点与兴趣提示节点相连，兴趣提示节点与类别节点相连，形成
+“输入图 + 提示子图” 的混合图，然后通过图模型输出类别节点的嵌入。</p>
+<h4 id="问题">问题</h4>
+<p>目前仅支持分类任务，无法处理回归任务，且跨域知识迁移存在局限。</p>
 <p>方法将原始图转换为了语言来描述，存在损失。</p>
 
       
@@ -348,14 +364,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">61k</span>
+    <span title="站点总字数">65k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:50</span>
+    <span title="站点阅读时长">1:59</span>
   </span>
 </div>
 

@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="📘 第一月：基础夯实期目标：巩固数学、编程与深度学习基础，理解GNN核心原理。    周数 学习重点 具体学习内容 实践检验 完成进度    2 数学基础（线性代数+概率） 复习矩阵运算、特征值分解、贝叶斯定理、常见概率分布；推导简单概率模型（如朴素贝叶斯） 1. 手动推导矩阵乘法与特征值计算 2. 用NumPy实现朴素贝叶斯分类器（基于鸢尾花数据集）    3 编程基础与工具库实践 熟练Pyt">
+    <meta name="description" content="📘 第一月：基础夯实期 目标：巩固数学、编程与深度学习基础，理解GNN核心原理。           周数 学习重点 具体学习内容 实践检验 完成进度     2 数学基础（线性代数+概率） 复习矩阵运算、特征值分解、贝叶斯定理、常见概率分布；推导简单概率模型（如朴素贝叶斯） 1. 手动推导矩阵乘法与特征值计算 2. 用NumPy实现朴素贝叶斯分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2025算法基础夯实计划（按周细化）">
 <meta property="og:url" content="http://example.com/posts/2509.001v2/index.html">
 <meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
-<meta property="og:description" content="📘 第一月：基础夯实期目标：巩固数学、编程与深度学习基础，理解GNN核心原理。    周数 学习重点 具体学习内容 实践检验 完成进度    2 数学基础（线性代数+概率） 复习矩阵运算、特征值分解、贝叶斯定理、常见概率分布；推导简单概率模型（如朴素贝叶斯） 1. 手动推导矩阵乘法与特征值计算 2. 用NumPy实现朴素贝叶斯分类器（基于鸢尾花数据集）    3 编程基础与工具库实践 熟练Pyt">
+<meta property="og:description" content="📘 第一月：基础夯实期 目标：巩固数学、编程与深度学习基础，理解GNN核心原理。           周数 学习重点 具体学习内容 实践检验 完成进度     2 数学基础（线性代数+概率） 复习矩阵运算、特征值分解、贝叶斯定理、常见概率分布；推导简单概率模型（如朴素贝叶斯） 1. 手动推导矩阵乘法与特征值计算 2. 用NumPy实现朴素贝叶斯分">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-09-21T16:00:00.000Z">
 <meta property="article:modified_time" content="2025-09-22T03:29:10.769Z">
@@ -68,9 +68,8 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha256-UF1fgpAiu3tPJN/uCqEUHNe7pnr+QR0SQDNfgglgtcM=" crossorigin="anonymous">
-  <script class="next-config" data-name="katex" type="application/json">{"copy_tex_js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js","integrity":"sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="}}</script>
-  <script src="/js/third-party/math/katex.js" defer></script>
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
 
 
 
@@ -163,7 +162,20 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%98-%E7%AC%AC%E4%B8%80%E6%9C%88%EF%BC%9A%E5%9F%BA%E7%A1%80%E5%A4%AF%E5%AE%9E%E6%9C%9F"><span class="nav-number">1.</span> <span class="nav-text">📘 第一月：基础夯实期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9A%A1-%E7%AC%AC%E4%BA%8C%E6%9C%88%EF%BC%9A%E6%A0%B8%E5%BF%83%E7%AA%81%E7%A0%B4%E6%9C%9F"><span class="nav-number">2.</span> <span class="nav-text">⚡ 第二月：核心突破期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%9A%80-%E7%AC%AC%E4%B8%89%E6%9C%88%EF%BC%9A%E7%BB%BC%E5%90%88%E5%AE%9E%E8%B7%B5%E6%9C%9F"><span class="nav-number">3.</span> <span class="nav-text">🚀 第三月：综合实践期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E8%AE%A1%E5%88%92"><span class="nav-number">4.</span> <span class="nav-text">详细计划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-2-%E5%91%A8%EF%BC%9A%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%EF%BC%88%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E6%A6%82%E7%8E%87%EF%BC%89"><span class="nav-number">4.0.1.</span> <span class="nav-text">第 2 周：数学基础（线性代数 + 概率）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%B1%E5%85%A5%E7%9F%A5%E8%AF%86%E7%82%B9%E8%A7%A3%E6%9E%90"><span class="nav-number">4.0.1.1.</span> <span class="nav-text">深入知识点解析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF"><span class="nav-number">4.0.1.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-3-%E5%91%A8%EF%BC%9A%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%B7%A5%E5%85%B7%E5%BA%93%E5%AE%9E%E8%B7%B5"><span class="nav-number">4.0.2.</span> <span class="nav-text">第 3 周：编程基础与工具库实践</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E5%B7%A7"><span class="nav-number">4.0.2.1.</span> <span class="nav-text">核心工具与技巧</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-1"><span class="nav-number">4.0.2.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-4-%E5%91%A8%EF%BC%9A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%85%A5%E9%97%A8"><span class="nav-number">4.0.3.</span> <span class="nav-text">第 4 周：深度学习与神经网络入门</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="nav-number">4.0.3.1.</span> <span class="nav-text">核心原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-2"><span class="nav-number">4.0.3.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-5-%E5%91%A8%EF%BC%9A%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%EF%BC%88GCN%EF%BC%89"><span class="nav-number">4.0.4.</span> <span class="nav-text">第 5 周：图神经网络基础（GCN）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">4.0.4.1.</span> <span class="nav-text">核心概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-3"><span class="nav-number">4.0.4.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-6-%E5%91%A8%EF%BC%9A%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%BF%9B%E9%98%B6%EF%BC%88GAT%EF%BC%89"><span class="nav-number">4.0.5.</span> <span class="nav-text">第 6 周：图神经网络进阶（GAT）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%94%B9%E8%BF%9B"><span class="nav-number">4.0.5.1.</span> <span class="nav-text">核心改进</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-4"><span class="nav-number">4.0.5.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%9C%88%EF%BC%9A%E6%A0%B8%E5%BF%83%E7%AA%81%E7%A0%B4%E6%9C%9F"><span class="nav-number">4.1.</span> <span class="nav-text">第二月：核心突破期</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-7-%E5%91%A8%EF%BC%9ATransformer-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="nav-number">4.1.1.</span> <span class="nav-text">第 7 周：Transformer 核心原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">核心模块</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-5"><span class="nav-number">4.1.1.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-8-%E5%91%A8%EF%BC%9AGNN-%E8%BF%9B%E9%98%B6%EF%BC%88GraphSAGE%EF%BC%89"><span class="nav-number">4.1.2.</span> <span class="nav-text">第 8 周：GNN 进阶（GraphSAGE）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%88%9B%E6%96%B0"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">核心创新</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-6"><span class="nav-number">4.1.2.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-9-%E5%91%A8%EF%BC%9A%E6%97%B6%E7%A9%BA-GNN-%E5%9F%BA%E7%A1%80%EF%BC%88ST-GCN%EF%BC%89"><span class="nav-number">4.1.3.</span> <span class="nav-text">第 9 周：时空 GNN 基础（ST-GCN）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%80%9D%E8%B7%AF"><span class="nav-number">4.1.3.1.</span> <span class="nav-text">核心思路</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-7"><span class="nav-number">4.1.3.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-10-%E5%91%A8%EF%BC%9A%E6%97%B6%E7%A9%BA%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%B7%A5%E5%85%B7%E4%B8%8E%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B"><span class="nav-number">4.1.4.</span> <span class="nav-text">第 10 周：时空数据处理工具与特征工程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%A5%E5%85%B7%E4%B8%8E%E7%89%B9%E5%BE%81"><span class="nav-number">4.1.4.1.</span> <span class="nav-text">核心工具与特征</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-8"><span class="nav-number">4.1.4.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%9C%88%EF%BC%9A%E7%BB%BC%E5%90%88%E5%AE%9E%E8%B7%B5%E6%9C%9F"><span class="nav-number">4.2.</span> <span class="nav-text">第三月：综合实践期</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-11-%E5%91%A8%EF%BC%9A%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8E-GNN-%E8%9E%8D%E5%90%88%E6%96%B9%E6%B3%95"><span class="nav-number">4.2.1.</span> <span class="nav-text">第 11 周：大模型与 GNN 融合方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%9E%8D%E5%90%88%E9%80%BB%E8%BE%91"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">融合逻辑</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-9"><span class="nav-number">4.2.1.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-12-%E5%91%A8%EF%BC%9A%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE%EF%BC%9A%E6%96%87%E6%9C%AC%E5%B1%9E%E6%80%A7%E5%9B%BE%E5%88%86%E7%B1%BB"><span class="nav-number">4.2.2.</span> <span class="nav-text">第 12 周：核心项目：文本属性图分类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">项目架构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E6%96%BD%E6%AD%A5%E9%AA%A4"><span class="nav-number">4.2.2.2.</span> <span class="nav-text">实施步骤</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-13-%E5%91%A8%EF%BC%9A%E6%97%B6%E7%A9%BA%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8B%EF%BC%88DCRNN%EF%BC%89"><span class="nav-number">4.2.3.</span> <span class="nav-text">第 13 周：时空预测模型（DCRNN）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-1"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">核心原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-10"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-14-%E5%91%A8%EF%BC%9A%E7%BB%88%E6%9E%81%E9%A1%B9%E7%9B%AE%EF%BC%9A%E4%BA%A4%E9%80%9A%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B"><span class="nav-number">4.2.4.</span> <span class="nav-text">第 14 周：终极项目：交通速度预测</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%BB%86%E8%8A%82"><span class="nav-number">4.2.4.1.</span> <span class="nav-text">项目细节</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E6%96%BD%E6%AD%A5%E9%AA%A4-1"><span class="nav-number">4.2.4.2.</span> <span class="nav-text">实施步骤</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B4%E6%9C%AB%EF%BC%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93%E4%B8%8E%E5%A4%8D%E7%9B%98"><span class="nav-number">4.2.5.</span> <span class="nav-text">年末：项目总结与复盘</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E8%A1%8C%E5%8A%A8"><span class="nav-number">4.2.5.1.</span> <span class="nav-text">具体行动</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%9C%88%E5%9F%BA%E7%A1%80%E5%A4%AF%E5%AE%9E%E6%9C%9F"><span class="nav-number">1.</span> <span class="nav-text">📘 第一月：基础夯实期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%9C%88%E6%A0%B8%E5%BF%83%E7%AA%81%E7%A0%B4%E6%9C%9F"><span class="nav-number">2.</span> <span class="nav-text">⚡ 第二月：核心突破期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%9C%88%E7%BB%BC%E5%90%88%E5%AE%9E%E8%B7%B5%E6%9C%9F"><span class="nav-number">3.</span> <span class="nav-text">🚀 第三月：综合实践期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E8%AE%A1%E5%88%92"><span class="nav-number">4.</span> <span class="nav-text">详细计划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-2-%E5%91%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E6%A6%82%E7%8E%87"><span class="nav-number">4.0.1.</span> <span class="nav-text">第 2
+周：数学基础（线性代数 + 概率）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%B1%E5%85%A5%E7%9F%A5%E8%AF%86%E7%82%B9%E8%A7%A3%E6%9E%90"><span class="nav-number">4.0.1.1.</span> <span class="nav-text">深入知识点解析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF"><span class="nav-number">4.0.1.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-3-%E5%91%A8%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%B7%A5%E5%85%B7%E5%BA%93%E5%AE%9E%E8%B7%B5"><span class="nav-number">4.0.2.</span> <span class="nav-text">第 3
+周：编程基础与工具库实践</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E5%B7%A7"><span class="nav-number">4.0.2.1.</span> <span class="nav-text">核心工具与技巧</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-1"><span class="nav-number">4.0.2.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-4-%E5%91%A8%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%85%A5%E9%97%A8"><span class="nav-number">4.0.3.</span> <span class="nav-text">第 4
+周：深度学习与神经网络入门</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="nav-number">4.0.3.1.</span> <span class="nav-text">核心原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-2"><span class="nav-number">4.0.3.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-5-%E5%91%A8%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80gcn"><span class="nav-number">4.0.4.</span> <span class="nav-text">第 5
+周：图神经网络基础（GCN）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">4.0.4.1.</span> <span class="nav-text">核心概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-3"><span class="nav-number">4.0.4.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-6-%E5%91%A8%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%BF%9B%E9%98%B6gat"><span class="nav-number">4.0.5.</span> <span class="nav-text">第 6
+周：图神经网络进阶（GAT）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%94%B9%E8%BF%9B"><span class="nav-number">4.0.5.1.</span> <span class="nav-text">核心改进</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-4"><span class="nav-number">4.0.5.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%9C%88%E6%A0%B8%E5%BF%83%E7%AA%81%E7%A0%B4%E6%9C%9F-1"><span class="nav-number">4.1.</span> <span class="nav-text">第二月：核心突破期</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-7-%E5%91%A8transformer-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="nav-number">4.1.1.</span> <span class="nav-text">第 7 周：Transformer
+核心原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">核心模块</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-5"><span class="nav-number">4.1.1.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-8-%E5%91%A8gnn-%E8%BF%9B%E9%98%B6graphsage"><span class="nav-number">4.1.2.</span> <span class="nav-text">第 8 周：GNN
+进阶（GraphSAGE）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%88%9B%E6%96%B0"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">核心创新</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-6"><span class="nav-number">4.1.2.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-9-%E5%91%A8%E6%97%B6%E7%A9%BA-gnn-%E5%9F%BA%E7%A1%80st-gcn"><span class="nav-number">4.1.3.</span> <span class="nav-text">第 9 周：时空 GNN
+基础（ST-GCN）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%80%9D%E8%B7%AF"><span class="nav-number">4.1.3.1.</span> <span class="nav-text">核心思路</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-7"><span class="nav-number">4.1.3.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-10-%E5%91%A8%E6%97%B6%E7%A9%BA%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%B7%A5%E5%85%B7%E4%B8%8E%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B"><span class="nav-number">4.1.4.</span> <span class="nav-text">第 10
+周：时空数据处理工具与特征工程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%A5%E5%85%B7%E4%B8%8E%E7%89%B9%E5%BE%81"><span class="nav-number">4.1.4.1.</span> <span class="nav-text">核心工具与特征</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-8"><span class="nav-number">4.1.4.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%9C%88%E7%BB%BC%E5%90%88%E5%AE%9E%E8%B7%B5%E6%9C%9F-1"><span class="nav-number">4.2.</span> <span class="nav-text">第三月：综合实践期</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-11-%E5%91%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8E-gnn-%E8%9E%8D%E5%90%88%E6%96%B9%E6%B3%95"><span class="nav-number">4.2.1.</span> <span class="nav-text">第 11 周：大模型与 GNN
+融合方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%9E%8D%E5%90%88%E9%80%BB%E8%BE%91"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">融合逻辑</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-9"><span class="nav-number">4.2.1.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-12-%E5%91%A8%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE%E6%96%87%E6%9C%AC%E5%B1%9E%E6%80%A7%E5%9B%BE%E5%88%86%E7%B1%BB"><span class="nav-number">4.2.2.</span> <span class="nav-text">第 12
+周：核心项目：文本属性图分类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">项目架构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E6%96%BD%E6%AD%A5%E9%AA%A4"><span class="nav-number">4.2.2.2.</span> <span class="nav-text">实施步骤</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-13-%E5%91%A8%E6%97%B6%E7%A9%BA%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8Bdcrnn"><span class="nav-number">4.2.3.</span> <span class="nav-text">第 13
+周：时空预测模型（DCRNN）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86-1"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">核心原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF-10"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-14-%E5%91%A8%E7%BB%88%E6%9E%81%E9%A1%B9%E7%9B%AE%E4%BA%A4%E9%80%9A%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B"><span class="nav-number">4.2.4.</span> <span class="nav-text">第 14
+周：终极项目：交通速度预测</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%BB%86%E8%8A%82"><span class="nav-number">4.2.4.1.</span> <span class="nav-text">项目细节</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E6%96%BD%E6%AD%A5%E9%AA%A4-1"><span class="nav-number">4.2.4.2.</span> <span class="nav-text">实施步骤</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B4%E6%9C%AB%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93%E4%B8%8E%E5%A4%8D%E7%9B%98"><span class="nav-number">4.2.5.</span> <span class="nav-text">年末：项目总结与复盘</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E8%A1%8C%E5%8A%A8"><span class="nav-number">4.2.5.1.</span> <span class="nav-text">具体行动</span></a></li></ol></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -272,14 +284,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>9.9k</span>
+      <span>11k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>18 分钟</span>
+      <span>19 分钟</span>
     </span>
 </div>
 
@@ -289,516 +301,665 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="📘-第一月：基础夯实期"><a href="#📘-第一月：基础夯实期" class="headerlink" title="📘 第一月：基础夯实期"></a>📘 第一月：基础夯实期</h2><p><strong>目标</strong>：巩固数学、编程与深度学习基础，理解GNN核心原理。</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="第一月基础夯实期">📘 第一月：基础夯实期</h2>
+<p><strong>目标</strong>：巩固数学、编程与深度学习基础，理解GNN核心原理。</p>
 <table>
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 12%" />
+<col style="width: 39%" />
+<col style="width: 37%" />
+<col style="width: 5%" />
+</colgroup>
 <thead>
 <tr>
-<th align="left"><strong>周数</strong></th>
-<th align="left"><strong>学习重点</strong></th>
-<th align="left"><strong>具体学习内容</strong></th>
-<th align="left"><strong>实践检验</strong></th>
-<th align="left"><strong>完成进度</strong></th>
+<th style="text-align: left;"><strong>周数</strong></th>
+<th style="text-align: left;"><strong>学习重点</strong></th>
+<th style="text-align: left;"><strong>具体学习内容</strong></th>
+<th style="text-align: left;"><strong>实践检验</strong></th>
+<th style="text-align: left;"><strong>完成进度</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left"><strong>2</strong></td>
-<td align="left">数学基础（线性代数+概率）</td>
-<td align="left">复习矩阵运算、特征值分解、贝叶斯定理、常见概率分布；推导简单概率模型（如朴素贝叶斯）</td>
-<td align="left">1. 手动推导矩阵乘法与特征值计算 2. 用NumPy实现朴素贝叶斯分类器（基于鸢尾花数据集）</td>
-<td align="left"></td>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>2</strong></td>
+<td style="text-align: left;">数学基础（线性代数+概率）</td>
+<td
+style="text-align: left;">复习矩阵运算、特征值分解、贝叶斯定理、常见概率分布；推导简单概率模型（如朴素贝叶斯）</td>
+<td style="text-align: left;">1. 手动推导矩阵乘法与特征值计算 2.
+用NumPy实现朴素贝叶斯分类器（基于鸢尾花数据集）</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td align="left"><strong>3</strong></td>
-<td align="left">编程基础与工具库实践</td>
-<td align="left">熟练Python语法；掌握NumPy矩阵操作、Pandas数据处理、Matplotlib可视化技巧</td>
-<td align="left">1. 用Pandas清洗UCI的”葡萄酒质量数据集” 2. 绘制特征分布与相关性热力图</td>
-<td align="left"></td>
+<td style="text-align: left;"><strong>3</strong></td>
+<td style="text-align: left;">编程基础与工具库实践</td>
+<td
+style="text-align: left;">熟练Python语法；掌握NumPy矩阵操作、Pandas数据处理、Matplotlib可视化技巧</td>
+<td style="text-align: left;">1. 用Pandas清洗UCI的”葡萄酒质量数据集” 2.
+绘制特征分布与相关性热力图</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td align="left"><strong>4</strong></td>
-<td align="left">深度学习与神经网络入门</td>
-<td align="left">学习前向传播、反向传播原理；激活函数（Sigmoid&#x2F;ReLU）；用PyTorch搭建简单全连接网络</td>
-<td align="left">用PyTorch在MNIST数据集上训练全连接网络（目标准确率≥95%）</td>
-<td align="left"></td>
+<td style="text-align: left;"><strong>4</strong></td>
+<td style="text-align: left;">深度学习与神经网络入门</td>
+<td
+style="text-align: left;">学习前向传播、反向传播原理；激活函数（Sigmoid/ReLU）；用PyTorch搭建简单全连接网络</td>
+<td
+style="text-align: left;">用PyTorch在MNIST数据集上训练全连接网络（目标准确率≥95%）</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td align="left"><strong>5</strong></td>
-<td align="left">图神经网络基础（GCN）</td>
-<td align="left">理解图结构（节点&#x2F;边&#x2F;邻接矩阵）；学习GCN消息传递公式；PyG&#x2F;DGL库入门</td>
-<td align="left">用PyG加载Cora数据集，构建简单GCN模型（完成节点分类训练框架）</td>
-<td align="left"></td>
+<td style="text-align: left;"><strong>5</strong></td>
+<td style="text-align: left;">图神经网络基础（GCN）</td>
+<td
+style="text-align: left;">理解图结构（节点/边/邻接矩阵）；学习GCN消息传递公式；PyG/DGL库入门</td>
+<td
+style="text-align: left;">用PyG加载Cora数据集，构建简单GCN模型（完成节点分类训练框架）</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td align="left"><strong>6</strong></td>
-<td align="left">图神经网络进阶（GAT）</td>
-<td align="left">学习注意力机制在GNN中的应用；理解GAT的多头注意力原理</td>
-<td align="left">基于Cora数据集，对比GCN与GAT模型的分类效果（记录准确率与训练效率）</td>
-<td align="left"></td>
+<td style="text-align: left;"><strong>6</strong></td>
+<td style="text-align: left;">图神经网络进阶（GAT）</td>
+<td
+style="text-align: left;">学习注意力机制在GNN中的应用；理解GAT的多头注意力原理</td>
+<td
+style="text-align: left;">基于Cora数据集，对比GCN与GAT模型的分类效果（记录准确率与训练效率）</td>
+<td style="text-align: left;"></td>
 </tr>
-</tbody></table>
-<h2 id="⚡-第二月：核心突破期"><a href="#⚡-第二月：核心突破期" class="headerlink" title="⚡ 第二月：核心突破期"></a>⚡ 第二月：核心突破期</h2><p><strong>目标</strong>：掌握Transformer架构与大模型原理，进阶GNN模型，了解时空数据。</p>
+</tbody>
+</table>
+<h2 id="第二月核心突破期">⚡ 第二月：核心突破期</h2>
+<p><strong>目标</strong>：掌握Transformer架构与大模型原理，进阶GNN模型，了解时空数据。</p>
 <table>
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 12%" />
+<col style="width: 39%" />
+<col style="width: 37%" />
+<col style="width: 5%" />
+</colgroup>
 <thead>
 <tr>
-<th align="left"><strong>周数</strong></th>
-<th align="left"><strong>学习重点</strong></th>
-<th align="left"><strong>具体学习内容</strong></th>
-<th align="left"><strong>实践检验</strong></th>
-<th align="left"><strong>完成进度</strong></th>
+<th style="text-align: left;"><strong>周数</strong></th>
+<th style="text-align: left;"><strong>学习重点</strong></th>
+<th style="text-align: left;"><strong>具体学习内容</strong></th>
+<th style="text-align: left;"><strong>实践检验</strong></th>
+<th style="text-align: left;"><strong>完成进度</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left"><strong>7</strong></td>
-<td align="left">Transformer核心原理</td>
-<td align="left">精读《Attention Is All You Need》；理解自注意力计算、位置编码、Encoder-Decoder结构</td>
-<td align="left">手动推导自注意力公式；用PyTorch实现简化版Transformer（仅Encoder）</td>
-<td align="left"></td>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>7</strong></td>
+<td style="text-align: left;">Transformer核心原理</td>
+<td style="text-align: left;">精读《Attention Is All You
+Need》；理解自注意力计算、位置编码、Encoder-Decoder结构</td>
+<td
+style="text-align: left;">手动推导自注意力公式；用PyTorch实现简化版Transformer（仅Encoder）</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td align="left"><strong>8</strong></td>
-<td align="left">GNN进阶（GraphSAGE）</td>
-<td align="left">学习归纳式学习与直推式学习区别；掌握GraphSAGE的采样与聚合策略</td>
-<td align="left">用DGL在Reddit数据集上实现GraphSAGE（完成归纳式节点分类训练）</td>
-<td align="left"></td>
+<td style="text-align: left;"><strong>8</strong></td>
+<td style="text-align: left;">GNN进阶（GraphSAGE）</td>
+<td
+style="text-align: left;">学习归纳式学习与直推式学习区别；掌握GraphSAGE的采样与聚合策略</td>
+<td
+style="text-align: left;">用DGL在Reddit数据集上实现GraphSAGE（完成归纳式节点分类训练）</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td align="left"><strong>9</strong></td>
-<td align="left">时空GNN基础（ST-GCN）</td>
-<td align="left">了解时空数据的”图+时间序列”特征；学习ST-GCN的时空融合机制</td>
-<td align="left">用PyG加载人类行为数据集（如NTU RGB+D），搭建简易ST-GCN模型</td>
-<td align="left"></td>
+<td style="text-align: left;"><strong>9</strong></td>
+<td style="text-align: left;">时空GNN基础（ST-GCN）</td>
+<td
+style="text-align: left;">了解时空数据的”图+时间序列”特征；学习ST-GCN的时空融合机制</td>
+<td style="text-align: left;">用PyG加载人类行为数据集（如NTU
+RGB+D），搭建简易ST-GCN模型</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td align="left"><strong>10</strong></td>
-<td align="left">时空数据处理工具与特征工程</td>
-<td align="left">学习GeoPandas处理地理数据；掌握时空数据可视化（如轨迹地图、时间序列图）</td>
-<td align="left">对纽约出租车轨迹数据集进行清洗，提取”时段-区域”客流量特征并可视化</td>
-<td align="left"></td>
+<td style="text-align: left;"><strong>10</strong></td>
+<td style="text-align: left;">时空数据处理工具与特征工程</td>
+<td
+style="text-align: left;">学习GeoPandas处理地理数据；掌握时空数据可视化（如轨迹地图、时间序列图）</td>
+<td
+style="text-align: left;">对纽约出租车轨迹数据集进行清洗，提取”时段-区域”客流量特征并可视化</td>
+<td style="text-align: left;"></td>
 </tr>
-</tbody></table>
-<h2 id="🚀-第三月：综合实践期"><a href="#🚀-第三月：综合实践期" class="headerlink" title="🚀 第三月：综合实践期"></a>🚀 第三月：综合实践期</h2><p><strong>目标</strong>：将GNN与大模型融合，完成综合项目，聚焦时空数据应用。</p>
+</tbody>
+</table>
+<h2 id="第三月综合实践期">🚀 第三月：综合实践期</h2>
+<p><strong>目标</strong>：将GNN与大模型融合，完成综合项目，聚焦时空数据应用。</p>
 <table>
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 12%" />
+<col style="width: 39%" />
+<col style="width: 37%" />
+<col style="width: 5%" />
+</colgroup>
 <thead>
 <tr>
-<th align="left"><strong>周数</strong></th>
-<th align="left"><strong>学习重点</strong></th>
-<th align="left"><strong>具体学习内容</strong></th>
-<th align="left"><strong>实践检验</strong></th>
-<th align="left"><strong>完成进度</strong></th>
+<th style="text-align: left;"><strong>周数</strong></th>
+<th style="text-align: left;"><strong>学习重点</strong></th>
+<th style="text-align: left;"><strong>具体学习内容</strong></th>
+<th style="text-align: left;"><strong>实践检验</strong></th>
+<th style="text-align: left;"><strong>完成进度</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left"><strong>11</strong></td>
-<td align="left">大模型与GNN融合方法</td>
-<td align="left">学习LLM生成图节点特征的策略；了解”LLM+GNN”混合模型架构</td>
-<td align="left">用Hugging Face加载BERT，生成Cora论文摘要的文本嵌入</td>
-<td align="left"></td>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>11</strong></td>
+<td style="text-align: left;">大模型与GNN融合方法</td>
+<td
+style="text-align: left;">学习LLM生成图节点特征的策略；了解”LLM+GNN”混合模型架构</td>
+<td style="text-align: left;">用Hugging
+Face加载BERT，生成Cora论文摘要的文本嵌入</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td align="left"><strong>12</strong></td>
-<td align="left">核心项目：文本属性图分类</td>
-<td align="left">整合BERT文本嵌入与GCN结构建模；优化模型训练策略（如学习率调度、早停）</td>
-<td align="left">完成”LLM+GCN”模型在Cora数据集的节点分类（目标准确率≥85%）</td>
-<td align="left"></td>
+<td style="text-align: left;"><strong>12</strong></td>
+<td style="text-align: left;">核心项目：文本属性图分类</td>
+<td
+style="text-align: left;">整合BERT文本嵌入与GCN结构建模；优化模型训练策略（如学习率调度、早停）</td>
+<td
+style="text-align: left;">完成”LLM+GCN”模型在Cora数据集的节点分类（目标准确率≥85%）</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td align="left"><strong>13</strong></td>
-<td align="left">时空预测模型（DCRNN）</td>
-<td align="left">学习DCRNN的扩散卷积与循环神经网络结合原理；理解交通预测中的时空依赖建模</td>
-<td align="left">推导扩散卷积公式；用PyTorch实现DCRNN的基础模块</td>
-<td align="left"></td>
+<td style="text-align: left;"><strong>13</strong></td>
+<td style="text-align: left;">时空预测模型（DCRNN）</td>
+<td
+style="text-align: left;">学习DCRNN的扩散卷积与循环神经网络结合原理；理解交通预测中的时空依赖建模</td>
+<td
+style="text-align: left;">推导扩散卷积公式；用PyTorch实现DCRNN的基础模块</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td align="left"><strong>14</strong></td>
-<td align="left">终极项目：交通速度预测</td>
-<td align="left">学习METR-LA数据集结构；调优DCRNN模型超参数（如隐藏层维度、时间步长）</td>
-<td align="left">复现DCRNN在METR-LA的交通速度预测（对比MAE指标与论文结果）</td>
-<td align="left"></td>
+<td style="text-align: left;"><strong>14</strong></td>
+<td style="text-align: left;">终极项目：交通速度预测</td>
+<td
+style="text-align: left;">学习METR-LA数据集结构；调优DCRNN模型超参数（如隐藏层维度、时间步长）</td>
+<td
+style="text-align: left;">复现DCRNN在METR-LA的交通速度预测（对比MAE指标与论文结果）</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td align="left"><strong>年末</strong></td>
-<td align="left">项目总结与复盘</td>
-<td align="left">整理代码注释与技术文档；学习模型部署基础（如Flask封装API）</td>
-<td align="left">1. 将所有项目开源到GitHub（含README与复现说明） 2. 撰写技术博客总结学习心得</td>
-<td align="left"></td>
+<td style="text-align: left;"><strong>年末</strong></td>
+<td style="text-align: left;">项目总结与复盘</td>
+<td
+style="text-align: left;">整理代码注释与技术文档；学习模型部署基础（如Flask封装API）</td>
+<td style="text-align: left;">1.
+将所有项目开源到GitHub（含README与复现说明） 2.
+撰写技术博客总结学习心得</td>
+<td style="text-align: left;"></td>
 </tr>
-</tbody></table>
-<h2 id="详细计划"><a href="#详细计划" class="headerlink" title="详细计划"></a>详细计划</h2><h4 id="第-2-周：数学基础（线性代数-概率）"><a href="#第-2-周：数学基础（线性代数-概率）" class="headerlink" title="第 2 周：数学基础（线性代数 + 概率）"></a><strong>第 2 周：数学基础（线性代数 + 概率）</strong></h4><p><strong>核心目标</strong>：构建深度学习与图模型的数学底层逻辑，重点突破 “矩阵运算” 与 “概率建模” 两大基石。</p>
-<h5 id="深入知识点解析"><a href="#深入知识点解析" class="headerlink" title="深入知识点解析"></a><strong>深入知识点解析</strong></h5><ol>
-<li><strong>线性代数核心</strong><ul>
-<li>矩阵运算：不只是加减乘除，需重点掌握<strong>矩阵乘法的几何意义</strong>（线性变换复合）、<strong>逆矩阵与伪逆</strong>（解决超定 &#x2F; 欠定方程组）、<strong>特征值与特征向量</strong>（矩阵的 “固有属性”，如主成分分析 PCA 的核心）。</li>
+</tbody>
+</table>
+<h2 id="详细计划">详细计划</h2>
+<h4 id="第-2-周数学基础线性代数-概率"><strong>第 2
+周：数学基础（线性代数 + 概率）</strong></h4>
+<p><strong>核心目标</strong>：构建深度学习与图模型的数学底层逻辑，重点突破
+“矩阵运算” 与 “概率建模” 两大基石。</p>
+<h5 id="深入知识点解析"><strong>深入知识点解析</strong></h5>
+<ol type="1">
+<li><strong>线性代数核心</strong>
+<ul>
+<li>矩阵运算：不只是加减乘除，需重点掌握<strong>矩阵乘法的几何意义</strong>（线性变换复合）、<strong>逆矩阵与伪逆</strong>（解决超定
+/ 欠定方程组）、<strong>特征值与特征向量</strong>（矩阵的
+“固有属性”，如主成分分析 PCA 的核心）。</li>
 <li>特殊矩阵：对称矩阵、正交矩阵、稀疏矩阵（图邻接矩阵多为稀疏矩阵，需理解其存储与运算优化）。</li>
-</ul>
-</li>
-<li><strong>概率与统计核心</strong><ul>
-<li>贝叶斯定理：关键是理解 “后验概率 &#x3D; 似然 × 先验 &#x2F; 证据” 的逻辑，以及在分类任务中如何用它实现 “逆向推理”（如垃圾邮件分类中，已知邮件特征反推是否为垃圾邮件）。</li>
+</ul></li>
+<li><strong>概率与统计核心</strong>
+<ul>
+<li>贝叶斯定理：关键是理解 “后验概率 = 似然 × 先验 / 证据”
+的逻辑，以及在分类任务中如何用它实现
+“逆向推理”（如垃圾邮件分类中，已知邮件特征反推是否为垃圾邮件）。</li>
 <li>常见分布：高斯分布（深度学习中噪声假设的基础）、伯努利分布（二分类标签建模）、多项分布（多分类场景），需掌握概率密度函数与参数估计方法。</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h5 id="学习路线"><a href="#学习路线" class="headerlink" title="学习路线"></a><strong>学习路线</strong></h5><ol>
-<li><strong>理论铺垫</strong>（3 天）<ul>
-<li>教材：《线性代数及其应用》（Gilbert Strang）第 2-5 章（矩阵运算与特征值）；《概率论与数理统计》（陈希孺）第 1-3 章（贝叶斯与分布）。</li>
-<li>视频：3Blue1Brown《线性代数的本质》（直观理解矩阵变换）；B 站 “王树森概率统计” 贝叶斯定理专题。</li>
-</ul>
-</li>
-<li><strong>实践强化</strong>（4 天）<ul>
-<li>手动推导：任选 3 阶矩阵计算特征值分解，验证 “特征向量经矩阵变换后方向不变”；推导朴素贝叶斯分类器的后验概率公式（含拉普拉斯平滑处理零概率问题）。</li>
-<li>代码实现：用 NumPy 实现朴素贝叶斯（步骤：① 计算先验概率 ② 计算特征条件概率 ③ 用贝叶斯公式预测），在鸢尾花数据集上对比与 sklearn 内置模型的准确率（目标：理解原理而非追求性能）。</li>
-</ul>
-</li>
+<h5 id="学习路线"><strong>学习路线</strong></h5>
+<ol type="1">
+<li><strong>理论铺垫</strong>（3 天）
+<ul>
+<li>教材：《线性代数及其应用》（Gilbert Strang）第 2-5
+章（矩阵运算与特征值）；《概率论与数理统计》（陈希孺）第 1-3
+章（贝叶斯与分布）。</li>
+<li>视频：3Blue1Brown《线性代数的本质》（直观理解矩阵变换）；B 站
+“王树森概率统计” 贝叶斯定理专题。</li>
+</ul></li>
+<li><strong>实践强化</strong>（4 天）
+<ul>
+<li>手动推导：任选 3 阶矩阵计算特征值分解，验证
+“特征向量经矩阵变换后方向不变”；推导朴素贝叶斯分类器的后验概率公式（含拉普拉斯平滑处理零概率问题）。</li>
+<li>代码实现：用 NumPy 实现朴素贝叶斯（步骤：① 计算先验概率 ②
+计算特征条件概率 ③ 用贝叶斯公式预测），在鸢尾花数据集上对比与 sklearn
+内置模型的准确率（目标：理解原理而非追求性能）。</li>
+</ul></li>
 </ol>
-<h4 id="第-3-周：编程基础与工具库实践"><a href="#第-3-周：编程基础与工具库实践" class="headerlink" title="第 3 周：编程基础与工具库实践"></a><strong>第 3 周：编程基础与工具库实践</strong></h4><p><strong>核心目标</strong>：掌握数据处理全流程工具链，从 “数据读取→清洗→分析→可视化” 形成闭环能力。</p>
-<h5 id="核心工具与技巧"><a href="#核心工具与技巧" class="headerlink" title="核心工具与技巧"></a><strong>核心工具与技巧</strong></h5><ol>
-<li><strong>Python 语法进阶</strong><ul>
+<h4 id="第-3-周编程基础与工具库实践"><strong>第 3
+周：编程基础与工具库实践</strong></h4>
+<p><strong>核心目标</strong>：掌握数据处理全流程工具链，从
+“数据读取→清洗→分析→可视化” 形成闭环能力。</p>
+<h5 id="核心工具与技巧"><strong>核心工具与技巧</strong></h5>
+<ol type="1">
+<li><strong>Python 语法进阶</strong>
+<ul>
 <li>重点：列表推导式、生成器（处理大数据时节省内存）、装饰器（简化代码复用，如计时装饰器）、异常处理（避免数据清洗中断）。</li>
-</ul>
-</li>
+</ul></li>
 <li><strong>NumPy</strong>：矩阵运算效率优化（避免循环，用向量化操作）、广播机制（不同形状数组运算规则）。</li>
-<li><strong>Pandas</strong>：数据清洗三板斧 —— 缺失值处理（<code>fillna</code>&#x2F;<code>dropna</code>）、异常值检测（箱线图 &#x2F; 3σ 原则）、数据转换（<code>apply</code>&#x2F;<code>map</code>批量处理）；特征工程基础（<code>get_dummies</code>编码分类特征）。</li>
-<li><strong>Matplotlib&#x2F;Seaborn</strong>：子图布局（<code>subplots</code>）、特征分布可视化（直方图 + 核密度图）、相关性分析（热力图<code>heatmap</code>）。</li>
+<li><strong>Pandas</strong>：数据清洗三板斧 ——
+缺失值处理（<code>fillna</code>/<code>dropna</code>）、异常值检测（箱线图
+/ 3σ
+原则）、数据转换（<code>apply</code>/<code>map</code>批量处理）；特征工程基础（<code>get_dummies</code>编码分类特征）。</li>
+<li><strong>Matplotlib/Seaborn</strong>：子图布局（<code>subplots</code>）、特征分布可视化（直方图
++ 核密度图）、相关性分析（热力图<code>heatmap</code>）。</li>
 </ol>
-<h5 id="学习路线-1"><a href="#学习路线-1" class="headerlink" title="学习路线"></a><strong>学习路线</strong></h5><ol>
+<h5 id="学习路线-1"><strong>学习路线</strong></h5>
+<ol type="1">
 <li><p><strong>工具入门</strong>（2 天）</p>
 <ul>
-<li>教程：菜鸟教程 Python 进阶语法；NumPy 官方文档 “Quickstart”；Pandas 官方 “10 Minutes to Pandas”。</li>
-<li>练习：用 NumPy 实现矩阵归一化（<code>(X - X.mean()) / X.std()</code>）；用 Pandas 读取 CSV 文件并统计缺失值比例。</li>
-</ul>
-</li>
+<li>教程：菜鸟教程 Python 进阶语法；NumPy 官方文档 “Quickstart”；Pandas
+官方 “10 Minutes to Pandas”。</li>
+<li>练习：用 NumPy
+实现矩阵归一化（<code>(X - X.mean()) / X.std()</code>）；用 Pandas 读取
+CSV 文件并统计缺失值比例。</li>
+</ul></li>
 <li><p><strong>实战演练</strong>（5 天）</p>
 <ul>
-<li><p>数据集：UCI 葡萄酒质量数据集（含红 &#x2F; 白葡萄酒，特征为理化指标，标签为质量评分）。</p>
-</li>
+<li><p>数据集：UCI 葡萄酒质量数据集（含红 /
+白葡萄酒，特征为理化指标，标签为质量评分）。</p></li>
 <li><p>步骤：</p>
-<p>① 数据加载与合并（红 &#x2F; 白葡萄酒数据合并，添加 “类型” 标签）；</p>
-<p>② 清洗：处理缺失值（若有），用箱线图检测酒精含量、pH 值等特征的异常值并处理；</p>
-<p>③ 分析：计算特征间相关性（重点看 “酒精含量” 与 “质量” 的正相关）；</p>
-<p>④ 可视化：绘制各特征的分布直方图（对比红 &#x2F; 白葡萄酒差异），用热力图展示相关系数矩阵。</p>
-</li>
-</ul>
-</li>
+<p>① 数据加载与合并（红 / 白葡萄酒数据合并，添加 “类型” 标签）；</p>
+<p>② 清洗：处理缺失值（若有），用箱线图检测酒精含量、pH
+值等特征的异常值并处理；</p>
+<p>③ 分析：计算特征间相关性（重点看 “酒精含量” 与 “质量”
+的正相关）；</p>
+<p>④ 可视化：绘制各特征的分布直方图（对比红 /
+白葡萄酒差异），用热力图展示相关系数矩阵。</p></li>
+</ul></li>
 </ol>
-<h4 id="第-4-周：深度学习与神经网络入门"><a href="#第-4-周：深度学习与神经网络入门" class="headerlink" title="第 4 周：深度学习与神经网络入门"></a><strong>第 4 周：深度学习与神经网络入门</strong></h4><p><strong>核心目标</strong>：理解神经网络 “输入→特征提取→输出” 的黑盒本质，掌握 PyTorch 搭建与训练全连接网络的流程。</p>
-<h5 id="核心原理"><a href="#核心原理" class="headerlink" title="核心原理"></a><strong>核心原理</strong></h5><ol>
-<li><strong>前向传播</strong>：本质是 “线性变换 + 非线性激活” 的堆叠，即 (z &#x3D; Wx + b)，(a &#x3D; \sigma(z))，其中(\sigma)为激活函数（解决线性不可分问题）。</li>
-<li><strong>反向传播</strong>：基于链式法则求参数梯度，核心公式 (\frac{\partial L}{\partial W} &#x3D; \frac{\partial L}{\partial z} \cdot x^T)（以单隐藏层为例），需理解 “梯度消失 &#x2F; 爆炸” 的成因（激活函数导数绝对值 &gt; 1 或 &lt; 1）。</li>
-<li><strong>激活函数</strong>：Sigmoid（输出 0-1，适合二分类输出层）、ReLU（解决梯度消失，隐藏层首选，注意死亡 ReLU 问题）。</li>
+<h4 id="第-4-周深度学习与神经网络入门"><strong>第 4
+周：深度学习与神经网络入门</strong></h4>
+<p><strong>核心目标</strong>：理解神经网络 “输入→特征提取→输出”
+的黑盒本质，掌握 PyTorch 搭建与训练全连接网络的流程。</p>
+<h5 id="核心原理"><strong>核心原理</strong></h5>
+<ol type="1">
+<li><strong>前向传播</strong>：本质是 “线性变换 + 非线性激活” 的堆叠，即
+(z = Wx + b)，(a = (z))，其中()为激活函数（解决线性不可分问题）。</li>
+<li><strong>反向传播</strong>：基于链式法则求参数梯度，核心公式 ( =
+x^T)（以单隐藏层为例），需理解 “梯度消失 / 爆炸”
+的成因（激活函数导数绝对值 &gt; 1 或 &lt; 1）。</li>
+<li><strong>激活函数</strong>：Sigmoid（输出
+0-1，适合二分类输出层）、ReLU（解决梯度消失，隐藏层首选，注意死亡 ReLU
+问题）。</li>
 </ol>
-<h5 id="学习路线-2"><a href="#学习路线-2" class="headerlink" title="学习路线"></a><strong>学习路线</strong></h5><ol>
+<h5 id="学习路线-2"><strong>学习路线</strong></h5>
+<ol type="1">
 <li><p><strong>理论学习</strong>（3 天）</p>
 <ul>
-<li>教材：《深度学习》（花书）第 6 章（反向传播）；PyTorch 官方教程 “Neural Networks”。</li>
-<li>视频：B 站 “李沐动手学深度学习” 第 3-4 章（全连接网络与反向传播）。</li>
-</ul>
-</li>
+<li>教材：《深度学习》（花书）第 6 章（反向传播）；PyTorch 官方教程
+“Neural Networks”。</li>
+<li>视频：B 站 “李沐动手学深度学习” 第 3-4
+章（全连接网络与反向传播）。</li>
+</ul></li>
 <li><p><strong>代码实战</strong>（4 天）</p>
 <ul>
-<li><p>任务：用 PyTorch 训练 MNIST 手写数字分类器（目标准确率≥95%）。</p>
-</li>
+<li><p>任务：用 PyTorch 训练 MNIST
+手写数字分类器（目标准确率≥95%）。</p></li>
 <li><p>步骤：</p>
 <p>① 数据加载：用</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torchvision.datasets.MNIST</span><br></pre></td></tr></table></figure>
-
-<p>加载数据，划分训练 &#x2F; 测试集，用</p>
+<p>加载数据，划分训练 / 测试集，用</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataLoader</span><br></pre></td></tr></table></figure>
-
 <p>批量加载；</p>
-<p>② 模型定义：搭建 2 层全连接网络（输入 784→隐藏层 256→输出 10，隐藏层用 ReLU，输出层用 Softmax）；</p>
+<p>② 模型定义：搭建 2 层全连接网络（输入 784→隐藏层 256→输出
+10，隐藏层用 ReLU，输出层用 Softmax）；</p>
 <p>③ 训练配置：损失函数</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CrossEntropyLoss</span><br></pre></td></tr></table></figure>
-
 <p>，优化器</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SGD</span><br></pre></td></tr></table></figure>
-
 <p>（学习率 0.01，动量 0.9）；</p>
-<p>④ 调优技巧：批量大小设 64，训练 20 轮，每轮验证测试集准确率，用学习率衰减（</p>
+<p>④ 调优技巧：批量大小设 64，训练 20
+轮，每轮验证测试集准确率，用学习率衰减（</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">StepLR</span><br></pre></td></tr></table></figure>
-
-<p>）避免过拟合。</p>
-</li>
-</ul>
-</li>
+<p>）避免过拟合。</p></li>
+</ul></li>
 </ol>
-<h4 id="第-5-周：图神经网络基础（GCN）"><a href="#第-5-周：图神经网络基础（GCN）" class="headerlink" title="第 5 周：图神经网络基础（GCN）"></a><strong>第 5 周：图神经网络基础（GCN）</strong></h4><p><strong>核心目标</strong>：从 “欧氏空间” 转向 “非欧氏空间”，理解图数据的特殊性与 GCN 的消息传递机制。</p>
-<h5 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a><strong>核心概念</strong></h5><ol>
-<li><strong>图结构表示</strong>：节点（属性特征矩阵X）、边（邻接矩阵A，注意自环添加(A+I)）、度矩阵D（对角矩阵，(D_{ii} &#x3D; \sum_j A_{ij})）。</li>
-<li><strong>GCN 核心公式</strong>：(H^{(l+1)} &#x3D; \sigma(\hat{D}^{-1&#x2F;2} \hat{A} \hat{D}^{-1&#x2F;2} H^{(l)} W^{(l)}))，其中(\hat{A}&#x3D;A+I)（添加自环），(\hat{D}^{-1&#x2F;2} \hat{A} \hat{D}^{-1&#x2F;2})为归一化邻接矩阵（解决节点度差异导致的特征缩放问题）。</li>
-<li><strong>PyG&#x2F;DGL 入门</strong>：图数据格式（PyG 的<code>Data</code>对象含<code>x</code>&#x2F;<code>edge_index</code>&#x2F;<code>y</code>）、数据加载器（<code>DataLoader</code>支持批处理）。</li>
+<h4 id="第-5-周图神经网络基础gcn"><strong>第 5
+周：图神经网络基础（GCN）</strong></h4>
+<p><strong>核心目标</strong>：从 “欧氏空间” 转向
+“非欧氏空间”，理解图数据的特殊性与 GCN 的消息传递机制。</p>
+<h5 id="核心概念"><strong>核心概念</strong></h5>
+<ol type="1">
+<li><strong>图结构表示</strong>：节点（属性特征矩阵X）、边（邻接矩阵A，注意自环添加(A+I)）、度矩阵D（对角矩阵，(D_{ii}
+= <em>j A</em>{ij})）。</li>
+<li><strong>GCN 核心公式</strong>：(H^{(l+1)} = (^{-1/2} ^{-1/2} H^{(l)}
+W<sup>{(l)}))，其中(=A+I)（添加自环），(</sup>{-1/2}
+^{-1/2})为归一化邻接矩阵（解决节点度差异导致的特征缩放问题）。</li>
+<li><strong>PyG/DGL 入门</strong>：图数据格式（PyG
+的<code>Data</code>对象含<code>x</code>/<code>edge_index</code>/<code>y</code>）、数据加载器（<code>DataLoader</code>支持批处理）。</li>
 </ol>
-<h5 id="学习路线-3"><a href="#学习路线-3" class="headerlink" title="学习路线"></a><strong>学习路线</strong></h5><ol>
+<h5 id="学习路线-3"><strong>学习路线</strong></h5>
+<ol type="1">
 <li><p><strong>理论入门</strong>（3 天）</p>
 <ul>
-<li>论文：精读《Semi-Supervised Classification with Graph Convolutional Networks》（GCN 原论文，重点看 2.3 节公式推导）。</li>
-<li>教程：PyG 官方文档 “Getting Started”；DGL 官方 “Graph Neural Networks” 教程。</li>
-</ul>
-</li>
+<li>论文：精读《Semi-Supervised Classification with Graph Convolutional
+Networks》（GCN 原论文，重点看 2.3 节公式推导）。</li>
+<li>教程：PyG 官方文档 “Getting Started”；DGL 官方 “Graph Neural
+Networks” 教程。</li>
+</ul></li>
 <li><p><strong>实践操作</strong>（4 天）</p>
 <ul>
-<li><p>任务：用 PyG 加载 Cora 数据集（论文引用网络，节点为论文，边为引用关系），构建简单 GCN 模型。</p>
-</li>
+<li><p>任务：用 PyG 加载 Cora
+数据集（论文引用网络，节点为论文，边为引用关系），构建简单 GCN
+模型。</p></li>
 <li><p>步骤：</p>
 <p>① 数据加载：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cora</span><br></pre></td></tr></table></figure>
-
 <p>数据集自动下载，查看</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.x</span><br></pre></td></tr></table></figure>
-
 <p>（节点特征）、</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.edge_index</span><br></pre></td></tr></table></figure>
-
 <p>（边索引）、</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.y</span><br></pre></td></tr></table></figure>
-
 <p>（类别标签）；</p>
-<p>② 模型定义：2 层 GCN（输入特征→隐藏层 16→输出 7 类，用 ReLU 激活，最后一层不加激活）；</p>
+<p>② 模型定义：2 层 GCN（输入特征→隐藏层 16→输出 7 类，用 ReLU
+激活，最后一层不加激活）；</p>
 <p>③ 训练框架：半监督设置（仅用部分节点标签训练），优化器</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Adam</span><br></pre></td></tr></table></figure>
-
 <p>，损失函数</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CrossEntropyLoss</span><br></pre></td></tr></table></figure>
-
-<p>，验证节点分类准确率。</p>
-</li>
-</ul>
-</li>
+<p>，验证节点分类准确率。</p></li>
+</ul></li>
 </ol>
-<h4 id="第-6-周：图神经网络进阶（GAT）"><a href="#第-6-周：图神经网络进阶（GAT）" class="headerlink" title="第 6 周：图神经网络进阶（GAT）"></a><strong>第 6 周：图神经网络进阶（GAT）</strong></h4><p><strong>核心目标</strong>：理解 “注意力机制” 如何解决 GCN 的 “固定权重” 问题，掌握多头注意力的优势。</p>
-<h5 id="核心改进"><a href="#核心改进" class="headerlink" title="核心改进"></a><strong>核心改进</strong></h5><ol>
-<li><strong>GAT vs GCN</strong>：GCN 的邻接矩阵归一化是 “预定义” 的（基于度），而 GAT 通过注意力权重(e_{ij} &#x3D; \text{LeakyReLU}(a^T [W h_i | W h_j]))动态学习节点间的重要性，更灵活。</li>
-<li><strong>多头注意力</strong>：用多个注意力头（如 8 头）并行计算，最后拼接或平均输出，提升模型对不同特征的捕捉能力（公式：(h_i’ &#x3D; |<em>{k&#x3D;1}^K \sigma(\sum</em>{j \in \mathcal{N}(i)} \alpha_{ij}^k W^k h_j))）。</li>
+<h4 id="第-6-周图神经网络进阶gat"><strong>第 6
+周：图神经网络进阶（GAT）</strong></h4>
+<p><strong>核心目标</strong>：理解 “注意力机制” 如何解决 GCN 的
+“固定权重” 问题，掌握多头注意力的优势。</p>
+<h5 id="核心改进"><strong>核心改进</strong></h5>
+<ol type="1">
+<li><strong>GAT vs GCN</strong>：GCN 的邻接矩阵归一化是 “预定义”
+的（基于度），而 GAT 通过注意力权重(e_{ij} = (a^T [W h_i | W
+h_j]))动态学习节点间的重要性，更灵活。</li>
+<li><strong>多头注意力</strong>：用多个注意力头（如 8
+头）并行计算，最后拼接或平均输出，提升模型对不同特征的捕捉能力（公式：(h_i’
+= |<em>{k=1}^K (</em>{j (i)} _{ij}^k W^k h_j))）。</li>
 </ol>
-<h5 id="学习路线-4"><a href="#学习路线-4" class="headerlink" title="学习路线"></a><strong>学习路线</strong></h5><ol>
+<h5 id="学习路线-4"><strong>学习路线</strong></h5>
+<ol type="1">
 <li><p><strong>理论突破</strong>（2 天）</p>
 <ul>
-<li>论文：《Graph Attention Networks》（重点看 3.1 节注意力计算与 3.2 节多头机制）。</li>
+<li>论文：《Graph Attention Networks》（重点看 3.1 节注意力计算与 3.2
+节多头机制）。</li>
 <li>解析：B 站 “王树森 GAT” 讲解（可视化注意力权重的计算过程）。</li>
-</ul>
-</li>
+</ul></li>
 <li><p><strong>对比实验</strong>（5 天）</p>
 <ul>
-<li><p>任务：在 Cora 数据集上对比 GCN 与 GAT 的性能（准确率、训练时间）。</p>
-</li>
+<li><p>任务：在 Cora 数据集上对比 GCN 与 GAT
+的性能（准确率、训练时间）。</p></li>
 <li><p>步骤：</p>
 <p>① 复现 GCN 模型（作为基准）；</p>
 <p>② 实现 GAT：用 PyG 的</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GATConv</span><br></pre></td></tr></table></figure>
-
 <p>（设置</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">heads=8</span><br></pre></td></tr></table></figure>
-
 <p>，</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dropout=0.6</span><br></pre></td></tr></table></figure>
-
 <p>）；</p>
-<p>③ 对比分析：记录两者在测试集的准确率（GAT 通常略高）、每轮训练时间（GAT 因注意力计算更慢），总结适用场景（GAT 适合节点重要性差异大的图）。</p>
-</li>
-</ul>
-</li>
+<p>③ 对比分析：记录两者在测试集的准确率（GAT
+通常略高）、每轮训练时间（GAT 因注意力计算更慢），总结适用场景（GAT
+适合节点重要性差异大的图）。</p></li>
+</ul></li>
 </ol>
-<h3 id="第二月：核心突破期"><a href="#第二月：核心突破期" class="headerlink" title="第二月：核心突破期"></a><strong>第二月：核心突破期</strong></h3><h4 id="第-7-周：Transformer-核心原理"><a href="#第-7-周：Transformer-核心原理" class="headerlink" title="第 7 周：Transformer 核心原理"></a><strong>第 7 周：Transformer 核心原理</strong></h4><p><strong>核心目标</strong>：吃透 “注意力是一切” 的范式，掌握自注意力的计算逻辑与 Transformer 的 Encoder 结构。</p>
-<h5 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a><strong>核心模块</strong></h5><ol>
+<h3 id="第二月核心突破期-1"><strong>第二月：核心突破期</strong></h3>
+<h4 id="第-7-周transformer-核心原理"><strong>第 7 周：Transformer
+核心原理</strong></h4>
+<p><strong>核心目标</strong>：吃透 “注意力是一切”
+的范式，掌握自注意力的计算逻辑与 Transformer 的 Encoder 结构。</p>
+<h5 id="核心模块"><strong>核心模块</strong></h5>
+<ol type="1">
 <li><p>自注意力（Scaled Dot-Product Attention）</p>
 <p>：</p>
 <p>公式：</p>
-<p>(\text{Attention}(Q,K,V) &#x3D; \text{softmax}(\frac{QK^T}{\sqrt{d_k}}) V)</p>
+<p>((Q,K,V) = () V)</p>
 <p>，其中</p>
-<p>(Q&#x2F;K&#x2F;V)</p>
-<p>为查询 &#x2F; 键 &#x2F; 值矩阵（由输入通过线性变换得到），</p>
-<p>(\sqrt{d_k})</p>
-<p>避免内积过大导致 softmax 梯度消失。</p>
-</li>
-<li><p><strong>多头注意力</strong>：将(Q&#x2F;K&#x2F;V)拆分h头并行计算，拼接后线性变换，捕捉不同子空间的关联（与 GAT 多头逻辑类似，但应用于序列）。</p>
-</li>
-<li><p><strong>位置编码</strong>：解决 Transformer 无时序感知的问题，常用正弦余弦编码（(PE_{pos,2i} &#x3D; \sin(pos&#x2F;10000^{2i&#x2F;d_{\text{model}}}))），注入绝对位置信息。</p>
-</li>
-<li><p><strong>Encoder 结构</strong>：多头自注意力 + 残差连接 + LayerNorm + 前馈网络（(FFN(x) &#x3D; \max(0, xW_1 + b_1)W_2 + b_2)）。</p>
-</li>
+<p>(Q/K/V)</p>
+<p>为查询 / 键 / 值矩阵（由输入通过线性变换得到），</p>
+<p>()</p>
+<p>避免内积过大导致 softmax 梯度消失。</p></li>
+<li><p><strong>多头注意力</strong>：将(Q/K/V)拆分h头并行计算，拼接后线性变换，捕捉不同子空间的关联（与
+GAT 多头逻辑类似，但应用于序列）。</p></li>
+<li><p><strong>位置编码</strong>：解决 Transformer
+无时序感知的问题，常用正弦余弦编码（(PE_{pos,2i} =
+(pos/10000^{2i/d_{}}))），注入绝对位置信息。</p></li>
+<li><p><strong>Encoder 结构</strong>：多头自注意力 + 残差连接 +
+LayerNorm + 前馈网络（(FFN(x) = (0, xW_1 + b_1)W_2 + b_2)）。</p></li>
 </ol>
-<h5 id="学习路线-5"><a href="#学习路线-5" class="headerlink" title="学习路线"></a><strong>学习路线</strong></h5><ol>
+<h5 id="学习路线-5"><strong>学习路线</strong></h5>
+<ol type="1">
 <li><p><strong>论文精读</strong>（3 天）</p>
 <ul>
-<li>《Attention Is All You Need》：重点看 3-4 节（自注意力与 Encoder 结构），手动推导 1 个头的自注意力计算过程（以 2 个输入序列为例）。</li>
-</ul>
-</li>
+<li>《Attention Is All You Need》：重点看 3-4 节（自注意力与 Encoder
+结构），手动推导 1 个头的自注意力计算过程（以 2 个输入序列为例）。</li>
+</ul></li>
 <li><p><strong>代码实现</strong>（4 天）</p>
 <ul>
-<li><p>任务：用 PyTorch 实现简化版 Transformer（仅 Encoder，用于文本分类）。</p>
-</li>
+<li><p>任务：用 PyTorch 实现简化版 Transformer（仅
+Encoder，用于文本分类）。</p></li>
 <li><p>步骤：</p>
-<p>① 实现自注意力函数：输入 Q&#x2F;K&#x2F;V，输出注意力加权后的 V；</p>
-<p>② 实现多头注意力：拆分 Q&#x2F;K&#x2F;V 为 h 头，计算后拼接；</p>
+<p>① 实现自注意力函数：输入 Q/K/V，输出注意力加权后的 V；</p>
+<p>② 实现多头注意力：拆分 Q/K/V 为 h 头，计算后拼接；</p>
 <p>③ 搭建 Encoder 层：多头注意力 + 残差 + LayerNorm + 前馈网络；</p>
-<p>④ 测试：用随机序列输入，验证输出维度正确性（输入 seq_len×d_model → 输出相同维度）。</p>
-</li>
-</ul>
-</li>
+<p>④ 测试：用随机序列输入，验证输出维度正确性（输入 seq_len×d_model →
+输出相同维度）。</p></li>
+</ul></li>
 </ol>
-<h4 id="第-8-周：GNN-进阶（GraphSAGE）"><a href="#第-8-周：GNN-进阶（GraphSAGE）" class="headerlink" title="第 8 周：GNN 进阶（GraphSAGE）"></a><strong>第 8 周：GNN 进阶（GraphSAGE）</strong></h4><p><strong>核心目标</strong>：理解 “归纳式学习” 的意义，掌握 GraphSAGE 的 “采样 + 聚合” 策略（解决 GCN 的直推式局限）。</p>
-<h5 id="核心创新"><a href="#核心创新" class="headerlink" title="核心创新"></a><strong>核心创新</strong></h5><ol>
-<li><strong>直推式 vs 归纳式</strong>：GCN 需已知全图结构（训练 &#x2F; 测试用同一图），而 GraphSAGE 通过 “采样邻居 + 聚合特征” 生成节点嵌入，可推广到 unseen 节点（如新加入的图）。</li>
-<li><strong>采样策略</strong>：对每个节点采样固定数量的邻居（如 25 个），避免计算量随图大小爆炸。</li>
-<li><strong>聚合函数</strong>：均值聚合（(\text{mean}({h_v} \cup {h_u, u \in \mathcal{N}(v)}))）、池化聚合（如 max-pooling），捕捉邻居的局部特征。</li>
+<h4 id="第-8-周gnn-进阶graphsage"><strong>第 8 周：GNN
+进阶（GraphSAGE）</strong></h4>
+<p><strong>核心目标</strong>：理解 “归纳式学习” 的意义，掌握 GraphSAGE
+的 “采样 + 聚合” 策略（解决 GCN 的直推式局限）。</p>
+<h5 id="核心创新"><strong>核心创新</strong></h5>
+<ol type="1">
+<li><strong>直推式 vs 归纳式</strong>：GCN 需已知全图结构（训练 /
+测试用同一图），而 GraphSAGE 通过 “采样邻居 + 聚合特征”
+生成节点嵌入，可推广到 unseen 节点（如新加入的图）。</li>
+<li><strong>采样策略</strong>：对每个节点采样固定数量的邻居（如 25
+个），避免计算量随图大小爆炸。</li>
+<li><strong>聚合函数</strong>：均值聚合（(({h_v} {h_u, u
+(v)}))）、池化聚合（如 max-pooling），捕捉邻居的局部特征。</li>
 </ol>
-<h5 id="学习路线-6"><a href="#学习路线-6" class="headerlink" title="学习路线"></a><strong>学习路线</strong></h5><ol>
+<h5 id="学习路线-6"><strong>学习路线</strong></h5>
+<ol type="1">
 <li><p><strong>理论理解</strong>（2 天）</p>
 <ul>
-<li>论文：《Inductive Representation Learning on Large Graphs》（重点看 3 节采样与聚合）。</li>
+<li>论文：《Inductive Representation Learning on Large Graphs》（重点看
+3 节采样与聚合）。</li>
 <li>教程：DGL 官方 “GraphSAGE” 教程（讲解采样 API 的使用）。</li>
-</ul>
-</li>
+</ul></li>
 <li><p><strong>实践训练</strong>（5 天）</p>
 <ul>
-<li><p>任务：用 DGL 在 Reddit 数据集（大型社区图，需归纳式学习）上实现 GraphSAGE。</p>
-</li>
+<li><p>任务：用 DGL 在 Reddit 数据集（大型社区图，需归纳式学习）上实现
+GraphSAGE。</p></li>
 <li><p>步骤：</p>
 <p>① 数据加载：DGL 内置</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RedditDataset</span><br></pre></td></tr></table></figure>
-
-<p>，区分训练 &#x2F; 验证 &#x2F; 测试节点（测试节点为 unseen 社区）；</p>
-<p>② 模型定义：2 层 GraphSAGE（采样 2 阶邻居，每层采样 10 个，用均值聚合）；</p>
+<p>，区分训练 / 验证 / 测试节点（测试节点为 unseen 社区）；</p>
+<p>② 模型定义：2 层 GraphSAGE（采样 2 阶邻居，每层采样 10
+个，用均值聚合）；</p>
 <p>③ 训练配置：用</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dgl.dataloading.NeighborSampler</span><br></pre></td></tr></table></figure>
-
 <p>批量采样邻居，优化器</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Adam</span><br></pre></td></tr></table></figure>
-
-<p>，验证归纳式分类准确率。</p>
-</li>
-</ul>
-</li>
+<p>，验证归纳式分类准确率。</p></li>
+</ul></li>
 </ol>
-<h4 id="第-9-周：时空-GNN-基础（ST-GCN）"><a href="#第-9-周：时空-GNN-基础（ST-GCN）" class="headerlink" title="第 9 周：时空 GNN 基础（ST-GCN）"></a><strong>第 9 周：时空 GNN 基础（ST-GCN）</strong></h4><p><strong>核心目标</strong>：理解 “空间结构 + 时间序列” 的融合逻辑，掌握 ST-GCN 在行为识别中的应用。</p>
-<h5 id="核心思路"><a href="#核心思路" class="headerlink" title="核心思路"></a><strong>核心思路</strong></h5><ol>
+<h4 id="第-9-周时空-gnn-基础st-gcn"><strong>第 9 周：时空 GNN
+基础（ST-GCN）</strong></h4>
+<p><strong>核心目标</strong>：理解 “空间结构 + 时间序列”
+的融合逻辑，掌握 ST-GCN 在行为识别中的应用。</p>
+<h5 id="核心思路"><strong>核心思路</strong></h5>
+<ol type="1">
 <li><strong>时空数据特点</strong>：既包含节点间的空间关联（如人体关节的连接），又包含时间维度的动态变化（如关节运动轨迹）。</li>
-<li><strong>ST-GCN 结构</strong>：在时间轴上滑动窗口，对每个时间步的图用 GCN 提取空间特征，再用时间卷积（如 1D 卷积）捕捉时间依赖，即 “空间 GCN + 时间 CNN”。</li>
+<li><strong>ST-GCN 结构</strong>：在时间轴上滑动窗口，对每个时间步的图用
+GCN 提取空间特征，再用时间卷积（如 1D 卷积）捕捉时间依赖，即 “空间 GCN +
+时间 CNN”。</li>
 </ol>
-<h5 id="学习路线-7"><a href="#学习路线-7" class="headerlink" title="学习路线"></a><strong>学习路线</strong></h5><ol>
+<h5 id="学习路线-7"><strong>学习路线</strong></h5>
+<ol type="1">
 <li><p><strong>理论入门</strong>（3 天）</p>
 <ul>
-<li>论文：《Spatio-Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition》（重点看 3 节时空卷积设计）。</li>
-<li>数据理解：NTU RGB+D 数据集（人体骨架序列，每个样本为 T 帧 ×25 个关节的 3D 坐标）。</li>
-</ul>
-</li>
+<li>论文：《Spatio-Temporal Graph Convolutional Networks for
+Skeleton-Based Action Recognition》（重点看 3 节时空卷积设计）。</li>
+<li>数据理解：NTU RGB+D 数据集（人体骨架序列，每个样本为 T 帧 ×25
+个关节的 3D 坐标）。</li>
+</ul></li>
 <li><p><strong>模型搭建</strong>（4 天）</p>
 <ul>
-<li><p>任务：用 PyG 搭建简易 ST-GCN（简化版，保留核心逻辑）。</p>
-</li>
+<li><p>任务：用 PyG 搭建简易 ST-GCN（简化版，保留核心逻辑）。</p></li>
 <li><p>步骤：</p>
-<p>① 数据处理：将骨架序列转换为图（节点 &#x3D; 关节，边 &#x3D; 骨骼连接），每个节点特征为 3D 坐标；</p>
+<p>① 数据处理：将骨架序列转换为图（节点 = 关节，边 =
+骨骼连接），每个节点特征为 3D 坐标；</p>
 <p>② 空间特征提取：用 GCN 处理单帧图，输出节点空间特征；</p>
-<p>③ 时间特征提取：对时间序列的空间特征用 1D 卷积（ kernel_size&#x3D;3）捕捉时序变化；</p>
-<p>④ 输出：用全局池化 + 全连接层预测动作类别（如 “跑步”“挥手”）。</p>
-</li>
-</ul>
-</li>
+<p>③ 时间特征提取：对时间序列的空间特征用 1D 卷积（
+kernel_size=3）捕捉时序变化；</p>
+<p>④ 输出：用全局池化 + 全连接层预测动作类别（如
+“跑步”“挥手”）。</p></li>
+</ul></li>
 </ol>
-<h4 id="第-10-周：时空数据处理工具与特征工程"><a href="#第-10-周：时空数据处理工具与特征工程" class="headerlink" title="第 10 周：时空数据处理工具与特征工程"></a><strong>第 10 周：时空数据处理工具与特征工程</strong></h4><p><strong>核心目标</strong>：掌握地理时空数据的处理流程，从原始轨迹中提取有价值的 “时空特征”。</p>
-<h5 id="核心工具与特征"><a href="#核心工具与特征" class="headerlink" title="核心工具与特征"></a><strong>核心工具与特征</strong></h5><ol>
-<li><p><strong>GeoPandas</strong>：扩展 Pandas 支持地理数据（如经纬度点、区域多边形），核心是<code>GeoSeries</code>（存储几何对象）和<code>crs</code>（坐标参考系）。</p>
-</li>
+<h4 id="第-10-周时空数据处理工具与特征工程"><strong>第 10
+周：时空数据处理工具与特征工程</strong></h4>
+<p><strong>核心目标</strong>：掌握地理时空数据的处理流程，从原始轨迹中提取有价值的
+“时空特征”。</p>
+<h5 id="核心工具与特征"><strong>核心工具与特征</strong></h5>
+<ol type="1">
+<li><p><strong>GeoPandas</strong>：扩展 Pandas
+支持地理数据（如经纬度点、区域多边形），核心是<code>GeoSeries</code>（存储几何对象）和<code>crs</code>（坐标参考系）。</p></li>
 <li><p>时空特征工程</p>
 <p>：</p>
 <ul>
-<li>时间特征：时段（早高峰 &#x2F; 晚高峰）、星期几、是否节假日；</li>
+<li>时间特征：时段（早高峰 / 晚高峰）、星期几、是否节假日；</li>
 <li>空间特征：区域归属（如出租车轨迹属于哪个行政区）、距离特征（轨迹长度、平均速度）；</li>
-<li>聚合特征：“时段 - 区域” 的客流量（如早 8 点 Manhattan 区上车人数）。</li>
-</ul>
-</li>
+<li>聚合特征：“时段 - 区域” 的客流量（如早 8 点 Manhattan
+区上车人数）。</li>
+</ul></li>
 </ol>
-<h5 id="学习路线-8"><a href="#学习路线-8" class="headerlink" title="学习路线"></a><strong>学习路线</strong></h5><ol>
+<h5 id="学习路线-8"><strong>学习路线</strong></h5>
+<ol type="1">
 <li><p><strong>工具学习</strong>（2 天）</p>
 <ul>
-<li>教程：GeoPandas 官方 “Getting Started”；Matplotlib Basemap&#x2F;Plotly 实现地图可视化。</li>
-</ul>
-</li>
+<li>教程：GeoPandas 官方 “Getting Started”；Matplotlib Basemap/Plotly
+实现地图可视化。</li>
+</ul></li>
 <li><p><strong>实战分析</strong>（5 天）</p>
 <ul>
-<li><p>数据集：纽约出租车轨迹数据集（含上车点经纬度、时间、乘客数等）。</p>
-</li>
+<li><p>数据集：纽约出租车轨迹数据集（含上车点经纬度、时间、乘客数等）。</p></li>
 <li><p>步骤：</p>
 <p>① 数据清洗：过滤异常经纬度（不在纽约范围内）、缺失时间戳的数据；</p>
 <p>② 时间特征提取：用</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pandas.to_datetime</span><br></pre></td></tr></table></figure>
-
 <p>解析时间，提取 “小时”“星期”“是否周末”；</p>
-<p>③ 空间处理：用 GeoPandas 将经纬度转换为地理点，关联纽约行政区边界（</p>
+<p>③ 空间处理：用 GeoPandas
+将经纬度转换为地理点，关联纽约行政区边界（</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geopandas.read_file</span><br></pre></td></tr></table></figure>
-
 <p>加载 shp 文件），标记每个轨迹的所属区域；</p>
-<p>④ 可视化：用 Plotly 绘制不同时段的上车点热力图；用折线图展示 “区域 - 小时” 的客流量变化曲线。</p>
-</li>
-</ul>
-</li>
+<p>④ 可视化：用 Plotly 绘制不同时段的上车点热力图；用折线图展示 “区域 -
+小时” 的客流量变化曲线。</p></li>
+</ul></li>
 </ol>
-<h3 id="第三月：综合实践期"><a href="#第三月：综合实践期" class="headerlink" title="第三月：综合实践期"></a><strong>第三月：综合实践期</strong></h3><h4 id="第-11-周：大模型与-GNN-融合方法"><a href="#第-11-周：大模型与-GNN-融合方法" class="headerlink" title="第 11 周：大模型与 GNN 融合方法"></a><strong>第 11 周：大模型与 GNN 融合方法</strong></h4><p><strong>核心目标</strong>：理解 “文本特征 + 图结构” 的互补性，掌握用 LLM 生成图节点文本嵌入的策略。</p>
-<h5 id="融合逻辑"><a href="#融合逻辑" class="headerlink" title="融合逻辑"></a><strong>融合逻辑</strong></h5><ol>
-<li><strong>LLM 的优势</strong>：擅长处理文本语义（如图中节点为论文 &#x2F; 商品，其描述文本含丰富信息），可生成高质量的文本嵌入（如 BERT 的<code>[CLS]</code>向量）。</li>
-<li><strong>融合方式</strong>：将 LLM 生成的文本嵌入作为图节点的初始特征，再用 GNN 捕捉节点间的结构关联（如论文引用、商品共购）。</li>
+<h3 id="第三月综合实践期-1"><strong>第三月：综合实践期</strong></h3>
+<h4 id="第-11-周大模型与-gnn-融合方法"><strong>第 11 周：大模型与 GNN
+融合方法</strong></h4>
+<p><strong>核心目标</strong>：理解 “文本特征 + 图结构” 的互补性，掌握用
+LLM 生成图节点文本嵌入的策略。</p>
+<h5 id="融合逻辑"><strong>融合逻辑</strong></h5>
+<ol type="1">
+<li><strong>LLM 的优势</strong>：擅长处理文本语义（如图中节点为论文 /
+商品，其描述文本含丰富信息），可生成高质量的文本嵌入（如 BERT
+的<code>[CLS]</code>向量）。</li>
+<li><strong>融合方式</strong>：将 LLM
+生成的文本嵌入作为图节点的初始特征，再用 GNN
+捕捉节点间的结构关联（如论文引用、商品共购）。</li>
 </ol>
-<h5 id="学习路线-9"><a href="#学习路线-9" class="headerlink" title="学习路线"></a><strong>学习路线</strong></h5><ol>
+<h5 id="学习路线-9"><strong>学习路线</strong></h5>
+<ol type="1">
 <li><p><strong>方法学习</strong>（3 天）</p>
 <ul>
-<li>论文：《Graph-BERT: Only Attention is Needed for Learning Graph Representations》（了解文本嵌入与图结构的结合思路）。</li>
-<li>工具：Hugging Face <code>transformers</code>库（<code>AutoModel</code>&#x2F;<code>AutoTokenizer</code>加载预训练模型）。</li>
-</ul>
-</li>
+<li>论文：《Graph-BERT: Only Attention is Needed for Learning Graph
+Representations》（了解文本嵌入与图结构的结合思路）。</li>
+<li>工具：Hugging Face
+<code>transformers</code>库（<code>AutoModel</code>/<code>AutoTokenizer</code>加载预训练模型）。</li>
+</ul></li>
 <li><p><strong>实践操作</strong>（4 天）</p>
 <ul>
-<li><p>任务：用 BERT 生成 Cora 论文摘要的文本嵌入。</p>
-</li>
+<li><p>任务：用 BERT 生成 Cora 论文摘要的文本嵌入。</p></li>
 <li><p>步骤：</p>
-<p>① 数据准备：Cora 数据集含论文摘要文本，需清洗（去除标点、小写化）；</p>
+<p>① 数据准备：Cora
+数据集含论文摘要文本，需清洗（去除标点、小写化）；</p>
 <p>② 加载模型：用</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bert-base-uncased</span><br></pre></td></tr></table></figure>
-
 <p>，</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tokenizer</span><br></pre></td></tr></table></figure>
-
 <p>处理文本为输入 ID，</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model</span><br></pre></td></tr></table></figure>
-
 <p>输出隐藏状态；</p>
 <p>③ 生成嵌入：取</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[CLS]</span><br></pre></td></tr></table></figure>
-
-<p>位置的隐藏状态作为论文文本嵌入，与原 Cora 节点特征（词袋特征）对比维度与语义相关性（可用余弦相似度验证）。</p>
-</li>
-</ul>
-</li>
+<p>位置的隐藏状态作为论文文本嵌入，与原 Cora
+节点特征（词袋特征）对比维度与语义相关性（可用余弦相似度验证）。</p></li>
+</ul></li>
 </ol>
-<h4 id="第-12-周：核心项目：文本属性图分类"><a href="#第-12-周：核心项目：文本属性图分类" class="headerlink" title="第 12 周：核心项目：文本属性图分类"></a><strong>第 12 周：核心项目：文本属性图分类</strong></h4><p><strong>核心目标</strong>：整合前序知识，实现 “LLM 文本嵌入 + GCN 结构建模” 的端到端分类模型。</p>
-<h5 id="项目架构"><a href="#项目架构" class="headerlink" title="项目架构"></a><strong>项目架构</strong></h5><p>输入：论文节点（文本嵌入(h_{\text{text}}) + 原始特征(h_{\text{feat}})）→ 拼接为(h &#x3D; [h_{\text{text}}; h_{\text{feat}}]) → GCN 提取结构特征 → 全连接层输出类别。</p>
-<h5 id="实施步骤"><a href="#实施步骤" class="headerlink" title="实施步骤"></a><strong>实施步骤</strong></h5><ol>
-<li><strong>数据预处理</strong>（2 天）<ul>
-<li>合并 BERT 文本嵌入与 Cora 原始特征（若维度差异大，可先降维：如用 PCA 将 BERT 嵌入从 768 维降到 128 维）。</li>
-</ul>
-</li>
-<li><strong>模型搭建</strong>（3 天）<ul>
-<li>定义<code>LLM_GCN</code>：输入层拼接特征 → 2 层 GCN（隐藏层 64，ReLU 激活） → 输出层 7 类。</li>
-</ul>
-</li>
-<li><strong>训练优化</strong>（2 天）<ul>
+<h4 id="第-12-周核心项目文本属性图分类"><strong>第 12
+周：核心项目：文本属性图分类</strong></h4>
+<p><strong>核心目标</strong>：整合前序知识，实现 “LLM 文本嵌入 + GCN
+结构建模” 的端到端分类模型。</p>
+<h5 id="项目架构"><strong>项目架构</strong></h5>
+<p>输入：论文节点（文本嵌入(h_{}) + 原始特征(h_{})）→ 拼接为(h = [h_{};
+h_{}]) → GCN 提取结构特征 → 全连接层输出类别。</p>
+<h5 id="实施步骤"><strong>实施步骤</strong></h5>
+<ol type="1">
+<li><strong>数据预处理</strong>（2 天）
+<ul>
+<li>合并 BERT 文本嵌入与 Cora 原始特征（若维度差异大，可先降维：如用 PCA
+将 BERT 嵌入从 768 维降到 128 维）。</li>
+</ul></li>
+<li><strong>模型搭建</strong>（3 天）
+<ul>
+<li>定义<code>LLM_GCN</code>：输入层拼接特征 → 2 层 GCN（隐藏层 64，ReLU
+激活） → 输出层 7 类。</li>
+</ul></li>
+<li><strong>训练优化</strong>（2 天）
+<ul>
 <li>策略：学习率调度（<code>ReduceLROnPlateau</code>，验证损失不降则降学习率）、早停（<code>EarlyStopping</code>，避免过拟合）；</li>
 <li>目标：测试集准确率≥85%（对比纯 GCN 模型，应有 5%-10% 提升）。</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h4 id="第-13-周：时空预测模型（DCRNN）"><a href="#第-13-周：时空预测模型（DCRNN）" class="headerlink" title="第 13 周：时空预测模型（DCRNN）"></a><strong>第 13 周：时空预测模型（DCRNN）</strong></h4><p><strong>核心目标</strong>：理解 “扩散卷积” 如何建模交通网络的空间依赖，掌握 DCRNN 的 “时空融合” 逻辑。</p>
-<h5 id="核心原理-1"><a href="#核心原理-1" class="headerlink" title="核心原理"></a><strong>核心原理</strong></h5><ol>
-<li><strong>扩散卷积</strong>：基于图的拉普拉斯矩阵(L &#x3D; D - A)，将交通速度的空间传播建模为 “扩散过程”，公式：((\mathcal{L}_k * X)<em>i &#x3D; \sum</em>{j} (\mathcal{L}<em>k)</em>{i,j} X_j)，其中(\mathcal{L}_k)为拉普拉斯矩阵的k阶幂（捕捉k跳邻居的影响）。</li>
-<li><strong>DCRNN 结构</strong>：扩散卷积 + GRU（门控循环单元），每个时间步用扩散卷积提取空间特征，GRU 捕捉时间依赖，输出未来时刻的交通速度。</li>
+<h4 id="第-13-周时空预测模型dcrnn"><strong>第 13
+周：时空预测模型（DCRNN）</strong></h4>
+<p><strong>核心目标</strong>：理解 “扩散卷积”
+如何建模交通网络的空间依赖，掌握 DCRNN 的 “时空融合” 逻辑。</p>
+<h5 id="核心原理-1"><strong>核心原理</strong></h5>
+<ol type="1">
+<li><strong>扩散卷积</strong>：基于图的拉普拉斯矩阵(L = D -
+A)，将交通速度的空间传播建模为 “扩散过程”，公式：((_k * X)<em>i =
+</em>{j} (<em>k)</em>{i,j}
+X_j)，其中(_k)为拉普拉斯矩阵的k阶幂（捕捉k跳邻居的影响）。</li>
+<li><strong>DCRNN 结构</strong>：扩散卷积 +
+GRU（门控循环单元），每个时间步用扩散卷积提取空间特征，GRU
+捕捉时间依赖，输出未来时刻的交通速度。</li>
 </ol>
-<h5 id="学习路线-10"><a href="#学习路线-10" class="headerlink" title="学习路线"></a><strong>学习路线</strong></h5><ol>
+<h5 id="学习路线-10"><strong>学习路线</strong></h5>
+<ol type="1">
 <li><p><strong>理论推导</strong>（3 天）</p>
 <ul>
-<li>论文：《Diffusion Convolutional Recurrent Neural Network: Data-Driven Traffic Forecasting》（重点看 3 节扩散卷积与 4 节网络结构）。</li>
-<li>推导：手动计算拉普拉斯矩阵的 1 阶和 2 阶扩散卷积（以 5 节点简单图为例）。</li>
-</ul>
-</li>
+<li>论文：《Diffusion Convolutional Recurrent Neural Network:
+Data-Driven Traffic Forecasting》（重点看 3 节扩散卷积与 4
+节网络结构）。</li>
+<li>推导：手动计算拉普拉斯矩阵的 1 阶和 2 阶扩散卷积（以 5
+节点简单图为例）。</li>
+</ul></li>
 <li><p><strong>模块实现</strong>（4 天）</p>
 <ul>
-<li><p>任务：用 PyTorch 实现 DCRNN 的核心模块（扩散卷积层 + GRU 层）。</p>
-</li>
+<li><p>任务：用 PyTorch 实现 DCRNN 的核心模块（扩散卷积层 + GRU
+层）。</p></li>
 <li><p>步骤：</p>
 <p>① 实现扩散卷积：输入特征</p>
 <p>X</p>
@@ -809,54 +970,68 @@
 <p>阶扩散后的特征；</p>
 <p>② 实现 DCRNN 单元：将扩散卷积的输出作为 GRU 的输入，定义</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">forward</span><br></pre></td></tr></table></figure>
-
 <p>方法处理时序数据；</p>
-<p>③ 测试：用随机交通速度序列（节点数 × 时间步）验证输出维度正确性。</p>
-</li>
-</ul>
-</li>
+<p>③ 测试：用随机交通速度序列（节点数 ×
+时间步）验证输出维度正确性。</p></li>
+</ul></li>
 </ol>
-<h4 id="第-14-周：终极项目：交通速度预测"><a href="#第-14-周：终极项目：交通速度预测" class="headerlink" title="第 14 周：终极项目：交通速度预测"></a><strong>第 14 周：终极项目：交通速度预测</strong></h4><p><strong>核心目标</strong>：复现 DCRNN 在真实交通数据集上的性能，掌握时空模型的调优方法。</p>
-<h5 id="项目细节"><a href="#项目细节" class="headerlink" title="项目细节"></a><strong>项目细节</strong></h5><ol>
-<li><strong>METR-LA 数据集</strong>：洛杉矶高速公路传感器网络，含 207 个传感器的每 5 分钟交通速度数据，图结构为传感器间的路网连接。</li>
-<li><strong>调优超参数</strong>：<ul>
-<li>隐藏层维度：64&#x2F;128（影响特征容量）；</li>
-<li>时间步长：输入 12 步（1 小时），预测 3&#x2F;6 步（15&#x2F;30 分钟）；</li>
-<li>扩散阶数：(k&#x3D;2)（捕捉 2 跳邻居影响）；</li>
+<h4 id="第-14-周终极项目交通速度预测"><strong>第 14
+周：终极项目：交通速度预测</strong></h4>
+<p><strong>核心目标</strong>：复现 DCRNN
+在真实交通数据集上的性能，掌握时空模型的调优方法。</p>
+<h5 id="项目细节"><strong>项目细节</strong></h5>
+<ol type="1">
+<li><strong>METR-LA 数据集</strong>：洛杉矶高速公路传感器网络，含 207
+个传感器的每 5 分钟交通速度数据，图结构为传感器间的路网连接。</li>
+<li><strong>调优超参数</strong>：
+<ul>
+<li>隐藏层维度：64/128（影响特征容量）；</li>
+<li>时间步长：输入 12 步（1 小时），预测 3/6 步（15/30 分钟）；</li>
+<li>扩散阶数：(k=2)（捕捉 2 跳邻居影响）；</li>
 <li>学习率：0.001，用 Adam 优化器。</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h5 id="实施步骤-1"><a href="#实施步骤-1" class="headerlink" title="实施步骤"></a><strong>实施步骤</strong></h5><ol>
-<li><strong>数据预处理</strong>（2 天）<ul>
-<li>加载数据：用<code>pandas</code>读取 CSV，转换为时间序列矩阵（传感器 × 时间步）；</li>
+<h5 id="实施步骤-1"><strong>实施步骤</strong></h5>
+<ol type="1">
+<li><strong>数据预处理</strong>（2 天）
+<ul>
+<li>加载数据：用<code>pandas</code>读取 CSV，转换为时间序列矩阵（传感器
+× 时间步）；</li>
 <li>归一化：将速度缩放到 [0,1] 区间（提升训练稳定性）；</li>
-<li>构建图：根据传感器经纬度计算距离，定义邻接矩阵（距离小于阈值为 1）。</li>
-</ul>
-</li>
-<li><strong>模型训练与评估</strong>（5 天）<ul>
-<li>训练：划分训练 &#x2F; 验证 &#x2F; 测试集（7:1:2），训练 50 轮，记录每轮验证集 MAE（平均绝对误差）；</li>
-<li>复现对比：目标 MAE 接近论文结果（约 4.5-5.0），若差距大，检查扩散卷积实现或调大隐藏层维度。</li>
-</ul>
-</li>
+<li>构建图：根据传感器经纬度计算距离，定义邻接矩阵（距离小于阈值为
+1）。</li>
+</ul></li>
+<li><strong>模型训练与评估</strong>（5 天）
+<ul>
+<li>训练：划分训练 / 验证 / 测试集（7:1:2），训练 50 轮，记录每轮验证集
+MAE（平均绝对误差）；</li>
+<li>复现对比：目标 MAE 接近论文结果（约
+4.5-5.0），若差距大，检查扩散卷积实现或调大隐藏层维度。</li>
+</ul></li>
 </ol>
-<h4 id="年末：项目总结与复盘"><a href="#年末：项目总结与复盘" class="headerlink" title="年末：项目总结与复盘"></a><strong>年末：项目总结与复盘</strong></h4><p><strong>核心目标</strong>：形成可复用的知识体系，完成从 “学习” 到 “输出” 的闭环。</p>
-<h5 id="具体行动"><a href="#具体行动" class="headerlink" title="具体行动"></a><strong>具体行动</strong></h5><ol>
-<li><strong>代码整理</strong>（3 天）<ul>
+<h4 id="年末项目总结与复盘"><strong>年末：项目总结与复盘</strong></h4>
+<p><strong>核心目标</strong>：形成可复用的知识体系，完成从 “学习” 到
+“输出” 的闭环。</p>
+<h5 id="具体行动"><strong>具体行动</strong></h5>
+<ol type="1">
+<li><strong>代码整理</strong>（3 天）
+<ul>
 <li>统一代码风格（PEP8 规范），添加详细注释（函数功能、参数含义）；</li>
 <li>封装工具类（如图数据处理、模型训练通用函数），方便后续复用。</li>
-</ul>
-</li>
-<li><strong>开源与文档</strong>（4 天）<ul>
-<li>GitHub 仓库：按项目分类（基础模型 &#x2F; 综合项目），README 含环境配置（<code>requirements.txt</code>）、运行步骤、结果对比；</li>
-<li>技术博客：用 Markdown 撰写 3-5 篇总结（如《GCN 与 GAT 的核心差异》《DCRNN 复现踩坑记录》），发布到知乎 &#x2F; CSDN。</li>
-</ul>
-</li>
-<li><strong>部署入门</strong>（3 天）<ul>
-<li>用 Flask 封装交通预测模型为 API：输入历史速度序列，返回预测结果；</li>
+</ul></li>
+<li><strong>开源与文档</strong>（4 天）
+<ul>
+<li>GitHub 仓库：按项目分类（基础模型 / 综合项目），README
+含环境配置（<code>requirements.txt</code>）、运行步骤、结果对比；</li>
+<li>技术博客：用 Markdown 撰写 3-5 篇总结（如《GCN 与 GAT
+的核心差异》《DCRNN 复现踩坑记录》），发布到知乎 / CSDN。</li>
+</ul></li>
+<li><strong>部署入门</strong>（3 天）
+<ul>
+<li>用 Flask 封装交通预测模型为
+API：输入历史速度序列，返回预测结果；</li>
 <li>简单前端：用 HTML+JS 调用 API，可视化预测曲线与真实曲线对比。</li>
-</ul>
-</li>
+</ul></li>
 </ol>
 
     </div>
@@ -910,14 +1085,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">61k</span>
+    <span title="站点总字数">65k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:50</span>
+    <span title="站点阅读时长">1:59</span>
   </span>
 </div>
 
