@@ -172,7 +172,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2507.001v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2506.002v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2507.001v1/" class="post-title-link" itemprop="url">雅思学习——L0 雅思真经第一课</a>
+          <a href="/posts/2506.002v1/" class="post-title-link" itemprop="url">论文阅读——Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning</a>
         </h2>
 
         <div class="post-meta-container">
@@ -240,9 +240,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-07-01 00:00:00 / 修改时间：14:46:14" itemprop="dateCreated datePublished" datetime="2025-07-01T00:00:00+08:00">2025-07-01</time>
+      <time title="创建时间：2025-06-08 00:00:00" itemprop="dateCreated datePublished" datetime="2025-06-08T00:00:00+08:00">2025-06-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-06-10 00:28:07" itemprop="dateModified" datetime="2025-06-10T00:28:07+08:00">2025-06-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -250,7 +256,15 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%9B%85%E6%80%9D%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">雅思学习</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%9B%BE%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图学习</span></a>
         </span>
     </span>
 
@@ -261,14 +275,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>435</span>
+      <span>1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>2 分钟</span>
     </span>
 </div>
 
@@ -279,53 +293,102 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="listening">Listening</h2>
+          <h1 id="论文概况">论文概况</h1>
+<p><strong>题目</strong>：<a
+target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.19523">Harnessing explanations
+Llm-to-lm interpreter for enhanced text-attributed graph representation
+learning</a></p>
+<p><strong>通讯作者</strong>：Bryan Hooi：bhooi@comp.nus.edu.sg</p>
+<p><strong>作者院校</strong>：新加坡国立大学、洛约拉马利蒙特大学、纽约大学、Meta
+AI</p>
+<p><strong>发表于</strong>：ICLR 2024</p>
+<p><strong>代码仓库</strong>：https://github.com/XiaoxinHe/TAPE</p>
+<h1 id="论文内容">论文内容</h1>
+<h2 id="引言">引言</h2>
+<p>​
+文本属性图（TAGs）广泛存在（如论文引用网络），但现有方法存在局限，本文核心创新为提出LLM生成的解释作为特征：</p>
+<ul>
+<li>通过提示LLM输出<strong>预测标签</strong>和<strong>决策解释</strong>，提取其知识与推理能力。</li>
+<li>设计
+<strong>LLM-to-LM解释器</strong>，将文本解释转化为GNN可用的向量特征。</li>
+</ul>
+<h2 id="相关工作">相关工作</h2>
+<ul>
+<li><strong>浅层特征+GNN</strong>：使用skip-gram等算法提取文本浅层特征，然后用GCN等图学习算法，但问题在于浅层特征语义捕捉能力弱。</li>
+<li><strong>小型LM微调+GNN</strong>：使用BERT等语言模型进行特征编码，然后再使用GNN，但问题在于计算成本高，且缺乏复杂推理能力。</li>
+<li><strong>LLM+图结构理解</strong>：虽然已有工作研究LLM对于图结构的理解，但未针对TAG任务优化。</li>
+</ul>
+<h2 id="定义">定义</h2>
+<ul>
+<li><p>文本属性图</p>
 <figure>
 <img
-src="/images/post_images/2025-07-01-雅思学习——L0-雅思真经第一课/image-20250701112706880.png"
-alt="image-20250701112706880" />
-<figcaption aria-hidden="true">image-20250701112706880</figcaption>
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234331255.png"
+alt="image-20250608234331255" />
+<figcaption aria-hidden="true">image-20250608234331255</figcaption>
+</figure></li>
+<li><p>LM特征提取</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234853934.png"
+alt="image-20250608234853934" />
+<figcaption aria-hidden="true">image-20250608234853934</figcaption>
+</figure></li>
+<li><p>LLM</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235316790.png"
+alt="image-20250608235316790" />
+<figcaption aria-hidden="true">image-20250608235316790</figcaption>
+</figure></li>
+<li><p>图神经网络</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235548998.png"
+alt="image-20250608235548998" />
+<figcaption aria-hidden="true">image-20250608235548998</figcaption>
+</figure></li>
+</ul>
+<h2 id="论文方法">论文方法</h2>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235916094.png"
+alt="image-20250608235916094" />
+<figcaption aria-hidden="true">image-20250608235916094</figcaption>
 </figure>
-<h4 id="考点特色">考点特色：</h4>
 <ul>
-<li>（Sec1）生活场景：旅游（机场、火车站、景点）、咨询（住房、工作、俱乐部）、银行、医疗</li>
-<li>（Sec3）学习场景：图书馆、论文作业、考前复习</li>
+<li><p>对于每一个论文，将摘要、标题、问题输入大模型，要求大模型预测的分类以及相应的解释。</p></li>
+<li><p>微调LM来从LLM生成的预测和解释中提取特征用于后续的GNN。</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141355323.png"
+alt="image-20250609141355323" />
+<figcaption aria-hidden="true">image-20250609141355323</figcaption>
+</figure>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141404895.png"
+alt="image-20250609141404895" />
+<figcaption aria-hidden="true">image-20250609141404895</figcaption>
+</figure></li>
+<li><p>大模型生成的预测使用独热编码，并线性变换拼接到特征向量中</p></li>
+<li><p>分别利用orig（原始文本）、expl（LLM生成的解释）、pred（LLM生成的预测）特征来训练GNN模型，平均后作为预测结果</p></li>
 </ul>
-<h4 id="学习方法">学习方法：</h4>
-<ul>
-<li>精听跟读：做题——对着听力原文放音，记录没听出来的单词，重复读</li>
-</ul>
-<h2 id="reading">Reading</h2>
-<h4 id="题型">题型：</h4>
-<p>3篇文章40道题60分钟</p>
-<p>单词、句子、段落、匹配</p>
-<h2 id="writing">Writing</h2>
-<h4 id="题型-1">题型：</h4>
-<ul>
-<li>Task 1：150词 线表饼柱图表说明</li>
-<li>Task 2：250词 议论文、说明文</li>
-</ul>
-<h4 id="评分标准">评分标准：</h4>
-<ul>
-<li>TR：回应任务</li>
-<li>CC：逻辑</li>
-<li>LR：词汇水平</li>
-<li>GRA：语法范围和准确度</li>
-</ul>
-<h4 id="学习方法-1">学习方法：</h4>
-<ul>
-<li><p>逻辑框架模板</p></li>
-<li><p>准确通顺，言之有物</p></li>
-</ul>
-<h2 id="speaking">Speaking</h2>
-<h4 id="题型-2">题型：</h4>
-<ul>
-<li>Part 1：5分钟 一般陌生人见面聊天场景</li>
-<li>Part 2：1+2分钟 根据提示卡片上的问题引导思考一分钟后独白</li>
-<li>Part 3：5分钟 根据话题深入互动对话</li>
-</ul>
-<h4 id="学习方法-2">学习方法：</h4>
-<p>背诵输入，句型为重，自然放松，逻辑沟通</p>
+<h2 id="结果">结果</h2>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609154424517.png"
+alt="image-20250609154424517" />
+<figcaption aria-hidden="true">image-20250609154424517</figcaption>
+</figure>
+<h1 id="复现">复现</h1>
+<h2 id="llm-direct">1 LLM Direct</h2>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250610002752820.png"
+alt="image-20250610002752820" />
+<figcaption aria-hidden="true">image-20250610002752820</figcaption>
+</figure>
 
       
     </div>
@@ -345,7 +408,7 @@ alt="image-20250701112706880" />
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/null-index/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/18/">18</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/12/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/null-index/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/17/">17</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/12/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -368,14 +431,14 @@ alt="image-20250701112706880" />
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">65k</span>
+    <span title="站点总字数">55k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:59</span>
+    <span title="站点阅读时长">1:40</span>
   </span>
 </div>
 
