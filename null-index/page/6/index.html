@@ -166,13 +166,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -206,7 +206,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2507.003v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2508.002v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -224,7 +224,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2507.003v1/" class="post-title-link" itemprop="url">论文阅读（综述）——Graph foundation models: Concepts, opportunities and challenges</a>
+          <a href="/posts/2508.002v1/" class="post-title-link" itemprop="url">论文阅读——PATTON : Language Model Pretraining on Text-Rich Networks</a>
         </h2>
 
         <div class="post-meta-container">
@@ -235,14 +235,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2025-07-14 00:00:00" itemprop="dateCreated datePublished" datetime="2025-07-14T00:00:00+08:00">2025-07-14</time>
+      <time title="创建时间：2025-08-04 00:00:00" itemprop="dateCreated datePublished" datetime="2025-08-04T00:00:00+08:00">2025-08-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-07-22 22:39:20" itemprop="dateModified" datetime="2025-07-22T22:39:20+08:00">2025-07-22</time>
+      <time title="修改时间：2025-08-07 23:26:07" itemprop="dateModified" datetime="2025-08-07T23:26:07+08:00">2025-08-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -269,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>9.7k</span>
+      <span>607</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>18 分钟</span>
+      <span>1 分钟</span>
     </span>
 </div>
 
@@ -287,274 +287,18 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10915556">Graph foundation models: Concepts, opportunities and challenges</a></p>
-<p><strong>通讯作者</strong>：Chuan Shi： <a href="mailto:&#x73;&#x68;&#x69;&#x63;&#104;&#117;&#x61;&#110;&#x40;&#x62;&#x75;&#x70;&#x74;&#46;&#x65;&#x64;&#x75;&#x2e;&#99;&#110;">shichuan@bupt.edu.cn</a></p>
-<p><strong>作者院校</strong>：北京邮电大学，新加坡管理大学，伊利诺伊大学芝加哥分校等</p>
-<p><strong>发表于</strong>：TPAMI 2025</p>
-<p><strong>代码仓库</strong>：无</p>
-<h1 id="论文内容"><a href="#论文内容" class="headerlink" title="论文内容"></a>论文内容</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>基础模型已成为各类人工智能应用中的核心组件，在自然语言处理及多个其他领域展现出显著成效。与此同时，图机器学习领域正在经历从浅层方法向复杂深度学习方法的范式转变。基础模型强大的泛化与适应能力，促使图机器学习研究者开始探讨发展新型图学习范式的可能性——该范式旨在通过海量图数据预训练出可适配多种图任务的通用模型。尽管这一新兴领域引发了广泛关注，但目前仍缺乏明确的定义界定与系统化的分析框架。</p>
-<p>为此，本文首次提出图基础模型（Graph Foundation Models, GFMs）的概念体系，并对其核心特征与支撑技术进行了全面阐释。我们依据模型对图神经网络与大语言技术的依赖程度，将现有研究成果划分为三大类型。除系统梳理GFMs研究现状外，本文还前瞻性地探讨了这一快速发展领域未来可能的研究路径。</p>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
-<li><p>基础模型具涌现性和通用性等特征，当下的基础模型能处理文本、图像、视频、音频等多模态输入。</p>
-</li>
-<li><p>图机器学习从随机游走、矩阵分解等浅层方法向深度学习转变，例如GNN引入消息传递机制在节点分类、链接预测、图分类和图聚类等任务中取得了显著成效，但在表达能力和泛化性方面仍有局限。</p>
-</li>
-<li><p>引出了对图基础模型（GFM）的研究，来实现在图领域的涌现性和泛化性。</p>
-<p><img src="/images/post_images/2025-07-14-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%EF%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%89%E2%80%94%E2%80%94Graph-foundation-models-Concepts,-opportunities-and-challenges/image-20250714200217665.png" alt="image-20250714200217665"></p>
-</li>
-</ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h3 id="图深度学习"><a href="#图深度学习" class="headerlink" title="图深度学习"></a>图深度学习</h3><h4 id="图数据特性"><a href="#图数据特性" class="headerlink" title="图数据特性"></a>图数据特性</h4><p>核心挑战源于：（1）其数据的非欧几里得性，在规模和形态上存在极大变异性。（2）不同领域的图数据具有不同的节点类型和边语义。（3）图数据包括同构图、异构图、超图和动态图等多种类型。</p>
-<h4 id="主干结构"><a href="#主干结构" class="headerlink" title="主干结构"></a>主干结构</h4><p>GNN是主流结构，大多数遵循消息传递框架。例如，图卷积网络GCN（Semi-supervised classification with graph convolutional networks），采用归纳学习的GraphSAGE（Inductiverepresentationlearning on large graphs），图注意力网络GAT（Graphattention networks）。</p>
-<p>但GNN深度增加会导致节点表征趋同以及信息过度压缩，改进方法包括DropEdge（Dropedge:Towardsdeepgraph convolutional networks on node classification）、图Transformer模型（Do transformers really perform badly for graph rep resentation?、Structure-awaretransformerfor graph representation learning、Rethinking graph transformers with spectral attention）等。</p>
-<h4 id="学习范式"><a href="#学习范式" class="headerlink" title="学习范式"></a>学习范式</h4><ul>
-<li>监督学习：利用带有输入数据和输出标签的训练数据集应用于图分类和图回归等问题，如分子属性预测。</li>
-<li>半监督学习：同时利用标记和未标记数据提升模型性能，如节点分类。</li>
-<li>无监督学习：图聚类通过节点关系识别结构，链接预测推断缺失连接。</li>
-</ul>
-<h3 id="语言基础模型"><a href="#语言基础模型" class="headerlink" title="语言基础模型"></a>语言基础模型</h3><h4 id="语言数据特性"><a href="#语言数据特性" class="headerlink" title="语言数据特性"></a>语言数据特性</h4><p>具结构化，更易建模；有知识迁移性，更易建立通用表征。</p>
-<h4 id="主干结构-1"><a href="#主干结构-1" class="headerlink" title="主干结构"></a>主干结构</h4><p>预训练语言模型——大语言模型（扩大模型参数量和训练数据量）</p>
-<h4 id="学习范式-1"><a href="#学习范式-1" class="headerlink" title="学习范式"></a>学习范式</h4><p>利用大规模标注数据集和无标注文本数据，执行（1）预训练-微调：首先作为语言模型学习预测文本数据的概率分布并通过微调使模型适配特定任务；（2）预训练-提示-预测：通过文本提示重构下游任务形式。</p>
-<h2 id="图基础模型"><a href="#图基础模型" class="headerlink" title="图基础模型"></a>图基础模型</h2><ul>
-<li><p>GFM定义：在大量图数据上预训练，并能适用于一系列下游图任务。</p>
-</li>
-<li><p>证明预训练（pre-training）加适应（adaptation）效果优于图深度学习：</p>
-<ul>
-<li>Graphprompt: Unifying pre training and downstream tasks for graph neural networks</li>
-<li>All in one: Multi-task prompting for graph neural networks</li>
-</ul>
-</li>
-<li><p>涌现性：体现在语境内学习、图推理、图生成等任务。但相关研究较少（如PRODIGY: Enabling in-context learning over graphs）。</p>
-</li>
-<li><p>通用性：体现在模型通用于多种任务，如节点分类、连接预测、图分类等，但难点在于如何协调表达各任务</p>
-</li>
-<li><p>预训练：</p>
-<ul>
-<li>对比自监督学习（正负样本）：Deep graph contrastive representation learning</li>
-<li>生成自监督学习（结构重建与预测）：Graphmae2:Adecoding-enhancedmaskedself-supervised graph learner</li>
-</ul>
-</li>
-<li><p>适应：</p>
-<ul>
-<li>普通微调(Vanilla FT)：在特定任务数据上训练整个预训练模型</li>
-<li>参数高效微调(Parameter-efficient FT）：调整模型参数的一个子集</li>
-</ul>
-</li>
-<li><p>GFM与LLM差异：语言模型专为处理欧几里得数据（文本）设计，而图模型则面向非欧几里得数据（图结构）或混合数据（如图属性），能捕捉更复杂的关联关系，但数据稀疏性显著，缺乏统一表征基础，图结构还可能呈现层次性、循环性等异质特征。</p>
-</li>
-</ul>
-<h2 id="类别一：GNN-BASED-MODELS"><a href="#类别一：GNN-BASED-MODELS" class="headerlink" title="类别一：GNN-BASED MODELS"></a>类别一：GNN-BASED MODELS</h2><h3 id="A-主干结构"><a href="#A-主干结构" class="headerlink" title="A. 主干结构"></a>A. 主干结构</h3><h4 id="基于消息传递的方法（MPNNs）："><a href="#基于消息传递的方法（MPNNs）：" class="headerlink" title="基于消息传递的方法（MPNNs）："></a>基于消息传递的方法（MPNNs）：</h4><p>每个节点从邻居节点聚合信息，处理后继续传递，形如：<br><img src="/images/post_images/2025-07-14-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%EF%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%89%E2%80%94%E2%80%94Graph-foundation-models-Concepts,-opportunities-and-challenges/image-20250717174948713.png" alt="image-20250717174948713"></p>
-<p>可以理解为：每个节点依靠上一层的本节点特征信息与各邻居节点和边的信息来更新。</p>
-<ul>
-<li><strong>GCN</strong>（图卷积网络）：通过局部一阶近似谱图卷积捕获图结构特征与编码节点属性。</li>
-<li><strong>GAT</strong>（图注意力网络）：采用注意力机制驱动的加权聚合策略。</li>
-<li><strong>GraphSAGE</strong>：采样固定规模的邻域节点子集，聚合处理这些采样邻居的嵌入表示进行学习。</li>
-<li><strong>HGT</strong>（异构图 transformer）：采用类型特异性参数来定义图中各边上的异构注意力。</li>
-<li><strong>GIN</strong>（图同构网络）：一种理论表达能力与1-WL图同构等价的基于消息传递的模型。</li>
-</ul>
-<p>基于消息传递的图神经网络更详细的综述：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.08271">2003.08271</a>，<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2105.07342">2105.07342</a>，<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/ielaam/34/10008914/9764632-aam.pdf">ieeexplore.ieee.org&#x2F;ielaam&#x2F;34&#x2F;10008914&#x2F;9764632-aam.pdf</a></p>
-<h4 id="基于图transformer的方法："><a href="#基于图transformer的方法：" class="headerlink" title="基于图transformer的方法："></a>基于图transformer的方法：</h4><p>GNN会遇到表达力有限、过平滑、过压缩等问题，因此图transformer受到关注，其利用注意力机制处理整张图。</p>
-<ul>
-<li><p><strong>GraphBERT</strong>：采用基于亲密度和跳数的相对位置编码来表示子图中节点的位置信息。</p>
-</li>
-<li><p><strong>GROVER</strong>：采用定向消息传递网络捕捉分子图的方向特性并区分不同类型的边。</p>
-</li>
-<li><p><strong>Graphormer</strong>：通过空间编码表征节点关系，将最短路径距离作为偏置项引入注意力机制。</p>
-</li>
-</ul>
-<p>关于图transformer更详细的综述：<a target="_blank" rel="noopener" href="https://openreview.net/forum?id=HhbqHBBrfZ">Attending to Graph Transformers | OpenReview</a></p>
-<h3 id="B-预训练"><a href="#B-预训练" class="headerlink" title="B. 预训练"></a>B. 预训练</h3><p>利用大量未标注的节点和图的数据进行自监督预训练。</p>
-<h4 id="基于对比学习的预训练方法："><a href="#基于对比学习的预训练方法：" class="headerlink" title="基于对比学习的预训练方法："></a>基于对比学习的预训练方法：</h4><p>对比式图预训练方法旨在最大化不同视图（局部、上下文或全局视角）间的互信息，使模型学习跨视图不变的语义特征。</p>
-<ul>
-<li><strong>同尺度对比学习</strong>：对相同层级的图视图进行对比，如GCC将节点的子图嵌入作为表征，将同一节点的不同子图视为正样本、不同节点的子图作为负样本，通过噪声对比估计(NCE)损失实现正样本对齐与负样本分离，从而捕捉通用模式。其他方法还有GraphCL、GRACE、MA-GCL、GCOPE、FUG等</li>
-<li><strong>跨尺度对比学习</strong>：对比不同层级的图视图，如DGI利用最大化节点嵌入与全图嵌入的互信息，同时最小化节点与扰动图嵌入的信息量，促使编码器捕获图的全局信息，但会忽略不同节点间的差异性特征。</li>
-</ul>
-<h4 id="基于生成的预训练方法："><a href="#基于生成的预训练方法：" class="headerlink" title="基于生成的预训练方法："></a>基于生成的预训练方法：</h4><p>旨在使图神经网络理解图数据的通用结构与属性语义，从而使其能够基于通用信息适配下游任务。但生成式方法的准确性和合理性仍需提升。</p>
-<ul>
-<li><strong>图重构方法</strong>：重建给定图的特定部分。如VGAE采用GCN作为编码器生成节点嵌入，然后通过节点嵌入的内积重构邻接矩阵。其他方法还有GPT-GNN、GraphMAE等。</li>
-<li><strong>属性预测方法</strong>：学习并预测图的深层特性。如GROVER要求模型预测局部子图中的上下文相关属性，将基元预测建模为多标签分类问题。</li>
-</ul>
-<h3 id="C-适应"><a href="#C-适应" class="headerlink" title="C. 适应"></a>C. 适应</h3><p>预训练所使用的任务一般与下游任务不一致，因此需要微调技术来使模型适应新任务。尽管微调方法已取得显著成效，但通常需要大量标注数据来调整模型参数，计算开销大。</p>
-<h4 id="微调："><a href="#微调：" class="headerlink" title="微调："></a>微调：</h4><p>利用预训练模型生成节点嵌入或图嵌入，随后微调外部任务特定层，使预训练模型能够泛化至下游任务。</p>
-<ul>
-<li><p>DGI和GRACE采用预训练编码器获取节点嵌入，再通过标注数据微调逻辑回归分类器以处理节点分类任务。</p>
-</li>
-<li><p>GPT-GNN利用标注数据微调下游任务特定解码器，引导预训练模型适配下游任务。</p>
-</li>
-<li><p>AdapterGNN在消息传递阶段前后设置并行适配器来修改输入图结构，此方法仅需微调新增参数。</p>
-</li>
-<li><p>G-Adapter使用面向图变换器的参数高效微调方法，通过消息传递将图结构融入微调过程。</p>
-</li>
-<li><p>G-TUNING使用基于图重构的GNN微调策略，保持生成模式并解决预训练与下游数据集间的结构差异。</p>
-</li>
-</ul>
-<h4 id="提示词调优："><a href="#提示词调优：" class="headerlink" title="提示词调优："></a>提示词调优：</h4><p>此方法避免全参数调整，在促进多任务适应与零样本学习方面展现出优势。</p>
-<ul>
-<li><p><strong>前提示方法</strong>：通过改造输入图的拓扑结构或节点特征来辅助下游任务，或构建提示图增强模型适应性。例如AAGOD使用以数据为中心的操作方法，通过在原始输入图的邻接矩阵上叠加可学习的提示放大器。其他方法还有All In One、GPF、PRODIGY、IGAP、TPP等</p>
-</li>
-<li><p><strong>后提示方法</strong>：在消息传递后的表征上应用任务特定提示。例如GPPT采用提示函数生成每个类别的标记对，将节点分类任务转化为链接预测。其他方法还有GraphPrompt、GraphPrompt+、ProNoG等。</p>
-</li>
-</ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>基于图神经网络的模型能有效处理图结构数据、训练成本低、资源利用率高，通过图中标签信息的传播，在标注数据稀缺时仍保持较强泛化能力。针对异质图（CPT-HG）、超图（PhyGCN）、时序图（GraphST）等复杂图数据也有相应研究。</p>
-<p>但这类模型文本建模能力薄弱，难以充分挖掘节点&#x2F;边关联文本属性的丰富语义信息，且通用知识整合能力受限，在需要跨域泛化或常识推理的任务中表现受限。</p>
-<h2 id="类别二：LLM-BASED-MODELS"><a href="#类别二：LLM-BASED-MODELS" class="headerlink" title="类别二：LLM-BASED MODELS"></a>类别二：LLM-BASED MODELS</h2><p>将LLM作为主干有以下显著优势：在图数据中有效融合文本信息；利用自然语言处理多种图学习任务；实现图推理。遇到的核心问题在于如何实现图数据与自然语言的对齐，以使LLM能够理解图结构。</p>
-<h3 id="A-主干结构-1"><a href="#A-主干结构-1" class="headerlink" title="A. 主干结构"></a>A. 主干结构</h3><p>由于LLM最初以词元（token）作为输入，要实现图结构信息的细粒度建模较难，主要含图到词元和图到文本两种方法，其区别在于是否使用额外编码器（图到词元方法需要借助编码器为每个节点生成嵌入级表示）。</p>
-<h4 id="图到词元（graph-to-token）："><a href="#图到词元（graph-to-token）：" class="headerlink" title="图到词元（graph-to-token）："></a>图到词元（graph-to-token）：</h4><p>将图数据序列化为词元，并解决图结构信息的编码问题，一般使用开源大语言模型作为主干模型。</p>
-<ul>
-<li>**GIMLET：**结合广义位置嵌入和基于指令的预训练，使大语言模型能同时处理图与文本数据。</li>
-<li>**Meta-Transformer：**提出了支持图数据、文本和图像等多模态数据的Transformer架构。</li>
-<li>**InstructGLM：**采用预训练-适应框架，引入大语言模型增强文本处理能力。将图中固有的节点特征向量作为独特词元扩展至大语言模型的词表。</li>
-</ul>
-<h4 id="图到文本（graph-to-text）："><a href="#图到文本（graph-to-text）：" class="headerlink" title="图到文本（graph-to-text）："></a>图到文本（graph-to-text）：</h4><p>采用自然语言描述图信息，可使用任何大语言模型作为主干。但当前阶段的提示词使用方法难以有效挖掘图数据的底层结构特征。</p>
-<ul>
-<li><p>**NLGraph：**系统评估了大语言模型在八种图推理任务中的表现，并测试了自然语言形式下的经典图神经网络任务。基于边列表描述方法，印证了该方式在处理复杂图问题时的局限性。</p>
-</li>
-<li><p>**TextForGraph：**设计了完整文本与精简文本两种提示词格式描述图信息，压缩了提示长度。</p>
-</li>
-<li><p>**When&amp;Why：**使用多风格提示词设计提供了结构化数据处理方法。</p>
-</li>
-<li><p>**GraphWiz：**针对环路检测、子图匹配等不同图任务定制了专属提示词方案。</p>
-</li>
-<li><p>**GPT4Graph：**创新性地提出混合提示工程方法，将人工构建提示词（边列表、邻接表等）与模型自生成提示词（图摘要、邻域汇总等）相结合。研究证实，自生成提示能更有效帮助大语言模型理解图结构。</p>
-</li>
-<li><p>**Graph-LLM：**进一步支持GPT4Graph的结论，指出邻域汇总是现有提示词工程中最有效的技术。</p>
-</li>
-</ul>
-<h3 id="B-预训练-1"><a href="#B-预训练-1" class="headerlink" title="B. 预训练"></a>B. 预训练</h3><p>基于大语言模型的图学习方法主要采用<em>LM</em>与<em>MLM</em>。</p>
-<h4 id="语言建模（LM）："><a href="#语言建模（LM）：" class="headerlink" title="语言建模（LM）："></a>语言建模（LM）：</h4><p>本质上可归结为对下一个词概率分布的预测问题，通过在大规模语料上采用最大似然估计（MLE）训练网络，可有效学习这些概率。然而单向语言模型的缺陷在于上下文信息仅依赖于左侧上文及词元本身，若要获得更具鲁棒性的文本上下文表征，则需要同时捕获前向与后向的上下文信息。</p>
-<h4 id="掩码语言建模（MLM）："><a href="#掩码语言建模（MLM）：" class="headerlink" title="掩码语言建模（MLM）："></a>掩码语言建模（MLM）：</h4><p>随机遮蔽输入句子中的特定词元，要求模型通过分析上下文预测被遮蔽内容，该任务常被称作完形填空任务。MLM存在预训练-微调阶段割裂的问题——由于微调阶段不出现掩码标记，导致两阶段目标不一致。</p>
-<h3 id="C-适应-1"><a href="#C-适应-1" class="headerlink" title="C. 适应"></a>C. 适应</h3><p>无论是图到词元还是图到文本方法，都配备了特定的适应技术以增强大语言模型对图数据的理解能力。从提示词工程的角度将这些适应策略分为两类：人工型与自动型。</p>
-<h4 id="人工提示型："><a href="#人工提示型：" class="headerlink" title="人工提示型："></a>人工提示型：</h4><p>采用人工设计的前缀式提示模板。</p>
-<ul>
-<li><p>**LLMtoGraph、NLGraph：**整合节点列表、边列表及其他自然语言描述的图属性，构建复合型提示模板。</p>
-</li>
-<li><p>**GPT4Graph：**采用边列表、邻接表等多种描述语言表示图数据。</p>
-</li>
-<li><p>**InstructGLM：**创新性地采用指令式提示设计以中心节点为核心的图描述集，并结合任务专属描述。</p>
-</li>
-</ul>
-<h4 id="自动提示型："><a href="#自动提示型：" class="headerlink" title="自动提示型："></a>自动提示型：</h4><p>采用大语言模型自动生成的提示模板进行适应性优化。</p>
-<ul>
-<li><p>**GPT4Graph：**采用图摘要（提取关键特征或目标节点邻域信息生成图结构概要）、图探索（自动生成查询序列以检索图信息）和图补全（构建部分图结构后引导模型完成缺失部分）这三种自生成提示。</p>
-</li>
-<li><p>**Graph-LLM：**采用邻域摘要形式的自动提示。</p>
-</li>
-</ul>
-<h3 id="D-讨论"><a href="#D-讨论" class="headerlink" title="D.讨论"></a>D.讨论</h3><ul>
-<li><p>除提示工程外，还存在多种基于微调的适应方法，包括常规微调（Vanilla Fine-Tuning）、中间层微调（IFT）、多任务微调（MTFT）以及参数高效微调（Parameter Efficient Fine-Tuning）。尽管这些方法尚未应用于图任务，但它们为预训练模型的下游适配提供了有效途径。我们预期未来研究将探索这些适应方法与图任务的结合，进一步推动图基础模型的发展。</p>
-</li>
-<li><p>当前将LLM作为图学习主干的方法存在固有局限：1）难以有效处理描述图结构所需的<strong>长文本信息</strong>；2）无法通过图链接实现<strong>多跳逻辑推理</strong>；3）对高连通图的<strong>拓扑结构</strong>捕捉能力不足；4）难以适应随时间演化的动态图特性。</p>
-</li>
-<li><p>图到文本方法受限于LLM的输入长度，而图到词元方法虽能通过单节点单词元映射处理大规模图数据，却需承担更高计算成本。</p>
-</li>
-<li><p>未来研究方向应包括：1）增强LLM对节点特征与拓扑结构等图关键信息的<strong>理解效率</strong>；2）开发结构化图建模技术，弥补自然语言描述与图数据完整信息间的语义鸿沟；3）拓展应用场景，如<strong>LLM4DYG已探索时态图应用</strong>，但超图和异构图等复杂图类型仍有待开发。</p>
-</li>
-</ul>
-<h2 id="类别三：GNN-LLM-BASED-MODELS"><a href="#类别三：GNN-LLM-BASED-MODELS" class="headerlink" title="类别三：GNN+LLM-BASED MODELS"></a>类别三：GNN+LLM-BASED MODELS</h2><p>GNN缺乏文本处理能力，LLM无法执行精确数学运算、难以处理多跳逻辑推理，将两者进行整合有望开发出更全面、更强大的模型。</p>
-<h3 id="A-主干结构-2"><a href="#A-主干结构-2" class="headerlink" title="A. 主干结构"></a>A. 主干结构</h3><p><img src="/images/post_images/2025-07-14-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%EF%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%89%E2%80%94%E2%80%94Graph-foundation-models-Concepts,-opportunities-and-challenges/image-20250722162852718.png" alt="image-20250722162852718"></p>
-<h4 id="以图神经网络为核心的方法："><a href="#以图神经网络为核心的方法：" class="headerlink" title="以图神经网络为核心的方法："></a>以图神经网络为核心的方法：</h4><p>利用LLM从原始数据中提取节点特征，并通过GNN进行预测。</p>
-<ul>
-<li><p>**GraD：**使用PEFT在TAG数据集上微调，移除头部层后获得微调后的节点表征，继而训练GNN。</p>
-</li>
-<li><p>**TAPE：**针对ChatGPT等无法直接获取嵌入的LLM，通过文本交互生成排序预测列表与解释，再微调语言模型将原始文本与LLM生成的预测特征转化为节点特征供下游GNN使用。</p>
-</li>
-<li><p>**GIANT：**采用图结构感知的自监督学习方法微调语言模型，使文本表征包含图结构信息。</p>
-</li>
-<li><p>**WTGIA：**专注于文本级图注入攻击，提升攻击的可解释性与实际应用性。</p>
-</li>
-<li><p><strong>GALM：</strong> 研究文本与图数据的联合预训练方法，特别针对富含文本的大规模异质图。</p>
-</li>
-<li><p>**OFA：**提出用自然语言描述节点&#x2F;边的文本属性图，通过语言模型统一至共同嵌入空间。</p>
-</li>
-<li><p>**Heterformer：**在Transformer层中同步编码节点文本与异质结构信息。</p>
-</li>
-<li><p><strong>Edgeformers：</strong> 基于图增强Transformer，通过边关联文本的上下文建模进行边&#x2F;节点表征学习。</p>
-</li>
-<li><p><strong>LLMRec：</strong> 采用三种LLM图增强技术改进推荐系统，解决隐式反馈稀疏与辅助信息低质问题。</p>
-</li>
-<li><p>**WalkLM：**通过属性随机游走生成近似有意义的文本序列，微调语言模型后提取同时捕获属性语义与图结构的嵌入向量。</p>
-</li>
-<li><p><strong>TOUCHUP-G：</strong> 增强预训练模型的节点特征用于下游图任务，但现有多路GNN的节点属性初始化方法难以完整捕获关联文本语义。</p>
-</li>
-<li><p>**METERN：**使用单一文本编码器建模关系间共享知识，辅以少量关系特定参数生成定制化表征。</p>
-</li>
-<li><p><strong>LLM-GNN：</strong> 构建无标签流程，利用LLM生成标注并为GNN提供训练信号。</p>
-</li>
-</ul>
-<h4 id="对称式方法："><a href="#对称式方法：" class="headerlink" title="对称式方法："></a>对称式方法：</h4><p>通过对齐GNN与LLM的嵌入空间以优化预测或下游任务性能，对称式方法通过协同机制获取结构感知的文本特征。</p>
-<ul>
-<li><p>**GraphFormer：**将文本嵌入与图聚合融合为迭代流程，相连节点会在分层GNN组件中进行信息交换，使各节点融合邻域信息。但该方法存在可扩展性问题。</p>
-</li>
-<li><p>**GLEM：**采用变分EM框架交替更新LLM与GNN，LLM捕捉局部文本属性的节点标签分布，GNN预测表征全局条件标签分布，缓解可扩展性问题。</p>
-</li>
-<li><p>**G2P2：**基于三种图交互对比策略预训练图-文本联合模型，进而探索下游任务的提示学习。</p>
-</li>
-<li><p>**ENGINE：**通过可调节侧边结构整合LLM与GNN，显著降低训练复杂度同时保持模型能力。</p>
-</li>
-<li><p>**PATTON：**提出两种预训练策略：网络语境化掩码语言建模与掩码节点预测，以捕获文本属性与网络结构的固有关联。</p>
-</li>
-<li><p>**OpenGraph：**开发灵活的基础图模型，通过理解异构图数据的复杂拓扑模式，在零样本图学习任务中表现优异。</p>
-</li>
-<li><p>**RLMRec：**通过语义空间对齐与协同关系建模，结合LLM提升推荐系统的表征学习能力。</p>
-</li>
-</ul>
-<h4 id="以LLM为核心的方法："><a href="#以LLM为核心的方法：" class="headerlink" title="以LLM为核心的方法："></a>以LLM为核心的方法：</h4><ul>
-<li>**GraphTranslator：**采用图模型高效处理预定义任务，并利用LLM的扩展接口支持图模型的开放式任务。</li>
-<li>**GraphGPT：**通过图指令微调将图结构知识注入LLM，使其理解复杂图结构并提升跨数据集与任务的适应性。</li>
-<li>**THLM：**提出融合文本属性异构图拓扑与异构信息的预训练框架，显式增强语言模型的图感知能力。</li>
-<li>**GraphPrompter：**通过软提示实现图信息与LLM的对齐。</li>
-<li>**InstructGraph：**结合指令微调与偏好对齐，赋予LLM图推理与生成能力。</li>
-<li>**TEA-GLM：**先通过对比学习预训练GNN捕获图结构与语义信息，再经线性投影器将GNN表征转化为统一的任务指令输入LLM，实现无需微调的跨数据集与跨任务泛化。</li>
-<li>**G-Retriever：**提出面向现实文本图的检索增强生成框架，通过对话式接口实现问答功能，有效缓解幻觉问题并支持大规模图的高效扩展。</li>
-</ul>
-<h3 id="B-预训练-2"><a href="#B-预训练-2" class="headerlink" title="B. 预训练"></a>B. 预训练</h3><p>GNN加LLM的方法可以同时在文本数据和图数据上进行训练，分为基于GNN或LLM的方法和基于对齐的方法。</p>
-<ul>
-<li><p>**SimTeG：**融合了文本-文本对比学习（TTCL）技术，利用了预训练阶段某些文本对比随机选取的文本对具有更高语义相似性的特性。</p>
-</li>
-<li><p>**GALM：**在大规模图数据集上进行图重构预训练，从而将图结构信息有效整合到预训练语言模型中。</p>
-</li>
-</ul>
-<h3 id="C-适应-2"><a href="#C-适应-2" class="headerlink" title="C. 适应"></a>C. 适应</h3><p>除少数研究在零样本任务上测试模型性能外，大多数情况下模型都需要进行适配。适配策略分为两大类：微调与提示调优。</p>
-<h4 id="微调方法："><a href="#微调方法：" class="headerlink" title="微调方法："></a>微调方法：</h4><p>常规微调需要调整大量模型参数，存在计算密集和资源消耗大的问题。参数高效微调方法则实现了更高效节能的下游任务适配。例如利用分子图-文本配对数据对齐GNN与LLM的嵌入空间，针对TAGs进行分类任务调优，通过生成文本标注或描述来适配下游任务。</p>
-<h4 id="提示调优方法："><a href="#提示调优方法：" class="headerlink" title="提示调优方法："></a>提示调优方法：</h4><ul>
-<li><p>**G2P2：**通过提示调优自动优化提示模板，仅需少量标注数据即可高效适配下游任务。</p>
-</li>
-<li><p>**TAPE：**充分利用语言模型的内生能力，无需额外微调或参数调整，仅依赖模型预训练知识即可生成文本输出。</p>
-</li>
-</ul>
-<h3 id="D-讨论-1"><a href="#D-讨论-1" class="headerlink" title="D.讨论"></a>D.讨论</h3><ul>
-<li><p>将LLM与GNN对齐到统一表征空间仍具挑战性，为解决这一问题，需建立衡量两者表征对齐程度的标准。</p>
-</li>
-<li><p>现有研究已开始将GNN+LLM方法拓展至异质图与超图领域，如HiGPT提出了情境感知的异质图标记器与异质性感知指令微调框架，GHGRL利用LLM自动归纳和分类异质图数据的多格式多类型数据，Hyper-BERT添加超图感知层来增强预训练BERT模型用于节点分类任务。</p>
-</li>
-</ul>
-<h2 id="挑战与展望"><a href="#挑战与展望" class="headerlink" title="挑战与展望"></a>挑战与展望</h2><h3 id="A-数据与评估面临的挑战"><a href="#A-数据与评估面临的挑战" class="headerlink" title="A.  数据与评估面临的挑战"></a>A.  数据与评估面临的挑战</h3><h4 id="数据评估与质量："><a href="#数据评估与质量：" class="headerlink" title="数据评估与质量："></a>数据评估与质量：</h4><p>数据规模与质量的提升是基础模型效能提升的关键因素，而当前开源大规模图<strong>数据仍较为有限</strong>，各数据集多集中于单一领域，且有噪声、不完整或未经妥善处理的数据将影响图基础模型的性能。研究者已从图结构学习、特征补全、标签混合等多角度提出<strong>数据增强策略</strong>。然而现有数据增强技术多针对单一GNN模型设计，如何<strong>面向基于LLM或”GNN+LLM”架构的模型进行有效图数据增强</strong>仍需探索。</p>
-<h4 id="评估体系："><a href="#评估体系：" class="headerlink" title="评估体系："></a><strong>评估体系</strong>：</h4><p>开放式任务缺乏标准标签，如何<strong>评估图基础模型在开放式任务</strong>中的性能成为难题。在语言基础模型领域，对开放式任务的评估已从人工评估发展到元评估，现有LLM评估方法是否适用于图基础模型仍有待验证。此外，还需对图基础模型的鲁棒性、可信度及综合性能进行系统评估。</p>
-<h3 id="B-模型相关挑战"><a href="#B-模型相关挑战" class="headerlink" title="B. 模型相关挑战"></a>B. 模型相关挑战</h3><h4 id="模型架构："><a href="#模型架构：" class="headerlink" title="模型架构："></a>模型架构：</h4><ul>
-<li><p>在骨干架构方面，近期研究提出的超越Transformer的架构已展现出更优性能或可解释性，但这些架构能否处理图数据仍是未知数。</p>
-</li>
-<li><p><strong>在GNN+LLM联合模型中，如何更有效地对齐二者输出值得探索。</strong></p>
-</li>
-<li><p>面对异质图、时序图、超图等多元图结构，设计能处理多类图数据的GFM是重要研究方向，例如使用专家混合模型。</p>
-</li>
-<li><p>探索如何利用GNN扩展多模态基础模型的模态覆盖范围或增强多模态学习能力是颇具价值的研究方向。</p>
-</li>
-</ul>
-<h4 id="模型训练："><a href="#模型训练：" class="headerlink" title="模型训练："></a>模型训练：</h4><ul>
-<li><p>设计合适的预训练任务至关重要，针对不同GFM架构已衍生出多样化的预训练任务形式。各类预训练任务是否存在适用边界、未来是否会出现统一范式都值得深入研究。</p>
-</li>
-<li><p>如何使图基础模型支持跨域数据仍待研究。现有研究或采用多领域数据作为预训练输入，或通过LLM嵌入、条件生成和零样本迁移等方法实现跨域适应。除本文涉及的微调与提示学习外，知识蒸馏、人类反馈强化学习和模型编辑等技术在提升效率或更新知识方面具有潜力。</p>
-</li>
-</ul>
-<h3 id="C-应用层面挑战"><a href="#C-应用层面挑战" class="headerlink" title="C.应用层面挑战"></a>C.应用层面挑战</h3><h4 id="杀手级应用："><a href="#杀手级应用：" class="headerlink" title="杀手级应用："></a>杀手级应用：</h4><ul>
-<li><p>图基础模型能否在图任务中催生突破性应用尚未可知，对于适合图神经网络应用的场景潜在研究方向包括：结合LLMs的图模型以更好支持开放式任务，或通过图学习技术增强LLMs的推理能力。</p>
-</li>
-<li><p>传统交通预测技术多集中于出行需求预测和交通流量预测等单一任务，缺乏对交通系统的整体认知。将交通系统视为时空图时，图基础模型可捕捉参与者的行为模式，从而为城市计算问题提供统一解决方案。</p>
-</li>
-</ul>
-<h4 id="可信度问题："><a href="#可信度问题：" class="headerlink" title="可信度问题："></a>可信度问题：</h4><ul>
-<li>LLM的黑箱特性引发了幻觉输出和隐私泄露等安全隐患，近期工作指出，预训练GNNs同样存在公平性和抗攻击鲁棒性方面的可信风险。鉴于图数据的特殊性，需采用置信度校准或反事实推理等技术防范GFMs的安全风险。此外，GNN和LLM均存在的隐私风险使得GFMs的隐私增强成为关键议题，联邦学习、RLHF和红队测试等方案的应用可行性尚待验证。</li>
-<li>现实场景中的图数据常面临噪声、类别不平衡、数据残缺和多模态特征等挑战，如何利用非常规图数据构建GFMs或适配现有模型，将成为未来研究的重点方向。</li>
-</ul>
+          <h1 id="论文概况"><a href="#论文概况" class="headerlink" title="论文概况"></a>论文概况</h1><p><strong>题目</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.12268">PATTON : Language Model Pretraining on Text-Rich Networks</a></p>
+<p><strong>通讯作者</strong>：Jiawei Han： <a href="mailto:&#104;&#x61;&#110;&#106;&#64;&#x69;&#108;&#x6c;&#105;&#110;&#111;&#105;&#115;&#x2e;&#101;&#x64;&#x75;">hanj@illinois.edu</a></p>
+<p><strong>作者院校</strong>：伊利诺伊大学厄巴纳-香槟分校</p>
+<p><strong>发表于</strong>：ACL 2023</p>
+<p><strong>代码仓库</strong>：<a target="_blank" rel="noopener" href="https://github.com/PeterGriffinJin/Patton">PeterGriffinJin&#x2F;Patton: Patton: Language Model Pretraining on Text-rich Networks (ACL 2023 main oral)</a></p>
+<h1 id="论文内容"><a href="#论文内容" class="headerlink" title="论文内容"></a>论文内容</h1><h2 id="概括总结"><a href="#概括总结" class="headerlink" title="概括总结"></a>概括总结</h2><p>目前缺乏对<strong>富文本网络</strong>（文本文档以及文档之间的语义关联）的预训练方法，PATTON则提出<strong>网络上下文掩码语言建模</strong>（节点中随机掩码部分 token，训练语言模型基于节点内部 token 和网络邻居的 token 预测被掩码的 token）和<strong>掩码节点预测</strong>（随机掩码部分网络中节点，训练语言模型基于邻居的文本信息正确识别被掩码的节点）以捕捉文本属性与网络结构之间的内在依赖关系。</p>
+<p>PATTON 采用GNN 嵌套 Transformer 架构，首先通过 GNN 模块聚合节点邻居的 [CLS] 隐藏状态，然后将节点自身隐藏状态与邻居聚合状态拼接，随后通过不对称多头注意力和前馈网络更新隐藏状态。PATTON 统一使用最后一层 [CLS] token 的隐藏状态作为文本表示，适配下游任务。</p>
+<p><img src="/images/post_images/2025-08-04-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94PATTON--Language-Model-Pretraining-on-Text-Rich-Networks/image-20250805201819304.png" alt="image-20250805201819304"></p>
+<ol>
+<li>面向文本丰富网络上的语言模型预训练问题，相较基线取得一定提升。</li>
+<li>下游任务局限于分类、检索等，未扩展到摘要、问答等生成式任务。</li>
+</ol>
 
       
     </div>
@@ -574,7 +318,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/null-index/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/15/">15</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/null-index/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/18/">18</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -597,14 +341,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">45k</span>
+    <span title="站点总字数">60k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:22</span>
+    <span title="站点阅读时长">1:49</span>
   </span>
 </div>
 
