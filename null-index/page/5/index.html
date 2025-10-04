@@ -172,7 +172,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2508.002v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2508.003v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2508.002v1/" class="post-title-link" itemprop="url">论文阅读——PATTON : Language Model Pretraining on Text-Rich Networks</a>
+          <a href="/posts/2508.003v1/" class="post-title-link" itemprop="url">论文阅读——ST-LLM+: Graph Enhanced Spatio-Temporal Large Language Models for Traffic Prediction</a>
         </h2>
 
         <div class="post-meta-container">
@@ -241,14 +241,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2025-08-04 00:00:00" itemprop="dateCreated datePublished" datetime="2025-08-04T00:00:00+08:00">2025-08-04</time>
+      <time title="创建时间：2025-08-05 00:00:00" itemprop="dateCreated datePublished" datetime="2025-08-05T00:00:00+08:00">2025-08-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-08-07 23:26:07" itemprop="dateModified" datetime="2025-08-07T23:26:07+08:00">2025-08-07</time>
+      <time title="修改时间：2025-08-07 23:44:45" itemprop="dateModified" datetime="2025-08-07T23:44:45+08:00">2025-08-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -275,7 +275,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>682</span>
+      <span>490</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -295,34 +295,28 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="论文概况">论文概况</h1>
 <p><strong>题目</strong>：<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.12268">PATTON : Language Model
-Pretraining on Text-Rich Networks</a></p>
-<p><strong>通讯作者</strong>：Jiawei Han： hanj@illinois.edu</p>
-<p><strong>作者院校</strong>：伊利诺伊大学厄巴纳-香槟分校</p>
-<p><strong>发表于</strong>：ACL 2023</p>
+target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/abstract/document/11005661/">ST-LLM+:
+Graph Enhanced Spatio-Temporal Large Language Models for Traffic
+Prediction</a></p>
+<p><strong>通讯作者</strong>：Rui Zhao： zhaorui@sensetime.com</p>
+<p><strong>作者院校</strong>：南洋理工大学等</p>
+<p><strong>发表于</strong>：KDE 2025</p>
 <p><strong>代码仓库</strong>：<a
-target="_blank" rel="noopener" href="https://github.com/PeterGriffinJin/Patton">PeterGriffinJin/Patton:
-Patton: Language Model Pretraining on Text-rich Networks (ACL 2023 main
-oral)</a></p>
+target="_blank" rel="noopener" href="https://github.com/kethmih/ST-LLM-Plus">ST-LLM+ : Graph Enhanced
+Spatio-Temporal Large Language Models for Traffic Prediction</a></p>
 <h1 id="论文内容">论文内容</h1>
 <h2 id="概括总结">概括总结</h2>
-<p>目前缺乏对<strong>富文本网络</strong>（文本文档以及文档之间的语义关联）的预训练方法，PATTON则提出<strong>网络上下文掩码语言建模</strong>（节点中随机掩码部分
-token，训练语言模型基于节点内部 token 和网络邻居的 token 预测被掩码的
-token）和<strong>掩码节点预测</strong>（随机掩码部分网络中节点，训练语言模型基于邻居的文本信息正确识别被掩码的节点）以捕捉文本属性与网络结构之间的内在依赖关系。</p>
-<p>PATTON 采用GNN 嵌套 Transformer 架构，首先通过 GNN 模块聚合节点邻居的
-[CLS]
-隐藏状态，然后将节点自身隐藏状态与邻居聚合状态拼接，随后通过不对称多头注意力和前馈网络更新隐藏状态。PATTON
-统一使用最后一层 [CLS] token 的隐藏状态作为文本表示，适配下游任务。</p>
+<p>提出了用于交通预测的图增强型时空大型语言模型
+ST-LLM+，利用部分冻结图注意力技术，将从交通网络中导出的空间位置邻接矩阵整合到经过校准的大型语言模型中，从而捕捉交通网络中复杂的时空依赖关系。</p>
 <figure>
 <img
-src="/images/post_images/2025-08-04-论文阅读——PATTON--Language-Model-Pretraining-on-Text-Rich-Networks/image-20250805201819304.png"
-alt="image-20250805201819304" />
-<figcaption aria-hidden="true">image-20250805201819304</figcaption>
+src="/images/post_images/2025-08-05-论文阅读——ST-LLM+-Graph-Enhanced-Spatio-Temporal-Large-Language-Models-for-Traffic-Prediction/image-20250805202102483.png"
+alt="image-20250805202102483" />
+<figcaption aria-hidden="true">image-20250805202102483</figcaption>
 </figure>
-<ol type="1">
-<li>面向文本丰富网络上的语言模型预训练问题，相较基线取得一定提升。</li>
-<li>下游任务局限于分类、检索等，未扩展到摘要、问答等生成式任务。</li>
-</ol>
+<p>将LLM 的前 F 层冻结，保留预训练阶段学习的全局依赖知识；后 U
+层解冻并引入图注意力，通过邻接矩阵作为注意力掩码，建模交通领域特有的局部空间依赖。然后使用LoRA对
+LLM 的注意力层进行微调保持场景适应性。</p>
 
       
     </div>
@@ -342,7 +336,7 @@ alt="image-20250805201819304" />
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/null-index/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/17/">17</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/null-index/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/18/">18</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -365,14 +359,14 @@ alt="image-20250805201819304" />
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">55k</span>
+    <span title="站点总字数">63k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:40</span>
+    <span title="站点阅读时长">1:54</span>
   </span>
 </div>
 

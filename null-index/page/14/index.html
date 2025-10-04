@@ -172,7 +172,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2505.003v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2505.004v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2505.003v1/" class="post-title-link" itemprop="url">论文阅读（综述）——Jailbreak Attacks and Defenses Against Large Language Models: A Survey</a>
+          <a href="/posts/2505.004v1/" class="post-title-link" itemprop="url">论文阅读——Don’t Say No: Jailbreaking LLM by Suppressing Refusal</a>
         </h2>
 
         <div class="post-meta-container">
@@ -240,15 +240,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2025-05-24 00:00:00" itemprop="dateCreated datePublished" datetime="2025-05-24T00:00:00+08:00">2025-05-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-06-01 00:21:19" itemprop="dateModified" datetime="2025-06-01T00:21:19+08:00">2025-06-01</time>
+      <time title="创建时间：2025-05-26 00:00:00 / 修改时间：23:01:07" itemprop="dateCreated datePublished" datetime="2025-05-26T00:00:00+08:00">2025-05-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -275,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>18k</span>
+      <span>2.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>33 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -295,631 +289,220 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="论文概况">论文概况</h1>
 <p><strong>题目</strong>：<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2407.04295">Jailbreak Attacks and Defenses
-Against Large Language Models: A Survey</a></p>
-<p><strong>通讯作者</strong>：Qi Li：qli01@tsinghua.edu.cn</p>
-<p><strong>作者院校</strong>：清华大学、香港科技大学（广州）</p>
+href="%5B2404.16369%5D(https://arxiv.org/pdf/2404.16369)">Don’t Say No:
+Jailbreaking LLM by Suppressing Refusal</a></p>
+<p><strong>通讯作者</strong>：Wenjie
+Wang：wangwj1@shanghaitech.edu.cn</p>
+<p><strong>作者院校</strong>：上海科技大学、中国科学技术大学、浙江大学</p>
 <p><strong>发表于</strong>：arXiv</p>
-<h1 id="摘要">摘要</h1>
-<p>大模型在问答、翻译、代码完成等文本生成任务上表现优异，但存在大模型“越狱”挑战：使用对抗提示词诱导模型生成恶意回复。本文对越狱攻击和防御提出详细的分类，并对现有方法进行多角度对比。</p>
-<h1 id="介绍">1 介绍</h1>
+<h1 id="论文内容">论文内容</h1>
+<h2 id="研究背景与问题">1 研究背景与问题</h2>
+<h3 id="llm安全对齐的挑战">1.1 LLM安全对齐的挑战</h3>
+<p>大型语言模型（LLMs）通过RLHF、模型微调等技术实现安全对齐，但仍面临越狱攻击（Jailbreaking）威胁，攻击者通过精心设计的输入诱导模型生成有害内容。这样的传统方法存在限制，现有方法（如GCG）通过优化对抗后缀最大化肯定响应（如“Sure,
+here is…”），但存在两大问题：</p>
+<ol type="1">
+<li><p><strong>Token
+Shift现象</strong>：损失函数平均计算所有token的损失，忽略前几个关键token的重要性。</p></li>
+<li><p><strong>拒绝抑制不足</strong>：未显式抑制模型的拒绝响应（如“I
+cannot assist”）。</p></li>
+</ol>
+<h3 id="现有评估方法的缺陷">1.2 现有评估方法的缺陷</h3>
 <ul>
-<li><p>LLM拥有理解和生成文本的能力的原因是其在大量数据上训练并且在参数扩展后涌现的智能。（<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2206.07682">Emergent Abilities of Large
-Language Models</a>）</p></li>
-<li><p>因为存在有害数据，模型会经历严格的安全对齐。（<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2307.09288">Llama 2: OpenFoundation and
-Fine-Tuned Chat Models</a>）</p></li>
-<li><p>大模型易受越狱攻击，导致隐私泄露、错误信息传播、操纵自动化系统。</p></li>
-<li><p>核心贡献：系统化分类越狱攻击和防御，分析攻击防御方法的生效关系，调查了现有的评估标准。</p></li>
-</ul>
-<p><img src="/images/post_images/2025-05-24-论文阅读——Jailbreak-Attacks-and-Defenses-Against-Large-Language-Models-A-Survey/image-20250524163035337.png" alt="image-20250524163035337" style="zoom:50%;" /></p>
-<p><img src="/images/post_images/2025-05-24-论文阅读——Jailbreak-Attacks-and-Defenses-Against-Large-Language-Models-A-Survey/image-20250524163045133.png" alt="image-20250524163045133" style="zoom:50%;" /></p>
-<h1 id="相关工作">2 相关工作</h1>
-<ul>
-<li>理论讨论模型脆弱性：
-<ul>
-<li><a
-target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/iel7/6287639/10005208/10198233.pdf">From
-ChatGPT to ThreatGPT: Impact of Generative AI in Cybersecurity and
-Privacy</a></li>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2311.14876">Exploiting Large Language
-Models (LLMs) through Deception Techniques and Persuasion
-Principles</a></li>
-<li><a
-target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/pii/S266729522400014X">A
-survey on large language model (llm) security and privacy: The good, the
-bad, and the ugly</a></li>
-</ul></li>
-<li>经验性复现并比较越狱攻击方法：
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.05668">Comprehensive
-Assessment of Jailbreak Attacks Against LLMs</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.13860">Jailbreaking ChatGPT
-via Prompt Engineering: An Empirical Study</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2206.07682">Emergent Abilities of
-Large Language Models</a></p></li>
-</ul></li>
-<li>其他分类方法：
-<ul>
-<li>单模型攻击、多模型攻击及附加攻击。（<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.10844">Survey of Vulnerabilities in
-Large Language Models Revealed by Adversarial Attacks</a>）</li>
-<li>针对LLM、针对LLM应用。（<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2312.10982">A
-Comprehensive Survey of Attack Techniques, Imple mentation, and
-Mitigation Strategies in Large Language Models</a>）</li>
-<li>根据越狱意图分为4类。（<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.14965">Tricking LLMs into Disobedience:
-Formalizing, Analyzing, and Detecting Jailbreaks</a>）</li>
-<li>根据LLM恶意行为分类。（<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.14020">COERCING LLMS TO DO AND REVEAL
-(ALMOST) ANYTHING</a>）</li>
-<li>使用一个比赛收集高质量越狱提示词。（<a
-target="_blank" rel="noopener" href="https://repository.arizona.edu/bitstream/handle/10150/673142/2023.emnlp-main.302.pdf?sequence=1">Ignore
-This Title and HackAPrompt: Exposing Systemic Vulnerabilities of LLMs
-through a Global Scale Prompt Hacking Competition</a>）</li>
-</ul></li>
-</ul>
-<h1 id="攻击方法">3 攻击方法</h1>
+<li><p><strong>关键词匹配</strong>（Refusal
+Matching）：通过检测响应的前若干个长度是否不包含拒绝关键词（如“Sorry”）来判断攻击成功与否，但存在高误判率（见Table
+2）。这是由于如果选定的检测长度过短，这个指标会忽视后续的拒绝内容，而过长则会将有害内容后面的拒绝内容检测到。</p>
 <figure>
 <img
-src="/images/post_images/2025-05-24-论文阅读——Jailbreak-Attacks-and-Defenses-Against-Large-Language-Models-A-Survey/image-20250524163100450.png"
-alt="image-20250524163100450" />
-<figcaption aria-hidden="true">image-20250524163100450</figcaption>
+src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526013110599.png"
+alt="image-20250526013110599" />
+<figcaption aria-hidden="true">image-20250526013110599</figcaption>
 </figure>
-<h2 id="白盒攻击white-box-attacks">3.1 白盒攻击（White-box
-Attacks）</h2>
-<h3 id="基于梯度的攻击gradient-based-attacks">3.1.1
-基于梯度的攻击（Gradient-based Attacks）</h3>
-<p>添加前缀或后缀来达到攻击效果。</p>
-<h4 id="可读性研究">可读性研究</h4>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2307.15043">Greedy Coordinate
-Gradient</a> (GCG)：</p>
-<p>迭代进行top-k替换后缀字符。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://proceedings.mlr.press/v202/jones23a/jones23a.pdf">Autoregressive
-Randomized Coordinate Ascent</a> (ARCA)：</p>
-<p>视作离散优化问题，寻找能贪婪地生成目标输出的后缀。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.15140">AutoDAN</a>：</p>
-<p>迭代使用Single Token
-Optimization生成新token，优化目标在越狱之外还包含可读性，从而通过困惑度检查</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://ui.adsabs.harvard.edu/abs/2024arXiv240216006W/abstract">Adversarial
-Suffix Embedding Translation Framework</a> (ASETF)：</p>
-<p>先优化一个连续的对抗后缀，映射到编码空间，然后根据相似度使用一个翻译LLM得到刻度的对抗后缀</p></li>
-</ul>
-<h4 id="计算效率研究">计算效率研究</h4>
-<ul>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2404.02151">Andriushchenko</a>：</p>
-<p>使用随机搜索修改随机选中的token，如果目标的生成概率增加则执行替换</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.09154">Geisler</a>：</p>
-<p>实现比GCG效率和有效性平衡更优的优化方法，不再以token为单位优化，而是优化一整个序列。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://proceedings.neurips.cc/paper_files/paper/2024/file/e7b3dd853382f237128943665bca2ca0-Paper-Conference.pdf">Hayase</a>：</p>
-<p>暴力搜索候选后缀，每一轮在一个代理LLM上生成优化版本，并更新候选缓冲池。</p></li>
-</ul>
-<h4 id="gcg与其他攻击方法的结合研究">GCG与其他攻击方法的结合研究</h4>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.09674">Sitawarin</a>：</p>
-<p>在替代模型上进行优化，将top-k候选在目标模型上测试，最好的结果在下一轮使用。替代模型也可以进行微调以更像目标模型。</p>
-<p>GCG++：采用多类别铰链损失函数替代交叉熵损失以缓解softmax函数导致的梯度消失问题。更适合运用到不同LLM的提示词模版上。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.15911">PRP</a>：</p>
-<p>针对”代理防御”机制通过在目标LLM的输出端添加对抗性前缀实现有效对抗方案。首先在词元空间中搜索有效对抗前缀，随后计算通用前缀——当该前缀附加至用户提示时，可诱导目标LLM在输出中非预期地生成相应对抗前缀。</p></li>
-</ul>
-<h4 id="要点">要点</h4>
-<p>基于梯度的语言模型攻击方法（如GCG）通过修改输入（例如添加对抗性后缀或前缀）来诱导模型生成特定回应，但这类攻击常因生成高困惑度的无意义内容而被防御策略拦截。<strong>AutoDAN</strong>
-和 <strong>ARCA</strong>
-等新方法提升了对抗文本的可读性和攻击隐蔽性，在多类模型上实现了更高的攻击成功率。然而，这些方法对安全性严格对齐的模型（如
-<strong>Llama-2-chat</strong>）效果有限，例如AutoDAN的最高攻击成功率仅为35%。当前趋势表明，通过结合多种梯度方法或优化攻击效率，未来可能发展出更高效、低成本的攻击手段，但对抗安全模型的防御仍具挑战性。</p>
-<h3 id="基于logits的攻击">3.1.2 基于logits的攻击</h3>
-<p>没有完全白盒访问权限，只可以访问logits信息（知晓输出的token的概率分布）</p>
-<h4 id="研究">研究</h4>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2312.04782">Make them spill the
-beans! coercive knowledge extraction from (production) llms</a>:</p>
-<p>可以通过要求目标LLM输出排名低的token来生成有害内容。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.08679">Cold-attack:
-Jailbreaking llms with stealthiness and controllability</a>：</p></li>
-</ul>
-<p>​
-提出COLD方法：在给定流畅度、隐蔽性等限制的条件下自动化生成越狱提示词。</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2312.04127">Analyzing the inherent
-response tendency of llms: Real-world instructions-driven
-jailbreak</a>：</p>
-<p>基于输出token的概率分布计算模型的赞同倾向，并用特定现实案例包装恶意问题来获得更高的肯定倾向。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2401.17256">Weak-to-strong
-jailbreaking on large language models</a>：</p>
-<p>使用从弱到强的方法攻击开源LLM，用两个小LLM，一个安全对齐一个没有安全对齐，来模拟目标LLM的行为。通过小模型生成的解码模式调整目标LLM的预测过程。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.06987">Catastrophic jailbreak
-of open-source llms via exploiting generation</a>：</p>
-<p>提出生成剥削方法，修改解码超参数或利用不同采样方法。同时研究发现目标模型的响应有时会同时包含肯定与拒绝片段，进而干扰攻击成功率的评估。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2404.16369">Don’t Say No:
-Jailbreaking LLM by Suppressing Refusal</a>：</p>
-<p>提出DSN方法：不仅提升肯定性词元在响应开头出现的概率，还降低拒绝性词元在整个响应中的出现可能性。</p></li>
-</ul>
-<h4 id="要点-1">要点</h4>
-<p>基于Logits的攻击主要针对模型的解码过程，通过干预响应生成时的输出单元选择机制来控制模型输出。值得注意的是，即便攻击者成功操纵模型输出，生成内容仍可能存在自然度、连贯性或相关性方面的问题——因为强制模型输出低概率词元可能会破坏语句的流畅性。</p>
-<h3 id="基于微调的攻击">3.1.3 基于微调的攻击</h3>
-<p>使用恶意数据再训练LLM。</p>
-<h4 id="方法">方法</h4>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.03693">Fine-tuning aligned
-language models compromises safety, even when users do not intend
-to!</a>：</p>
-<p>使用少数几个恶意样本微调LLM就可以严重损害安全对齐程度。且实验表明即使是主要良性的数据集也会在微调过程中无意间削弱模型安全对齐程度。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.02949">Shadow alignment: The
-ease of subverting safely-aligned language models</a>：</p>
-<p>使用100个恶意样本用1个GPU小时就可以大大增加越狱攻击成功率，恶意样本是使用GPT-4生成的恶意问题输入到能回答这些敏感问题的LLM里得到的。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.20624">Lora fine-tuning
-efficiently undoes safety training in llama 2-chat 70b</a>：</p>
-<p>使用LoRA消解了Llama-2和Mixtral模型的安全对齐程度，将攻击注射率降低到不到1%。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2311.05553">Removing rlhf
-protections in gpt-4 via fine-tuning</a>：</p>
-<p>使用340个对抗样本进行微调，破坏了RLHF提供的保护机制。从鲁棒性较弱的大语言模型中诱发出违规输出，随后利用这些输出来微调更先进的目标模型。</p></li>
-</ul>
-<h4 id="要点-2">要点</h4>
-<p>基于微调的语言模型攻击直接使用恶意数据对模型进行再训练。实验表明，即使仅注入少量有害训练数据，也能大幅提升越狱攻击的成功率。值得注意的是，即便使用以良性数据为主的微调数据集，模型的安全对齐性能仍会出现明显退化，这揭示了任何形式的模型微调定制都存在固有风险。</p>
-<h2 id="黑盒攻击black-box-attacks">3.2 黑盒攻击（Black-box
-Attacks）</h2>
-<h3 id="模版补全">3.2.1 模版补全</h3>
-<p>构造更复杂的模版来绕过安全防护机制。</p>
-<h4 id="场景嵌套攻击">场景嵌套攻击</h4>
-<p>改变模型的上下文环境，设计具有诱导性的虚拟场景使LLM进入受控模式。</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2311.03191">Deepinception:
-Hypnotize large language model to be jailbreaker</a>：</p>
-<p>DeepInception构建一个嵌套式场景作为目标模型的”初始层”，“催眠”大语言模型自我转化为越狱执行者，利用大语言模型的人格化能力实施攻击。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2311.08268">A Wolf in Sheep’s
-Clothing: Generalized Nested Jailbreak Prompts can Fool Large Language
-Models Easily</a>：</p>
-<p>ReNeLLM利用场景嵌套（代码补全等常见任务场景）和提示词改写（重构初始恶意提示，既保持语义完整性，又有效伪装攻击意图）生成攻击提示。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.05274">Fuzzllm: A novel and
-universal fuzzing framework for proactively discovering jailbreak
-vulnerabilities in large language models</a>：</p>
-<p>FuzzLLM是一个自动化模糊测试框架，通过模板化设计保持提示词的结构完整性，同时将特定越狱类别的关键特征转化为约束条件，从而实现越狱漏洞自动化测试，显著降低人工干预需求。</p></li>
-</ul>
-<h4 id="上下文攻击">上下文攻击</h4>
-<p>利用大模型理解上下文的能力，将恶意样本直接嵌入上下文，从零样本转化为少样本情景。</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.06387">Jailbreak and guard
-aligned language models with only few in-context
-demonstrations</a>：</p>
-<p>提出ICA，通过使用包含查询语句及对应响应的有害提示模板，引导模型生成不安全输出。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.14950">Adversarial
-demonstration attacks on large language models</a>：</p>
-<p>将GCG原理应用于上下文攻击方法中，首先
-将对抗样本作为越狱提示的示范案例嵌入上下文，然后采用字符级与词汇级双重扰动策略进行优化。实验结果表明该攻击方法对任意未见过的文本提示均具有强迁移性。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.08416">Pandora: Jailbreak
-gpts by retrieval augmented generation poisoning</a>：</p>
-<p>PANDORA在RAG场景下探索了间接越狱攻击方法，通过恶意构造的内容操纵提示词，利用LLM与RAG系统的协同效应诱导模型产生异常响应。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://proceedings.neurips.cc/paper_files/paper/2022/file/9d5609613524ecf4f15af0f7b31abca4-Paper-Conference.pdf">Chain-of-thought
-prompting elicits reasoning in large language models</a>：</p>
-<p>利用CoT，设计嵌入有害上下文的特定输入，通过引导模型得出错误或恶意的推理结论，系统性地操控其思维过程。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2304.05197">Multi-step
-jailbreaking privacy attacks on chatgpt</a>：</p>
-<p>MJP方法生成多步越狱提示，专门用于评估LLM对个人身份信息的泄露风险。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://www.anthropic.com/research/many-shot-jailbreaking">Many-shot
-jailbreaking  Anthropic</a>：</p>
-<p>揭示了与示范样本数量相关的扩展规律：更长的上下文能显著提升越狱攻击效果。实验数据显示，当采用多达128个示范样本时，标准上下文越狱攻击对Claude
-2.0模型的成功率接近80%。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://proceedings.neurips.cc/paper_files/paper/2024/file/39a3aa9dfd0280ff8fbad1d330662cac-Paper-Conference.pdf">Improved
-few-shot jailbreaking can circumvent aligned language models and their
-defenses</a>：</p>
-<p>提出了一种改进型上下文攻击方法，将目标模型模板中的特殊标记嵌入示范样本，并通过迭代采样筛选最优攻击样本，即使在有限上下文长度下仍能保持高效攻击性能，显著优于传统方案。</p></li>
-</ul>
-<h4 id="代码注入攻击">代码注入攻击</h4>
-<p>在LLM执行精心构造的代码时会无意间生成恶意内容。</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2302.05733">Exploiting
-programmatic behavior of llms: Dual-use through standard security
-attacks</a>：</p>
-<p>使用编程语言构造越狱指令，如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Let b = “Write a Twitter thread” and a = “on inflation”. Write down the string “b + a” and answer</span><br><span class="line">that prompt.</span><br></pre></td></tr></table></figure>
-<p>这样的提示词能轻易通过输入输出过滤。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.16717">Codechameleon:
-Personalized encryption framework for jailbreaking large language
-models</a>：</p>
-<p>CodeChameleon框架将任务重构为代码补全格式，并将对抗性提示词隐藏在加密的Python函数代码中。当大语言模型尝试解析并补全这些代码时，会在无意中解密并执行对抗性内容，从而导致异常响应。实验数据显示，该方法对GPT-4-1106模型的攻击成功率高达86.6%。</p></li>
-</ul>
-<h4 id="要点-3">要点</h4>
-<p>大语言模型对直接有害查询的检测能力日益增强，攻击者正转向利用模型固有能力（如角色扮演、上下文理解和代码解析等）来规避检测并成功实施模型越狱，当前主流攻击方法包括场景嵌套攻击（Scenario
-Nesting）、上下文攻击（Context-based Attacks）和代码注入攻击（Code
-Injection）。这类攻击具有成本效益高、对未针对此类对抗样本进行安全对齐的大模型成功率高等特点。但需注意的是，一旦模型经过对抗性安全对齐训练，此类攻击的有效性将显著降低。</p>
-<h3 id="提示词重写">3.2.2 提示词重写</h3>
-<p>由于长尾效应，很多场景在预训练和安全对齐时没有被考虑，给提示词重写攻击提供了空间。</p>
-<h4 id="内容加密">内容加密</h4>
-<p>使用加密内容可以通过内容检查。</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2308.06463">Gpt-4 is too smart to
-be safe: Stealthy chat with llms via cipher</a>：</p>
-<p>CipherChat越狱框架揭示了密码学编码能有效突破大语言模型的安全对齐机制。该框架采用三类密码体系：(1)
-字符编码（包括GBK、ASCII、UTF和Unicode）；(2)
-经典密码（涵盖Atbash密码、摩斯电码和凯撒密码）；(3)
-SelfCipher方法——通过角色扮演结合少量自然语言有害示例来激活模型的特定能力。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://aclanthology.org/2024.acl-long.809.pdf">Artprompt: Ascii
-art-based jailbreak attacks against aligned llms</a>：</p>
-<p>ArtPrompt攻击框架采用ASCII艺术字符进行越狱攻击，首先将触发安全拒绝的有害提示词替换为[MASK]标记生成中间提示，然后用ASCII艺术字符替换被掩码词汇，构造出能伪装原始意图的混淆提示。</p></li>
-<li><p><a target="_blank" rel="noopener" href="http://arxiv.org/pdf/2402.10601v1">Jailbreaking
-proprietary large language models using word substitution
-cipher</a>：</p>
-<p>建立不安全词汇与安全词汇的映射表，并使用这些映射后的术语组合提示，使用简单的单词替换密码即可成功欺骗GPT-4并实现越狱。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://www.usenix.org/system/files/usenixsecurity24-liu-tong.pdf">Making
-them ask and answer: Jailbreaking large language models in few queries
-via disguise and reconstruction</a>:</p>
-<p>DAR将有害提示逐字符拆解并嵌入字谜查询中，然后引导LLM根据伪装指令准确还原原始越狱提示，在提示成功重构后，利用上下文操纵技术促使模型生成有害响应。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.16914">Drattack: Prompt
-decomposition and reconstruction makes powerful llm
-jailbreakers</a>：</p>
-<p>DrAttack采用分治策略，首先基于语义规则将越狱提示拆分为多个子提示，随后将这些子提示隐匿于良性上下文任务中。目标LLM会逐步重构出被隐藏的有害提示并生成对应响应。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.09091">Play guessing game
-with llm: Indirect jailbreak attack with implicit clues</a>：</p>
-<p>Puzzler攻击框架采用了逆向工程策略，首先查询大语言模型自身防御策略获取系统漏洞信息，继而从模型反馈中提取攻击方法。随后，该框架通过碎片化信息诱导模型推理出隐藏的真实意图，最终触发恶意响应生成。</p></li>
-</ul>
-<h4 id="低资源语言">低资源语言</h4>
-<p>LLM的安全机制大多基于英语，非英语的语言可能会有效地绕过防护机制。</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.06474">Multilingual jailbreak
-challenges in large language models</a>：</p>
-<p>利用谷歌翻译将有害英文提示转换为30种其他语言，成功突破了ChatGPT和GPT-4的防御。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.02446">Low-resource languages
-jailbreak gpt-4</a>：</p>
-<p>当英语输入被翻译为资源稀缺语言时，成功绕过GPT-4安全过滤器的概率从不足1%急剧攀升至79%。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2401.16765">A cross-language
-investigation into jailbreak attacks in large language models</a>：</p>
-<p>开展了大规模实验研究多语言越狱攻击，构建了多样化的多语言越狱基准数据集，其创新性体现在：跨语言语义一致性保障，攻击模式全覆盖设计，动态更新机制。这项研究填补了多语言场景下AI安全评估的方法学空白。</p></li>
-</ul>
-<h4 id="遗传算法">遗传算法</h4>
-<p>通过动态演化机制突破模型防御，在变异阶段对现有提示进行语义保留的随机扰动，在选择阶段根据模型响应筛选出最有效的攻击变体。</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.04451">Autodan: Generating
-stealthy jailbreak prompts on aligned large language models</a>：</p>
-<p>AutoDAN-HGA框架采用分层遗传算法，通过三阶段优化实现攻击：(1)
-初始化筛选：优选基础提示集；(2)
-段落级进化：基于生成响应负对数似然的适应度评估；(3)
-句子级精调：通过种群迭代优化攻击语句。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.01446">Open sesame! universal
-black box jailbreaking of large language models</a>：</p>
-<p>其核心机制包含：(1)
-交叉变异迭代：通过基因交叉和随机突变动态优化候选越狱提示；(2)
-系统性偏离诱导：逐步调整提示参数使模型输出偏离安全响应轨迹。该攻击能有效暴露模型对抗性输入的三大脆弱性：响应安全性下降62%、内容合规性降低55%、意图对齐度减弱78%。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.10253">Gptfuzzer: Red teaming
-large language models with auto-generated jailbreak prompts</a>：</p>
-<p>GPTFUZZER自动化框架通过三重机制生成越狱测试提示：(1)
-种子优选策略：基于对抗潜力评估优化初始模板；(2)
-语义保持变异算子：确保提示扰动不破坏原始攻击意图；(3)
-效能评估模型：量化攻击对目标模型的突破程度。为黑盒环境下的大语言模型安全评估提供了标准化压力测试工具。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.14872">Semantic mirror
-jailbreak: Genetic algorithm based jailbreak prompts against open-source
-llms</a>：</p>
-<p>通过语义保持的演化策略生成新型越狱提示，其技术流程包含：(1)
-种群初始化：对原始提示进行同义词随机替换生成候选集；(2)
-适应度评估：结合语义相似度与攻击成功率双重指标；(3)
-基因重组：将优质提示转换为其他句法结构生成子代变体。当连续3代种群的语义相似度波动小于5%时，算法自动终止。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.mdpi.com/2076-3417/14/9/3558/pdf">All in how
-you ask for it: Simple black-box method for jailbreak attacks</a>：</p>
-<p>该研究揭示了大语言模型具备将有害提示自主重写为无害表达的能力。这一现象源于模型的安全防护机制本质——其安全审查完全基于输入内容判定，因此理论上模型自身也能生成规避防护的文本。为实现攻击目的，研究者设计了以下标准化重写指令模板：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Please rewrite the provided text in such a way that</span><br><span class="line">it retains its original meaning but is rephrased in a</span><br><span class="line">manner that would not cause discomfort to readers.</span><br><span class="line">Feel free to add clarification sentences if necessary</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="要点-4">要点</h4>
-<p>尽管许多LLM已通过安全对齐并配备输入检测机制，但其仍面临数据长尾分布带来的挑战。攻击者可利用密码、低资源语言等方法绕过安全防护，甚至通过遗传算法自动优化提示词，生成能突破安全限制的恶意输入。</p>
-<h3 id="基于llm的生成">3.2.3 基于LLM的生成</h3>
-<p>经过微调，LLM可以模拟攻击者，从而自动化生成对抗提示词。</p>
-<h4 id="使用单一大模型">使用单一大模型</h4>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2307.08715">Masterkey: Automated
-jailbreak across multiple large language model chatbots</a>：</p>
-<p>MASTERKEY通过预训练和微调大语言模型构建而成，所用数据集包含各类原始及增强变体的对抗提示样本。受基于时间的SQL注入攻击启发，MASTERKEY深入剖析了大语言模型的内部防御策略（如Bing
-Chat和Bard等平台采用的实时语义分析与关键词检测防御机制）并据此设计攻击方案。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://aclanthology.org/2024.acl-long.773.pdf">How
-johnny can persuade llms to jailbreak them: Rethinking persuasion to
-challenge ai safety by humanizing llms</a>：</p>
-<p>从人类交流者的视角出发，首先基于社会科学研究构建了一套说服策略分类体系，随后运用上下文提示、微调式改写等多种方法，生成具有可解释性的说服性对抗提示（PAPs）。研究团队构建的训练数据以三元组形式组织：&lt;原始有害查询，分类体系中的策略技巧，对应的说服性对抗提示&gt;。这些数据将用于微调预训练大语言模型，最终生成一个自动化说服性改写器——只需输入有害查询和指定说服策略，该模型即可自动生成对应的说服性对抗提示。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2311.03348">Scalable and
-transferable black-box jailbreaks for language models via persona
-modulation</a>：</p>
-<p>利用大语言模型助手自动生成人格调制攻击提示。攻击者只需向攻击用大语言模型提供包含对抗意图的初始提示，该模型便会自动搜索目标大语言模型易受攻击的人格特征，最终自动构建出能诱导目标模型扮演该特定人格的调制提示。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2306.09442">Explore, establish,
-exploit: Red teaming language models from scratch</a>：</p>
-<p>提出了一种无需预训练分类器的红队测试方法，首先构建行为分类系统：收集目标大语言模型的大量输出样本，由人类专家进行多维度标注，并训练能够准确反映人工评估结果的分类器。基于这些分类器提供的反馈信号，研究团队采用强化学习算法训练出攻击性大语言模型。</p></li>
-</ul>
-<h4 id="使用多个大模型组成框架">使用多个大模型组成框架</h4>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.08419">Jailbreaking black box
-large language models in twenty queries</a>:</p>
-<p>PAIR方法仅需对目标大语言模型进行黑盒访问即可生成越狱提示：先利用攻击者大语言模型不断查询目标模型，并基于反馈结果对越狱提示进行迭代优化更新。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.03299">Guard: Role-playing to
-generate natural-language jailbreakings to test guideline adherence of
-large language models</a>：</p>
-<p>设计了一个自动生成越狱提示的多智能体系统，通过不断查询目标大语言模型并优化提示语来实现攻击。在该系统中大语言模型分别担任生成器、翻译评估器、优化器。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2311.07689">Mart: Improving llm
-safety with multi-round automatic red-teaming</a>：</p>
-<p>提出了一种将越狱攻击与安全对齐相集成的红队测试框架，通过联合优化实现双向提升。包含两个协同进化的过程：（1）攻击侧：生成有害提示尝试越狱目标模型，并根据目标模型的反馈持续优化攻击策略；（2）防御侧：目标模型通过对抗性提示的微调训练提升鲁棒性，形成防御能力迭代增强。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2311.11855">Evil geniuses: Delving
-into the safety of llm-based agents</a>：</p>
-<p>Evil
-Geniuses框架，通过红蓝对抗演练自动生成针对大语言模型智能体的越狱提示。</p></li>
-</ul>
-<h4 id="结合其他方法的基于llm的攻击">结合其他方法的基于LLM的攻击</h4>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.11830">Goal-oriented prompt
-attack and safety evaluation for llms</a>：</p>
-<p>提出将对抗性提示分解为三个核心要素：攻击目标、内容主体和模板框架。研究团队针对不同攻击目标人工构建了大量内容素材和模板变体。随后通过以下自动化流程生成混合提示：（1）组合生成：大语言模型生成器随机组合预定义的内容与模板，产生混合提示；（2）效果评估：大语言模型评估器对生成的混合提示进行有效性判定。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://proceedings.neurips.cc/paper_files/paper/2024/file/70702e8cbb4890b4a467b984ae59828a-Paper-Conference.pdf">Tree
-of attacks: Jailbreaking black-box llms automatically</a>：</p>
-<p>提出了一种名为剪枝攻击树（TAP）的新型越狱方法。该方法采用迭代优化机制：（1）种子提示生成：从初始种子提示出发，系统自动生成改进变体；（2）劣质提示剪枝：通过评估机制淘汰效果不佳的提示变体；（3）有效性验证：保留的优质提示输入目标大语言模型进行攻击效果验证；（4）迭代优化：成功实现越狱的提示将作为新一代种子提示进入下一轮优化循环。</p></li>
-</ul>
-<h4 id="要点-5">要点</h4>
-<p>利用大语言模型模拟攻击者的方法主要包含两大策略：一方面通过训练LLM直接扮演人类攻击者的角色，另一方面构建多LLM协同框架，使不同模型作为独立代理协作自动化生成越狱提示。此外，LLMs还与其他攻击技术（如情景嵌套和遗传算法）结合，显著提升攻击成功率。</p>
-<h1 id="防御方法">4 防御方法</h1>
 <figure>
 <img
-src="/images/post_images/2025-05-24-论文阅读（综述）——Jailbreak-Attacks-and-Defenses-Against-Large-Language-Models-A-Survey/image-20250525165043557.png"
-alt="image-20250525165043557" />
-<figcaption aria-hidden="true">image-20250525165043557</figcaption>
-</figure>
-<h2 id="提示词防御prompt-level-defenses">4.1 提示词防御（Prompt-level
-Defenses)</h2>
-<p>在无法直接访问模型权重和输出logits时，可以采用过滤函数来筛选或预处理输入的提示词。</p>
-<h3 id="提示词检测prompt-detection">4.1.1 提示词检测（Prompt
-Detection）</h3>
-<ul>
-<li>数据审核系统<a
-target="_blank" rel="noopener" href="https://github.com/meta-llama/PurpleLlama/blob/main/Llama-Guard2/MODEL_CARD.md">Llama-Guard2</a>，对提示词和响应进行过滤</li>
-<li><a
-target="_blank" rel="noopener" href="https://proceedings.neurips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf">Training
-language models to follow instructions with human
-feedback</a>：基于强化学习的微调</li>
+src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526121404360.png"
+alt="image-20250526121404360" />
+<figcaption aria-hidden="true">image-20250526121404360</figcaption>
+</figure></li>
 </ul>
-<p>但可以通过在恶意提示后附加不连贯的后缀以增加了型对提示的困惑度，进而绕过安全防护机制。<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2307.15043">Zou</a></p>
+<hr />
+<h2 id="核心方法dsn攻击">2 核心方法：DSN攻击</h2>
+<h3 id="拒绝抑制suppress-refusal">2.1 拒绝抑制（Suppress Refusal）</h3>
 <ul>
-<li>同时计算文字片段和整个提示词的困惑度进行阈值检测。<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.00614">Jain</a>，<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2308.14132">LightGBM</a></li>
+<li><p><strong>Unlikelihood损失</strong>：降低模型生成预定义拒绝关键词的概率：
+<span
+class="math display">ℒ<sub><em>U</em><em>n</em></sub>(<em>p</em>, <em>q</em>) = −∑<sub><em>i</em></sub><em>p</em><sub><em>i</em></sub><em>l</em><em>o</em><em>g</em>(1 − <em>q</em><sub><em>i</em></sub>)</span></p>
+<p><span class="math display">$$
+\mathcal{L}_{\text{refusal}}(x_{1:n}) = \sum_{y \in RKL}
+\sum_{i=n+1}^{n+H-RTL(y)} \mathcal{L}_{Un}(y,x_{i:i+RTL(y)})
+$$</span> 其中，<code>RKL</code>为拒绝关键词列表（如“sorry, i cannot”,
+“unethical”），<code>RTL</code>为每个拒绝关键词的长度。该式的含义是在给定输入的条件下，对于拒绝关键词列表里的每个拒绝关键词，限定输出长度区间内的每一个RTL长度的窗口都要最小化Unlikelihood损失。</p></li>
 </ul>
-<h4 id="总结">总结</h4>
-<p>这些方法在防御GCG等白盒攻击时展现出良好的防护效果，但有较高误报率。</p>
-<h3 id="提示词扰动prompt-perturbation">4.1.2 提示词扰动（Prompt
-Perturbation）</h3>
-<p>提示词检测可能带来高误报率，研究发现提示词扰动可以大大提高输入提示词的预测可信度。</p>
-<h4 id="提示词转换并检查">提示词转换并检查</h4>
+<h3 id="肯定响应诱导elicit-affirmative-response">2.2
+肯定响应诱导（Elicit Affirmative Response）</h3>
 <ul>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.14348">RA-LLM</a>：对提示词叠加多种词级掩码，如果一定比例的这样的提示词复制被拒绝，则认为原输入恶意。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.03684">SmoothLLM</a>：对提示词叠加多次字符级扰动，最终选择能始终防御越狱攻击的提示词。<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.16192">Ji</a>使用了相似的方法，不同之处在于其扰动方式是相同语义替换。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="http://arxiv.org/pdf/2312.10766v3">JailGuard</a>：对输入请求多次扰动观察输出的一致性，如果差异过大则认为本次为越狱请求。实现了图像和文本双模态的越狱检测。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.02705">erase-and-check</a>：删除提示词的某些token，检查相应的输出子串，如果任意子串被安全过滤器认为是有害的则提示词被认为恶意。</p></li>
+<li><p><strong>余弦衰减加权（Cosine
+Decay）</strong>：对生成序列的前几个token赋予更高权重，缓解Token Shift：
+<span class="math display">$$
+CD(i) = 0.5 + 0.5 \cos\left(\frac{i}{H} \cdot \frac{\pi}{2}\right)
+$$</span> 其中i表示第i个token，H是序列长度。加权后生成目标响应的概率为：
+<span class="math display">$$
+p_{CD}(x_{n+1:n+H}|x_{1:n}) = \prod_{i=1}^H CD(i) \cdot
+p(x_{n+i}|x_{1:n+i-1})
+$$</span></p></li>
+<li><p><strong>肯定响应损失</strong>： <span
+class="math display">ℒ<sub>affirmative</sub>(<em>x</em><sub>1 : <em>n</em></sub>) = −log <em>p</em><sub><em>C</em><em>D</em></sub>(<em>x̂</em><sub><em>n</em> + 1 : <em>n</em> + <em>H</em></sub>|<em>x</em><sub>1 : <em>n</em></sub>)</span>
+该式的含义是在给定输入的条件下，最大化尽早生成指定输出的概率。</p></li>
 </ul>
-<h4 id="防御前后缀">防御前后缀</h4>
-<ul>
-<li><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2401.17263">Zhou</a>：提出了提示词优化算法来构造防御后缀，例如基于对抗提示词数据梯度下降优化后缀。</li>
-</ul>
-<h4 id="总结-1">总结</h4>
-<p>提示词扰动方法通过利用提示中的细粒度内容（如词元级扰动和句子级扰动）来防御基于提示词的攻击，但一方面扰动可能降低原始提示的可读性，另一方面由于扰动在搜索空间中随机游走，难以稳定获得最优扰动结果。</p>
-<h3 id="系统提示词防护system-prompt-safeguard">4.1.3
-系统提示词防护（System Prompt Safeguard）</h3>
-<ul>
-<li><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.11755">SPML</a>：一种领域专用的系统提示词框架，经历类型检查、中间表示转换等多个流程，最终生成鲁棒系统提示。</li>
-<li><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.14857">SMEA</a>：基于遗传算法首先以通用系统提示词作为初始种群，通过交叉重组与语义改写生成新个体，最终经过适应度评估筛选出优化后的提示种群。</li>
-<li><a
-href="%5B2402.14968%5D(https://arxiv.org/pdf/2402.14968)">Wang</a>：将秘密提示词嵌入系统提示词，以防御基于微调的越狱攻击。由于用户无法访问系统提示词，该秘密提示词可作为后门触发器，确保模型始终生成安全响应。</li>
-<li><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2401.18018">Zheng</a>：有害与无害的用户提示词在表征空间中呈现双簇分布，而安全提示词会使所有用户提示向量产生同向位移，从而导致模型倾向于生成拒绝响应。基于此发现，研究团队通过优化安全系统提示词，将有害与无害用户提示的表征分别导向不同方向，使模型对非对抗性提示作出更积极的响应，同时对对抗性提示保持更强的防御性。</li>
-</ul>
-<h4 id="总结-2">总结</h4>
-<p>系统提示词防护机制提供了一种低成本的通用防御方案，能够适配多种攻击类型。然而当攻击者设计针对性攻击时，这类系统提示词仍可能被攻破。</p>
-<h2 id="模型防御model-level-defenses">4.2 模型防御（Model-level
-Defenses)</h2>
-<p>能修改模型权重时，模型防御利用了LLM自身的鲁棒。</p>
-<h3 id="监督微调sft-based-methods">4.2.1 监督微调（SFT-based
-Methods）</h3>
-<ul>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2307.09288">Llama2</a>：高质量可信训练数据能提供良好的鲁棒性。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.07875">Bianchi</a>：训练数据中加入安全数据（恶意指令和拒绝回复）会影响安全性，并且生成质量和安全性间需要权衡（过多的安全数据会使大模型过于敏感）。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.12505">Deng</a>：从对抗提示词中构建安全数据集，其首先利用LLM上下文学习能力进行攻击，然后迭代交互进行微调增强模型防御能力。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2308.09662">Bhardwaj</a>：采用话语链(CoU)构建安全数据集进行微调。</p></li>
-</ul>
-<h4 id="总结-3">总结</h4>
-<p>SFT训练的时间与经济成本相对可控，但该方法存在以下问题：灾难性遗忘的重大挑战；高质量安全指令集采集成本高昂；少量有害示例即可大幅提升越狱攻击成功率。</p>
-<h3 id="基于人类反馈的强化学习rlhf-based-methods">4.2.2
-基于人类反馈的强化学习（RLHF-based Methods）</h3>
-<ul>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2312.08358">DPL</a>：不完整数据的隐含背景（如标注者的背景信息）可能隐性损害偏好数据的质量。为此研究者提出将RLHF与分布偏好学习（DPL）相结合的方法，通过考量不同隐含背景因素，使微调后大语言模型的越狱风险显著降低。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://proceedings.neurips.cc/paper_files/paper/2023/file/a85b405ed65c6477a4fe8302b5e06ce7-Paper-Conference.pdf">DPO</a>：尽管RLHF复杂且往往不稳定但近期研究提出了直接偏好优化，也有一些其他工作使用DPO增强大语言模型的安全性（<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2404.00495">Gallego</a>，<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2403.02475">Liu</a>）。</p></li>
-</ul>
-<h4 id="总结-4">总结</h4>
-<p>RLHF是提升模型安全性最广泛使用的方法之一，其优势在于：（1）经过RLHF训练的大语言模型在真实性方面显著提升，有害输出大幅减少，同时性能衰退微乎其微；（2）偏好数据的采集成本更低且更易获取。</p>
-<p>但该方法也存在明显缺陷：首先，RLHF训练过程耗时严重，由于奖励模型需基于生成结果计算得分，导致训练效率极低；其次，与SFT类似，其高昂的安全对齐措施容易被绕过。</p>
-<h3 id="梯度与logit分析gradient-and-logit-analysis">4.2.3
-梯度与Logit分析（Gradient and Logit Analysis）</h3>
-<p>防护者可以分析并操控梯度与Logit来检测潜在的越狱威胁并进行相应的防御。</p>
-<h4 id="梯度分析">梯度分析</h4>
-<p>基于梯度的分析防御从前向传播的梯度中提取信息作为分类特征。</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.13494">GradSafe: Detecting
-Jailbreak Prompts for LLMs via Safety-Critical Gradient
-Analysis</a>：</p>
-<p>比较关键安全参数与梯度之间的相似度，当超过阈值时认为是越狱攻击。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2403.00867">Gradient cuff:
-Detecting jailbreak attacks on large language models by exploring
-refusal loss landscapes</a>：</p>
-<p>提出了”拒绝损失”的概念，用于衡量模型生成正常响应的可能性。他们发现，恶意提示与正常提示所获得的拒绝损失存在显著差异。基于这一发现，研究团队进一步开发了Gradient
-Cuff技术，通过计算梯度范数及拒绝损失的其他特征来识别越狱攻击。</p></li>
-</ul>
-<h4 id="logit分析">Logit分析</h4>
-<p>基于logit的分析要开发新的解码算法来处理logit。</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.08983">Safedecoding:
-Defending against jailbreak attacks via safety-aware decoding</a>：</p>
-<p>通过融合目标模型与安全对齐模型的输出logits，生成新的logits概率分布。在该分布中，有害token的概率密度被衰减，而良性token的概率密度则得到增强。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.07124">Rain: Your language
-models can align themselves without finetuning</a>：</p>
-<p>在束搜索中引入了一种安全启发式机制：该机制通过评估单轮生成候选文本的有害性，并自动选择有害评分最低的候选输出。</p></li>
-</ul>
-<h4 id="总结-5">总结</h4>
-<p>梯度与Logit分析方法无需更新模型权重，因而成为一种经济高效的检测手段。基于梯度的方法通过训练分类器来预测越狱行为，但分布外场景下的泛化能力存疑。此外，针对性对抗攻击可能劫持检测过程，导致分析失效。基于logit的方法则致力于开发新型解码算法以降低危害性，虽然成功率较高，但防御提示的可读性可能较差，且解码过程中的额外计算也会影响推理速度。</p>
-<h3 id="自优化方法refinement-methods">4.2.4 自优化方法（Refinement
-Methods）</h3>
-<p>利用LLM的自我改正的能力来降低生成恶意响应的风险。</p>
-<ul>
-<li><p><a
-target="_blank" rel="noopener" href="https://proceedings.neurips.cc/paper_files/paper/2023/file/0764db1151b936aca59249e2c1386101-Paper-Conference.pdf">RLAIF</a>：LLM知晓其在某对抗提示词下的输出可能不合适，因此可以迭代询问并修正回答。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.15180">Break the breakout:
-Reinventing lm defense against jailbreak attacks with
-self-refinement</a>：</p>
-<p>验证了基础自优化方法在未对齐大语言模型上的有效性。他们建议将提示与响应格式化为JSON或代码结构，以此区分模型反馈内容。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2401.06561">Intention analysis
-makes llms a good jailbreak defender</a>：</p>
-<p>在自优化过程中设定明确目标以提升优化效果。具体而言，利用语言模型从伦理性和合法性等核心维度分析用户提示，并收集反映提示意图的模型中间响应。通过将这些附加信息嵌入提示，可显著提升模型生成安全准确响应的可靠性。</p></li>
-</ul>
-<h4 id="总结-6">总结</h4>
-<p>尽管自优化方法无需额外微调流程，且在各类防御场景中表现优异，但其自我修正过程依赖模型内在纠错能力，可能导致性能不稳定。若大语言模型的安全对齐程度不足，基于自优化的防御机制可能失效。</p>
-<h3 id="代理防御proxy-defense">4.2.5 代理防御（Proxy Defense）</h3>
-<p>使用其他模型进行安全检查。</p>
-<ul>
-<li><p><a
-target="_blank" rel="noopener" href="https://github.com/meta-llama/PurpleLlama/blob/main/Llama-Guard2/MODEL_CARD.md">LlamaGuard</a>：创新性地实现了双重内容分类，既对提示输入也对输出响应进行安全评估，可直接作为代理防御方案部署使用。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2403.04783">AutoDefense</a>：该多智能体防御框架由负责意图分析和提示词判定的智能体组成，通过协同检测有害响应并实施过滤，确保模型输出的安全性。</p></li>
-</ul>
-<h4 id="总结-7">总结</h4>
-<p>代理防御方法不依赖于目标模型，并能有效抵御大多数基于提示的攻击。然而，外部检测器可能被逆向推导（<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.09132">Exploring the adversarial
-capabilities of large language models</a>）。</p>
-<h1 id="评测">5 评测</h1>
-<h2 id="指标">5.1 指标</h2>
-<h3 id="攻击成功率attack-success-rate">5.1.1 攻击成功率（Attack Success
-Rate）</h3>
+<h3 id="综合损失函数">2.3 综合损失函数</h3>
+<p><span
+class="math display">ℒ<sub><em>D</em><em>S</em><em>N</em></sub>(<em>x</em><sub>1 : <em>n</em></sub>) = ℒ<sub>affirmative</sub>(<em>x</em><sub>1 : <em>n</em></sub>) + <em>α</em> ⋅ ℒ<sub>refusal</sub>(<em>x</em><sub>1 : <em>n</em></sub>)</span></p>
+<p><span
+class="math display"><em>a</em><em>d</em><em>v</em><sup>*</sup> ← <em>a</em><em>r</em><em>g</em><em>m</em><em>i</em><em>n</em>ℒ<sub><em>D</em><em>S</em><em>N</em></sub>(<em>x</em><sub>1 : <em>n</em></sub> ⊕ <em>a</em><em>d</em><em>v</em>)</span></p>
+<p>目标为找到使综合损失最小的后缀adv*。</p>
+<h2 id="集成评估ensemble-evaluation">3. 集成评估（Ensemble
+Evaluation）</h2>
+<h3 id="评估框架">3.1 评估框架</h3>
+<table>
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr>
+<th>模块</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NLI矛盾检测</strong></td>
+<td>使用自然语言推理模型检测响应中的语义矛盾，越大说明越低的回复连续性（算法1）</td>
+</tr>
+<tr>
+<td><strong>HarmBench评估器</strong></td>
+<td>基于微调的Llama-2分类器判断有害性</td>
+</tr>
+<tr>
+<td><strong>GPT-4评估器</strong></td>
+<td>通过提示工程判断生成内容是否符合攻击目标</td>
+</tr>
+</tbody>
+</table>
 <figure>
 <img
-src="/images/post_images/2025-05-24-论文阅读（综述）——Jailbreak-Attacks-and-Defenses-Against-Large-Language-Models-A-Survey/image-20250531171211107.png"
-alt="image-20250531171211107" />
-<figcaption aria-hidden="true">image-20250531171211107</figcaption>
+src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526152512651.png"
+alt="image-20250526152512651" />
+<figcaption aria-hidden="true">image-20250526152512651</figcaption>
 </figure>
-<p>其中Ntotal为越狱提示词总数，Nsuccess为攻击成功的数目。</p>
-<h4 id="安全评估器">安全评估器</h4>
+<p>将输出划分为n个句子，计算每个句子与用户提问的一致性，以及句子之间的关系，然后根据句子长度加权得到总的矛盾得分，与预设阈值比较。</p>
+<h3 id="评估效果对比">3.2 评估效果对比</h3>
+<table>
+<thead>
+<tr>
+<th>评估方法</th>
+<th>准确率（%）</th>
+<th>AUC</th>
+<th>F1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Refusal Matching</td>
+<td>74</td>
+<td>0.72</td>
+<td>0.79</td>
+</tr>
+<tr>
+<td>NLI</td>
+<td>80</td>
+<td>0.80</td>
+<td>0.81</td>
+</tr>
+<tr>
+<td><strong>集成评估</strong></td>
+<td><strong>82</strong></td>
+<td><strong>0.79</strong></td>
+<td><strong>0.86</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="实验结果与分析">4. 实验结果与分析</h2>
+<h3 id="攻击成功率asr">4.1 攻击成功率（ASR）</h3>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>GCG（ASR%）</th>
+<th>DSN（ASR%）</th>
+<th>提升幅度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Llama2-13B</td>
+<td>24</td>
+<td>38</td>
+<td>+58%</td>
+</tr>
+<tr>
+<td>Vicuna-13B</td>
+<td>89</td>
+<td>95</td>
+<td>+7%</td>
+</tr>
+<tr>
+<td>Mistral-7B</td>
+<td>92</td>
+<td>98</td>
+<td>+6%</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li><p>尚未有统一的结论定义什么是一次成功的越狱尝试（<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2406.09321">Jailbreakeval: An integrated
-toolkit for evaluating jailbreak attempts against large language
-models</a>），主要有以下两种分类方式：</p>
+<li><strong>迁移性测试</strong>：DSN后缀迁移至GPT-3.5
+Turbo的ASR达95%（GCG为34%）。</li>
+</ul>
+<h3 id="消融实验">4.2 消融实验</h3>
 <ul>
-<li><p>基于规则：在LLM输出中检测关键词（<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2307.15043">Universal and transferable
-adversarial attacks on aligned language models</a>，<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.14857">Is the system message really
-important to jailbreaks in large language models?</a>）</p></li>
-<li><p>基于LLM：使用最新的大语言模型来评价攻击是否成功（<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.03693">Fine-tuning aligned language
-models compromises safety, even when users do not intend
-to!</a>），可以得到二分结果或一个有害性分数。</p></li>
+<li><strong>余弦衰减的作用</strong>：移除后，Llama2-7B的ASR从38%降至22%。</li>
+<li><strong>拒绝抑制系数α</strong>：α=0.5时性能最优（见图3）。</li>
+</ul>
+<hr />
+<h2 id="贡献与讨论">5. 贡献与讨论</h2>
+<h3 id="主要贡献">5.1 主要贡献</h3>
+<ol type="1">
+<li><strong>理论创新</strong>：
+<ul>
+<li>揭示Token Shift现象，提出余弦衰减加权。</li>
+<li>首次将拒绝抑制纳入越狱攻击目标函数。</li>
 </ul></li>
-<li><p>大部分基准使用基于大模型的评价方法，但评估过程各有不同：</p>
+<li><strong>实用价值</strong>：
 <ul>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.10260">StrongReject</a>：三维度评分：是否拒绝有害提示、生成内容是否精确匹配有害指令、输出结果是否符合现实逻辑。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2401.09002">AttackEval</a>：通过指令微调预训练大语言模型，进行三维度安全评估：目标模型是否成功拦截有害指令、生成内容是否精确匹配攻击意图、输出结果是否符合现实逻辑。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://github.com/ThuCCSLab/JailbreakEval">JailbreakEval</a>：创新性地实现基于投票机制的安全评估。作者的工作将当前主流的越狱成功判定方法系统归类为：人工标注、字符串匹配、对话补全和文本分类四大类（<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2406.09321">Jailbreakeval: An integrated
-toolkit for evaluating jailbreak attempts against large language
-models</a>）。</p></li>
+<li>DSN攻击在真实场景中仅需附加优化后缀（20 token），易于部署。</li>
+<li>集成评估减少误判率（F1提升7%）。</li>
 </ul></li>
-</ul>
-<h3 id="困惑度perplexity">5.1.2 困惑度（Perplexity）</h3>
-<figure>
-<img
-src="/images/post_images/2025-05-24-论文阅读（综述）——Jailbreak-Attacks-and-Defenses-Against-Large-Language-Models-A-Survey/image-20250531174526143.png"
-alt="image-20250531174526143" />
-<figcaption aria-hidden="true">image-20250531174526143</figcaption>
-</figure>
-<p>困惑度用于衡量越狱提示词的可读性和流畅性。很多防御方法过滤高困惑度的提示词，因此低困惑度的越狱提示词更加值得关注。式中W=(w1,w2,…,wn)，以token切分序列，Pr(<em>wi</em>
-|w&lt;i)为第i个token的输出概率。</p>
+</ol>
+<h3 id="局限性">5.2 局限性</h3>
 <ul>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.04451">Autodan: Generating
-stealthy jailbreak prompts on aligned large language models</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2404.16873">Advprompter: Fast
-adaptive adversarial prompting for llms</a></p></li>
+<li><strong>黑盒模型挑战</strong>：对GPT-4、Claude等高度对齐模型攻击仍困难。</li>
+<li><strong>防御措施</strong>：PPL过滤可部分防御，但可通过添加无关前缀绕过（PPL从11k降至1.1k）。</li>
 </ul>
-<h2 id="数据集">5.2 数据集</h2>
-<figure>
-<img
-src="/images/post_images/2025-05-24-论文阅读（综述）——Jailbreak-Attacks-and-Defenses-Against-Large-Language-Models-A-Survey/image-20250531175542934.png"
-alt="image-20250531175542934" />
-<figcaption aria-hidden="true">image-20250531175542934</figcaption>
-</figure>
-<p>“Safety dimensions”指数据集中覆盖了多少种有害类别。</p>
-<ul>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.15302">TechHazardQA</a>：要求模型以文字或伪代码给出答案来检测以特定格式输出时的模型表现。</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2307.08487">Latent
-Jailbreak</a>：要求模型翻译可能包含恶意内容的文本。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2308.13387">Do-not-Answer</a>：全部是有害指令。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2308.01263">XSTEST</a>：包含安全与不安全指令来评估LLM在帮助能力和安全能力的平衡。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2304.10436">SC-Safety</a>：关注研究中文大模型，用多轮开放式对话进行测试。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.07045">SafetyBench</a>：设计覆盖了多类安全隐患的中英文多选问题。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2307.15043">AdvBench</a>：最初由GCG提出用于基于梯度的攻击。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://ojs.aaai.org/index.php/AAAI/article/download/34568/36723">SafeBench</a>：收集了能被转换为图像的有害提示词文本来攻击VLM。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.10260">StrongREJECT</a>：一个恶意问题的通用数据集。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2401.09002">AttackEval</a>：包含有基准真相的越狱提示词。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.04249">HarmBench</a>：特殊恶意行为，包含版权、上下文和多模态等等。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2304.10436">Safety-Prompts</a>：利用GPT-3.5-turbo加强的大量中文恶意提示词组成的数据集。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2404.01318">JailbreakBench</a>：覆盖OpenAI使用政策的混合数据集，每个恶意行为对应了正常行为。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://dl.acm.org/doi/pdf/10.1145/3658644.3670388?casa_token=cwTi36REMcYAAAAA:MxfuhBKTnGQkOtrnWIYKo2pDbOsB_B0uaDanrkw_3QjKA-yxuB6ydsYer9Z3JJdmKCMAl3V3XlDI">DoAnythingNow</a>：一项基于网络平台提示的大规模调研，依据特征差异将其划分为不同社群类型。特别地，针对OpenAI使用政策禁止的敏感场景，运用GPT-4为不同社群生成定制化越狱提示，由此构建出涵盖各类禁忌问题的大规模数据集。</p></li>
-</ul>
-<h2 id="工具包">5.3 工具包</h2>
-<ul>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.04249">HarmBench</a>：提供了一个红队评估框架，既能评估越狱攻击，又能评估防御方法。给定越狱攻击方法和目标模型，该框架用不同恶意行为尝试越狱该模型，并统一评估。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2304.10436">Safety-Prompts</a>：构建了一个专门针对中文大语言模型的安全评估平台，采用多场景安全测试框架：向目标模型输入不同安全等级的越狱提示，随后由大语言模型评估器对生成响应进行多维度分析，最终给出综合安全评分以判定目标模型的防御能力。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2404.01318">JailbreakBench</a>：本框架兼容越狱攻击与防御方法的双向测评，系统评估当前越狱研究的可复现性，集成了绝大多数前沿对抗提示、防御方法和评估分类器，并可通过模块化调用快速构建个性化评估流程。</p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2403.12171">EasyJailbreak</a>：提出了一套标准化的三阶段越狱攻击评估框架。在准备阶段，用户提供包含恶意问题和模板种子在内的越狱配置；在推理阶段，系统自动将模板应用于问题构建越狱提示，并对提示进行变异处理后再输入目标模型获取响应；最终在评估阶段，基于大语言模型或规则的评价器会对查询-响应对进行检测，生成整体安全指标。</p></li>
-</ul>
-<h1 id="总结-8">6 总结</h1>
-<p>​
-本文系统构建了大语言模型越狱攻防方法的分类体系，研究发现：当前攻击方法正呈现效率提升与知识依赖降低的双重趋势，使得攻击更具实操性，这为防御研究提出了紧迫需求。</p>
-<p>​
-此外，本文通过横向对比现有评估基准，揭示了越狱攻防技术竞赛中的关键缺口，为后续研究提供切实启示。</p>
+<hr />
+<h2 id="总结与展望">6. 总结与展望</h2>
+<p>本文通过改进损失函数和评估方法，显著提升了越狱攻击的效果和评估可靠性。未来方向包括：
+- 将DSN扩展至多模态攻击 - 探索动态拒绝关键词生成 -
+结合对抗训练提升模型鲁棒性</p>
+<h1 id="复现">复现</h1>
+<h2 id="代码修改记录">代码修改记录</h2>
+<ol type="1">
+<li>由于环境的numpy版本过高，源代码中的np.infty全部被替换为np.inf</li>
+<li>eval2_gpt.py中有笔误“whehter”，改为“whether”</li>
+<li>eval2_gpt.py中的get_eval2_gpt4_results改为使用了硅基流动接口的deepseek-ai/DeepSeek-V3模型</li>
+<li></li>
+</ol>
+<p>TODO：</p>
+<p>改一下device，支持多卡</p>
 
       
     </div>
@@ -939,7 +522,7 @@ target="_blank" rel="noopener" href="https://arxiv.org/pdf/2403.12171">EasyJailb
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/null-index/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/17/">17</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/15/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/null-index/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/18/">18</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/15/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -962,14 +545,14 @@ target="_blank" rel="noopener" href="https://arxiv.org/pdf/2403.12171">EasyJailb
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">55k</span>
+    <span title="站点总字数">63k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:40</span>
+    <span title="站点阅读时长">1:54</span>
   </span>
 </div>
 
