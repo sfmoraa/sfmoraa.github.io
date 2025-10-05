@@ -172,7 +172,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2505.004v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2506.002v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2505.004v1/" class="post-title-link" itemprop="url">论文阅读——Don’t Say No: Jailbreaking LLM by Suppressing Refusal</a>
+          <a href="/posts/2506.002v1/" class="post-title-link" itemprop="url">论文阅读——Harnessing explanations Llm-to-lm interpreter for enhanced text-attributed graph representation learning</a>
         </h2>
 
         <div class="post-meta-container">
@@ -240,9 +240,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-05-26 00:00:00 / 修改时间：23:01:07" itemprop="dateCreated datePublished" datetime="2025-05-26T00:00:00+08:00">2025-05-26</time>
+      <time title="创建时间：2025-06-08 00:00:00" itemprop="dateCreated datePublished" datetime="2025-06-08T00:00:00+08:00">2025-06-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-06-10 00:28:07" itemprop="dateModified" datetime="2025-06-10T00:28:07+08:00">2025-06-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +264,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E8%B6%8A%E7%8B%B1/" itemprop="url" rel="index"><span itemprop="name">越狱</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%9B%BE%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图学习</span></a>
         </span>
     </span>
 
@@ -269,14 +275,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.6k</span>
+      <span>1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
+      <span>2 分钟</span>
     </span>
 </div>
 
@@ -289,220 +295,100 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="论文概况">论文概况</h1>
 <p><strong>题目</strong>：<a
-href="%5B2404.16369%5D(https://arxiv.org/pdf/2404.16369)">Don’t Say No:
-Jailbreaking LLM by Suppressing Refusal</a></p>
-<p><strong>通讯作者</strong>：Wenjie
-Wang：wangwj1@shanghaitech.edu.cn</p>
-<p><strong>作者院校</strong>：上海科技大学、中国科学技术大学、浙江大学</p>
-<p><strong>发表于</strong>：arXiv</p>
+target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.19523">Harnessing explanations
+Llm-to-lm interpreter for enhanced text-attributed graph representation
+learning</a></p>
+<p><strong>通讯作者</strong>：Bryan Hooi：bhooi@comp.nus.edu.sg</p>
+<p><strong>作者院校</strong>：新加坡国立大学、洛约拉马利蒙特大学、纽约大学、Meta
+AI</p>
+<p><strong>发表于</strong>：ICLR 2024</p>
+<p><strong>代码仓库</strong>：https://github.com/XiaoxinHe/TAPE</p>
 <h1 id="论文内容">论文内容</h1>
-<h2 id="研究背景与问题">1 研究背景与问题</h2>
-<h3 id="llm安全对齐的挑战">1.1 LLM安全对齐的挑战</h3>
-<p>大型语言模型（LLMs）通过RLHF、模型微调等技术实现安全对齐，但仍面临越狱攻击（Jailbreaking）威胁，攻击者通过精心设计的输入诱导模型生成有害内容。这样的传统方法存在限制，现有方法（如GCG）通过优化对抗后缀最大化肯定响应（如“Sure,
-here is…”），但存在两大问题：</p>
-<ol type="1">
-<li><p><strong>Token
-Shift现象</strong>：损失函数平均计算所有token的损失，忽略前几个关键token的重要性。</p></li>
-<li><p><strong>拒绝抑制不足</strong>：未显式抑制模型的拒绝响应（如“I
-cannot assist”）。</p></li>
-</ol>
-<h3 id="现有评估方法的缺陷">1.2 现有评估方法的缺陷</h3>
+<h2 id="引言">引言</h2>
+<p>​
+文本属性图（TAGs）广泛存在（如论文引用网络），但现有方法存在局限，本文核心创新为提出LLM生成的解释作为特征：</p>
 <ul>
-<li><p><strong>关键词匹配</strong>（Refusal
-Matching）：通过检测响应的前若干个长度是否不包含拒绝关键词（如“Sorry”）来判断攻击成功与否，但存在高误判率（见Table
-2）。这是由于如果选定的检测长度过短，这个指标会忽视后续的拒绝内容，而过长则会将有害内容后面的拒绝内容检测到。</p>
+<li>通过提示LLM输出<strong>预测标签</strong>和<strong>决策解释</strong>，提取其知识与推理能力。</li>
+<li>设计
+<strong>LLM-to-LM解释器</strong>，将文本解释转化为GNN可用的向量特征。</li>
+</ul>
+<h2 id="相关工作">相关工作</h2>
+<ul>
+<li><strong>浅层特征+GNN</strong>：使用skip-gram等算法提取文本浅层特征，然后用GCN等图学习算法，但问题在于浅层特征语义捕捉能力弱。</li>
+<li><strong>小型LM微调+GNN</strong>：使用BERT等语言模型进行特征编码，然后再使用GNN，但问题在于计算成本高，且缺乏复杂推理能力。</li>
+<li><strong>LLM+图结构理解</strong>：虽然已有工作研究LLM对于图结构的理解，但未针对TAG任务优化。</li>
+</ul>
+<h2 id="定义">定义</h2>
+<ul>
+<li><p>文本属性图</p>
 <figure>
 <img
-src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526013110599.png"
-alt="image-20250526013110599" />
-<figcaption aria-hidden="true">image-20250526013110599</figcaption>
-</figure>
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234331255.png"
+alt="image-20250608234331255" />
+<figcaption aria-hidden="true">image-20250608234331255</figcaption>
+</figure></li>
+<li><p>LM特征提取</p>
 <figure>
 <img
-src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526121404360.png"
-alt="image-20250526121404360" />
-<figcaption aria-hidden="true">image-20250526121404360</figcaption>
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608234853934.png"
+alt="image-20250608234853934" />
+<figcaption aria-hidden="true">image-20250608234853934</figcaption>
+</figure></li>
+<li><p>LLM</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235316790.png"
+alt="image-20250608235316790" />
+<figcaption aria-hidden="true">image-20250608235316790</figcaption>
+</figure></li>
+<li><p>图神经网络</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235548998.png"
+alt="image-20250608235548998" />
+<figcaption aria-hidden="true">image-20250608235548998</figcaption>
 </figure></li>
 </ul>
-<hr />
-<h2 id="核心方法dsn攻击">2 核心方法：DSN攻击</h2>
-<h3 id="拒绝抑制suppress-refusal">2.1 拒绝抑制（Suppress Refusal）</h3>
-<ul>
-<li><p><strong>Unlikelihood损失</strong>：降低模型生成预定义拒绝关键词的概率：
-<span
-class="math display">ℒ<sub><em>U</em><em>n</em></sub>(<em>p</em>, <em>q</em>) = −∑<sub><em>i</em></sub><em>p</em><sub><em>i</em></sub><em>l</em><em>o</em><em>g</em>(1 − <em>q</em><sub><em>i</em></sub>)</span></p>
-<p><span class="math display">$$
-\mathcal{L}_{\text{refusal}}(x_{1:n}) = \sum_{y \in RKL}
-\sum_{i=n+1}^{n+H-RTL(y)} \mathcal{L}_{Un}(y,x_{i:i+RTL(y)})
-$$</span> 其中，<code>RKL</code>为拒绝关键词列表（如“sorry, i cannot”,
-“unethical”），<code>RTL</code>为每个拒绝关键词的长度。该式的含义是在给定输入的条件下，对于拒绝关键词列表里的每个拒绝关键词，限定输出长度区间内的每一个RTL长度的窗口都要最小化Unlikelihood损失。</p></li>
-</ul>
-<h3 id="肯定响应诱导elicit-affirmative-response">2.2
-肯定响应诱导（Elicit Affirmative Response）</h3>
-<ul>
-<li><p><strong>余弦衰减加权（Cosine
-Decay）</strong>：对生成序列的前几个token赋予更高权重，缓解Token Shift：
-<span class="math display">$$
-CD(i) = 0.5 + 0.5 \cos\left(\frac{i}{H} \cdot \frac{\pi}{2}\right)
-$$</span> 其中i表示第i个token，H是序列长度。加权后生成目标响应的概率为：
-<span class="math display">$$
-p_{CD}(x_{n+1:n+H}|x_{1:n}) = \prod_{i=1}^H CD(i) \cdot
-p(x_{n+i}|x_{1:n+i-1})
-$$</span></p></li>
-<li><p><strong>肯定响应损失</strong>： <span
-class="math display">ℒ<sub>affirmative</sub>(<em>x</em><sub>1 : <em>n</em></sub>) = −log <em>p</em><sub><em>C</em><em>D</em></sub>(<em>x̂</em><sub><em>n</em> + 1 : <em>n</em> + <em>H</em></sub>|<em>x</em><sub>1 : <em>n</em></sub>)</span>
-该式的含义是在给定输入的条件下，最大化尽早生成指定输出的概率。</p></li>
-</ul>
-<h3 id="综合损失函数">2.3 综合损失函数</h3>
-<p><span
-class="math display">ℒ<sub><em>D</em><em>S</em><em>N</em></sub>(<em>x</em><sub>1 : <em>n</em></sub>) = ℒ<sub>affirmative</sub>(<em>x</em><sub>1 : <em>n</em></sub>) + <em>α</em> ⋅ ℒ<sub>refusal</sub>(<em>x</em><sub>1 : <em>n</em></sub>)</span></p>
-<p><span
-class="math display"><em>a</em><em>d</em><em>v</em><sup>*</sup> ← <em>a</em><em>r</em><em>g</em><em>m</em><em>i</em><em>n</em>ℒ<sub><em>D</em><em>S</em><em>N</em></sub>(<em>x</em><sub>1 : <em>n</em></sub> ⊕ <em>a</em><em>d</em><em>v</em>)</span></p>
-<p>目标为找到使综合损失最小的后缀adv*。</p>
-<h2 id="集成评估ensemble-evaluation">3. 集成评估（Ensemble
-Evaluation）</h2>
-<h3 id="评估框架">3.1 评估框架</h3>
-<table>
-<colgroup>
-<col style="width: 24%" />
-<col style="width: 75%" />
-</colgroup>
-<thead>
-<tr>
-<th>模块</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>NLI矛盾检测</strong></td>
-<td>使用自然语言推理模型检测响应中的语义矛盾，越大说明越低的回复连续性（算法1）</td>
-</tr>
-<tr>
-<td><strong>HarmBench评估器</strong></td>
-<td>基于微调的Llama-2分类器判断有害性</td>
-</tr>
-<tr>
-<td><strong>GPT-4评估器</strong></td>
-<td>通过提示工程判断生成内容是否符合攻击目标</td>
-</tr>
-</tbody>
-</table>
+<h2 id="论文方法">论文方法</h2>
 <figure>
 <img
-src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526152512651.png"
-alt="image-20250526152512651" />
-<figcaption aria-hidden="true">image-20250526152512651</figcaption>
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250608235916094.png"
+alt="image-20250608235916094" />
+<figcaption aria-hidden="true">image-20250608235916094</figcaption>
 </figure>
-<p>将输出划分为n个句子，计算每个句子与用户提问的一致性，以及句子之间的关系，然后根据句子长度加权得到总的矛盾得分，与预设阈值比较。</p>
-<h3 id="评估效果对比">3.2 评估效果对比</h3>
-<table>
-<thead>
-<tr>
-<th>评估方法</th>
-<th>准确率（%）</th>
-<th>AUC</th>
-<th>F1</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Refusal Matching</td>
-<td>74</td>
-<td>0.72</td>
-<td>0.79</td>
-</tr>
-<tr>
-<td>NLI</td>
-<td>80</td>
-<td>0.80</td>
-<td>0.81</td>
-</tr>
-<tr>
-<td><strong>集成评估</strong></td>
-<td><strong>82</strong></td>
-<td><strong>0.79</strong></td>
-<td><strong>0.86</strong></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="实验结果与分析">4. 实验结果与分析</h2>
-<h3 id="攻击成功率asr">4.1 攻击成功率（ASR）</h3>
-<table>
-<thead>
-<tr>
-<th>模型</th>
-<th>GCG（ASR%）</th>
-<th>DSN（ASR%）</th>
-<th>提升幅度</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Llama2-13B</td>
-<td>24</td>
-<td>38</td>
-<td>+58%</td>
-</tr>
-<tr>
-<td>Vicuna-13B</td>
-<td>89</td>
-<td>95</td>
-<td>+7%</td>
-</tr>
-<tr>
-<td>Mistral-7B</td>
-<td>92</td>
-<td>98</td>
-<td>+6%</td>
-</tr>
-</tbody>
-</table>
 <ul>
-<li><strong>迁移性测试</strong>：DSN后缀迁移至GPT-3.5
-Turbo的ASR达95%（GCG为34%）。</li>
+<li><p>对于每一个论文，将摘要、标题、问题输入大模型，要求大模型预测的分类以及相应的解释。</p></li>
+<li><p>微调LM来从LLM生成的预测和解释中提取特征用于后续的GNN。</p>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141355323.png"
+alt="image-20250609141355323" />
+<figcaption aria-hidden="true">image-20250609141355323</figcaption>
+</figure>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609141404895.png"
+alt="image-20250609141404895" />
+<figcaption aria-hidden="true">image-20250609141404895</figcaption>
+</figure></li>
+<li><p>大模型生成的预测使用独热编码，并线性变换拼接到特征向量中</p></li>
+<li><p>分别利用orig（原始文本）、expl（LLM生成的解释）、pred（LLM生成的预测）特征来训练GNN模型，平均后作为预测结果</p></li>
 </ul>
-<h3 id="消融实验">4.2 消融实验</h3>
-<ul>
-<li><strong>余弦衰减的作用</strong>：移除后，Llama2-7B的ASR从38%降至22%。</li>
-<li><strong>拒绝抑制系数α</strong>：α=0.5时性能最优（见图3）。</li>
-</ul>
-<hr />
-<h2 id="贡献与讨论">5. 贡献与讨论</h2>
-<h3 id="主要贡献">5.1 主要贡献</h3>
-<ol type="1">
-<li><strong>理论创新</strong>：
-<ul>
-<li>揭示Token Shift现象，提出余弦衰减加权。</li>
-<li>首次将拒绝抑制纳入越狱攻击目标函数。</li>
-</ul></li>
-<li><strong>实用价值</strong>：
-<ul>
-<li>DSN攻击在真实场景中仅需附加优化后缀（20 token），易于部署。</li>
-<li>集成评估减少误判率（F1提升7%）。</li>
-</ul></li>
-</ol>
-<h3 id="局限性">5.2 局限性</h3>
-<ul>
-<li><strong>黑盒模型挑战</strong>：对GPT-4、Claude等高度对齐模型攻击仍困难。</li>
-<li><strong>防御措施</strong>：PPL过滤可部分防御，但可通过添加无关前缀绕过（PPL从11k降至1.1k）。</li>
-</ul>
-<hr />
-<h2 id="总结与展望">6. 总结与展望</h2>
-<p>本文通过改进损失函数和评估方法，显著提升了越狱攻击的效果和评估可靠性。未来方向包括：
-- 将DSN扩展至多模态攻击 - 探索动态拒绝关键词生成 -
-结合对抗训练提升模型鲁棒性</p>
+<h2 id="结果">结果</h2>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250609154424517.png"
+alt="image-20250609154424517" />
+<figcaption aria-hidden="true">image-20250609154424517</figcaption>
+</figure>
 <h1 id="复现">复现</h1>
-<h2 id="代码修改记录">代码修改记录</h2>
-<ol type="1">
-<li>由于环境的numpy版本过高，源代码中的np.infty全部被替换为np.inf</li>
-<li>eval2_gpt.py中有笔误“whehter”，改为“whether”</li>
-<li>eval2_gpt.py中的get_eval2_gpt4_results改为使用了硅基流动接口的deepseek-ai/DeepSeek-V3模型</li>
-<li></li>
-</ol>
-<p>TODO：</p>
-<p>改一下device，支持多卡</p>
+<h2 id="llm-direct">1 LLM Direct</h2>
+<figure>
+<img
+src="/images/post_images/2025-06-08-论文阅读——Harnessing-explanations-Llm-to-lm-interpreter-for-enhanced-text-attributed-graph-representation-learnin/image-20250610002752820.png"
+alt="image-20250610002752820" />
+<figcaption aria-hidden="true">image-20250610002752820</figcaption>
+</figure>
 
       
     </div>
@@ -522,7 +408,7 @@ Turbo的ASR达95%（GCG为34%）。</li>
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/null-index/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/18/">18</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/15/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/null-index/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/20/">20</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/15/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -545,14 +431,14 @@ Turbo的ASR达95%（GCG为34%）。</li>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">63k</span>
+    <span title="站点总字数">81k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:54</span>
+    <span title="站点阅读时长">2:26</span>
   </span>
 </div>
 
