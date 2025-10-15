@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2508.002v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.010v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2508.002v1/" class="post-title-link" itemprop="url">论文阅读——PATTON : Language Model Pretraining on Text-Rich Networks</a>
+          <a href="/posts/2510.010v1/" class="post-title-link" itemprop="url">LightPROF: A Lightweight Reasoning Framework for Large Language Model on Knowledge Graph</a>
         </h2>
 
         <div class="post-meta-container">
@@ -241,14 +241,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2025-08-04 00:00:00" itemprop="dateCreated datePublished" datetime="2025-08-04T00:00:00+08:00">2025-08-04</time>
+      <time title="创建时间：2025-10-13 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-13T00:00:00+08:00">2025-10-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-08-07 23:26:07" itemprop="dateModified" datetime="2025-08-07T23:26:07+08:00">2025-08-07</time>
+      <time title="修改时间：2025-10-15 19:02:17" itemprop="dateModified" datetime="2025-10-15T19:02:17+08:00">2025-10-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -264,7 +264,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%9B%BE%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图学习</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/KGQA/" itemprop="url" rel="index"><span itemprop="name">KGQA</span></a>
         </span>
     </span>
 
@@ -275,14 +275,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>682</span>
+      <span>12k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>22 分钟</span>
     </span>
 </div>
 
@@ -293,36 +293,554 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况">论文概况</h1>
-<p><strong>题目</strong>：<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.12268">PATTON : Language Model
-Pretraining on Text-Rich Networks</a></p>
-<p><strong>通讯作者</strong>：Jiawei Han： hanj@illinois.edu</p>
-<p><strong>作者院校</strong>：伊利诺伊大学厄巴纳-香槟分校</p>
-<p><strong>发表于</strong>：ACL 2023</p>
-<p><strong>代码仓库</strong>：<a
-target="_blank" rel="noopener" href="https://github.com/PeterGriffinJin/Patton">PeterGriffinJin/Patton:
-Patton: Language Model Pretraining on Text-rich Networks (ACL 2023 main
-oral)</a></p>
-<h1 id="论文内容">论文内容</h1>
-<h2 id="概括总结">概括总结</h2>
-<p>目前缺乏对<strong>富文本网络</strong>（文本文档以及文档之间的语义关联）的预训练方法，PATTON则提出<strong>网络上下文掩码语言建模</strong>（节点中随机掩码部分
-token，训练语言模型基于节点内部 token 和网络邻居的 token 预测被掩码的
-token）和<strong>掩码节点预测</strong>（随机掩码部分网络中节点，训练语言模型基于邻居的文本信息正确识别被掩码的节点）以捕捉文本属性与网络结构之间的内在依赖关系。</p>
-<p>PATTON 采用GNN 嵌套 Transformer 架构，首先通过 GNN 模块聚合节点邻居的
-[CLS]
-隐藏状态，然后将节点自身隐藏状态与邻居聚合状态拼接，随后通过不对称多头注意力和前馈网络更新隐藏状态。PATTON
-统一使用最后一层 [CLS] token 的隐藏状态作为文本表示，适配下游任务。</p>
-<figure>
-<img
-src="/images/post_images/2025-08-04-论文阅读——PATTON--Language-Model-Pretraining-on-Text-Rich-Networks/image-20250805201819304.png"
-alt="image-20250805201819304" />
-<figcaption aria-hidden="true">image-20250805201819304</figcaption>
-</figure>
+          <h1
+id="lightprof面向知识图谱上大语言模型的轻量级推理框架arxiv2504.03137">LightPROF：面向知识图谱上大语言模型的轻量级推理框架（arxiv2504.03137）</h1>
+<h2 id="一论文基本信息">一、论文基本信息</h2>
+<ul>
+<li><strong>标题</strong>：<a
+target="_blank" rel="noopener" href="https://ojs.aaai.org/index.php/AAAI/article/view/34510/36665">LightPROF:
+A Lightweight Reasoning Framework for Large Language Model on Knowledge
+Graph</a>（<a
+target="_blank" rel="noopener" href="https://arxiv.org/abs/2504.03137">arXiv:2504.03137</a>）</li>
+<li><strong>核心目标</strong>：解决大语言模型（LLMs）在知识图谱问答（KGQA）任务中“知识更新滞后”“忽略图谱结构信息”“资源消耗高”的问题，为小规模LLMs提供高效、精准的知识图谱推理能力<br />
+</li>
+<li><strong>作者单位</strong>：北京邮电大学、杭州电子科技大学、新加坡管理大学、新加坡国立大学、中国科学院计算技术研究所、西安交通大学等<br />
+</li>
+<li><strong>发表背景</strong>：针对现有KG-LLM融合方法“仅文本形式注入知识”“依赖大参数量模型”的痛点，提出“检索-嵌入-推理”三阶段轻量框架，在公开数据集上验证了对小规模LLMs的性能提升与效率优势</li>
+<li><strong>发表刊物</strong>：AAAI2025</li>
+</ul>
+<h2 id="二研究背景与核心问题">二、研究背景与核心问题</h2>
+<h3 id="llms与知识图谱kg的互补性">1. LLMs与知识图谱（KG）的互补性</h3>
+<ul>
+<li><strong>LLMs的优势与不足</strong>：<br />
+优势：文本理解能力强、零样本推理表现突出（如复杂任务的“涌现能力”）；<br />
+不足：知识更新滞后（训练数据固定导致“知识老化”）、知识密集型任务表现差（缺乏任务专属先验知识）、训练/更新成本极高（大参数量模型微调耗时耗力）。<br />
+</li>
+<li><strong>KG的价值</strong>：以三元组（<span
+class="math inline"><em>h</em>, <em>r</em>, <em>t</em></span>，即头实体-关系-尾实体）形式结构化组织知识，具备“知识可靠”“更新灵活”“逻辑关系清晰”的特点，可为LLMs提供精准的上下文支撑，解决其知识缺陷。</li>
+</ul>
+<h3 id="现有kg-llm推理方法的两大核心痛点">2.
+现有KG-LLM推理方法的两大核心痛点</h3>
+<p>现有方法均通过“从KG检索信息→以文本形式注入LLM提示（Prompt）”实现融合，但存在关键缺陷：<br />
+-
+<strong>痛点1：忽略KG的结构信息</strong>：将KG内容转化为“多维列表”或“自然语言文本”注入，丢失了图谱中实体间的层级关系、多跳逻辑等核心结构信息，导致LLMs无法充分利用KG的推理价值；<br />
+-
+<strong>痛点2：资源消耗过高</strong>：依赖闭源大模型（如ChatGPT）或开源大参数量模型（如LLaMa-2-70B），且采用“迭代检索-推理”模式（从问题实体开始逐步扩展信息），导致LLM调用次数多、输入token量大、推理效率低，难以落地。</p>
+<h2 id="三相关工作梳理">三、相关工作梳理</h2>
+<p>论文通过对比三类相关工作，凸显LightPROF的创新性：</p>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 43%" />
+<col style="width: 41%" />
+</colgroup>
+<thead>
+<tr>
+<th>研究方向</th>
+<th>核心思路</th>
+<th>不足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM提示工程（Prompt Engineering）</td>
+<td>设计离散提示（零样本/少样本、思维链CoT）或软提示，在不微调LLM参数的情况下提升性能</td>
+<td>软提示多针对文本数据，未适配KG的结构特性；无法解决LLM知识不足的根本问题</td>
+</tr>
+<tr>
+<td>KG-based LLM预训练</td>
+<td>将KG三元组构建为语料，通过预训练任务（如掩码预测）增强LLM的知识能力</td>
+<td>KG失去“动态更新”“可解释”优势；LLM面临“灾难性遗忘”（新知识覆盖旧知识）</td>
+</tr>
+<tr>
+<td>KG-based LLM推理（现有）</td>
+<td>从KG检索知识→以文本形式注入Prompt，依赖LLM推理（如KAPING、StructGPT、ToG）</td>
+<td>仅文本形式注入，丢失结构信息；迭代检索导致效率低、token消耗大</td>
+</tr>
+</tbody>
+</table>
+<h2 id="四预备知识关键概念定义">四、预备知识：关键概念定义</h2>
+<p>为理解LightPROF的设计，需明确论文定义的核心术语：<br />
+1. <strong>知识图谱（KG）</strong>：<span
+class="math inline"><em>G</em> = {(<em>h</em>, <em>r</em>, <em>t</em>)|<em>h</em>, <em>t</em> ∈ <em>E</em>, <em>r</em> ∈ <em>R</em>}</span>，<span
+class="math inline"><em>E</em></span>为实体集，<span
+class="math inline"><em>R</em></span>为关系集，三元组表示“头实体<span
+class="math inline"><em>h</em></span>通过关系<span
+class="math inline"><em>r</em></span>关联尾实体<span
+class="math inline"><em>t</em></span>”；<br />
+2. <strong>锚实体（Anchor
+Entities）</strong>：问题中提及的KG实体集合<span
+class="math inline"><em>B</em> = {<em>b</em><sub>1</sub>, <em>b</em><sub>2</sub>, ..., <em>b</em><sub><em>K</em></sub>}</span>（如问题“《精益创业》作者创办的公司是什么？”中，锚实体为“《精益创业》”）；<br />
+3. <strong>关系链（Relation
+Link）</strong>：从锚实体出发的多跳关系序列<span
+class="math inline"><em>l</em> = {<em>r</em><sub>1</sub>, <em>r</em><sub>2</sub>, ..., <em>r</em><sub><em>J</em></sub>}</span>（如“《精益创业》→作者→创办公司”）；<br />
+4. <strong>推理路径（Reasoning
+Path）</strong>：关系链在KG中的具体实例<span
+class="math inline"><em>R</em><sub><em>l</em></sub> = {<em>b</em><sub>1</sub>, <em>r</em><sub>1</sub>, <em>e</em><sub>1</sub>, <em>r</em><sub>2</sub>, ..., <em>r</em><sub><em>M</em></sub>, <em>e</em><sub><em>M</em></sub>}</span>（如“《精益创业》→作者→埃里克·莱斯→创办→IMVU”）；<br />
+5. <strong>推理图（Reasoning
+Graph）</strong>：由多个相关推理路径构成的子图<span
+class="math inline"><em>G</em><sub><em>R</em></sub></span>，是支撑LLM推理的核心知识单元。</p>
+<h2 id="五lightprof框架详解">五、LightPROF框架详解</h2>
+<p>LightPROF的核心是<strong>“Retrieve-Embed-Reason”三阶段流程</strong>，通过“精准检索缩小范围→结构化嵌入保留信息→轻量推理适配小模型”，实现“低资源消耗+高推理性能”。框架整体架构如下图（论文图1）：</p>
+<h3
+id="阶段1推理图检索reasoning-graph-retrieval">阶段1：推理图检索（Reasoning
+Graph Retrieval）</h3>
+<p>目标：从大规模KG中高效、精准地提取与问题相关的推理图<span
+class="math inline"><em>G</em><sub><em>R</em></sub></span>，避免冗余信息，减少后续处理成本。分为三步：</p>
+<h4 id="语义提取semantic-extraction">1.1 语义提取（Semantic
+Extraction）</h4>
+<ul>
+<li><strong>任务</strong>：从问题中提取“推理跳数<span
+class="math inline"><em>h</em><sub><em>q</em></sub></span>”和“锚实体<span
+class="math inline"><em>B</em></span>”，缩小检索范围；<br />
+</li>
+<li><strong>方法</strong>：微调预训练语言模型（如BERT），将其转化为分类任务：
 <ol type="1">
-<li>面向文本丰富网络上的语言模型预训练问题，相较基线取得一定提升。</li>
-<li>下游任务局限于分类、检索等，未扩展到摘要、问答等生成式任务。</li>
+<li>输入问题<span
+class="math inline"><em>q</em></span>，通过BERT得到语义向量<span
+class="math inline"><em>V</em><sub><em>q</em></sub> = <em>P</em><em>L</em><em>M</em>(<em>q</em>)</span>；<br />
+</li>
+<li>预测推理跳数<span
+class="math inline"><em>h</em><sub><em>q</em></sub> = arg max<sub><em>h</em></sub><em>P</em>(<em>h</em>|<em>V</em><sub><em>q</em></sub>)</span>（<span
+class="math inline"><em>h</em></span>为1~<span
+class="math inline"><em>H</em></span>，<span
+class="math inline"><em>H</em></span>为数据集中最大跳数，如WebQSP最大2跳、CWQ最大4跳）；<br />
+</li>
+<li>通过实体链接工具（如实体匹配算法）提取锚实体<span
+class="math inline"><em>B</em></span>。</li>
+</ol></li>
+</ul>
+<h4 id="关系检索relation-retrieval">1.2 关系检索（Relation
+Retrieval）</h4>
+<ul>
+<li><strong>核心逻辑</strong>：以“关系”为检索基本单位（论文认为“关系比实体更稳定、语义更明确”），基于锚实体<span
+class="math inline"><em>B</em></span>和跳数<span
+class="math inline"><em>h</em><sub><em>q</em></sub></span>检索关系链；<br />
+</li>
+<li><strong>方法</strong>：约束广度优先搜索（BFS）：<br />
+从锚实体<span class="math inline"><em>B</em></span>出发，以<span
+class="math inline"><em>h</em><sub><em>q</em></sub></span>为深度限制，遍历KG收集所有可能的关系链<span
+class="math inline"><em>l</em></span>（如“锚实体=《精益创业》，<span
+class="math inline"><em>h</em><sub><em>q</em></sub> = 2</span>”时，检索“《精益创业》→作者→创办公司”这类2跳关系链）。</li>
+</ul>
+<h4 id="推理图采样reasoning-graph-sampling">1.3 推理图采样（Reasoning
+Graph Sampling）</h4>
+<ul>
+<li><strong>任务</strong>：筛选与问题语义最相关的关系链，生成推理图<span
+class="math inline"><em>G</em><sub><em>R</em></sub></span>；<br />
+</li>
+<li><strong>步骤</strong>：
+<ol type="1">
+<li>用LLM对检索到的关系链进行“语义相关性评分”（如“与‘找创办公司’的相关性”）；<br />
+</li>
+<li>选择Top-<span
+class="math inline"><em>k</em></span>高相关关系链；<br />
+</li>
+<li>基于Top-<span
+class="math inline"><em>k</em></span>关系链在KG中采样推理路径<span
+class="math inline">{<em>R</em><sub>1</sub>, <em>R</em><sub>2</sub>, ..., <em>R</em><sub><em>N</em></sub>}</span>，组合为推理图<span
+class="math inline"><em>G</em><sub><em>R</em></sub></span>。</li>
+</ol></li>
+</ul>
+<h3 id="阶段2知识嵌入knowledge-embedding">阶段2：知识嵌入（Knowledge
+Embedding）</h3>
+<p>目标：将推理图<span
+class="math inline"><em>G</em><sub><em>R</em></sub></span>的“文本信息”（实体/关系名称）与“结构信息”（三元组逻辑）融合编码，转化为LLM可理解的嵌入向量（软提示），解决“文本形式丢失结构”的问题。核心组件是<strong>Transformer-based
+Knowledge Adapter</strong>（知识适配器），分为三步：</p>
+<h4 id="基础嵌入文本与结构信息分离编码">2.1
+基础嵌入：文本与结构信息分离编码</h4>
+<ul>
+<li><strong>文本信息编码</strong>：对推理路径<span
+class="math inline"><em>R</em><sub><em>n</em></sub></span>中的每个实体（头/尾）、关系，用BERT生成基础嵌入：
+<ul>
+<li>关系嵌入：<span
+class="math inline"><em>e</em><sub><em>i</em></sub><sup><em>r</em></sup> = <em>E</em><em>m</em><em>b</em><em>e</em><em>d</em>(<em>r</em><sub><em>i</em></sub><sup><em>n</em></sup>)</span>（<span
+class="math inline"><em>r</em><sub><em>i</em></sub><sup><em>n</em></sup></span>为第<span
+class="math inline"><em>n</em></span>条路径的第<span
+class="math inline"><em>i</em></span>个关系）；<br />
+</li>
+<li>实体嵌入：<span
+class="math inline"><em>e</em><sub><em>i</em></sub><sup><em>h</em></sup> = <em>E</em><em>m</em><em>b</em><em>e</em><em>d</em>(<em>h</em><sub><em>i</em></sub><sup><em>n</em></sup>)</span>（头实体）、<span
+class="math inline"><em>e</em><sub><em>i</em></sub><sup><em>t</em></sup> = <em>E</em><em>m</em><em>b</em><em>e</em><em>d</em>(<em>t</em><sub><em>i</em></sub><sup><em>n</em></sup>)</span>（尾实体）；<br />
+</li>
+<li>文本融合：通过<span
+class="math inline"><em>F</em><em>u</em><em>s</em><em>i</em><em>o</em><em>n</em>(⋅)</span>聚合所有头实体、关系、尾实体的文本嵌入，得到路径级文本表示<span
+class="math inline"><em>z</em><sup><em>t</em></sup> = <em>f</em><sub><em>c</em></sub>(<em>z</em><sup><em>t</em><sub><em>h</em></sub></sup>, <em>z</em><sup><em>t</em><sub><em>r</em></sub></sup>, <em>z</em><sup><em>t</em><sub><em>t</em></sub></sup>)</span>（<span
+class="math inline"><em>f</em><sub><em>c</em></sub></span>为拼接操作，平衡语义完整性与计算成本）。</li>
+</ul></li>
+<li><strong>结构信息编码</strong>：捕捉三元组的逻辑关系（如“<span
+class="math inline"><em>h</em> → <em>r</em> → <em>t</em></span>”的顺序）：
+<ul>
+<li>局部结构编码：用<span
+class="math inline"><em>S</em><em>t</em><em>r</em><em>u</em><em>c</em><em>t</em><em>E</em><em>m</em><em>b</em>(⋅)</span>对单个三元组的嵌入进行组合，得到局部结构表示<span
+class="math inline"><em>s</em><sub><em>i</em></sub> = <em>S</em><em>t</em><em>r</em><em>u</em><em>c</em><em>t</em><em>E</em><em>m</em><em>b</em>(<em>e</em><sub><em>i</em></sub><sup><em>h</em></sup>, <em>e</em><sub><em>i</em></sub><sup><em>r</em></sup>, <em>e</em><sub><em>i</em></sub><sup><em>t</em></sup>)</span>；<br />
+</li>
+<li>全局结构聚合：用线性层<span
+class="math inline"><em>L</em><em>i</em><em>n</em><em>e</em><em>a</em><em>r</em>(⋅)</span>聚合路径中所有三元组的局部结构，得到路径级全局结构表示<span
+class="math inline"><em>z</em><sup><em>s</em></sup> = <em>L</em><em>i</em><em>n</em><em>e</em><em>a</em><em>r</em>(<em>s</em><sub>1</sub>, ..., <em>s</em><sub><em>h</em><sub><em>q</em></sub></sub>)</span>。</li>
+</ul></li>
+</ul>
+<h4 id="融合编码knowledge-encoder">2.2 融合编码：Knowledge Encoder</h4>
+<ul>
+<li><strong>任务</strong>：将文本表示<span
+class="math inline"><em>z</em><sup><em>t</em></sup></span>与结构表示<span
+class="math inline"><em>z</em><sup><em>s</em></sup></span>深度融合，生成单路径的紧凑嵌入；<br />
+</li>
+<li><strong>方法</strong>：通过Transformer-based编码器将拼接后的向量<span
+class="math inline">[<em>z</em><sup><em>t</em></sup>, <em>z</em><sup><em>s</em></sup>]</span>编码为路径级融合表示<span
+class="math inline"><em>z</em><sup><em>f</em></sup> = <em>K</em><em>n</em><em>o</em><em>w</em><em>l</em><em>e</em><em>d</em><em>g</em><em>e</em><em>E</em><em>n</em><em>c</em><em>o</em><em>d</em><em>e</em><em>r</em>([<em>z</em><sup><em>t</em></sup>, <em>z</em><sup><em>s</em></sup>])</span>——<strong>关键优势</strong>：将一条推理路径编码为“单个token级嵌入”，大幅减少后续LLM的输入token数量。</li>
+</ul>
+<h4 id="空间对齐projector">2.3 空间对齐：Projector</h4>
+<ul>
+<li><p><strong>问题</strong>：Knowledge
+Encoder的嵌入空间与LLM的输入token空间不一致，直接输入无效；<br />
+</p></li>
+<li><p><strong>解决方案</strong>：设计可训练的两层MLP投影器<span
+class="math inline"><em>Φ</em>(⋅)</span>，将所有路径的融合表示<span
+class="math inline">[<em>z</em><sub>1</sub><sup><em>f</em></sup>, ..., <em>z</em><sub><em>N</em></sub><sup><em>f</em></sup>]</span>映射到LLM的token嵌入空间，生成<strong>知识软提示（<span
+class="math inline"><em>p</em><sub><em>s</em></sub></span>）</strong>：<br />
+<span
+class="math inline"><em>p</em><sub><em>s</em></sub> = <em>Φ</em>([<em>z</em><sub>1</sub><sup><em>f</em></sup>, ..., <em>z</em><sub><em>N</em></sub><sup><em>f</em></sup>])</span>。</p></li>
+<li><p><strong>训练特性</strong>：整个Knowledge
+Adapter（Encoder+Projector）是LightPROF中<strong>唯一需要训练的组件</strong>，LLM参数全程冻结——这是“轻量级”的核心：训练参数仅为LLM的极小部分（如LLaMa-7B的参数约70亿，而Adapter仅数百万）。</p></li>
+</ul>
+<h3
+id="阶段3知识提示混合推理knowledge-prompts-mixed-reasoning">阶段3：知识提示混合推理（Knowledge
+Prompts Mixed Reasoning）</h3>
+<p>目标：结合“软提示（<span
+class="math inline"><em>p</em><sub><em>s</em></sub></span>）”与“硬提示（<span
+class="math inline"><em>p</em><sub><em>h</em></sub></span>）”，引导冻结的LLM完成KGQA推理，避免LLM微调成本。</p>
+<h4 id="提示构造">3.1 提示构造</h4>
+<ul>
+<li><strong>硬提示（<span
+class="math inline"><em>p</em><sub><em>h</em></sub></span>）</strong>：基于任务设计的自然语言模板，如“基于推理图，请回答以下问题：[问题内容]，请以列表形式返回所有可能答案”——用于明确LLM的任务目标；<br />
+</li>
+<li><strong>混合提示（<span
+class="math inline"><em>p</em><sub><em>p</em></sub></span>）</strong>：将知识软提示<span
+class="math inline"><em>p</em><sub><em>s</em></sub></span>插入硬提示的指定位置（如“基于推理图<a
+href="graph:$p_s$"
+class="uri">graph:$p_s$</a>，请回答以下问题：…”），实现“结构知识+任务指令”的联合输入。</li>
+</ul>
+<h4 id="推理与训练目标">3.2 推理与训练目标</h4>
+<ul>
+<li><strong>推理过程</strong>：LLM基于混合提示<span
+class="math inline"><em>p</em><sub><em>p</em></sub></span>进行next-token预测，生成最终答案；<br />
+</li>
+<li><strong>训练目标</strong>：最大化数据集<span
+class="math inline"><em>D</em></span>中所有样本生成正确答案<span
+class="math inline"><em>A</em></span>的概率，与LLM的预训练目标（next-token预测）一致，无需修改LLM结构：<br />
+<span class="math inline">$\arg\max_{\mathcal{A}} P_{llm}(\mathcal{A} |
+p_p) = \sum^{\mathcal{D}} \sum_{t=1}^{|\mathcal{A}|} \log P_{llm}(a_t |
+a_{1:t-1}, p_h, p_s)$</span><br />
+（<span
+class="math inline"><em>a</em><sub><em>t</em></sub></span>为答案的第<span
+class="math inline"><em>t</em></span>个token，<span
+class="math inline"><em>a</em><sub>1 : <em>t</em> − 1</sub></span>为前文token，<span
+class="math inline"><em>t</em> = 1</span>时为BOS token）。</li>
+</ul>
+<h2 id="六实验设计与核心结果">六、实验设计与核心结果</h2>
+<p>论文通过<strong>三个关键研究问题（Q1-Q3）</strong>
+验证LightPROF的有效性，实验设置与结果如下：</p>
+<h3 id="实验基础设置">1. 实验基础设置</h3>
+<ul>
+<li><strong>数据集</strong>：基于Freebase
+KG的两大KGQA基准（均需多跳推理）：<br />
+| 数据集 | 问题数量 | 最大推理跳数 | 任务特点 |
+|———-|———-|————–|—————————| | WebQSP | 4,737 | 2跳 | 问题简单，KG规模大
+| | ComplexWebQuestions（CWQ） | 34,689 | 4跳 | 问题复杂，类型多样
+|</li>
+<li><strong>评价指标</strong>：Hits@1（模型Top-1答案的准确率，KGQA任务的核心指标）；<br />
+</li>
+<li><strong>基线方法</strong>：三类代表性方法，确保对比公平性：
+<ol type="1">
+<li>全微调方法（如KV-Mem、EmbedKGQA、NSM）：微调专用模型适配KGQA；<br />
+</li>
+<li>Vanilla
+LLM方法（如LLaMa-2-7B/70B-chat）：直接用LLM零样本推理；<br />
+</li>
+<li>LLM+KG方法（如StructGPT、ToG、KnowledgeNavigator）：从KG检索知识以文本形式注入，不微调LLM；<br />
+</li>
+</ol></li>
+<li><strong>LightPROF实验配置</strong>：
+<ul>
+<li>适配的小规模LLM：LLaMa-2-7B-chat、LLaMa-3-8B-Instruct；<br />
+</li>
+<li>训练参数：批大小4，初始学习率2e-3（余弦退火调度），训练1个epoch；<br />
+</li>
+<li>硬件：NVIDIA A800 GPU。</li>
+</ul></li>
+</ul>
+<h3 id="核心实验结果">2. 核心实验结果</h3>
+<h4
+id="q1lightprof能否提升llms的kgqa性能">Q1：LightPROF能否提升LLMs的KGQA性能？</h4>
+<ul>
+<li><p><strong>主结果</strong>：LightPROF在两个数据集上均超越所有基线，且显著优于大参数量LLM方法：<br />
+| 方法 | WebQSP（Hits@1） | CWQ（Hits@1） | 备注 |
+|———————|——————|—————-|——————————-| | ToG（LLaMa-2-70B） | 75.1% | 57.6%
+| 基线中最优的LLM+KG方法（大模型） | | StructGPT（ChatGPT）| 71.8% | - |
+闭源大模型+KG方法 | | LightPROF（LLaMa-3-8B） | 83.77% | 59.26% |
+小规模LLM+LightPROF | | LightPROF（LLaMa-2-7B） | 71.2% | 48.5% |
+小规模LLM+LightPROF |</p>
+<ul>
+<li>关键结论：即使使用8B参数量的小规模LLM，LightPROF在WebQSP上比70B参数量的ToG高8.67%，在CWQ上高1.66%——证明“结构知识嵌入+轻量适配”比“单纯增大LLM参数量”更有效。</li>
+</ul></li>
+<li><p><strong>消融实验</strong>：验证LightPROF核心组件的必要性（结果如下表）：<br />
+| 方法 | WebQSP（Hits@1） | CWQ（Hits@1） | 结论 |
+|——————————-|——————|—————-|——————————-| | LightPROF（完整版） | 83.77% |
+59.26% | 基准性能 | | LightPROF w/o Struct（无结构信息） | 82.36% |
+58.05% | 结构信息提升约1.4%，是推理关键 | | LightPROF w/o
+Train（Adapter不训练） | 80.37% | 55.63% |
+Adapter训练可提升3-4%，需适配LLM空间 | | LightPROF w/ Random
+Retrieve（随机检索） | 53.44% | 46.84% |
+精准检索是性能基础，随机检索下降30%+ |</p></li>
+<li><p><strong>结构编码器对比</strong>：论文采用“<span
+class="math inline"><em>H</em> + <em>R</em> − <em>T</em></span>”的结构编码方式（区分三元组顺序，如“<span
+class="math inline"><em>h</em> → <em>r</em> → <em>t</em></span>”与“<span
+class="math inline"><em>t</em> → <em>r</em> → <em>h</em></span>”不同），优于“<span
+class="math inline"><em>H</em> + <em>R</em> + <em>T</em></span>”（不区分顺序）：<br />
+| 结构编码方式 | WebQSP（Hits@1） | CWQ（Hits@1） |
+|————–|——————|—————-| | <span
+class="math inline"><em>H</em> + <em>R</em> + <em>T</em></span> | 83.68%
+| 58.32% | | <span
+class="math inline"><em>H</em> + <em>R</em> − <em>T</em></span> | 83.77%
+| 59.26% |</p></li>
+</ul>
+<h4
+id="q2lightprof能否适配不同开源llm插件化能力">Q2：LightPROF能否适配不同开源LLM（插件化能力）？</h4>
+<ul>
+<li><p><strong>实验设计</strong>：将LightPROF与不同基线性能的LLM结合，验证性能提升的通用性；<br />
+</p></li>
+<li><p><strong>核心结论</strong>：无论LLM基线性能高低，LightPROF均能显著提升其KGQA性能（如下表示例）：<br />
+| 基础LLM | 基线WebQSP性能 | 结合LightPROF后性能 | 提升幅度 |
+|—————–|—————-|———————|———-| | LLaMa-2-7B-chat | 61.36% | 71.2% | +9.84%
+| | LLaMa-3-8B-Instruct | 71.19% | 83.77% | +12.58% |</p>
+<p>关键价值：LightPROF无需针对特定LLM修改代码，实现“即插即用”，可快速提升现有开源LLM的KG推理能力。</p></li>
+</ul>
+<h4
+id="q3lightprof在输入效率与推理时间上是否有优势">Q3：LightPROF在输入效率与推理时间上是否有优势？</h4>
+<ul>
+<li><p><strong>效率对比</strong>：与LLM+KG方法的代表StructGPT对比（WebQSP数据集，基于LLaMa-3-8B）：<br />
+| 方法 | 推理时间 | 总输入token数 | 平均每请求token数（NPR） |
+|————-|————|—————|————————–| | StructGPT | 1:42:12（102分钟） |
+24,750,610 | 6400 | | LightPROF | 1:11:49（71分钟） | 365,380 | 224
+|</p>
+<ul>
+<li>关键优势：
+<ol type="1">
+<li>推理时间减少30%（从102分钟降至71分钟）；<br />
+</li>
+<li>输入token数减少98%（从2475万降至36万）；<br />
+</li>
+<li>每请求token数减少96%（从6400降至224）——源于Knowledge
+Adapter将推理路径编码为紧凑嵌入，大幅降低LLM的输入负担。</li>
+</ol></li>
+</ul></li>
+<li><p><strong>案例验证</strong>：以“Lindsay
+Lohan的药物滥用问题”为例（复杂2跳推理）：</p>
+<ul>
+<li>LightPROF：准确返回所有相关答案（“Cocaine”“Alcoholic
+beverage”），输入token少（224），推理时间短；<br />
+</li>
+<li>StructGPT：仅返回部分答案（“Alcoholic
+beverage”），输入token多（6400），推理时间长——证明LightPROF在复杂场景下的“精准性+效率”优势。</li>
+</ul></li>
+</ul>
+<h2 id="七论文创新点总结">七、论文创新点总结</h2>
+<ol type="1">
+<li><strong>首次实现KG文本与结构的联合嵌入提示</strong>：突破现有方法“仅文本注入”的局限，将KG的结构信息（三元组逻辑、多跳关系）与文本信息融合编码为软提示，让LLM真正“理解”图谱结构；<br />
+</li>
+<li><strong>轻量级框架设计</strong>：仅训练极小参数的Knowledge
+Adapter（无需微调LLM），适配任意开源小规模LLM，解决“大模型资源消耗高”的落地难题；<br />
+</li>
+<li><strong>高效检索-推理流程</strong>：以“关系”为检索单位，结合LLM语义评分筛选推理图，减少冗余信息；通过Adapter将推理路径压缩为紧凑嵌入，大幅降低输入token数与推理时间。</li>
 </ol>
+<h2 id="八结论与未来工作">八、结论与未来工作</h2>
+<h3 id="结论">1. 结论</h3>
+<p>LightPROF通过“Retrieve-Embed-Reason”三阶段框架，实现了“小规模LLM+知识图谱”的高效融合：在KGQA任务中，性能超越大参数量LLM方法，同时在推理时间、token消耗上具备显著效率优势，为知识密集型任务的轻量落地提供了新方案。</p>
+<h3 id="未来工作">2. 未来工作</h3>
+<ol type="1">
+<li><strong>通用KG编码器</strong>：设计无需重新训练即可适配“未见过的KG数据”的编码器，提升框架泛化性；<br />
+</li>
+<li><strong>跨模态KG适配</strong>：开发能编码多模态KG（如包含文本、图像、音频的KG）的统一编码器，扩展应用场景。</li>
+</ol>
+<h2 id="九核心价值与应用场景">九、核心价值与应用场景</h2>
+<ul>
+<li><strong>学术价值</strong>：为KG与LLM的融合提供了“结构感知+轻量适配”的新范式，启发后续研究关注“图谱结构信息的高效利用”；<br />
+</li>
+<li><strong>工业价值</strong>：可应用于需要“精准知识推理+低资源消耗”的场景，如智能客服（基于企业私有KG回答用户问题）、智能检索（结合领域KG优化搜索结果）、问答机器人（在边缘设备上部署小规模LLM+KG推理）。</li>
+</ul>
+<h2 id="十延伸">十、延伸</h2>
+<ul>
+<li><p>2410<a
+target="_blank" rel="noopener" href="https://arxiv.org/pdf/2410.13080.pdf">Graph-constrained Reasoning:
+Faithful Reasoning on Knowledge Graphs with Large Language
+Models</a></p>
+<ul>
+<li><p>图约束推理：基于大型语言模型的知识图谱可信推理</p></li>
+<li><p>针对大型语言模型（LLMs）在推理中存在的知识缺口与幻觉问题，该论文提出图约束推理（GCR）框架，通过构建
+KG-Trie（基于前缀树的知识图谱推理路径索引）将知识图谱结构融入 LLM
+解码过程，结合轻量级图谱专用 LLM
+生成知识图谱接地的可信推理路径与假设答案，再利用强通用 LLM
+对多路径进行归纳推理以生成最终答案，实现零推理幻觉、高效的知识图谱推理，且对未见过的知识图谱具备零样本泛化能力。</p></li>
+</ul></li>
+<li><p>2410<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2410.20724.pdf">Simple is
+Effective: The Roles of Graphs and Large Language Models in
+Knowledge-Graph-Based Retrieval-Augmented Generation</a></p>
+<ul>
+<li><p>简洁即有效：图与大型语言模型在基于知识图谱的检索增强生成中的作用</p></li>
+<li><p>该论文提出 SubgraphRAG
+框架，旨在解决基于知识图谱（KG）的检索增强生成（RAG）中检索效果与效率的权衡问题，通过将轻量级多层感知器（MLP）与并行三元组评分机制结合，并融入定向距离编码实现高效且灵活的子图检索，再让未微调的大型语言模型（LLM）基于检索到的子图进行推理，在平衡模型复杂度与推理能力的同时，提升回答准确性、效率并减少幻觉，且能灵活调整子图大小以适配不同
+LLM 的能力。</p></li>
+</ul></li>
+<li><p>2501<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2501.13958.pdf">A Survey of
+Graph Retrieval-Augmented Generation for Customized Large Language
+Models</a></p>
+<ul>
+<li><p><strong>综述</strong></p></li>
+<li><p>面向定制化大型语言模型的图检索增强生成（GraphRAG）综述</p></li>
+<li><p>该论文的核心思路是：针对传统检索增强生成（RAG）在专业领域应用中面临的复杂查询理解难、分布式知识整合难、系统效率低等挑战，提出并系统综述图检索增强生成（GraphRAG）这一新范式，其通过图结构的知识表示（捕捉实体关系与领域层级）、高效图检索（支持多跳推理的上下文保留式检索）、结构感知的知识整合（提升生成准确性与逻辑性）三大创新，将
+GraphRAG
+分为基于知识、基于索引、混合三种类型，同时分析其技术基础、各专业领域的现有应用，指出关键技术挑战与研究方向，并提供含相关论文、开源数据和项目的资源库（https://github.com/DEEP-PolyU/Awesome-GraphRAG）</p></li>
+</ul></li>
+<li><p>2502<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2502.12767.pdf">R2-KG:
+General-Purpose Dual-Agent Framework for Reliable Reasoning on Knowledge
+Graphs</a></p>
+<ul>
+<li><p>R2-KG：用于知识图谱可靠推理的通用双智能体框架</p></li>
+<li><p>该论文提出一种通用双智能体框架 R2-KG，将知识图谱推理拆解为低容量
+LLM 担任的 “操作者（Operator，负责探索知识图谱并收集证据）” 与高容量 LLM
+担任的 “监督者（Supervisor，负责审核证据、提供反馈及生成最终答案）”
+两大角色，同时引入
+“弃权机制”（仅在收集到足够证据时生成答案，否则不回答），以此解决现有框架需随知识图谱
+/ 任务变化重新调优、依赖单一高容量 LLM 的问题，在降低 LLM
+推理成本的同时，保障推理的准确性与可靠性。</p></li>
+</ul></li>
+<li><p>2505<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2505.15210">Deliberation on
+Priors: Trustworthy Reasoning of Large Language Models on Knowledge
+Graphs</a></p>
+<ul>
+<li><p>被引4，同作者工作<strong>AAAI2025</strong> <a
+target="_blank" rel="noopener" href="https://ojs.aaai.org/index.php/AAAI/article/view/34658">Debate on
+graph: a flexible and reliable reasoning framework for large language
+models</a></p>
+<ul>
+<li><p>基于先验的深思：大型语言模型在知识图谱上的可信推理</p></li>
+<li><p>针对现有知识图谱检索增强生成方法未充分利用知识图谱中嵌入的先验知识（结构信息与显式
+/ 隐式约束）、导致大型语言模型（LLMs）易产生幻觉的问题，该论文提出
+DP（Deliberation on
+Priors，基于先验的深思）可信推理框架，通过离线阶段结合监督微调（SFT）与卡尼曼
+- 特沃斯基优化（KTO）的渐进式知识蒸馏策略将结构先验融入
+LLMs，以及在线阶段基于提取的约束先验引导 LLMs
+进行精细化推理验证的推理内省策略，提升 LLMs
+关系路径生成的忠实性与响应生成的可靠性，在三个基准数据集上实现了当前最优性能（如在
+ComplexWebQuestions 数据集上 Hit@1 提升 13%）。</p></li>
+</ul></li>
+</ul></li>
+<li><p>2505<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2505.17058">DO-RAG: A
+Domain-Specific QA Framework Using Knowledge Graph-Enhanced
+Retrieval-Augmented Generation</a></p>
+<ul>
+<li><p><strong>清华</strong></p>
+<ul>
+<li><p>DO-RAG：一种采用知识图谱增强的检索增强生成的领域特定问答框架</p></li>
+<li><p>针对现有检索增强生成（RAG）框架在领域特定问答（QA）中难以整合异构数据、维持推理一致性及存在幻觉的问题，该论文提出
+DO-RAG
+框架，通过智能体链式思维架构自动从非结构化、多模态文档中提取结构化关系以构建动态多层次知识图谱，在查询时融合图谱遍历与语义向量检索结果，并通过基于知识图谱的生成后精炼步骤减少幻觉，最终实现领域特定
+QA 场景下近完美的召回率与超 94%
+的答案相关性，且相比现有基线框架性能提升最高达 33.38%。</p></li>
+</ul></li>
+</ul></li>
+<li><p>2505<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2505.23495.pdf">Diagnosing and
+Addressing Pitfalls in KG-RAG Datasets: Toward More Reliable
+Benchmarking</a></p>
+<ul>
+<li><p>诊断并解决 KG-RAG 数据集的缺陷：迈向更可靠的基准测试</p></li>
+<li><p>该论文通过对 16 个主流
+KGQA（知识图谱问答）数据集的手动审计，发现其平均事实正确率仅
+57%，存在标注不准确、问题质量低、评估方式僵化等缺陷，进而提出 KGQAGen
+这一 LLM-in-the-loop 框架（结合结构化知识锚定、LLM
+引导的子图扩展与问题生成、SPARQL 符号验证），并基于此构建了 10K 规模的
+KGQAGen-10k 基准数据集，实验表明该数据集能有效暴露现有 SOTA KG-RAG
+模型的局限性，为 KGQA 领域提供更可靠的基准测试方案。</p></li>
+</ul></li>
+<li><p>2506<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2506.05690">WHEN TO USE GRAPHS
+IN RAG: A COMPREHENSIVE ANALYSIS FOR GRAPH RETRIEVAL-AUGMENTED GEN
+ERATION</a></p>
+<ul>
+<li><p><strong><a
+target="_blank" rel="noopener" href="https://github.com/GraphRAG-Bench/GraphRAG-Benchmark">GraphRAG-Benchmark</a></strong>
+，被引7</p>
+<ul>
+<li><p>何时在 RAG
+中使用图结构：面向图检索增强生成（GraphRAG）的综合分析</p></li>
+<li><p>针对现有图检索增强生成（GraphRAG）虽理论上能通过图结构建模概念层级关系以提升推理能力，但实际任务中常不及传统
+RAG、且缺乏有效评估基准的问题，该论文提出 GraphRAGBench
+综合基准（包含事实检索到创意生成的多难度任务、结构化与非结构化多信息密度语料及图构建
+- 检索 - 生成全流程评估指标），系统探究 GraphRAG 超越传统 RAG
+的场景条件与底层原因，为 GraphRAG 的实际应用提供指导。</p></li>
+</ul></li>
+</ul></li>
+<li><p>2507<a
+target="_blank" rel="noopener" href="https://arxiv.org/pdf/2507.04127">BYOKG-RAG:Multi-Strategy Graph
+Retrieval for Knowledge Graph Question Answering</a></p>
+<ul>
+<li><p><strong>Amazon</strong> <a
+target="_blank" rel="noopener" href="https://github.com/awslabs/graphrag-toolkit">graphrag-toolkit</a></p>
+<ul>
+<li><p>BYOKG-RAG：面向知识图谱问答（KGQA）的多策略图谱检索框架</p></li>
+<li><p>针对现有方法在自定义（“bring-your-own”）知识图谱问答中易受实体链接错误影响、泛化能力弱等问题，该论文提出
+BYOKG-RAG 框架，通过协同结合大语言模型（LLM）与专门的图谱检索工具 —— 让
+LLM 生成问题实体、候选答案、推理路径、OpenCypher
+查询等关键图谱构件，再由图谱工具将这些构件与知识图谱链接并检索相关图谱上下文，进而迭代优化图谱链接与检索过程，最终提升自定义知识图谱问答的性能与泛化能力。</p></li>
+</ul></li>
+</ul></li>
+<li><p>2507<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2507.08107">GRASP: Generic
+Reasoning And SPARQL Generation across Knowledge Graphs</a></p>
+<ul>
+<li><p>GRASP：跨知识图谱的通用推理与 SPARQL 生成</p></li>
+<li><p>该论文提出一种无需微调的方法
+GRASP，利用大语言模型（LLM）通过策略性执行 SPARQL
+查询、搜索知识图谱中的相关 IRI（国际资源标识符）和文字来探索任意 RDF
+知识图谱，从而从自然语言问题或关键词查询生成对应的 SPARQL 查询，且在
+Wikidata 等多个知识图谱及基准测试中表现优异（如在 Wikidata
+上实现零样本场景下的 state-of-the-art 结果，在 Freebase
+上接近最佳少样本方法）。</p></li>
+</ul></li>
+<li><p>2509<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2509.07399">The Role of
+Exploration Modules in Small Language Models for Knowledge Graph
+Question Answering</a></p>
+<ul>
+<li><p><strong>ACL 2025</strong></p>
+<ul>
+<li><p>探索模块在用于知识图谱问答的小语言模型中的作用</p></li>
+<li><p>该论文发现
+Think-on-Graph（ToG）框架在小语言模型（SLMs）的知识图谱问答（KGQA）任务中效果有限（甚至不及思维链基线），其核心瓶颈是
+SLMs 自身的知识图谱探索能力不足，因此提出用 BM25、SentenceBERT、GTR
+等轻量级 passage 检索模型替代 SLMs 完成探索阶段任务，最终有效提升了 SLMs
+在 KGQA 任务中的性能。</p></li>
+<li><p>延伸：</p>
+<ul>
+<li>ICLR 2024</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/DataArcTech/ToG">Think-on-Graph: Deep
+and Responsible Reasoning of Large Language Model on Knowledge
+Graph”</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>2510<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2510.08012">DoWeReally
+NeedSFT? Prompt-as-Policy over Knowledge Graphs for Cold-start Next POI
+Recommendation</a></p>
+<ul>
+<li><p>我们真的需要监督微调吗？基于知识图谱的 Prompt-as-Policy
+用于冷启动下一个兴趣点推荐</p></li>
+<li><p>针对冷启动下一个 POI
+推荐场景中，现有基于大语言模型（LLM）的方法要么依赖成本高昂且对不活跃用户泛化差的监督微调（SFT），要么采用无法适应多样用户上下文的静态提示（ICL）的问题，该论文提出
+Prompt-as-Policy 框架 ——
+通过构建包含用户、POI、类别等实体的知识图谱挖掘关系路径并转化为证据卡片，以上下文老虎机强化学习优化动态提示策略（自适应选择证据、控制数量及排序），将冻结的
+LLM 作为推理引擎，在无需模型微调的情况下，既实现对不活跃用户 Acc@1 平均
+7.7% 的相对提升，又保持对活跃用户的竞争性能。</p></li>
+</ul></li>
+</ul>
 
       
     </div>
@@ -342,7 +860,7 @@ alt="image-20250805201819304" />
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/null-index/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/20/">20</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/9/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/null-index/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/33/">33</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/9/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -365,14 +883,14 @@ alt="image-20250805201819304" />
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">81k</span>
+    <span title="站点总字数">182k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:26</span>
+    <span title="站点阅读时长">5:32</span>
   </span>
 </div>
 

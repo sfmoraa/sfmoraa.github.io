@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="小型语言模型在知识图谱问答中探索模块的作用（arxiv2509.07399） ACL2025 一、研究背景与问题提出 1. 核心背景  LLM与知识图谱结合的现状：将知识图谱（KG）融入大型语言模型（LLM）推理过程，已成为缓解模型幻觉的有效方向。例如Think-on-Graph（ToG）框架将LLM视为与知识图谱动态交互的智能体，通过检索外部知识提升推理可靠性，形成“LLM×KG”范式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Role of Exploration Modules in Small Language Models for Knowledge Graph Question Answering">
+<meta property="og:url" content="http://example.com/posts/2510.013v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="小型语言模型在知识图谱问答中探索模块的作用（arxiv2509.07399） ACL2025 一、研究背景与问题提出 1. 核心背景  LLM与知识图谱结合的现状：将知识图谱（KG）融入大型语言模型（LLM）推理过程，已成为缓解模型幻觉的有效方向。例如Think-on-Graph（ToG）框架将LLM视为与知识图谱动态交互的智能体，通过检索外部知识提升推理可靠性，形成“LLM×KG”范式">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-15T11:33:22.928Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.013v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.013v1/","path":"/posts/2510.013v1/","title":"The Role of Exploration Modules in Small Language Models for Knowledge Graph Question Answering"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>The Role of Exploration Modules in Small Language Models for Knowledge Graph Question Answering | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9C%A8%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E9%97%AE%E7%AD%94%E4%B8%AD%E6%8E%A2%E7%B4%A2%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%9C%E7%94%A8arxiv2509.07399"><span class="nav-number">1.</span> <span class="nav-text">小型语言模型在知识图谱问答中探索模块的作用（arxiv2509.07399）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF%E4%B8%8E%E9%97%AE%E9%A2%98%E6%8F%90%E5%87%BA"><span class="nav-number">1.1.</span> <span class="nav-text">一、研究背景与问题提出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%83%8C%E6%99%AF"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 核心背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 关键问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E6%A0%B8%E5%BF%83%E7%90%86%E8%AE%BA%E4%B8%8E%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">二、核心理论与方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%A1%86%E6%9E%B6think-on-graphtog"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.
+基础框架：Think-on-Graph（ToG）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#slm%E7%9A%84%E6%8E%A2%E7%B4%A2%E6%A8%A1%E5%9D%97%E6%94%B9%E8%BF%9B%E6%96%B9%E6%A1%88"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. SLM的探索模块改进方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%85%B3%E9%94%AE%E7%BB%93%E6%9E%9C"><span class="nav-number">1.3.</span> <span class="nav-text">三、实验设计与关键结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C-setup"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 实验 setup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%E4%B8%8E%E5%88%86%E6%9E%90"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 核心实验结果与分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rq1tog%E5%AF%B9slm%E4%B8%8Ellm%E7%9A%84%E9%80%82%E9%85%8D%E6%80%A7%E5%AF%B9%E6%AF%94%E8%A1%A81"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">（1）RQ1：ToG对SLM与LLM的适配性对比（表1）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rq2slm%E6%80%A7%E8%83%BD%E7%93%B6%E9%A2%88%E5%AE%9A%E4%BD%8D%E6%8E%A2%E7%B4%A2%E9%98%B6%E6%AE%B5%E7%BC%BA%E9%99%B7%E8%A1%A82%E8%A1%A83"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">（2）RQ2：SLM性能瓶颈定位——探索阶段缺陷（表2、表3）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rq3%E8%BD%BB%E9%87%8F%E6%A3%80%E7%B4%A2%E6%A8%A1%E5%9D%97%E5%AF%B9slm%E7%9A%84%E6%94%B9%E8%BF%9B%E6%95%88%E6%9E%9C%E8%A1%A84"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">（3）RQ3：轻量检索模块对SLM的改进效果（表4）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E7%A0%94%E7%A9%B6%E7%BB%93%E8%AE%BA%E4%B8%8E%E5%B1%80%E9%99%90"><span class="nav-number">1.4.</span> <span class="nav-text">四、研究结论与局限</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%BB%93%E8%AE%BA"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 核心结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A0%94%E7%A9%B6%E5%B1%80%E9%99%90"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 研究局限</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E7%A0%94%E7%A9%B6%E6%84%8F%E4%B9%89%E4%B8%8E%E5%BB%B6%E4%BC%B8"><span class="nav-number">1.5.</span> <span class="nav-text">五、研究意义与延伸</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E6%84%8F%E4%B9%89"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 理论意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E6%84%8F%E4%B9%89"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 实践意义</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.013v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="The Role of Exploration Modules in Small Language Models for Knowledge Graph Question Answering | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          The Role of Exploration Modules in Small Language Models for Knowledge Graph Question Answering
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：19:33:22" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/KGQA/" itemprop="url" rel="index"><span itemprop="name">KGQA</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1
+id="小型语言模型在知识图谱问答中探索模块的作用arxiv2509.07399">小型语言模型在知识图谱问答中探索模块的作用（arxiv2509.07399）</h1>
+<p><strong>ACL2025</strong></p>
+<h2 id="一研究背景与问题提出">一、研究背景与问题提出</h2>
+<h3 id="核心背景">1. 核心背景</h3>
+<ul>
+<li><strong>LLM与知识图谱结合的现状</strong>：将知识图谱（KG）融入大型语言模型（LLM）推理过程，已成为缓解模型幻觉的有效方向。例如Think-on-Graph（ToG）框架将LLM视为与知识图谱动态交互的智能体，通过检索外部知识提升推理可靠性，形成“LLM×KG”范式。</li>
+<li><strong>现有方案的局限性</strong>：当前相关研究多依赖专有或超大规模模型（如GPT-4.1、Gemini），导致可访问性低、扩展性差；部分改进方案（如额外推理模块）需任务特定训练，难以适配低资源场景。</li>
+<li><strong>SLM的实际需求</strong>：在终端用户或系统部署中，常仅能获取中小型语言模型（SLM，参数规模0.5B-8B）用于推理，而SLM在利用知识图谱进行问答时性能受限，成为亟待解决的实际问题。</li>
+</ul>
+<h3 id="关键问题">2. 关键问题</h3>
+<ul>
+<li>现有ToG框架对SLM的适配性如何？</li>
+<li>SLM在知识图谱问答（KGQA）中性能不佳的核心瓶颈是什么？</li>
+<li>如何通过轻量型模块改进SLM的知识图谱探索与推理能力？</li>
+</ul>
+<h2 id="二核心理论与方法">二、核心理论与方法</h2>
+<h3 id="基础框架think-on-graphtog">1.
+基础框架：Think-on-Graph（ToG）</h3>
+<p>ToG是面向KGQA的无训练框架，通过三阶段让语言模型实现多跳推理，具体流程如下：
+| 阶段 | 核心任务 | 实现逻辑 | |——|———-|———-| | 初始化（Initialization）
+| 提取主题实体并定位 | 从输入问题中识别关键实体（如“Northern
+District”），在知识图谱中匹配对应节点，构建初始推理路径 | |
+探索（Exploration） | 迭代扩展推理路径 | 基于束搜索（beam
+search），让模型探索相邻关系与实体，结合问题上下文对候选路径排序并剪枝 |
+| 推理（Reasoning） | 生成最终答案 |
+收集足够证据后，利用维护的推理路径生成答案，兼顾可解释性与上下文敏感性
+|</p>
+<h3 id="slm的探索模块改进方案">2. SLM的探索模块改进方案</h3>
+<p>针对SLM在“探索阶段”的能力不足，论文提出<strong>用轻量型 passage
+检索模型替代SLM自身完成探索任务</strong>，核心思路是“解耦探索与推理”，具体采用三类检索模型：
+-
+<strong>BM25</strong>：基于关键词的传统检索模型，通过词频（TF）和逆文档频率（IDF）计算问题与候选
+passage 的相关性，无需训练，适用于简单匹配场景。 -
+<strong>SentenceBERT</strong>：BERT
+衍生模型，经微调生成语义级句子嵌入，通过向量相似度（点积）衡量相关性，参数约1.1亿，远小于最小SLM（0.5B）。
+- <strong>GTR</strong>：T5 衍生模型，针对 passage
+检索优化，同样通过嵌入向量计算相似度，参数规模与 SentenceBERT
+相当，检索精度更优。</p>
+<p>上述模型均采用“零样本即插即用”模式，无需额外训练，完美适配低资源场景。</p>
+<h2 id="三实验设计与关键结果">三、实验设计与关键结果</h2>
+<h3 id="实验-setup">1. 实验 setup</h3>
+<ul>
+<li><strong>知识图谱与数据集</strong>：基于Freebase知识图谱，在两个KGQA基准数据集上测试：
+<ul>
+<li>ComplexWebQuestions（CWQ）：含复杂多跳问题（最多4跳），侧重深度推理能力。</li>
+<li>WebQSP：以1-2跳问题为主，侧重基础检索与匹配能力。</li>
+</ul></li>
+<li><strong>评价指标</strong>：采用精确匹配（EM）分数，衡量预测答案与标准答案的完全一致性。</li>
+<li><strong>模型选择</strong>：
+<ul>
+<li>LLM对照组：GPT-4.1（2025年4月快照）。</li>
+<li>SLM实验组：Qwen2-0.5b、Gemma2-2b、Phi-3-mini-3.8b、Qwen2-7b、Llama-3-8b（参数0.5B-8B）。</li>
+</ul></li>
+</ul>
+<h3 id="核心实验结果与分析">2. 核心实验结果与分析</h3>
+<h4
+id="rq1tog对slm与llm的适配性对比表1">（1）RQ1：ToG对SLM与LLM的适配性对比（表1）</h4>
+<ul>
+<li><strong>LLM表现</strong>：GPT-4.1在ToG框架下性能显著提升，CWQ从0.457（CoT）升至0.540（ToG），WebQSP从0.710（CoT）升至0.813（ToG），验证ToG对LLM的有效性。</li>
+<li><strong>SLM表现</strong>：SLM采用ToG后性能无稳定提升，部分模型甚至低于CoT基线。例如Qwen2-0.5b的CWQ分数从0.129（CoT）降至0.081（ToG），平均SLM的CWQ分数从0.219（CoT）降至0.217（ToG），表明ToG框架无法直接适配SLM。</li>
+</ul>
+<h4
+id="rq2slm性能瓶颈定位探索阶段缺陷表2表3">（2）RQ2：SLM性能瓶颈定位——探索阶段缺陷（表2、表3）</h4>
+<ul>
+<li><strong>案例验证</strong>：以问题“What type of government is used in
+the country with Northern District？”为例，SLM自身仅检索到（“Northern
+District”，“country”，“Israel”）等基础三元组，无法回答政府类型；而使用GPT-4.1检索的三元组（含“Israel”→“Parliamentary
+system”）时，SLM可生成正确答案，证明SLM推理能力无缺陷，核心瓶颈是探索阶段无法获取关键知识。</li>
+<li><strong>定量验证</strong>：让GPT-4.1辅助SLM完成探索后，所有SLM性能显著提升。例如Llama-3-8b的CWQ分数从0.291（CoT）升至0.451（GPT-4.1
+ToG），WebQSP从0.603升至0.772，平均提升0.159（CWQ）和0.238（WebQSP），进一步确认“探索阶段”是核心瓶颈。</li>
+</ul>
+<h4
+id="rq3轻量检索模块对slm的改进效果表4">（3）RQ3：轻量检索模块对SLM的改进效果（表4）</h4>
+<ul>
+<li><strong>整体趋势</strong>：SentenceBERT和GTR可显著提升SLM的KGQA性能，且优于BM25和原始ToG。例如：
+<ul>
+<li>Qwen2-7b的CWQ分数从0.300（ToG）升至0.331（GTR），WebQSP从0.637升至0.671。</li>
+<li>Phi-3-mini-3.8b的WebQSP分数从0.520（ToG）升至0.605（GTR）。</li>
+</ul></li>
+<li><strong>关键发现</strong>：轻量检索模块对SLM的增益，与对LLM的影响形成对比——Sun等人（2024）发现检索模块会导致LLM性能下降，而本研究中SLM性能提升，核心原因是SLM自身探索能力弱，轻量模块可弥补缺陷，而LLM自身探索能力强，外部模块反而干扰决策。</li>
+</ul>
+<h2 id="四研究结论与局限">四、研究结论与局限</h2>
+<h3 id="核心结论">1. 核心结论</h3>
+<ul>
+<li><strong>ToG框架的适配性</strong>：现有ToG框架对SLM无效，仅能提升LLM性能。</li>
+<li><strong>SLM的核心瓶颈</strong>：知识图谱“探索阶段”的路径检索与剪枝能力不足，导致无法获取关键推理证据。</li>
+<li><strong>有效改进方案</strong>：引入轻量型 passage
+检索模型（如SentenceBERT、GTR）替代SLM完成探索，可在无额外训练的情况下，显著提升SLM的KGQA性能，兼顾效率与精度。</li>
+</ul>
+<h3 id="研究局限">2. 研究局限</h3>
+<ul>
+<li><strong>实验设计</strong>：受计算资源限制，仅进行单次实验（未使用多随机种子），无法量化结果方差，但跨模型的一致趋势仍能支撑结论。</li>
+<li><strong>模块通用性</strong>：未测试更多轻量检索模型，且仅针对Freebase和两个数据集，需进一步验证在其他知识图谱与任务中的适配性。</li>
+</ul>
+<h2 id="五研究意义与延伸">五、研究意义与延伸</h2>
+<h3 id="理论意义">1. 理论意义</h3>
+<ul>
+<li>首次系统分析SLM在KGQA中的瓶颈，明确“探索阶段”的关键作用，补充“LLM×KG”范式在低资源场景的研究空白。</li>
+<li>验证“解耦探索与推理”思路的有效性，为小型模型与知识图谱的结合提供新方向。</li>
+</ul>
+<h3 id="实践意义">2. 实践意义</h3>
+<ul>
+<li>为终端部署、低资源场景提供可行方案：无需依赖大型模型，通过轻量模块即可让SLM高效利用知识图谱，降低幻觉风险。</li>
+<li>开源代码（https://github.com/yijie-cheng/SLM-ToG/）为后续研究提供基础工具。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.011v1/" rel="prev" title="WHEN TO USE GRAPHS IN RAG: A COMPREHENSIVE ANALYSIS FOR GRAPH RETRIEVAL-AUGMENTED GENERATION">
+                  <i class="fa fa-angle-left"></i> WHEN TO USE GRAPHS IN RAG: A COMPREHENSIVE ANALYSIS FOR GRAPH RETRIEVAL-AUGMENTED GENERATION
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.017v1/" rel="next" title="Reason-Align-Respond: Aligning LLM Reasoning with Knowledge Graphs for KGQA">
+                  Reason-Align-Respond: Aligning LLM Reasoning with Knowledge Graphs for KGQA <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">182k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:32</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

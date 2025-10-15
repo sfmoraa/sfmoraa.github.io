@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.002v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.012v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.002v1/" class="post-title-link" itemprop="url">朴素贝叶斯分类器公式推导与实现教程</a>
+          <a href="/posts/2510.012v1/" class="post-title-link" itemprop="url">GraphRAG-Bench: Challenging Domain-Specific Reasoning for Evaluating Graph Retrieval-Augmented Generation</a>
         </h2>
 
         <div class="post-meta-container">
@@ -242,7 +242,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-10-04 00:00:00 / 修改时间：15:31:32" itemprop="dateCreated datePublished" datetime="2025-10-04T00:00:00+08:00">2025-10-04</time>
+      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：14:23:16" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -250,11 +250,15 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/" itemprop="url" rel="index"><span itemprop="name">学习提升</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/%E5%8A%A8%E6%80%81%E5%9B%BE%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">动态图与大模型学习</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/GraphRAG/" itemprop="url" rel="index"><span itemprop="name">GraphRAG</span></a>
         </span>
     </span>
 
@@ -265,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>8k</span>
+      <span>4.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>14 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -284,164 +288,253 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1
-id="朴素贝叶斯分类器公式推导与实现教程">朴素贝叶斯分类器公式推导与实现教程</h1>
-<h2 id="一朴素贝叶斯分类器基本概念">一、朴素贝叶斯分类器基本概念</h2>
-<p>朴素贝叶斯分类器是一种基于贝叶斯定理与特征条件独立假设的分类方法。它之所以被称为”朴素”，是因为其假设特征之间是相互条件独立的，这一假设大大简化了计算复杂度。</p>
-<p>朴素贝叶斯法通过训练数据集学习联合概率分布<span
-class="math inline"><em>P</em>(<em>X</em>, <em>Y</em>)</span>，然后基于此模型，对给定的输入<span
-class="math inline"><em>x</em></span>，利用贝叶斯定理求出后验概率最大的输出<span
-class="math inline"><em>y</em></span>。</p>
-<h2 id="二公式推导过程">二、公式推导过程</h2>
-<h3 id="条件概率与贝叶斯定理">2.1 条件概率与贝叶斯定理</h3>
-<p>首先回顾条件概率公式： <span class="math display">$$P(B|A) =
-\frac{P(AB)}{P(A)}$$</span></p>
-<p>由此可推导出贝叶斯定理： <span class="math display">$$P(A|B) =
-\frac{P(B|A)P(A)}{P(B)}$$</span></p>
-<table style="width:100%;">
+id="graphrag-bench面向图检索增强生成的领域特定推理评估基准arxiv2506.02404">GraphRAG-Bench：面向图检索增强生成的领域特定推理评估基准（arxiv2506.02404）</h1>
+<h2 id="一研究背景与动机">一、研究背景与动机</h2>
+<h3 id="rag技术的局限">1. RAG技术的局限</h3>
+<p>检索增强生成（RAG）虽能通过引入外部语料缓解大语言模型（LLMs）的幻觉问题与领域知识缺失问题，但传统RAG采用“平面检索”模式，仅基于相似度匹配返回碎片化文本块，无法建模概念间的复杂关联，难以应对<strong>多跳推理</strong>（如“2008年雷曼兄弟破产对埃隆·马斯克的特斯拉有何影响？”）和<strong>全局理解</strong>（如“贸易政策变化的核心思想是什么？”）类任务。</p>
+<h3 id="graphrag的兴起与评估缺口">2. GraphRAG的兴起与评估缺口</h3>
+<p>图检索增强生成（GraphRAG）通过将知识以“节点（概念）-边（关系）”的图结构组织，实现概念关联的建模与多跳推理，现有研究可分为三类：
+-
+<strong>层次图构建</strong>：如RAPTOR（递归树构建+多层总结）、微软GraphRAG（社区检测+LLM生成摘要），支持“粗到细”检索；
+- <strong>神经图检索</strong>：如GFM-RAG（查询依赖GNN）、G-Retriever（
+Steiner树优化），通过图神经编码器提升多跳推理能力； -
+<strong>动态知识整合</strong>：如DALK（动态知识图谱构建）、ToG（LLM与图谱波束搜索耦合），实现自适应图谱遍历。</p>
+<p>但当前GraphRAG评估存在关键缺口：现有基准（如HotpotQA、2WikiMultiHopQA）仅包含<strong>常识性单跳/浅多跳问题</strong>（如“Dambar
+Shah的孙子是谁？”），答案多为短文本（姓名、日期），无法覆盖领域特定复杂推理，也未评估GraphRAG全流程（图谱构建、知识检索、推理生成）的性能。</p>
+<h2 id="二graphrag-bench基准设计">二、GraphRAG-Bench基准设计</h2>
+<p>GraphRAG-Bench是首个专为GraphRAG设计的<strong>领域特定、高挑战性评估基准</strong>，核心目标是全面衡量GraphRAG在复杂推理任务中的能力，其设计包含三大核心模块：</p>
+<h3 id="问题设计覆盖高难度领域任务">1. 问题设计：覆盖高难度领域任务</h3>
+<ul>
+<li><strong>规模与领域</strong>：包含1018道大学水平题目，覆盖计算机科学16个核心子领域（如计算机视觉、网络、人机交互、AI伦理），语料源自20本权威教材（总字数700万）；</li>
+<li><strong>问题类型</strong>：5类题型对应不同推理能力，具体如下表：</li>
+</ul>
+<table>
 <colgroup>
-<col style="width: 16%" />
-<col style="width: 11%" />
-<col style="width: 15%" />
-<col style="width: 56%" />
+<col style="width: 46%" />
+<col style="width: 20%" />
+<col style="width: 33%" />
 </colgroup>
 <thead>
 <tr>
-<th style="text-align: left;">成分</th>
-<th style="text-align: left;">符号</th>
-<th style="text-align: left;">名称</th>
-<th style="text-align: left;">意义解释</th>
+<th>题型（缩写）</th>
+<th>描述</th>
+<th>评估目标</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>更新后的信念</strong></td>
-<td style="text-align: left;"><em>P</em>(<em>A</em>∥<em>B</em>)</td>
-<td style="text-align: left;"><strong>后验概率</strong></td>
-<td style="text-align: left;">在观察到新证据 <em>B</em> 之后，假设
-<em>A</em>
-为真的概率。这是我们最终想要求得的结果，它综合了我们先前的知识和新的证据。</td>
+<td>填空题（FB）</td>
+<td>需补充上下文依赖的精确术语</td>
+<td>利用图结构中局部语义依赖与实体关联的能力</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>当前证据的强度</strong></td>
-<td style="text-align: left;"><em>P</em>(<em>B</em>∥<em>A</em>)</td>
-<td style="text-align: left;"><strong>似然概率</strong></td>
-<td style="text-align: left;">在假设 <em>A</em>
-为真的条件下，观察到当前证据 <em>B</em>
-的可能性有多大。它反映了证据与假设的匹配程度。</td>
+<td>单选题（MC）</td>
+<td>4个选项含语义干扰项</td>
+<td>整合实体与边关系，区分语义相似但错误选项的能力</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>初始信念</strong></td>
-<td style="text-align: left;"><em>P</em>(<em>A</em>)</td>
-<td style="text-align: left;"><strong>先验概率</strong></td>
-<td style="text-align: left;">在尚未观察到新证据 <em>B</em>
-之前，我们对假设 <em>A</em>
-为真的初始概率估计。这通常基于历史数据或领域知识。</td>
+<td>多选题（MS）</td>
+<td>从4个选项选2-4个正确答案</td>
+<td>处理多跳概念关联，解决选项冲突的能力</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>证据的总体概率</strong></td>
-<td style="text-align: left;"><em>P</em>(<em>B</em>)</td>
-<td style="text-align: left;"><strong>边缘概率/证据</strong></td>
-<td style="text-align: left;">证据 <em>B</em>
-发生的总概率，通常通过考虑所有可能的情况（<em>A</em> 发生和 <em>A</em>
-不发生）计算得出。它的作用是<strong>归一化</strong>，确保后验概率是一个有效的概率值（在0到1之间）。</td>
+<td>判断题（TF）</td>
+<td>验证陈述正确性</td>
+<td>基于图知识进行逻辑推理的事实准确性</td>
+</tr>
+<tr>
+<td>开放题（OE）</td>
+<td>需生成详细长文本答案</td>
+<td>跨子领域知识整合，生成逻辑连贯长响应的能力</td>
 </tr>
 </tbody>
 </table>
-<p>在分类问题中，我们关心的是给定特征<span
-class="math inline"><em>X</em></span>情况下样本属于类别<span
-class="math inline"><em>c</em><sub><em>k</em></sub></span>的概率： <span
-class="math display">$$P(Y=c_k|X=x) =
-\frac{P(X=x|Y=c_k)P(Y=c_k)}{P(X=x)}$$</span></p>
-<h3 id="后验概率最大化准则">2.2 后验概率最大化准则</h3>
-<p>贝叶斯分类器的目标是<strong>最小化期望风险</strong>(做出平均损失最小的决策)。采用0-1损失函数时，对某个样本
-<em>x</em> 进行分类的<strong>条件风险</strong>，就是将其误分类的概率：
-<span class="math display">$$R(c_i | x) = \sum_{k=1}^{K} \lambda(c_i,
-c_k) P(c_k | x) = 1 - P(c_i | x)$$</span> 其中，<span
-class="math display"><em>λ</em>(<em>c</em><sub><em>i</em></sub>, <em>c</em><sub><em>k</em></sub>)</span>
-在 <em>i</em>=<em>k</em> 时为0，否则为1。</p>
-<p>为了使<strong>总体风险</strong>最小化，我们需要对每个样本 <em>x</em>
-逐个最小化其条件风险。这等价于<strong>最大化该样本属于正确类别的后验概率</strong>：
-<span
-class="math display"><em>f</em>(<em>x</em>) = arg min<sub><em>c</em><sub><em>i</em></sub></sub><em>R</em>(<em>c</em><sub><em>i</em></sub>|<em>x</em>) = arg min<sub><em>c</em><sub><em>i</em></sub></sub>[1 − <em>P</em>(<em>c</em><sub><em>i</em></sub>|<em>x</em>)] = arg max<sub><em>c</em><sub><em>i</em></sub></sub><em>P</em>(<em>c</em><sub><em>i</em></sub>|<em>x</em>)</span>
-因此，<strong>后验概率最大化准则实质上就是在0-1损失函数下的最优决策，它保证了期望风险最小化</strong>。这一深刻的等价关系奠定了该准则在分类问题中的理论基础。</p>
-<h3 id="特征条件独立性假设">2.3 特征条件独立性假设</h3>
-<p>直接计算<span
-class="math inline"><em>P</em>(<em>X</em> = <em>x</em>|<em>Y</em> = <em>c</em><sub><em>k</em></sub>)</span>面临组合爆炸问题（参数个数为<span
-class="math inline">$K\prod_{j=1}^{n}S_j$</span>,<span
-class="math inline"><em>K</em></span>为类别数，<span
-class="math inline"><em>S</em><sub><em>j</em></sub></span>为第j个特征的可能的取值数）。为解决此问题，朴素贝叶斯引入了<strong>特征条件独立性假设</strong>：</p>
-<p><span class="math display">$$P(X=x|Y=c_k) =
-P(X^{(1)}=x^{(1)},...,X^{(n)}=x^{(n)}|Y=c_k) = \prod_{j=1}^{n}
-P(X^{(j)}=x^{(j)}|Y=c_k)$$</span></p>
-<h3 id="完整的朴素贝叶斯公式">2.4 完整的朴素贝叶斯公式</h3>
-<p>将独立性假设代入贝叶斯公式： <span
-class="math display">$$P(Y=c_k|X=x) = \frac{P(Y=c_k) \prod_{j=1}^{n}
-P(X^{(j)}=x^{(j)}|Y=c_k)}{\sum_{k} P(Y=c_k) \prod_{j=1}^{n}
-P(X^{(j)}=x^{(j)}|Y=c_k)}$$</span></p>
-<p>由于分母对所有<span
-class="math inline"><em>c</em><sub><em>k</em></sub></span>相同，朴素贝叶斯分类器可简化为：
-<span class="math display">$$y = f(x) = argmax_{c_k} P(Y=c_k)
-\prod_{j=1}^{n} P(X^{(j)}=x^{(j)}|Y=c_k)$$</span></p>
-<h2 id="三参数估计与平滑技术">三、参数估计与平滑技术</h2>
-<h3 id="极大似然估计">3.1 极大似然估计</h3>
-<p>使用极大似然估计法估计先验概率和条件概率：</p>
 <ul>
-<li>先验概率：<span class="math inline">$P(Y=c_k) = \frac{\sum_{i=1}^{N}
-I(y_i=c_k)}{N}$</span>，即用频率来估计概率</li>
-<li>条件概率：<span class="math inline">$P(X^{(j)}=a_{jl}|Y=c_k) =
-\frac{\sum_{i=1}^{N} I(x_i^{(j)}=a_{jl},y_i=c_k)}{\sum_{i=1}^{N}
-I(y_i=c_k)}$</span></li>
-</ul>
-<h3 id="拉普拉斯平滑">3.2 拉普拉斯平滑</h3>
-<p>极大似然估计可能出现概率值为0的情况，解决方案是使用<strong>贝叶斯估计（拉普拉斯平滑）</strong>：</p>
-<p><span class="math display">$$P(Y=c_k) = \frac{\sum_{i=1}^{N}
-I(y_i=c_k) + \lambda}{N + K\lambda}$$</span></p>
-<p><span class="math display">$$P(X^{(j)}=a_{jl}|Y=c_k) =
-\frac{\sum_{i=1}^{N} I(x_i^{(j)}=a_{jl},y_i=c_k) +
-\lambda}{\sum_{i=1}^{N} I(y_i=c_k) + S_j\lambda}$$</span></p>
-<p>其中<span class="math inline"><em>λ</em> ≥ 0</span>，常取<span
-class="math inline"><em>λ</em> = 1</span>。</p>
-<h2 id="四python实现示例">四、Python实现示例</h2>
-<h3 id="文本分类示例">4.1 文本分类示例</h3>
-<p>下面是一个简单的朴素贝叶斯文本分类实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NaiveBayesClassifier</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, lambda_param=<span class="number">1</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.lambda_param = lambda_param  <span class="comment"># 拉普拉斯平滑参数</span></span><br><span class="line">        <span class="variable language_">self</span>.prior_prob = &#123;&#125;              <span class="comment"># 先验概率 P(c)</span></span><br><span class="line">        <span class="variable language_">self</span>.cond_prob = &#123;&#125;               <span class="comment"># 条件概率 P(x|c)</span></span><br><span class="line">        <span class="variable language_">self</span>.classes = []                 <span class="comment"># 类别列表</span></span><br><span class="line">        <span class="variable language_">self</span>.feature_total = &#123;&#125;           <span class="comment"># 每个类别下的特征总数</span></span><br><span class="line">        <span class="variable language_">self</span>.vocabulary = <span class="built_in">set</span>()           <span class="comment"># 所有出现过的特征集合</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fit</span>(<span class="params">self, X, y</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;训练模型&quot;&quot;&quot;</span></span><br><span class="line">        <span class="variable language_">self</span>.classes = <span class="built_in">list</span>(<span class="built_in">set</span>(y))</span><br><span class="line">        n_samples = <span class="built_in">len</span>(y)</span><br><span class="line">        n_classes = <span class="built_in">len</span>(<span class="variable language_">self</span>.classes)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 计算先验概率（使用拉普拉斯平滑）</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes:</span><br><span class="line">            count_c = <span class="built_in">sum</span>(<span class="number">1</span> <span class="keyword">for</span> label <span class="keyword">in</span> y <span class="keyword">if</span> label == c)</span><br><span class="line">            <span class="variable language_">self</span>.prior_prob[c] = (count_c + <span class="variable language_">self</span>.lambda_param) / (n_samples + n_classes * <span class="variable language_">self</span>.lambda_param)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 统计特征频率</span></span><br><span class="line">        feature_counts = &#123;c: defaultdict(<span class="built_in">int</span>) <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes&#125;</span><br><span class="line">        <span class="variable language_">self</span>.feature_total = &#123;c: <span class="number">0</span> <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n_samples):</span><br><span class="line">            features = X[i]</span><br><span class="line">            label = y[i]</span><br><span class="line">            <span class="keyword">for</span> feature <span class="keyword">in</span> features:</span><br><span class="line">                feature_counts[label][feature] += <span class="number">1</span></span><br><span class="line">                <span class="variable language_">self</span>.feature_total[label] += <span class="number">1</span></span><br><span class="line">                <span class="variable language_">self</span>.vocabulary.add(feature)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 计算条件概率（使用拉普拉斯平滑）</span></span><br><span class="line">        vocab_size = <span class="built_in">len</span>(<span class="variable language_">self</span>.vocabulary)</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes:</span><br><span class="line">            <span class="variable language_">self</span>.cond_prob[c] = &#123;&#125;</span><br><span class="line">            total_features_c = <span class="variable language_">self</span>.feature_total[c]</span><br><span class="line">            <span class="keyword">for</span> feature <span class="keyword">in</span> <span class="variable language_">self</span>.vocabulary:</span><br><span class="line">                count_feature = feature_counts[c][feature]  <span class="comment"># 如果feature没出现过，count_feature为0</span></span><br><span class="line">                <span class="variable language_">self</span>.cond_prob[c][feature] = (count_feature + <span class="variable language_">self</span>.lambda_param) / \</span><br><span class="line">                                            (total_features_c + vocab_size * <span class="variable language_">self</span>.lambda_param)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">self, X</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;预测新样本&quot;&quot;&quot;</span></span><br><span class="line">        predictions = []</span><br><span class="line">        vocab_size = <span class="built_in">len</span>(<span class="variable language_">self</span>.vocabulary)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> sample <span class="keyword">in</span> X:</span><br><span class="line">            max_prob = -<span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)</span><br><span class="line">            predicted_class = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes:</span><br><span class="line">                log_prob = np.log(<span class="variable language_">self</span>.prior_prob[c])</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> feature <span class="keyword">in</span> sample:</span><br><span class="line">                    <span class="keyword">if</span> feature <span class="keyword">in</span> <span class="variable language_">self</span>.cond_prob[c]:</span><br><span class="line">                        log_prob += np.log(<span class="variable language_">self</span>.cond_prob[c][feature])</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="comment"># 处理未出现的特征（使用拉普拉斯平滑）</span></span><br><span class="line">                        total_features_c = <span class="variable language_">self</span>.feature_total[c]</span><br><span class="line">                        prob = <span class="variable language_">self</span>.lambda_param / (total_features_c + vocab_size * <span class="variable language_">self</span>.lambda_param)</span><br><span class="line">                        log_prob += np.log(prob)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> log_prob &gt; max_prob:</span><br><span class="line">                    max_prob = log_prob</span><br><span class="line">                    predicted_class = c</span><br><span class="line"></span><br><span class="line">            predictions.append(predicted_class)</span><br><span class="line">        <span class="keyword">return</span> predictions</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例数据集</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_dataset</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;创建简单的文本分类数据集&quot;&quot;&quot;</span></span><br><span class="line">    X = [</span><br><span class="line">        [<span class="string">&#x27;my&#x27;</span>, <span class="string">&#x27;dog&#x27;</span>, <span class="string">&#x27;has&#x27;</span>, <span class="string">&#x27;flea&#x27;</span>, <span class="string">&#x27;problems&#x27;</span>, <span class="string">&#x27;help&#x27;</span>, <span class="string">&#x27;please&#x27;</span>],</span><br><span class="line">        [<span class="string">&#x27;maybe&#x27;</span>, <span class="string">&#x27;not&#x27;</span>, <span class="string">&#x27;take&#x27;</span>, <span class="string">&#x27;him&#x27;</span>, <span class="string">&#x27;to&#x27;</span>, <span class="string">&#x27;dog&#x27;</span>, <span class="string">&#x27;park&#x27;</span>, <span class="string">&#x27;stupid&#x27;</span>],</span><br><span class="line">        [<span class="string">&#x27;my&#x27;</span>, <span class="string">&#x27;dalmation&#x27;</span>, <span class="string">&#x27;is&#x27;</span>, <span class="string">&#x27;so&#x27;</span>, <span class="string">&#x27;cute&#x27;</span>, <span class="string">&#x27;I&#x27;</span>, <span class="string">&#x27;love&#x27;</span>, <span class="string">&#x27;him&#x27;</span>],</span><br><span class="line">        [<span class="string">&#x27;stop&#x27;</span>, <span class="string">&#x27;posting&#x27;</span>, <span class="string">&#x27;stupid&#x27;</span>, <span class="string">&#x27;worthless&#x27;</span>, <span class="string">&#x27;garbage&#x27;</span>],</span><br><span class="line">        [<span class="string">&#x27;mr&#x27;</span>, <span class="string">&#x27;licks&#x27;</span>, <span class="string">&#x27;ate&#x27;</span>, <span class="string">&#x27;my&#x27;</span>, <span class="string">&#x27;steak&#x27;</span>, <span class="string">&#x27;how&#x27;</span>, <span class="string">&#x27;to&#x27;</span>, <span class="string">&#x27;stop&#x27;</span>, <span class="string">&#x27;him&#x27;</span>],</span><br><span class="line">        [<span class="string">&#x27;quit&#x27;</span>, <span class="string">&#x27;buying&#x27;</span>, <span class="string">&#x27;worthless&#x27;</span>, <span class="string">&#x27;dog&#x27;</span>, <span class="string">&#x27;food&#x27;</span>, <span class="string">&#x27;stupid&#x27;</span>]</span><br><span class="line">    ]</span><br><span class="line">    y = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> X, y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用示例</span></span><br><span class="line">X_train, y_train = create_dataset()</span><br><span class="line">nb_classifier = NaiveBayesClassifier(lambda_param=<span class="number">1</span>)</span><br><span class="line">nb_classifier.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试新样本</span></span><br><span class="line">test_sample = [[<span class="string">&#x27;love&#x27;</span>, <span class="string">&#x27;my&#x27;</span>, <span class="string">&#x27;dalmation&#x27;</span>]]</span><br><span class="line">prediction = nb_classifier.predict(test_sample)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;预测结果: <span class="subst">&#123;prediction[<span class="number">0</span>]&#125;</span>&quot;</span>)  <span class="comment"># 输出0（非侮辱性）</span></span><br></pre></td></tr></table></figure>
-<h3 id="使用scikit-learn实现">4.2 使用scikit-learn实现</h3>
-<p>对于实际应用，推荐使用scikit-learn库中的朴素贝叶斯实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> MultinomialNB, GaussianNB, BernoulliNB</span><br><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, classification_report</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建文本数据向量化表示</span></span><br><span class="line">vectorizer = CountVectorizer()</span><br><span class="line">X_vectorized = vectorizer.fit_transform([<span class="string">&#x27; &#x27;</span>.join(doc) <span class="keyword">for</span> doc <span class="keyword">in</span> X_train])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用多项式朴素贝叶斯（适用于文本数据）</span></span><br><span class="line">mnb = MultinomialNB(alpha=<span class="number">1.0</span>)  <span class="comment"># alpha对应拉普拉斯平滑参数</span></span><br><span class="line">mnb.fit(X_vectorized, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测</span></span><br><span class="line">test_text = [<span class="string">&#x27; &#x27;</span>.join([<span class="string">&#x27;love&#x27;</span>, <span class="string">&#x27;my&#x27;</span>, <span class="string">&#x27;dalmation&#x27;</span>])]</span><br><span class="line">test_vectorized = vectorizer.transform(test_text)</span><br><span class="line">prediction = mnb.predict(test_vectorized)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Scikit-learn预测结果: <span class="subst">&#123;prediction[<span class="number">0</span>]&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 评估模型</span></span><br><span class="line">y_pred = mnb.predict(X_vectorized)</span><br><span class="line">accuracy = accuracy_score(y_train, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;模型准确率: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="五不同数据类型的处理">五、不同数据类型的处理</h2>
-<p>朴素贝叶斯有多种变体，适用于不同类型的数据：</p>
-<ol type="1">
-<li><strong>高斯朴素贝叶斯</strong>：假设特征服从正态分布，适用于连续特征</li>
-<li><strong>多项式朴素贝叶斯</strong>：适用于离散特征（如文本分类中的词频）</li>
-<li><strong>伯努利朴素贝叶斯</strong>：适用于二值特征</li>
-</ol>
-<h2 id="六特征条件独立性的影响">六、特征条件独立性的影响</h2>
-<h3 id="假设的合理性">6.1 假设的合理性</h3>
-<p>特征条件独立性假设在现实中<strong>往往不成立</strong>，例如在文本分类中，词语之间通常存在关联。但这假设带来了两个重要好处：</p>
-<ol type="1">
-<li><strong>计算简化</strong>：将<span
-class="math inline"><em>O</em>(2<sup><em>n</em></sup>)</span>的参数空间减少到<span
-class="math inline"><em>O</em>(<em>n</em>)</span></li>
-<li><strong>数据效率</strong>：减少了对大量训练数据的需求</li>
-</ol>
-<h3 id="实际影响">6.2 实际影响</h3>
-<p>尽管有关联性假设，朴素贝叶斯在实践中的表现却经常出人意料地好，原因包括：</p>
+<li><strong>难度设计</strong>：题目需<strong>多跳推理+领域技能</strong>，例如：
 <ul>
-<li>分类决策只依赖于<strong>概率的排序</strong>而非精确值</li>
-<li>当特征相关性较小时，性能接近最优贝叶斯分类器</li>
-<li>对文本分类等许多实际任务效果良好</li>
+<li>数学计算：“给定输入、Conv1、MaxPool、FC层，计算输出特征图维度”；</li>
+<li>编程实现：“基于关联函数调用完成代码编写”；</li>
+<li>定理证明：“给定定理A和B，证明结论C”。</li>
+</ul></li>
 </ul>
-<h2 id="七总结">七、总结</h2>
-<p>朴素贝叶斯分类器通过以下步骤实现： 1. 基于训练数据估计先验概率<span
-class="math inline"><em>P</em>(<em>Y</em> = <em>c</em><sub><em>k</em></sub>)</span>和条件概率<span
-class="math inline"><em>P</em>(<em>X</em><sup>(<em>j</em>)</sup>|<em>Y</em> = <em>c</em><sub><em>k</em></sub>)</span>
-2. 对给定的新实例<span
-class="math inline"><em>x</em></span>，计算每个类别的后验概率分子<span
-class="math inline">$P(Y=c_k) \prod_{j=1}^{n}
-P(X^{(j)}=x^{(j)}|Y=c_k)$</span> 3.
-选择使后验概率最大的类别作为预测结果</p>
-<p>虽然其”朴素”的独立性假设在现实中往往不成立，但朴素贝叶斯仍因其简单高效、需要少量训练数据、对缺失数据不敏感等优点，在实践中得到广泛应用，特别是在文本分类和垃圾邮件过滤等领域。</p>
-<p>通过本教程，您应该能够完整理解朴素贝叶斯的数学原理、推导过程和实践应用。建议结合具体数据集进一步练习，以加深理解。</p>
+<h3 id="语料处理构建结构化教材知识">2. 语料处理：构建结构化教材知识</h3>
+<p>为确保语料准确性与结构化，采用四阶段处理流程： -
+<strong>预处理</strong>：区分文本型PDF（PyMuPDF提取）与扫描型PDF（OCR提取），同时提取教材元数据（目录、章节页码范围）；
+- <strong>内容解析</strong>： -
+布局分析：用LayoutLMv3（多模态文档模型）将页面划分为标题、段落、公式、表格等语义区域；
+- 公式识别：用YOLO-based模型检测公式边界，避免OCR误识别； -
+OCR优化：用PaddleOCR提取文本区域，保证阅读顺序正确； -
+<strong>后处理</strong>：用MinerU工具按人类阅读顺序重排文本块，解决边界框重叠导致的内容混乱；
+-
+<strong>层次构建</strong>：将语料组织为“书名→章节→小节→知识单元”四级树结构，每个节点标注上下文元数据，贴合教材教学逻辑。</p>
+<h3 id="评估框架全流程多维度衡量">3. 评估框架：全流程多维度衡量</h3>
+<p>区别于传统仅评估“答案正确性”的基准，GraphRAG-Bench设计<strong>全流程多维度评估体系</strong>，覆盖GraphRAG三大核心环节：</p>
+<h4 id="图谱构建评估">（1）图谱构建评估</h4>
+<p>衡量图谱构建的“效率-成本-质量”，核心指标如下： -
+<strong>效率</strong>：构建完整图谱的时间（秒）； -
+<strong>成本</strong>：构建过程中LLM消耗的Token数； -
+<strong>质量</strong>：非孤立节点比例（节点是否有边连接，反映图谱连通性）。</p>
+<h4 id="知识检索评估">（2）知识检索评估</h4>
+<p>聚焦检索的“速度-机制”，核心指标如下： -
+<strong>索引时间</strong>：构建检索向量数据库的耗时； -
+<strong>平均检索时间</strong>：单条查询的平均检索耗时； -
+<strong>检索算子</strong>：评估检索机制复杂度（如仅节点检索、节点+关系检索、社区信息检索）。</p>
+<h4 id="生成与推理评估">（3）生成与推理评估</h4>
+<p>创新设计“答案+推理过程”双评估，解决“模型猜对答案但推理错误”的问题： -
+<strong>答案准确性（Accuracy）</strong>： - FB/OE：通过LLM
+prompt评估生成内容与标准答案的语义对齐度； -
+MC/TF：正确得1分，错误得0分； -
+MS：全对得1分，部分对得0.5分，全错得0分； - <strong>推理能力</strong>：
+- R分数：LLM评估生成推理过程与“专家编写黄金推理链”的语义一致性； -
+AR分数：衡量“答案正确时推理也正确”的比例，区分“猜对答案”与“正确推理”。</p>
+<h2 id="三实验设计与核心结果">三、实验设计与核心结果</h2>
+<h3 id="实验设置">1. 实验设置</h3>
+<ul>
+<li><strong>评估模型</strong>：9个主流GraphRAG方法+2个传统RAG基线（TF-IDF、BM-25）+1个LLM基线（GPT-4o-mini）；</li>
+<li><strong>统一参数</strong>：所有模型使用GPT-4o-mini作为基础LLM，文本分块大小1200
+Token，Top-k检索k=5，其他超参沿用原论文最优值。</li>
+</ul>
+<h3 id="核心实验结果">2. 核心实验结果</h3>
+<h4
+id="图谱构建结构类型决定效率与质量">（1）图谱构建：结构类型决定效率与质量</h4>
+<p>不同GraphRAG采用的图谱结构（树、
+passage图、知识图谱、富知识图谱）性能差异显著，如下表（部分关键模型）：</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 23%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>模型</th>
+<th>构建Token成本</th>
+<th>构建时间（秒）</th>
+<th>非孤立节点比例</th>
+<th>结构类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAPTOR</td>
+<td>10,142,221</td>
+<td>20396.49</td>
+<td>-（树无孤立节点）</td>
+<td>树结构</td>
+</tr>
+<tr>
+<td>KGP</td>
+<td>15,271,633</td>
+<td>17318.07</td>
+<td>46.03%</td>
+<td>Passage图（实体链接建边）</td>
+</tr>
+<tr>
+<td>G-Retriever</td>
+<td>32,948,161</td>
+<td>5315.27</td>
+<td>89.95%</td>
+<td>知识图谱（OpenIE提取三元组）</td>
+</tr>
+<tr>
+<td>GraphRAG</td>
+<td>79,929,698</td>
+<td>11181.24</td>
+<td>72.51%</td>
+<td>富知识图谱（节点/边加摘要）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键结论</strong>： -
+树结构（RAPTOR）Token成本最低，但迭代聚类耗时最长； -
+知识图谱（G-Retriever、HippoRAG）非孤立节点比例最高（~90%），连通性最优；
+-
+富知识图谱（GraphRAG、LightRAG）Token成本最高（需生成额外摘要），引入噪声导致连通性下降。</p>
+<h4
+id="知识检索速度与机制复杂度负相关">（2）知识检索：速度与机制复杂度负相关</h4>
+<p>检索效率受“索引方式+检索算子”影响，如下表（关键模型）：</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>检索算子</th>
+<th>索引时间（秒）</th>
+<th>平均检索时间（秒）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAPTOR</td>
+<td>仅节点</td>
+<td>451.03</td>
+<td>0.02（最快）</td>
+</tr>
+<tr>
+<td>GFM-RAG</td>
+<td>仅节点</td>
+<td>93.55（最快）</td>
+<td>1.96</td>
+</tr>
+<tr>
+<td>HippoRAG</td>
+<td>节点+关系+文本块</td>
+<td>4695.29（最慢）</td>
+<td>2.44</td>
+</tr>
+<tr>
+<td>GraphRAG</td>
+<td>节点+关系+文本块+社区</td>
+<td>1796.65</td>
+<td>44.87</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键结论</strong>： -
+树结构（RAPTOR）检索最快：层级组织支持快速定位； -
+轻量算子（仅节点检索，如GFM-RAG）索引时间最短； -
+复杂算子（含社区/关系映射，如HippoRAG、GraphRAG）索引耗时显著增加，但部分（如HippoRAG）通过PageRank优化检索速度。</p>
+<h4
+id="生成准确性graphrag优势集中于复杂题型">（3）生成准确性：GraphRAG优势集中于复杂题型</h4>
+<p>各模型平均生成准确性排名（Top5）：RAPTOR（73.58%）&gt;
+HippoRAG（72.64%）&gt; GraphRAG（72.50%）&gt; GFM-RAG（72.10%）&gt;
+KGP（71.86%），且存在显著题型差异： -
+<strong>GraphRAG优势题型</strong>： -
+判断题（TF）：检索补充LLM知识盲区，准确性提升最明显（如RAPTOR较GPT-4o-mini提升6.33%）；
+-
+开放题（OE）：检索提供外部事实，减少幻觉，提升回答细节（如HippoRAG较GPT-4o-mini提升3.9%）；
+- <strong>GraphRAG劣势/无效题型</strong>： -
+单选题（MC）：LLM已通过预训练掌握大量常识，检索引入噪声反而降低准确性（如多数模型较GPT-4o-mini下降1-3%）；
+-
+填空题（FB）：需精确上下文匹配，检索文本易引入无关信息，部分模型（如LightRAG）准确性下降9%。</p>
+<h4
+id="推理能力graphrag全面提升逻辑连贯性">（4）推理能力：GraphRAG全面提升逻辑连贯性</h4>
+<p>所有GraphRAG模型均提升LLM的推理能力（R分数与AR分数），关键发现： -
+LLM基线缺陷：GPT-4o-mini的AR分数仅39.78%，表明“答案正确但推理错误”的比例极高；
+-
+GraphRAG改进：RAPTOR（R=60.81%，AR=45.53%）、HippoRAG（R=60.90%，AR=44.55%）表现最优，证明“多跳检索+结构化知识”能为推理提供有效证据；
+-
+领域差异：数学领域所有GraphRAG模型推理能力下降（检索文本多为概念解释，无法匹配符号计算需求）；伦理领域推理能力普遍偏低（需主观价值判断，图结构难以建模模糊伦理概念）。</p>
+<h2 id="四核心洞察与结论">四、核心洞察与结论</h2>
+<h3 id="关键研究发现">1. 关键研究发现</h3>
+<ul>
+<li><strong>GraphRAG的价值边界</strong>：GraphRAG能显著提升<strong>多跳推理、长文本生成、事实验证</strong>任务性能，但对“LLM预训练已覆盖的常识性单跳任务”（如MC）可能产生负面影响；</li>
+<li><strong>图谱结构的选择依据</strong>：
+<ul>
+<li>追求效率：选择树结构（RAPTOR）或轻量知识图谱（GFM-RAG）；</li>
+<li>追求推理质量：选择标准知识图谱（G-Retriever、HippoRAG），避免富知识图谱的噪声干扰；</li>
+</ul></li>
+<li><strong>评估的必要性</strong>：传统“仅看答案准确性”的评估会高估LLM能力，必须结合“推理过程评估”（如AR分数）才能全面衡量GraphRAG价值。</li>
+</ul>
+<h3 id="基准与实验意义">2. 基准与实验意义</h3>
+<ul>
+<li><strong>基准价值</strong>：GraphRAG-Bench填补了“领域特定GraphRAG评估”的空白，提供全流程多维度评估工具，支持研究者量化GraphRAG的改进效果；</li>
+<li><strong>实践指导</strong>：为GraphRAG落地提供方向——在教育（大学知识问答）、医疗（病历推理）等需“答案+推理”的场景中，GraphRAG较传统RAG更具优势；</li>
+<li><strong>开源资源</strong>：所有数据与代码已开源（https://github.com/jeremycp3/GraphRAG-Bench），支持社区进一步扩展。</li>
+</ul>
+<h2 id="五总结">五、总结</h2>
+<p>GraphRAG-Bench通过“高难度领域问题、结构化语料、全流程评估”三大设计，首次实现了GraphRAG复杂推理能力的量化评估。实验表明，GraphRAG在多跳推理与长文本生成任务中显著优于传统RAG与LLM基线，但性能受题型、领域、图谱结构影响较大。未来研究可基于此基准，进一步优化GraphRAG的“噪声控制”（如数学领域符号检索）与“跨领域适配”（如伦理领域价值建模）能力。</p>
 
       
     </div>
@@ -461,7 +554,7 @@ P(X^{(j)}=x^{(j)}|Y=c_k)$</span> 3.
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><a class="page-number" href="/null-index/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/null-index/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/20/">20</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><a class="page-number" href="/null-index/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/null-index/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/33/">33</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -484,14 +577,14 @@ P(X^{(j)}=x^{(j)}|Y=c_k)$</span> 3.
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">81k</span>
+    <span title="站点总字数">182k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:26</span>
+    <span title="站点阅读时长">5:32</span>
   </span>
 </div>
 

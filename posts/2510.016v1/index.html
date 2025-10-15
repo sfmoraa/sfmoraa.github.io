@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="CoLoTa数据集 SIGIR2025 这篇论文聚焦LLMs在长尾实体常识推理中的短板，提出了CoLoTa数据集，既填补了相关研究空白，也为LLM和KGQA方法的评估提供了新基准，洞察极具价值。 一、研究背景与动机 现有大型语言模型（LLMs）虽在事实知识编码和推理任务中表现出色，但幻觉和推理错误仍是其在高风险场景部署的关键障碍。研究发现，即使是OpenAI-o1等顶尖LLMs，在处理涉及">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoLoTa: A Dataset for Entity-based Commonsense Reasoning over Long-Tail Knowledge">
+<meta property="og:url" content="http://example.com/posts/2510.016v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="CoLoTa数据集 SIGIR2025 这篇论文聚焦LLMs在长尾实体常识推理中的短板，提出了CoLoTa数据集，既填补了相关研究空白，也为LLM和KGQA方法的评估提供了新基准，洞察极具价值。 一、研究背景与动机 现有大型语言模型（LLMs）虽在事实知识编码和推理任务中表现出色，但幻觉和推理错误仍是其在高风险场景部署的关键障碍。研究发现，即使是OpenAI-o1等顶尖LLMs，在处理涉及">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-15T13:18:25.966Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.016v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.016v1/","path":"/posts/2510.016v1/","title":"CoLoTa: A Dataset for Entity-based Commonsense Reasoning over Long-Tail Knowledge"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CoLoTa: A Dataset for Entity-based Commonsense Reasoning over Long-Tail Knowledge | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#colota%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">CoLoTa数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF%E4%B8%8E%E5%8A%A8%E6%9C%BA"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、研究背景与动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8Ccolota%E6%95%B0%E6%8D%AE%E9%9B%86%E8%AF%A6%E6%83%85"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、CoLoTa数据集详情</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E6%9E%84%E6%88%90"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">1. 数据集构成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E6%96%B9%E6%B3%95"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">2. 构建方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E5%BE%81"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">3. 核心特征</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1%E4%B8%8E%E7%BB%93%E6%9E%9C"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、实验设计与结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">1. 实验设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%BB%93%E6%9E%9C"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">2. 关键结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E7%A0%94%E7%A9%B6%E7%BB%93%E8%AE%BA%E4%B8%8E%E6%84%8F%E4%B9%89"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、研究结论与意义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%BB%93%E8%AE%BA"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">1. 核心结论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A0%94%E7%A9%B6%E6%84%8F%E4%B9%89"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">2. 研究意义</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.016v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CoLoTa: A Dataset for Entity-based Commonsense Reasoning over Long-Tail Knowledge | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CoLoTa: A Dataset for Entity-based Commonsense Reasoning over Long-Tail Knowledge
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：21:18:25" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/KGQA/" itemprop="url" rel="index"><span itemprop="name">KGQA</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="colota数据集">CoLoTa数据集</h1>
+<p><strong>SIGIR2025</strong></p>
+<p>这篇论文聚焦LLMs在长尾实体常识推理中的短板，提出了CoLoTa数据集，既填补了相关研究空白，也为LLM和KGQA方法的评估提供了新基准，洞察极具价值。</p>
+<h3 id="一研究背景与动机">一、研究背景与动机</h3>
+<p>现有大型语言模型（LLMs）虽在事实知识编码和推理任务中表现出色，但幻觉和推理错误仍是其在高风险场景部署的关键障碍。研究发现，即使是OpenAI-o1等顶尖LLMs，在处理涉及晦涩长尾实体的常识推理任务时，推理错误和幻觉率也极高。</p>
+<p>现有实体类常识推理基准（如StrategyQA、CREAK）多围绕“巴拉克·奥巴马”等热门实体构建，LLMs能凭借训练数据中丰富的相关信息轻松应对。但面对“廖晓娴”这类长尾实体时，LLMs不仅无法拒绝回答或查询事实信息，还会生成幻觉事实并出现推理错误。同时，现有知识图谱问答（KGQA）数据集仅关注事实类问题，缺乏需常识推理的查询，因此亟需新的基准数据集来研究上述问题。</p>
+<h3 id="二colota数据集详情">二、CoLoTa数据集详情</h3>
+<h4 id="数据集构成">1. 数据集构成</h4>
+<p>CoLoTa包含3300条查询，均基于实体类常识推理，涵盖问答和声明验证两大任务，各占1650条。每条查询条目包含五个核心部分：
+-
+查询：以疑问句（问答任务）或陈述句（声明验证任务）呈现，答案非真即假，需结合知识图谱事实和常识推理得出。
+-
+实体标识：提供查询中锚定实体的维基数据（Wikidata）唯一QID和标签，便于获取相关事实。
+-
+知识图谱子图：包含回答查询所需的维基数据三元组，部分三元组还附带限定词以提供额外上下文。
+-
+推理规则：以自然语言公理形式呈现的常识知识，明确推理所需的实体属性和关系条件。
+-
+推理步骤：将推理规则分解为有序步骤，包括从知识图谱提取事实和对提取事实进行逻辑推理，每个涉及事实提取的步骤均对应维基数据三元组。</p>
+<h4 id="构建方法">2. 构建方法</h4>
+<ul>
+<li>查询筛选：从StrategyQA（问答任务）和CREAK（声明验证任务）中筛选查询，要求回答所需事实可在维基数据中获取，且经两名标注者独立验证通过。优先选择StrategyQA中推理步骤多、CREAK中解释长且推理技能多样的查询。</li>
+<li>实体替换：通过SPARQL查询在维基数据中检索与原热门实体属性相似的候选实体，随机选择维基数据三元组数量少的长尾实体替换原实体。对无特定目标实体的查询，引入长尾实体作为锚定实体。</li>
+<li>查询重写：参考相关方案优化查询表述，修正语法问题（如语序不当）、调整表述形式（如避免测验式语气），并移除原查询中不正确的隐含假设，确保查询自然且准确。</li>
+</ul>
+<h4 id="核心特征">3. 核心特征</h4>
+<ul>
+<li>聚焦长尾知识：以维基数据三元组数量衡量实体流行度，CoLoTa中实体的三元组数量远少于原数据集，分布偏向小值，明确聚焦长尾实体。</li>
+<li>推理技能多样：涵盖领域无关（如时间推理、数值比较）和领域相关（如历史推理、地理推理）两类推理技能，且在问答和声明验证任务中分布广泛，如问答任务中时间推理占比25%、地理推理占12%。</li>
+</ul>
+<h3 id="三实验设计与结果">三、实验设计与结果</h3>
+<h4 id="实验设置">1. 实验设置</h4>
+<ul>
+<li>基线模型：LLM基线包括GPT-3.5
+Turbo、GPT-4o等5种主流模型，采用零样本和少样本（k=2）思维链（CoT）提示；KGQA基线为KB-Binder和KGR两种基于LLM的方法。</li>
+<li>评估指标：准确率（衡量答案正确性）、回答率（模型给出真/假答案的查询比例）、FActScore（评估回答中原子事实的真实性，基于维基数据）、推理分数（评估推理步骤的逻辑有效性）。</li>
+</ul>
+<h4 id="关键结果">2. 关键结果</h4>
+<ul>
+<li>LLMs在CoLoTa上表现显著下滑：所有LLM在CoLoTa查询上的准确率和回答率均低于原数据集。问答任务中准确率下降0.15-0.27，声明验证任务下降0.20-0.42，Llama-3.3-70B在声明验证任务零样本CoT设置下准确率从0.84降至0.42。</li>
+<li>KGQA方法无法应对常识推理：KB-Binder在原声明验证任务中准确率最高仅0.35，CoLoTa上更低；KGR在原声明验证任务准确率0.80，但在CoLoTa上骤降至0.20，表明现有KGQA方法难以结合常识知识进行推理。</li>
+<li>LLMs易产生幻觉与推理错误：OpenAI-o1在原数据集上FActScore接近1、推理分数达0.95以上，但在CoLoTa上FActScore最低降至0.58、推理分数最低降至0.79；GPT-3.5-Turbo的FActScore在CoLoTa上也下降0.09-0.20，且LLMs在CoLoTa上回答率仍接近原数据集，说明其在缺乏长尾知识时仍会猜测答案，导致幻觉和推理错误。</li>
+</ul>
+<h3 id="四研究结论与意义">四、研究结论与意义</h3>
+<h4 id="核心结论">1. 核心结论</h4>
+<ul>
+<li>CoLoTa是评估LLM长尾实体常识推理能力和抗幻觉能力的有效基准，现有顶尖LLM在该数据集上仍面临巨大挑战。</li>
+<li>CoLoTa填补了KGQA数据集的空白，是首个需结合常识推理的KGQA基准，现有KGQA方法无法满足其推理需求。</li>
+<li>长尾知识不仅影响LLMs的事实记忆，还会显著增加其常识推理错误和幻觉率，且对声明验证任务的影响大于问答任务。</li>
+</ul>
+<h4 id="研究意义">2. 研究意义</h4>
+<ul>
+<li>为LLM研究提供新方向：推动针对长尾实体常识推理的LLM优化，如探索结合外部知识图谱减少幻觉、提升推理准确性的方法。</li>
+<li>促进KGQA方法创新：促使研究者开发融合事实知识和常识知识的KGQA技术，突破现有方法仅能处理事实类问题的局限。</li>
+<li>完善评估体系：补充了长尾实体常识推理领域的评估基准，为后续相关模型的性能对比和改进提供统一标准。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.014v1/" rel="prev" title="Graph-constrained Reasoning: Faithful Reasoning on Knowledge Graphs with Large Language Models">
+                  <i class="fa fa-angle-left"></i> Graph-constrained Reasoning: Faithful Reasoning on Knowledge Graphs with Large Language Models
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">182k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:32</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

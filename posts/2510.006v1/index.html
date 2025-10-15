@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="NumPy高级功能详解：广播机制、高级索引、向量化与矩阵运算 1. 广播机制（Broadcasting）的维度对齐规则 NumPy的广播机制允许不同形状的数组进行数学运算，无需显式复制数据，大幅提升代码简洁性和性能。 1.1 广播的核心规则 广播遵循三个基本原则：  规则1：如果两个数组维度数不同，小维度数组的形状会在最左边补1，直到维度数相同 规则2：如果两个数组在某个维度的大小">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NumPy高级功能详解：广播机制、高级索引、向量化与矩阵运算">
+<meta property="og:url" content="http://example.com/posts/2510.006v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="NumPy高级功能详解：广播机制、高级索引、向量化与矩阵运算 1. 广播机制（Broadcasting）的维度对齐规则 NumPy的广播机制允许不同形状的数组进行数学运算，无需显式复制数据，大幅提升代码简洁性和性能。 1.1 广播的核心规则 广播遵循三个基本原则：  规则1：如果两个数组维度数不同，小维度数组的形状会在最左边补1，直到维度数相同 规则2：如果两个数组在某个维度的大小">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-14T01:52:43.465Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.006v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.006v1/","path":"/posts/2510.006v1/","title":"NumPy高级功能详解：广播机制、高级索引、向量化与矩阵运算"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>NumPy高级功能详解：广播机制、高级索引、向量化与矩阵运算 | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#numpy%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6%E9%AB%98%E7%BA%A7%E7%B4%A2%E5%BC%95%E5%90%91%E9%87%8F%E5%8C%96%E4%B8%8E%E7%9F%A9%E9%98%B5%E8%BF%90%E7%AE%97"><span class="nav-number">1.</span> <span class="nav-text">NumPy高级功能详解：广播机制、高级索引、向量化与矩阵运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6broadcasting%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%AF%B9%E9%BD%90%E8%A7%84%E5%88%99"><span class="nav-number">1.1.</span> <span class="nav-text">1.
+广播机制（Broadcasting）的维度对齐规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%BF%E6%92%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E8%A7%84%E5%88%99"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 广播的核心规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%BF%E6%92%AD%E7%A4%BA%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 广播示例与实践</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E7%B4%A2%E5%BC%95%E6%8A%80%E6%9C%AF"><span class="nav-number">1.2.</span> <span class="nav-text">2. 高级索引技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E7%B4%A2%E5%BC%95boolean-indexing"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 布尔索引（Boolean Indexing）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%B1%E5%BC%8F%E7%B4%A2%E5%BC%95fancy-indexing"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 花式索引（Fancy Indexing）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E8%BF%90%E7%AE%97%E7%9A%84%E5%90%91%E9%87%8F%E5%8C%96%E5%AE%9E%E7%8E%B0%E6%8A%80%E5%B7%A7"><span class="nav-number">1.3.</span> <span class="nav-text">3. 数组运算的向量化实现技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E5%8C%96vs%E5%BE%AA%E7%8E%AF%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 向量化vs循环性能对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%94%A8%E5%90%91%E9%87%8F%E5%8C%96%E6%8A%80%E5%B7%A7"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 实用向量化技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E5%90%91%E9%87%8F%E5%8C%96%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 高级向量化函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E8%BF%90%E7%AE%97%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.4.</span> <span class="nav-text">4. 矩阵运算优化实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9F%A9%E9%98%B5%E8%BF%90%E7%AE%97"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 基本矩阵运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E5%80%BC%E4%B8%8E%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 特征值与特征向量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84%E6%B1%82%E8%A7%A3%E4%B8%8E%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 线性方程组求解与最小二乘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.4.4.</span> <span class="nav-text">4.4 性能优化实践</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.5.</span> <span class="nav-text">5. 综合应用实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.6.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.006v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="NumPy高级功能详解：广播机制、高级索引、向量化与矩阵运算 | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NumPy高级功能详解：广播机制、高级索引、向量化与矩阵运算
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-08 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-08T00:00:00+08:00">2025-10-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-14 09:52:43" itemprop="dateModified" datetime="2025-10-14T09:52:43+08:00">2025-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/" itemprop="url" rel="index"><span itemprop="name">学习提升</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/%E5%9B%BE%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图与大模型学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>19 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1
+id="numpy高级功能详解广播机制高级索引向量化与矩阵运算">NumPy高级功能详解：广播机制、高级索引、向量化与矩阵运算</h1>
+<h2 id="广播机制broadcasting的维度对齐规则">1.
+广播机制（Broadcasting）的维度对齐规则</h2>
+<p>NumPy的广播机制允许不同形状的数组进行数学运算，无需显式复制数据，大幅提升代码简洁性和性能。</p>
+<h3 id="广播的核心规则">1.1 广播的核心规则</h3>
+<p>广播遵循三个基本原则：</p>
+<ul>
+<li><strong>规则1</strong>：如果两个数组维度数不同，小维度数组的形状会在<strong>最左边补1</strong>，直到维度数相同</li>
+<li><strong>规则2</strong>：如果两个数组在某个维度的大小不匹配，但其中一个维度大小为1，则该维度会<strong>扩展复制</strong>以匹配另一个数组</li>
+<li><strong>规则3</strong>：如果在任何维度上大小都不匹配且没有维度大小为1，则抛出<code>ValueError</code>异常</li>
+</ul>
+<p>广播过程从最右边的维度开始向左逐维度匹配。</p>
+<h3 id="广播示例与实践">1.2 广播示例与实践</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例1：标量与数组的广播</span></span><br><span class="line">arr = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])  <span class="comment"># 形状 (3,)</span></span><br><span class="line">scalar = <span class="number">5</span>                 <span class="comment"># 形状 ()</span></span><br><span class="line">result = arr + scalar      <span class="comment"># 标量广播为 (3,)</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;标量广播结果:&quot;</span>, result)  <span class="comment"># 输出: [6 7 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例2：一维数组与二维数组的广播</span></span><br><span class="line">arr1 = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])  <span class="comment"># 形状 (2, 3)</span></span><br><span class="line">arr2 = np.array([<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>])            <span class="comment"># 形状 (3,)</span></span><br><span class="line"><span class="comment"># arr2先补1变为(1,3)，再扩展为(2,3)</span></span><br><span class="line">result = arr1 + arr2</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维广播结果:\n&quot;</span>, result)  <span class="comment"># 输出: [[11 22 33] [14 25 36]]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例3：列向量与行向量的广播</span></span><br><span class="line">col_vector = np.array([[<span class="number">1</span>], [<span class="number">2</span>], [<span class="number">3</span>]])  <span class="comment"># 形状 (3,1)</span></span><br><span class="line">row_vector = np.array([<span class="number">10</span>, <span class="number">20</span>])         <span class="comment"># 形状 (2,)</span></span><br><span class="line"><span class="comment"># col_vector扩展为(3,2)，row_vector扩展为(3,2)</span></span><br><span class="line">result = col_vector + row_vector</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;矩阵广播结果:\n&quot;</span>, result)  <span class="comment"># 输出: [[11 21] [12 22] [13 23]]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例4：数据标准化（去均值）</span></span><br><span class="line">data = np.random.randn(<span class="number">4</span>, <span class="number">3</span>)  <span class="comment"># 4行3列数据</span></span><br><span class="line">col_means = data.mean(axis=<span class="number">0</span>) <span class="comment"># 每列的均值，形状 (3,)</span></span><br><span class="line">demeaned = data - col_means    <span class="comment"># 广播减去每列均值</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;去均值后每列均值:&quot;</span>, demeaned.mean(axis=<span class="number">0</span>))  <span class="comment"># 应接近0</span></span><br></pre></td></tr></table></figure>
+<h2 id="高级索引技术">2. 高级索引技术</h2>
+<p>NumPy提供比基本切片更强大的索引方式，包括布尔索引和花式索引。</p>
+<h3 id="布尔索引boolean-indexing">2.1 布尔索引（Boolean Indexing）</h3>
+<p>布尔索引通过逻辑条件选择数组元素。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建示例数组</span></span><br><span class="line">arr = np.array([[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>], [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>], [<span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;原始数组:\n&quot;</span>, arr)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 布尔索引：选择大于5的元素</span></span><br><span class="line">bool_mask = arr &gt; <span class="number">5</span></span><br><span class="line">selected = arr[bool_mask]  <span class="comment"># 或直接 arr[arr &gt; 5]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;大于5的元素:&quot;</span>, selected)  <span class="comment"># 输出: [6 7 8 9 10 11]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 多条件布尔索引</span></span><br><span class="line">condition = (arr &gt; <span class="number">3</span>) &amp; (arr &lt; <span class="number">9</span>)  <span class="comment"># 注意使用&amp;而不是and</span></span><br><span class="line">selected = arr[condition]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;大于3且小于9的元素:&quot;</span>, selected)  <span class="comment"># 输出: [4 5 6 7 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 过滤非数值数据</span></span><br><span class="line">data_with_nan = np.array([np.nan, <span class="number">1</span>, <span class="number">2</span>, np.nan, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">clean_data = data_with_nan[~np.isnan(data_with_nan)]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;过滤NaN后的数据:&quot;</span>, clean_data)  <span class="comment"># 输出: [1. 2. 3. 4. 5.]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 行方向条件筛选</span></span><br><span class="line">rows = np.<span class="built_in">any</span>(arr &gt; <span class="number">7</span>, axis=<span class="number">1</span>)  <span class="comment"># 任意元素大于7的行</span></span><br><span class="line">selected_rows = arr[rows]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;包含大于7元素的行:\n&quot;</span>, selected_rows)</span><br></pre></td></tr></table></figure>
+<h3 id="花式索引fancy-indexing">2.2 花式索引（Fancy Indexing）</h3>
+<p>花式索引使用整数数组作为索引，可以灵活选择特定元素。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建示例数组</span></span><br><span class="line">arr = np.arange(<span class="number">32</span>).reshape(<span class="number">8</span>, <span class="number">4</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;原始数组:\n&quot;</span>, arr)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用整数数组选择特定行</span></span><br><span class="line">row_indices = [<span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">7</span>]</span><br><span class="line">selected_rows = arr[row_indices]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;选择第4、2、1、7行:\n&quot;</span>, selected_rows)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用负索引</span></span><br><span class="line">negative_indices = [-<span class="number">4</span>, -<span class="number">2</span>, -<span class="number">1</span>, -<span class="number">7</span>]</span><br><span class="line">selected_negative = arr[negative_indices]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;使用负索引选择:\n&quot;</span>, selected_negative)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择特定行和列的组合</span></span><br><span class="line">rows = [<span class="number">1</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">2</span>]</span><br><span class="line">cols = [<span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line"><span class="comment"># 方法1：分别索引</span></span><br><span class="line">result1 = arr[rows][:, cols]</span><br><span class="line"><span class="comment"># 方法2：使用np.ix_更高效</span></span><br><span class="line">result2 = arr[np.ix_(rows, cols)]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;选择特定行和列:\n&quot;</span>, result2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 多维花式索引</span></span><br><span class="line">x = np.array([[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>], [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>], [<span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]])</span><br><span class="line"><span class="comment"># 获取(0,0), (1,1), (2,0)位置的元素</span></span><br><span class="line">row_idx = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">col_idx = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>]</span><br><span class="line">elements = x[row_idx, col_idx]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;特定位置元素:&quot;</span>, elements)  <span class="comment"># 输出: [0 4 6]</span></span><br></pre></td></tr></table></figure>
+<h2 id="数组运算的向量化实现技巧">3. 数组运算的向量化实现技巧</h2>
+<p>向量化是NumPy的核心优势，通过避免显式循环，利用优化过的C代码提升性能。</p>
+<h3 id="向量化vs循环性能对比">3.1 向量化vs循环性能对比</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建大规模数据</span></span><br><span class="line">large_arr = np.random.rand(<span class="number">1000000</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用循环计算平方根</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sqrt_with_loop</span>(<span class="params">arr</span>):</span><br><span class="line">    result = np.zeros_like(arr)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(arr)):</span><br><span class="line">        result[i] = np.sqrt(arr[i])</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用向量化操作计算平方根</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sqrt_vectorized</span>(<span class="params">arr</span>):</span><br><span class="line">    <span class="keyword">return</span> np.sqrt(arr)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 性能对比</span></span><br><span class="line">start_time = time.time()</span><br><span class="line">loop_result = sqrt_with_loop(large_arr)</span><br><span class="line">loop_time = time.time() - start_time</span><br><span class="line"></span><br><span class="line">start_time = time.time()</span><br><span class="line">vectorized_result = sqrt_vectorized(large_arr)</span><br><span class="line">vectorized_time = time.time() - start_time</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;循环执行时间: <span class="subst">&#123;loop_time:<span class="number">.4</span>f&#125;</span>秒&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;向量化执行时间: <span class="subst">&#123;vectorized_time:<span class="number">.4</span>f&#125;</span>秒&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;速度提升: <span class="subst">&#123;loop_time/vectorized_time:<span class="number">.1</span>f&#125;</span>倍&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证结果一致性</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;结果一致性检查:&quot;</span>, np.allclose(loop_result, vectorized_result))</span><br></pre></td></tr></table></figure>
+<h3 id="实用向量化技巧">3.2 实用向量化技巧</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 条件逻辑的向量化：np.where</span></span><br><span class="line">arr = np.array([<span class="number">1</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">3</span>, <span class="number">7</span>])</span><br><span class="line"><span class="comment"># 传统方法需要循环，向量化使用np.where</span></span><br><span class="line">result = np.where(arr &gt; <span class="number">5</span>, arr * <span class="number">2</span>, arr)  <span class="comment"># 大于5的元素乘2，其他不变</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;条件向量化结果:&quot;</span>, result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 数学运算的向量化</span></span><br><span class="line">x = np.linspace(<span class="number">0</span>, <span class="number">2</span>*np.pi, <span class="number">100</span>)</span><br><span class="line"><span class="comment"># 一次性计算所有三角函数值</span></span><br><span class="line">sin_x = np.sin(x)</span><br><span class="line">cos_x = np.cos(x)</span><br><span class="line">tan_x = np.tan(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 聚合函数的向量化使用</span></span><br><span class="line">matrix = np.random.rand(<span class="number">100</span>, <span class="number">50</span>)</span><br><span class="line"><span class="comment"># 沿不同轴聚合</span></span><br><span class="line">row_sums = np.<span class="built_in">sum</span>(matrix, axis=<span class="number">1</span>)    <span class="comment"># 每行求和</span></span><br><span class="line">col_means = np.mean(matrix, axis=<span class="number">0</span>) <span class="comment"># 每列求平均</span></span><br><span class="line">total_max = np.<span class="built_in">max</span>(matrix)           <span class="comment"># 全局最大值</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;行求和形状:&quot;</span>, row_sums.shape)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;列平均形状:&quot;</span>, col_means.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 广播与向量化结合</span></span><br><span class="line">A = np.random.rand(<span class="number">5</span>, <span class="number">3</span>)  <span class="comment"># 5x3矩阵</span></span><br><span class="line">B = np.random.rand(<span class="number">3</span>)     <span class="comment"># 长度为3的向量</span></span><br><span class="line"><span class="comment"># 广播机制让每行都加上B向量</span></span><br><span class="line">result = A + B</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;广播向量化结果形状:&quot;</span>, result.shape)</span><br></pre></td></tr></table></figure>
+<h3 id="高级向量化函数">3.3 高级向量化函数</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># ufunc的进阶用法</span></span><br><span class="line">arr = np.arange(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># reduce: 累积运算</span></span><br><span class="line">sum_result = np.add.reduce(arr)  <span class="comment"># 等价于np.sum(arr)</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;reduce求和:&quot;</span>, sum_result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># accumulate: 保留中间结果的累积</span></span><br><span class="line">cumulative_sum = np.add.accumulate(arr)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;accumulate累积和:&quot;</span>, cumulative_sum)</span><br><span class="line"></span><br><span class="line"><span class="comment"># outer: 外积运算</span></span><br><span class="line">outer_product = np.multiply.outer(arr, arr)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;外积运算形状:&quot;</span>, outer_product.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># reduceat: 分段聚合</span></span><br><span class="line">arr = np.arange(<span class="number">10</span>)</span><br><span class="line">bins = [<span class="number">0</span>, <span class="number">5</span>, <span class="number">8</span>]  <span class="comment"># 在索引0,5,8处分段</span></span><br><span class="line">segmented_sum = np.add.reduceat(arr, bins)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;分段聚合结果:&quot;</span>, segmented_sum)  <span class="comment"># 对[0:5], [5:8], [8:]求和</span></span><br></pre></td></tr></table></figure>
+<h2 id="矩阵运算优化实践">4. 矩阵运算优化实践</h2>
+<p>NumPy提供高效的线性代数运算，是机器学习和大规模数据处理的基础。</p>
+<h3 id="基本矩阵运算">4.1 基本矩阵运算</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建示例矩阵</span></span><br><span class="line">A = np.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]])</span><br><span class="line">B = np.array([[<span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 矩阵乘法</span></span><br><span class="line">dot_product = np.dot(A, B)  <span class="comment"># 或使用 A @ B</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;矩阵乘法结果:\n&quot;</span>, dot_product)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 矩阵转置</span></span><br><span class="line">A_transpose = A.T</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;矩阵转置:\n&quot;</span>, A_transpose)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 矩阵逆（仅方阵）</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    A_inv = np.linalg.inv(A)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;矩阵逆:\n&quot;</span>, A_inv)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 验证逆矩阵性质</span></span><br><span class="line">    identity_approx = np.dot(A, A_inv)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;逆矩阵验证:\n&quot;</span>, np.<span class="built_in">round</span>(identity_approx, <span class="number">10</span>))  <span class="comment"># 应接近单位矩阵</span></span><br><span class="line"><span class="keyword">except</span> np.linalg.LinAlgError:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;矩阵不可逆&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 矩阵行列式</span></span><br><span class="line">det_A = np.linalg.det(A)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;矩阵行列式:&quot;</span>, det_A)</span><br></pre></td></tr></table></figure>
+<h3 id="特征值与特征向量">4.2 特征值与特征向量</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对称矩阵的特征分解</span></span><br><span class="line">matrix = np.array([[<span class="number">2</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">2</span>]])</span><br><span class="line">eigenvalues, eigenvectors = np.linalg.eig(matrix)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;特征值:&quot;</span>, eigenvalues)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;特征向量:\n&quot;</span>, eigenvectors)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证特征分解: A*v = λ*v</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(eigenvalues)):</span><br><span class="line">    λ = eigenvalues[i]</span><br><span class="line">    v = eigenvectors[:, i]</span><br><span class="line">    left_side = np.dot(matrix, v)</span><br><span class="line">    right_side = λ * v</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;特征值<span class="subst">&#123;λ&#125;</span>验证:&quot;</span>, np.allclose(left_side, right_side))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 基于特征分解的矩阵重建</span></span><br><span class="line">reconstructed = np.dot(eigenvectors, np.dot(np.diag(eigenvalues), eigenvectors.T))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;重建矩阵误差:&quot;</span>, np.<span class="built_in">max</span>(np.<span class="built_in">abs</span>(matrix - reconstructed)))</span><br></pre></td></tr></table></figure>
+<h3 id="线性方程组求解与最小二乘">4.3 线性方程组求解与最小二乘</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 线性方程组求解: Ax = b</span></span><br><span class="line">A = np.array([[<span class="number">3</span>, <span class="number">2</span>], [<span class="number">1</span>, <span class="number">2</span>]])</span><br><span class="line">b = np.array([<span class="number">7</span>, <span class="number">5</span>])</span><br><span class="line">x = np.linalg.solve(A, b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;线性方程组解:&quot;</span>, x)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;验证解的正确性:&quot;</span>, np.allclose(np.dot(A, x), b))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 最小二乘解（超定方程组）</span></span><br><span class="line">A_over = np.array([[<span class="number">1</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">2</span>], [<span class="number">1</span>, <span class="number">3</span>]])  <span class="comment"># 3x2矩阵</span></span><br><span class="line">b_over = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>])                 <span class="comment"># 3个方程，2个未知数</span></span><br><span class="line">x_lstsq, residuals, rank, s = np.linalg.lstsq(A_over, b_over, rcond=<span class="literal">None</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最小二乘解:&quot;</span>, x_lstsq)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;残差平方和:&quot;</span>, residuals)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 矩阵范数与条件数</span></span><br><span class="line">matrix = np.random.rand(<span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line">norm_frobenius = np.linalg.norm(matrix, <span class="string">&#x27;fro&#x27;</span>)  <span class="comment"># Frobenius范数</span></span><br><span class="line">norm_spectral = np.linalg.norm(matrix, <span class="number">2</span>)       <span class="comment"># 谱范数</span></span><br><span class="line">condition_number = np.linalg.cond(matrix)       <span class="comment"># 条件数</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Frobenius范数:&quot;</span>, norm_frobenius)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;谱范数:&quot;</span>, norm_spectral)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;条件数:&quot;</span>, condition_number)</span><br></pre></td></tr></table></figure>
+<h3 id="性能优化实践">4.4 性能优化实践</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 大规模矩阵运算优化</span></span><br><span class="line">n = <span class="number">1000</span></span><br><span class="line">A_large = np.random.rand(n, n)</span><br><span class="line">B_large = np.random.rand(n, n)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法1：直接矩阵乘法</span></span><br><span class="line">start = time.time()</span><br><span class="line">C1 = np.dot(A_large, B_large)</span><br><span class="line">time_direct = time.time() - start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2：使用einsum（有时更高效）</span></span><br><span class="line">start = time.time()</span><br><span class="line">C2 = np.einsum(<span class="string">&#x27;ij,jk-&gt;ik&#x27;</span>, A_large, B_large)</span><br><span class="line">time_einsum = time.time() - start</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;直接乘法时间: <span class="subst">&#123;time_direct:<span class="number">.4</span>f&#125;</span>s&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;einsum时间: <span class="subst">&#123;time_einsum:<span class="number">.4</span>f&#125;</span>s&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;结果一致性:&quot;</span>, np.allclose(C1, C2))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 内存布局优化</span></span><br><span class="line"><span class="comment"># 创建非连续内存数组</span></span><br><span class="line">arr_non_contiguous = np.arange(<span class="number">100</span>).reshape(<span class="number">10</span>, <span class="number">10</span>)[:, ::<span class="number">2</span>]  <span class="comment"># 隔列选取</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;非连续内存布局:&quot;</span>, arr_non_contiguous.flags.contiguous)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换为连续内存以提高性能</span></span><br><span class="line">arr_contiguous = np.ascontiguousarray(arr_non_contiguous)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;转换后连续内存:&quot;</span>, arr_contiguous.flags.contiguous)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据类型优化</span></span><br><span class="line">large_data = np.random.rand(<span class="number">1000000</span>)</span><br><span class="line"><span class="comment"># 默认float64精度高但占用空间大</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;float64占用内存:&quot;</span>, large_data.nbytes, <span class="string">&quot;bytes&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用float32节省内存（如果精度允许）</span></span><br><span class="line">data_float32 = large_data.astype(np.float32)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;float32占用内存:&quot;</span>, data_float32.nbytes, <span class="string">&quot;bytes&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="综合应用实例">5. 综合应用实例</h2>
+<p>以下是一个综合运用广播、高级索引、向量化和矩阵运算的实际示例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 综合示例：图像处理与数据标准化</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">image_processing_example</span>():</span><br><span class="line">    <span class="comment"># 模拟RGB图像数据 (高度, 宽度, 通道)</span></span><br><span class="line">    image = np.random.randint(<span class="number">0</span>, <span class="number">256</span>, (<span class="number">100</span>, <span class="number">100</span>, <span class="number">3</span>), dtype=np.uint8)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;原始图像形状:&quot;</span>, image.shape)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 布尔索引：选择亮度较高的像素</span></span><br><span class="line">    brightness = np.mean(image, axis=<span class="number">2</span>)  <span class="comment"># 沿通道轴求平均亮度</span></span><br><span class="line">    bright_pixels = image[brightness &gt; <span class="number">200</span>]  <span class="comment"># 选择高亮度像素</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;高亮度像素数量:&quot;</span>, <span class="built_in">len</span>(bright_pixels))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 向量化操作：图像标准化</span></span><br><span class="line">    image_float = image.astype(np.float32)</span><br><span class="line">    <span class="comment"># 每个通道单独标准化</span></span><br><span class="line">    <span class="keyword">for</span> channel <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        channel_data = image_float[:, :, channel]</span><br><span class="line">        mean_val = np.mean(channel_data)</span><br><span class="line">        std_val = np.std(channel_data)</span><br><span class="line">        image_float[:, :, channel] = (channel_data - mean_val) / std_val</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;标准化后图像范围: [&#123;:.2f&#125;, &#123;:.2f&#125;]&quot;</span>.<span class="built_in">format</span>(</span><br><span class="line">        np.<span class="built_in">min</span>(image_float), np.<span class="built_in">max</span>(image_float)))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> image_float</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pca_implementation</span>(<span class="params">X</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;PCA实现的向量化版本&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 数据中心化</span></span><br><span class="line">    X_centered = X - np.mean(X, axis=<span class="number">0</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 计算协方差矩阵</span></span><br><span class="line">    cov_matrix = np.cov(X_centered, rowvar=<span class="literal">False</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 特征分解</span></span><br><span class="line">    eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 按特征值大小排序</span></span><br><span class="line">    idx = eigenvalues.argsort()[::-<span class="number">1</span>]</span><br><span class="line">    eigenvalues = eigenvalues[idx]</span><br><span class="line">    eigenvectors = eigenvectors[:, idx]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> eigenvalues, eigenvectors</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行示例</span></span><br><span class="line">processed_image = image_processing_example()</span><br><span class="line"></span><br><span class="line"><span class="comment"># PCA示例</span></span><br><span class="line">data = np.random.randn(<span class="number">100</span>, <span class="number">5</span>)  <span class="comment"># 100个样本，5个特征</span></span><br><span class="line">eigenvalues, eigenvectors = pca_implementation(data)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;PCA特征值:&quot;</span>, eigenvalues[:<span class="number">3</span>])  <span class="comment"># 显示前3个最大特征值</span></span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2>
+<p>通过本教程，您应该已经掌握了NumPy的以下高级功能：</p>
+<ol type="1">
+<li><strong>广播机制</strong>：理解维度对齐规则，能够灵活处理不同形状数组的运算</li>
+<li><strong>高级索引</strong>：熟练使用布尔索引进行条件筛选和花式索引进行灵活元素选择</li>
+<li><strong>向量化技巧</strong>：掌握避免显式循环的方法，利用NumPy内置函数提升性能</li>
+<li><strong>矩阵运算</strong>：熟悉线性代数操作，能够进行特征分解、方程组求解等高级应用</li>
+</ol>
+<p>这些技能是进行科学计算、数据分析和机器学习的基础，建议通过实际项目加深理解，并持续探索NumPy的更多高级功能。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.005v1/" rel="prev" title="Python核心编程详解：函数参数、类继承与装饰器">
+                  <i class="fa fa-angle-left"></i> Python核心编程详解：函数参数、类继承与装饰器
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.007v1/" rel="next" title="Pandas数据处理精通教程：从数据类型转换到高级分析">
+                  Pandas数据处理精通教程：从数据类型转换到高级分析 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">182k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:32</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

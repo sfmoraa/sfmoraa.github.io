@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2508.004v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.013v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2508.004v1/" class="post-title-link" itemprop="url">论文阅读——LLM Enhancers for GNNs: An Analysis from the Perspective of Causal Mechanism Identification</a>
+          <a href="/posts/2510.013v1/" class="post-title-link" itemprop="url">The Role of Exploration Modules in Small Language Models for Knowledge Graph Question Answering</a>
         </h2>
 
         <div class="post-meta-container">
@@ -240,15 +240,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2025-08-06 00:00:00" itemprop="dateCreated datePublished" datetime="2025-08-06T00:00:00+08:00">2025-08-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-08-07 23:05:04" itemprop="dateModified" datetime="2025-08-07T23:05:04+08:00">2025-08-07</time>
+      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：19:33:22" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -264,7 +258,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%9B%BE%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图学习</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/KGQA/" itemprop="url" rel="index"><span itemprop="name">KGQA</span></a>
         </span>
     </span>
 
@@ -275,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>464</span>
+      <span>3.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>6 分钟</span>
     </span>
 </div>
 
@@ -293,32 +287,112 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况">论文概况</h1>
-<p><strong>题目</strong>：<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2505.08265?">LLM Enhancers for GNNs: An
-Analysis from the Perspective of Causal Mechanism Identification</a></p>
-<p><strong>通讯作者</strong>： Fenge Wu： fengge@iscas.ac.cn</p>
-<p><strong>作者院校</strong>：清华大学等</p>
-<p><strong>发表于</strong>：arxiv</p>
-<p><strong>代码仓库</strong>：<a
-target="_blank" rel="noopener" href="https://github.com/WX4code/LLMEnhCausalMechanism">WX4code/LLMEnhCausalMechanism</a></p>
-<h1 id="论文内容">论文内容</h1>
-<h2 id="概括总结">概括总结</h2>
-<p>基于互换干预法分析了LLM用作特征增强器来优化节点表示并作为GNN的输入的方法。根据分析结果设计了一个即插即用的优化模块来改善
-LLM增强器与GNN之间的信息传递。</p>
-<p>该模块首先使用 LLM
-生成<em>q</em>个不同提示，然后从每组特征中均匀选取<em>m</em>个token特征，随后通过
-Transformer
-编码器计算每组子集的注意力矩阵，平均后得到归一化权重。基于权重加权融合所有子集中的特征，输出作为
-GNN 的输入。</p>
-<figure>
-<img
-src="/images/post_images/2025-08-06-论文阅读——LLM-Enhancers-for-GNNs-An-Analysis-from-the-Perspective-of-Causal-Mechanism-Identification/image-20250805202117765.png"
-alt="image-20250805202117765" />
-<figcaption aria-hidden="true">image-20250805202117765</figcaption>
-</figure>
-<h4 id="问题">问题</h4>
-<p>效果提升幅度有限，效率可能较低，但作为即插即用模块有一定效果。</p>
+          <h1
+id="小型语言模型在知识图谱问答中探索模块的作用arxiv2509.07399">小型语言模型在知识图谱问答中探索模块的作用（arxiv2509.07399）</h1>
+<p><strong>ACL2025</strong></p>
+<h2 id="一研究背景与问题提出">一、研究背景与问题提出</h2>
+<h3 id="核心背景">1. 核心背景</h3>
+<ul>
+<li><strong>LLM与知识图谱结合的现状</strong>：将知识图谱（KG）融入大型语言模型（LLM）推理过程，已成为缓解模型幻觉的有效方向。例如Think-on-Graph（ToG）框架将LLM视为与知识图谱动态交互的智能体，通过检索外部知识提升推理可靠性，形成“LLM×KG”范式。</li>
+<li><strong>现有方案的局限性</strong>：当前相关研究多依赖专有或超大规模模型（如GPT-4.1、Gemini），导致可访问性低、扩展性差；部分改进方案（如额外推理模块）需任务特定训练，难以适配低资源场景。</li>
+<li><strong>SLM的实际需求</strong>：在终端用户或系统部署中，常仅能获取中小型语言模型（SLM，参数规模0.5B-8B）用于推理，而SLM在利用知识图谱进行问答时性能受限，成为亟待解决的实际问题。</li>
+</ul>
+<h3 id="关键问题">2. 关键问题</h3>
+<ul>
+<li>现有ToG框架对SLM的适配性如何？</li>
+<li>SLM在知识图谱问答（KGQA）中性能不佳的核心瓶颈是什么？</li>
+<li>如何通过轻量型模块改进SLM的知识图谱探索与推理能力？</li>
+</ul>
+<h2 id="二核心理论与方法">二、核心理论与方法</h2>
+<h3 id="基础框架think-on-graphtog">1.
+基础框架：Think-on-Graph（ToG）</h3>
+<p>ToG是面向KGQA的无训练框架，通过三阶段让语言模型实现多跳推理，具体流程如下：
+| 阶段 | 核心任务 | 实现逻辑 | |——|———-|———-| | 初始化（Initialization）
+| 提取主题实体并定位 | 从输入问题中识别关键实体（如“Northern
+District”），在知识图谱中匹配对应节点，构建初始推理路径 | |
+探索（Exploration） | 迭代扩展推理路径 | 基于束搜索（beam
+search），让模型探索相邻关系与实体，结合问题上下文对候选路径排序并剪枝 |
+| 推理（Reasoning） | 生成最终答案 |
+收集足够证据后，利用维护的推理路径生成答案，兼顾可解释性与上下文敏感性
+|</p>
+<h3 id="slm的探索模块改进方案">2. SLM的探索模块改进方案</h3>
+<p>针对SLM在“探索阶段”的能力不足，论文提出<strong>用轻量型 passage
+检索模型替代SLM自身完成探索任务</strong>，核心思路是“解耦探索与推理”，具体采用三类检索模型：
+-
+<strong>BM25</strong>：基于关键词的传统检索模型，通过词频（TF）和逆文档频率（IDF）计算问题与候选
+passage 的相关性，无需训练，适用于简单匹配场景。 -
+<strong>SentenceBERT</strong>：BERT
+衍生模型，经微调生成语义级句子嵌入，通过向量相似度（点积）衡量相关性，参数约1.1亿，远小于最小SLM（0.5B）。
+- <strong>GTR</strong>：T5 衍生模型，针对 passage
+检索优化，同样通过嵌入向量计算相似度，参数规模与 SentenceBERT
+相当，检索精度更优。</p>
+<p>上述模型均采用“零样本即插即用”模式，无需额外训练，完美适配低资源场景。</p>
+<h2 id="三实验设计与关键结果">三、实验设计与关键结果</h2>
+<h3 id="实验-setup">1. 实验 setup</h3>
+<ul>
+<li><strong>知识图谱与数据集</strong>：基于Freebase知识图谱，在两个KGQA基准数据集上测试：
+<ul>
+<li>ComplexWebQuestions（CWQ）：含复杂多跳问题（最多4跳），侧重深度推理能力。</li>
+<li>WebQSP：以1-2跳问题为主，侧重基础检索与匹配能力。</li>
+</ul></li>
+<li><strong>评价指标</strong>：采用精确匹配（EM）分数，衡量预测答案与标准答案的完全一致性。</li>
+<li><strong>模型选择</strong>：
+<ul>
+<li>LLM对照组：GPT-4.1（2025年4月快照）。</li>
+<li>SLM实验组：Qwen2-0.5b、Gemma2-2b、Phi-3-mini-3.8b、Qwen2-7b、Llama-3-8b（参数0.5B-8B）。</li>
+</ul></li>
+</ul>
+<h3 id="核心实验结果与分析">2. 核心实验结果与分析</h3>
+<h4
+id="rq1tog对slm与llm的适配性对比表1">（1）RQ1：ToG对SLM与LLM的适配性对比（表1）</h4>
+<ul>
+<li><strong>LLM表现</strong>：GPT-4.1在ToG框架下性能显著提升，CWQ从0.457（CoT）升至0.540（ToG），WebQSP从0.710（CoT）升至0.813（ToG），验证ToG对LLM的有效性。</li>
+<li><strong>SLM表现</strong>：SLM采用ToG后性能无稳定提升，部分模型甚至低于CoT基线。例如Qwen2-0.5b的CWQ分数从0.129（CoT）降至0.081（ToG），平均SLM的CWQ分数从0.219（CoT）降至0.217（ToG），表明ToG框架无法直接适配SLM。</li>
+</ul>
+<h4
+id="rq2slm性能瓶颈定位探索阶段缺陷表2表3">（2）RQ2：SLM性能瓶颈定位——探索阶段缺陷（表2、表3）</h4>
+<ul>
+<li><strong>案例验证</strong>：以问题“What type of government is used in
+the country with Northern District？”为例，SLM自身仅检索到（“Northern
+District”，“country”，“Israel”）等基础三元组，无法回答政府类型；而使用GPT-4.1检索的三元组（含“Israel”→“Parliamentary
+system”）时，SLM可生成正确答案，证明SLM推理能力无缺陷，核心瓶颈是探索阶段无法获取关键知识。</li>
+<li><strong>定量验证</strong>：让GPT-4.1辅助SLM完成探索后，所有SLM性能显著提升。例如Llama-3-8b的CWQ分数从0.291（CoT）升至0.451（GPT-4.1
+ToG），WebQSP从0.603升至0.772，平均提升0.159（CWQ）和0.238（WebQSP），进一步确认“探索阶段”是核心瓶颈。</li>
+</ul>
+<h4
+id="rq3轻量检索模块对slm的改进效果表4">（3）RQ3：轻量检索模块对SLM的改进效果（表4）</h4>
+<ul>
+<li><strong>整体趋势</strong>：SentenceBERT和GTR可显著提升SLM的KGQA性能，且优于BM25和原始ToG。例如：
+<ul>
+<li>Qwen2-7b的CWQ分数从0.300（ToG）升至0.331（GTR），WebQSP从0.637升至0.671。</li>
+<li>Phi-3-mini-3.8b的WebQSP分数从0.520（ToG）升至0.605（GTR）。</li>
+</ul></li>
+<li><strong>关键发现</strong>：轻量检索模块对SLM的增益，与对LLM的影响形成对比——Sun等人（2024）发现检索模块会导致LLM性能下降，而本研究中SLM性能提升，核心原因是SLM自身探索能力弱，轻量模块可弥补缺陷，而LLM自身探索能力强，外部模块反而干扰决策。</li>
+</ul>
+<h2 id="四研究结论与局限">四、研究结论与局限</h2>
+<h3 id="核心结论">1. 核心结论</h3>
+<ul>
+<li><strong>ToG框架的适配性</strong>：现有ToG框架对SLM无效，仅能提升LLM性能。</li>
+<li><strong>SLM的核心瓶颈</strong>：知识图谱“探索阶段”的路径检索与剪枝能力不足，导致无法获取关键推理证据。</li>
+<li><strong>有效改进方案</strong>：引入轻量型 passage
+检索模型（如SentenceBERT、GTR）替代SLM完成探索，可在无额外训练的情况下，显著提升SLM的KGQA性能，兼顾效率与精度。</li>
+</ul>
+<h3 id="研究局限">2. 研究局限</h3>
+<ul>
+<li><strong>实验设计</strong>：受计算资源限制，仅进行单次实验（未使用多随机种子），无法量化结果方差，但跨模型的一致趋势仍能支撑结论。</li>
+<li><strong>模块通用性</strong>：未测试更多轻量检索模型，且仅针对Freebase和两个数据集，需进一步验证在其他知识图谱与任务中的适配性。</li>
+</ul>
+<h2 id="五研究意义与延伸">五、研究意义与延伸</h2>
+<h3 id="理论意义">1. 理论意义</h3>
+<ul>
+<li>首次系统分析SLM在KGQA中的瓶颈，明确“探索阶段”的关键作用，补充“LLM×KG”范式在低资源场景的研究空白。</li>
+<li>验证“解耦探索与推理”思路的有效性，为小型模型与知识图谱的结合提供新方向。</li>
+</ul>
+<h3 id="实践意义">2. 实践意义</h3>
+<ul>
+<li>为终端部署、低资源场景提供可行方案：无需依赖大型模型，通过轻量模块即可让SLM高效利用知识图谱，降低幻觉风险。</li>
+<li>开源代码（https://github.com/yijie-cheng/SLM-ToG/）为后续研究提供基础工具。</li>
+</ul>
 
       
     </div>
@@ -338,7 +412,7 @@ alt="image-20250805202117765" />
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/null-index/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/20/">20</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/null-index/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/33/">33</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -361,14 +435,14 @@ alt="image-20250805202117765" />
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">81k</span>
+    <span title="站点总字数">182k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:26</span>
+    <span title="站点阅读时长">5:32</span>
   </span>
 </div>
 

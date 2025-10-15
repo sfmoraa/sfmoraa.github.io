@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2507.003v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.007v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2507.003v1/" class="post-title-link" itemprop="url">论文阅读（综述）——Graph foundation models: Concepts, opportunities and challenges</a>
+          <a href="/posts/2510.007v1/" class="post-title-link" itemprop="url">Pandas数据处理精通教程：从数据类型转换到高级分析</a>
         </h2>
 
         <div class="post-meta-container">
@@ -241,14 +241,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2025-07-14 00:00:00" itemprop="dateCreated datePublished" datetime="2025-07-14T00:00:00+08:00">2025-07-14</time>
+      <time title="创建时间：2025-10-09 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-09T00:00:00+08:00">2025-10-09</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-07-22 22:39:20" itemprop="dateModified" datetime="2025-07-22T22:39:20+08:00">2025-07-22</time>
+      <time title="修改时间：2025-10-14 09:52:56" itemprop="dateModified" datetime="2025-10-14T09:52:56+08:00">2025-10-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -256,15 +256,11 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/" itemprop="url" rel="index"><span itemprop="name">学习提升</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%9B%BE%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图学习</span></a>
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/%E5%9B%BE%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图与大模型学习</span></a>
         </span>
     </span>
 
@@ -275,14 +271,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>10k</span>
+      <span>26k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>18 分钟</span>
+      <span>47 分钟</span>
     </span>
 </div>
 
@@ -293,303 +289,247 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况">论文概况</h1>
-<p><strong>题目</strong>：<a
-target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=10915556">Graph
-foundation models: Concepts, opportunities and challenges</a></p>
-<p><strong>通讯作者</strong>：Chuan Shi： shichuan@bupt.edu.cn</p>
-<p><strong>作者院校</strong>：北京邮电大学，新加坡管理大学，伊利诺伊大学芝加哥分校等</p>
-<p><strong>发表于</strong>：TPAMI 2025</p>
-<p><strong>代码仓库</strong>：无</p>
-<h1 id="论文内容">论文内容</h1>
-<h2 id="摘要">摘要</h2>
-<p>基础模型已成为各类人工智能应用中的核心组件，在自然语言处理及多个其他领域展现出显著成效。与此同时，图机器学习领域正在经历从浅层方法向复杂深度学习方法的范式转变。基础模型强大的泛化与适应能力，促使图机器学习研究者开始探讨发展新型图学习范式的可能性——该范式旨在通过海量图数据预训练出可适配多种图任务的通用模型。尽管这一新兴领域引发了广泛关注，但目前仍缺乏明确的定义界定与系统化的分析框架。</p>
-<p>为此，本文首次提出图基础模型（Graph Foundation Models,
-GFMs）的概念体系，并对其核心特征与支撑技术进行了全面阐释。我们依据模型对图神经网络与大语言技术的依赖程度，将现有研究成果划分为三大类型。除系统梳理GFMs研究现状外，本文还前瞻性地探讨了这一快速发展领域未来可能的研究路径。</p>
-<h2 id="介绍">介绍</h2>
-<ul>
-<li><p>基础模型具涌现性和通用性等特征，当下的基础模型能处理文本、图像、视频、音频等多模态输入。</p></li>
-<li><p>图机器学习从随机游走、矩阵分解等浅层方法向深度学习转变，例如GNN引入消息传递机制在节点分类、链接预测、图分类和图聚类等任务中取得了显著成效，但在表达能力和泛化性方面仍有局限。</p></li>
-<li><p>引出了对图基础模型（GFM）的研究，来实现在图领域的涌现性和泛化性。</p>
-<figure>
-<img
-src="/images/post_images/2025-07-14-论文阅读（综述）——Graph-foundation-models-Concepts,-opportunities-and-challenges/image-20250714200217665.png"
-alt="image-20250714200217665" />
-<figcaption aria-hidden="true">image-20250714200217665</figcaption>
-</figure></li>
-</ul>
-<h2 id="背景">背景</h2>
-<h3 id="图深度学习">图深度学习</h3>
-<h4 id="图数据特性">图数据特性</h4>
-<p>核心挑战源于：（1）其数据的非欧几里得性，在规模和形态上存在极大变异性。（2）不同领域的图数据具有不同的节点类型和边语义。（3）图数据包括同构图、异构图、超图和动态图等多种类型。</p>
-<h4 id="主干结构">主干结构</h4>
-<p>GNN是主流结构，大多数遵循消息传递框架。例如，图卷积网络GCN（Semi-supervised
-classification with graph convolutional
-networks），采用归纳学习的GraphSAGE（Inductiverepresentationlearning on
-large graphs），图注意力网络GAT（Graphattention networks）。</p>
-<p>但GNN深度增加会导致节点表征趋同以及信息过度压缩，改进方法包括DropEdge（Dropedge:Towardsdeepgraph
-convolutional networks on node classification）、图Transformer模型（Do
-transformers really perform badly for graph rep
-resentation?、Structure-awaretransformerfor graph representation
-learning、Rethinking graph transformers with spectral
-attention）等。</p>
-<h4 id="学习范式">学习范式</h4>
-<ul>
-<li>监督学习：利用带有输入数据和输出标签的训练数据集应用于图分类和图回归等问题，如分子属性预测。</li>
-<li>半监督学习：同时利用标记和未标记数据提升模型性能，如节点分类。</li>
-<li>无监督学习：图聚类通过节点关系识别结构，链接预测推断缺失连接。</li>
-</ul>
-<h3 id="语言基础模型">语言基础模型</h3>
-<h4 id="语言数据特性">语言数据特性</h4>
-<p>具结构化，更易建模；有知识迁移性，更易建立通用表征。</p>
-<h4 id="主干结构-1">主干结构</h4>
-<p>预训练语言模型——大语言模型（扩大模型参数量和训练数据量）</p>
-<h4 id="学习范式-1">学习范式</h4>
-<p>利用大规模标注数据集和无标注文本数据，执行（1）预训练-微调：首先作为语言模型学习预测文本数据的概率分布并通过微调使模型适配特定任务；（2）预训练-提示-预测：通过文本提示重构下游任务形式。</p>
-<h2 id="图基础模型">图基础模型</h2>
-<ul>
-<li><p>GFM定义：在大量图数据上预训练，并能适用于一系列下游图任务。</p></li>
-<li><p>证明预训练（pre-training）加适应（adaptation）效果优于图深度学习：</p>
-<ul>
-<li>Graphprompt: Unifying pre training and downstream tasks for graph
-neural networks</li>
-<li>All in one: Multi-task prompting for graph neural networks</li>
-</ul></li>
-<li><p>涌现性：体现在语境内学习、图推理、图生成等任务。但相关研究较少（如PRODIGY:
-Enabling in-context learning over graphs）。</p></li>
-<li><p>通用性：体现在模型通用于多种任务，如节点分类、连接预测、图分类等，但难点在于如何协调表达各任务</p></li>
-<li><p>预训练：</p>
-<ul>
-<li>对比自监督学习（正负样本）：Deep graph contrastive representation
-learning</li>
-<li>生成自监督学习（结构重建与预测）：Graphmae2:Adecoding-enhancedmaskedself-supervised
-graph learner</li>
-</ul></li>
-<li><p>适应：</p>
-<ul>
-<li>普通微调(Vanilla FT)：在特定任务数据上训练整个预训练模型</li>
-<li>参数高效微调(Parameter-efficient FT）：调整模型参数的一个子集</li>
-</ul></li>
-<li><p>GFM与LLM差异：语言模型专为处理欧几里得数据（文本）设计，而图模型则面向非欧几里得数据（图结构）或混合数据（如图属性），能捕捉更复杂的关联关系，但数据稀疏性显著，缺乏统一表征基础，图结构还可能呈现层次性、循环性等异质特征。</p></li>
-</ul>
-<h2 id="类别一gnn-based-models">类别一：GNN-BASED MODELS</h2>
-<h3 id="a.-主干结构">A. 主干结构</h3>
-<h4 id="基于消息传递的方法mpnns">基于消息传递的方法（MPNNs）：</h4>
-<p>每个节点从邻居节点聚合信息，处理后继续传递，形如： <img
-src="/images/post_images/2025-07-14-论文阅读（综述）——Graph-foundation-models-Concepts,-opportunities-and-challenges/image-20250717174948713.png"
-alt="image-20250717174948713" /></p>
-<p>可以理解为：每个节点依靠上一层的本节点特征信息与各邻居节点和边的信息来更新。</p>
-<ul>
-<li><strong>GCN</strong>（图卷积网络）：通过局部一阶近似谱图卷积捕获图结构特征与编码节点属性。</li>
-<li><strong>GAT</strong>（图注意力网络）：采用注意力机制驱动的加权聚合策略。</li>
-<li><strong>GraphSAGE</strong>：采样固定规模的邻域节点子集，聚合处理这些采样邻居的嵌入表示进行学习。</li>
-<li><strong>HGT</strong>（异构图
-transformer）：采用类型特异性参数来定义图中各边上的异构注意力。</li>
-<li><strong>GIN</strong>（图同构网络）：一种理论表达能力与1-WL图同构等价的基于消息传递的模型。</li>
-</ul>
-<p>基于消息传递的图神经网络更详细的综述：<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.08271">2003.08271</a>，<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2105.07342">2105.07342</a>，<a
-target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/ielaam/34/10008914/9764632-aam.pdf">ieeexplore.ieee.org/ielaam/34/10008914/9764632-aam.pdf</a></p>
-<h4 id="基于图transformer的方法">基于图transformer的方法：</h4>
-<p>GNN会遇到表达力有限、过平滑、过压缩等问题，因此图transformer受到关注，其利用注意力机制处理整张图。</p>
-<ul>
-<li><p><strong>GraphBERT</strong>：采用基于亲密度和跳数的相对位置编码来表示子图中节点的位置信息。</p></li>
-<li><p><strong>GROVER</strong>：采用定向消息传递网络捕捉分子图的方向特性并区分不同类型的边。</p></li>
-<li><p><strong>Graphormer</strong>：通过空间编码表征节点关系，将最短路径距离作为偏置项引入注意力机制。</p></li>
-</ul>
-<p>关于图transformer更详细的综述：<a
-target="_blank" rel="noopener" href="https://openreview.net/forum?id=HhbqHBBrfZ">Attending to Graph
-Transformers | OpenReview</a></p>
-<h3 id="b.-预训练">B. 预训练</h3>
-<p>利用大量未标注的节点和图的数据进行自监督预训练。</p>
-<h4 id="基于对比学习的预训练方法">基于对比学习的预训练方法：</h4>
-<p>对比式图预训练方法旨在最大化不同视图（局部、上下文或全局视角）间的互信息，使模型学习跨视图不变的语义特征。</p>
-<ul>
-<li><strong>同尺度对比学习</strong>：对相同层级的图视图进行对比，如GCC将节点的子图嵌入作为表征，将同一节点的不同子图视为正样本、不同节点的子图作为负样本，通过噪声对比估计(NCE)损失实现正样本对齐与负样本分离，从而捕捉通用模式。其他方法还有GraphCL、GRACE、MA-GCL、GCOPE、FUG等</li>
-<li><strong>跨尺度对比学习</strong>：对比不同层级的图视图，如DGI利用最大化节点嵌入与全图嵌入的互信息，同时最小化节点与扰动图嵌入的信息量，促使编码器捕获图的全局信息，但会忽略不同节点间的差异性特征。</li>
-</ul>
-<h4 id="基于生成的预训练方法">基于生成的预训练方法：</h4>
-<p>旨在使图神经网络理解图数据的通用结构与属性语义，从而使其能够基于通用信息适配下游任务。但生成式方法的准确性和合理性仍需提升。</p>
-<ul>
-<li><strong>图重构方法</strong>：重建给定图的特定部分。如VGAE采用GCN作为编码器生成节点嵌入，然后通过节点嵌入的内积重构邻接矩阵。其他方法还有GPT-GNN、GraphMAE等。</li>
-<li><strong>属性预测方法</strong>：学习并预测图的深层特性。如GROVER要求模型预测局部子图中的上下文相关属性，将基元预测建模为多标签分类问题。</li>
-</ul>
-<h3 id="c.-适应">C. 适应</h3>
-<p>预训练所使用的任务一般与下游任务不一致，因此需要微调技术来使模型适应新任务。尽管微调方法已取得显著成效，但通常需要大量标注数据来调整模型参数，计算开销大。</p>
-<h4 id="微调">微调：</h4>
-<p>利用预训练模型生成节点嵌入或图嵌入，随后微调外部任务特定层，使预训练模型能够泛化至下游任务。</p>
-<ul>
-<li><p>DGI和GRACE采用预训练编码器获取节点嵌入，再通过标注数据微调逻辑回归分类器以处理节点分类任务。</p></li>
-<li><p>GPT-GNN利用标注数据微调下游任务特定解码器，引导预训练模型适配下游任务。</p></li>
-<li><p>AdapterGNN在消息传递阶段前后设置并行适配器来修改输入图结构，此方法仅需微调新增参数。</p></li>
-<li><p>G-Adapter使用面向图变换器的参数高效微调方法，通过消息传递将图结构融入微调过程。</p></li>
-<li><p>G-TUNING使用基于图重构的GNN微调策略，保持生成模式并解决预训练与下游数据集间的结构差异。</p></li>
-</ul>
-<h4 id="提示词调优">提示词调优：</h4>
-<p>此方法避免全参数调整，在促进多任务适应与零样本学习方面展现出优势。</p>
-<ul>
-<li><p><strong>前提示方法</strong>：通过改造输入图的拓扑结构或节点特征来辅助下游任务，或构建提示图增强模型适应性。例如AAGOD使用以数据为中心的操作方法，通过在原始输入图的邻接矩阵上叠加可学习的提示放大器。其他方法还有All
-In One、GPF、PRODIGY、IGAP、TPP等</p></li>
-<li><p><strong>后提示方法</strong>：在消息传递后的表征上应用任务特定提示。例如GPPT采用提示函数生成每个类别的标记对，将节点分类任务转化为链接预测。其他方法还有GraphPrompt、GraphPrompt+、ProNoG等。</p></li>
-</ul>
-<h3 id="总结">总结</h3>
-<p>基于图神经网络的模型能有效处理图结构数据、训练成本低、资源利用率高，通过图中标签信息的传播，在标注数据稀缺时仍保持较强泛化能力。针对异质图（CPT-HG）、超图（PhyGCN）、时序图（GraphST）等复杂图数据也有相应研究。</p>
-<p>但这类模型文本建模能力薄弱，难以充分挖掘节点/边关联文本属性的丰富语义信息，且通用知识整合能力受限，在需要跨域泛化或常识推理的任务中表现受限。</p>
-<h2 id="类别二llm-based-models">类别二：LLM-BASED MODELS</h2>
-<p>将LLM作为主干有以下显著优势：在图数据中有效融合文本信息；利用自然语言处理多种图学习任务；实现图推理。遇到的核心问题在于如何实现图数据与自然语言的对齐，以使LLM能够理解图结构。</p>
-<h3 id="a.-主干结构-1">A. 主干结构</h3>
-<p>由于LLM最初以词元（token）作为输入，要实现图结构信息的细粒度建模较难，主要含图到词元和图到文本两种方法，其区别在于是否使用额外编码器（图到词元方法需要借助编码器为每个节点生成嵌入级表示）。</p>
-<h4 id="图到词元graph-to-token">图到词元（graph-to-token）：</h4>
-<p>将图数据序列化为词元，并解决图结构信息的编码问题，一般使用开源大语言模型作为主干模型。</p>
-<ul>
-<li><strong>GIMLET：</strong>结合广义位置嵌入和基于指令的预训练，使大语言模型能同时处理图与文本数据。</li>
-<li><strong>Meta-Transformer：</strong>提出了支持图数据、文本和图像等多模态数据的Transformer架构。</li>
-<li><strong>InstructGLM：</strong>采用预训练-适应框架，引入大语言模型增强文本处理能力。将图中固有的节点特征向量作为独特词元扩展至大语言模型的词表。</li>
-</ul>
-<h4 id="图到文本graph-to-text">图到文本（graph-to-text）：</h4>
-<p>采用自然语言描述图信息，可使用任何大语言模型作为主干。但当前阶段的提示词使用方法难以有效挖掘图数据的底层结构特征。</p>
-<ul>
-<li><p><strong>NLGraph：</strong>系统评估了大语言模型在八种图推理任务中的表现，并测试了自然语言形式下的经典图神经网络任务。基于边列表描述方法，印证了该方式在处理复杂图问题时的局限性。</p></li>
-<li><p><strong>TextForGraph：</strong>设计了完整文本与精简文本两种提示词格式描述图信息，压缩了提示长度。</p></li>
-<li><p><strong>When&amp;Why：</strong>使用多风格提示词设计提供了结构化数据处理方法。</p></li>
-<li><p><strong>GraphWiz：</strong>针对环路检测、子图匹配等不同图任务定制了专属提示词方案。</p></li>
-<li><p><strong>GPT4Graph：</strong>创新性地提出混合提示工程方法，将人工构建提示词（边列表、邻接表等）与模型自生成提示词（图摘要、邻域汇总等）相结合。研究证实，自生成提示能更有效帮助大语言模型理解图结构。</p></li>
-<li><p><strong>Graph-LLM：</strong>进一步支持GPT4Graph的结论，指出邻域汇总是现有提示词工程中最有效的技术。</p></li>
-</ul>
-<h3 id="b.-预训练-1">B. 预训练</h3>
-<p>基于大语言模型的图学习方法主要采用<em>LM</em>与<em>MLM</em>。</p>
-<h4 id="语言建模lm">语言建模（LM）：</h4>
-<p>本质上可归结为对下一个词概率分布的预测问题，通过在大规模语料上采用最大似然估计（MLE）训练网络，可有效学习这些概率。然而单向语言模型的缺陷在于上下文信息仅依赖于左侧上文及词元本身，若要获得更具鲁棒性的文本上下文表征，则需要同时捕获前向与后向的上下文信息。</p>
-<h4 id="掩码语言建模mlm">掩码语言建模（MLM）：</h4>
-<p>随机遮蔽输入句子中的特定词元，要求模型通过分析上下文预测被遮蔽内容，该任务常被称作完形填空任务。MLM存在预训练-微调阶段割裂的问题——由于微调阶段不出现掩码标记，导致两阶段目标不一致。</p>
-<h3 id="c.-适应-1">C. 适应</h3>
-<p>无论是图到词元还是图到文本方法，都配备了特定的适应技术以增强大语言模型对图数据的理解能力。从提示词工程的角度将这些适应策略分为两类：人工型与自动型。</p>
-<h4 id="人工提示型">人工提示型：</h4>
-<p>采用人工设计的前缀式提示模板。</p>
-<ul>
-<li><p><strong>LLMtoGraph、NLGraph：</strong>整合节点列表、边列表及其他自然语言描述的图属性，构建复合型提示模板。</p></li>
-<li><p><strong>GPT4Graph：</strong>采用边列表、邻接表等多种描述语言表示图数据。</p></li>
-<li><p><strong>InstructGLM：</strong>创新性地采用指令式提示设计以中心节点为核心的图描述集，并结合任务专属描述。</p></li>
-</ul>
-<h4 id="自动提示型">自动提示型：</h4>
-<p>采用大语言模型自动生成的提示模板进行适应性优化。</p>
-<ul>
-<li><p><strong>GPT4Graph：</strong>采用图摘要（提取关键特征或目标节点邻域信息生成图结构概要）、图探索（自动生成查询序列以检索图信息）和图补全（构建部分图结构后引导模型完成缺失部分）这三种自生成提示。</p></li>
-<li><p><strong>Graph-LLM：</strong>采用邻域摘要形式的自动提示。</p></li>
-</ul>
-<h3 id="d.讨论">D.讨论</h3>
-<ul>
-<li><p>除提示工程外，还存在多种基于微调的适应方法，包括常规微调（Vanilla
-Fine-Tuning）、中间层微调（IFT）、多任务微调（MTFT）以及参数高效微调（Parameter
-Efficient
-Fine-Tuning）。尽管这些方法尚未应用于图任务，但它们为预训练模型的下游适配提供了有效途径。我们预期未来研究将探索这些适应方法与图任务的结合，进一步推动图基础模型的发展。</p></li>
-<li><p>当前将LLM作为图学习主干的方法存在固有局限：1）难以有效处理描述图结构所需的<strong>长文本信息</strong>；2）无法通过图链接实现<strong>多跳逻辑推理</strong>；3）对高连通图的<strong>拓扑结构</strong>捕捉能力不足；4）难以适应随时间演化的动态图特性。</p></li>
-<li><p>图到文本方法受限于LLM的输入长度，而图到词元方法虽能通过单节点单词元映射处理大规模图数据，却需承担更高计算成本。</p></li>
-<li><p>未来研究方向应包括：1）增强LLM对节点特征与拓扑结构等图关键信息的<strong>理解效率</strong>；2）开发结构化图建模技术，弥补自然语言描述与图数据完整信息间的语义鸿沟；3）拓展应用场景，如<strong>LLM4DYG已探索时态图应用</strong>，但超图和异构图等复杂图类型仍有待开发。</p></li>
-</ul>
-<h2 id="类别三gnnllm-based-models">类别三：GNN+LLM-BASED MODELS</h2>
-<p>GNN缺乏文本处理能力，LLM无法执行精确数学运算、难以处理多跳逻辑推理，将两者进行整合有望开发出更全面、更强大的模型。</p>
-<h3 id="a.-主干结构-2">A. 主干结构</h3>
-<figure>
-<img
-src="/images/post_images/2025-07-14-论文阅读（综述）——Graph-foundation-models-Concepts,-opportunities-and-challenges/image-20250722162852718.png"
-alt="image-20250722162852718" />
-<figcaption aria-hidden="true">image-20250722162852718</figcaption>
-</figure>
-<h4 id="以图神经网络为核心的方法">以图神经网络为核心的方法：</h4>
-<p>利用LLM从原始数据中提取节点特征，并通过GNN进行预测。</p>
-<ul>
-<li><p><strong>GraD：</strong>使用PEFT在TAG数据集上微调，移除头部层后获得微调后的节点表征，继而训练GNN。</p></li>
-<li><p><strong>TAPE：</strong>针对ChatGPT等无法直接获取嵌入的LLM，通过文本交互生成排序预测列表与解释，再微调语言模型将原始文本与LLM生成的预测特征转化为节点特征供下游GNN使用。</p></li>
-<li><p><strong>GIANT：</strong>采用图结构感知的自监督学习方法微调语言模型，使文本表征包含图结构信息。</p></li>
-<li><p><strong>WTGIA：</strong>专注于文本级图注入攻击，提升攻击的可解释性与实际应用性。</p></li>
-<li><p><strong>GALM：</strong>
-研究文本与图数据的联合预训练方法，特别针对富含文本的大规模异质图。</p></li>
-<li><p><strong>OFA：</strong>提出用自然语言描述节点/边的文本属性图，通过语言模型统一至共同嵌入空间。</p></li>
-<li><p><strong>Heterformer：</strong>在Transformer层中同步编码节点文本与异质结构信息。</p></li>
-<li><p><strong>Edgeformers：</strong>
-基于图增强Transformer，通过边关联文本的上下文建模进行边/节点表征学习。</p></li>
-<li><p><strong>LLMRec：</strong>
-采用三种LLM图增强技术改进推荐系统，解决隐式反馈稀疏与辅助信息低质问题。</p></li>
-<li><p><strong>WalkLM：</strong>通过属性随机游走生成近似有意义的文本序列，微调语言模型后提取同时捕获属性语义与图结构的嵌入向量。</p></li>
-<li><p><strong>TOUCHUP-G：</strong>
-增强预训练模型的节点特征用于下游图任务，但现有多路GNN的节点属性初始化方法难以完整捕获关联文本语义。</p></li>
-<li><p><strong>METERN：</strong>使用单一文本编码器建模关系间共享知识，辅以少量关系特定参数生成定制化表征。</p></li>
-<li><p><strong>LLM-GNN：</strong>
-构建无标签流程，利用LLM生成标注并为GNN提供训练信号。</p></li>
-</ul>
-<h4 id="对称式方法">对称式方法：</h4>
-<p>通过对齐GNN与LLM的嵌入空间以优化预测或下游任务性能，对称式方法通过协同机制获取结构感知的文本特征。</p>
-<ul>
-<li><p><strong>GraphFormer：</strong>将文本嵌入与图聚合融合为迭代流程，相连节点会在分层GNN组件中进行信息交换，使各节点融合邻域信息。但该方法存在可扩展性问题。</p></li>
-<li><p><strong>GLEM：</strong>采用变分EM框架交替更新LLM与GNN，LLM捕捉局部文本属性的节点标签分布，GNN预测表征全局条件标签分布，缓解可扩展性问题。</p></li>
-<li><p><strong>G2P2：</strong>基于三种图交互对比策略预训练图-文本联合模型，进而探索下游任务的提示学习。</p></li>
-<li><p><strong>ENGINE：</strong>通过可调节侧边结构整合LLM与GNN，显著降低训练复杂度同时保持模型能力。</p></li>
-<li><p><strong>PATTON：</strong>提出两种预训练策略：网络语境化掩码语言建模与掩码节点预测，以捕获文本属性与网络结构的固有关联。</p></li>
-<li><p><strong>OpenGraph：</strong>开发灵活的基础图模型，通过理解异构图数据的复杂拓扑模式，在零样本图学习任务中表现优异。</p></li>
-<li><p><strong>RLMRec：</strong>通过语义空间对齐与协同关系建模，结合LLM提升推荐系统的表征学习能力。</p></li>
-</ul>
-<h4 id="以llm为核心的方法">以LLM为核心的方法：</h4>
-<ul>
-<li><strong>GraphTranslator：</strong>采用图模型高效处理预定义任务，并利用LLM的扩展接口支持图模型的开放式任务。</li>
-<li><strong>GraphGPT：</strong>通过图指令微调将图结构知识注入LLM，使其理解复杂图结构并提升跨数据集与任务的适应性。</li>
-<li><strong>THLM：</strong>提出融合文本属性异构图拓扑与异构信息的预训练框架，显式增强语言模型的图感知能力。</li>
-<li><strong>GraphPrompter：</strong>通过软提示实现图信息与LLM的对齐。</li>
-<li><strong>InstructGraph：</strong>结合指令微调与偏好对齐，赋予LLM图推理与生成能力。</li>
-<li><strong>TEA-GLM：</strong>先通过对比学习预训练GNN捕获图结构与语义信息，再经线性投影器将GNN表征转化为统一的任务指令输入LLM，实现无需微调的跨数据集与跨任务泛化。</li>
-<li><strong>G-Retriever：</strong>提出面向现实文本图的检索增强生成框架，通过对话式接口实现问答功能，有效缓解幻觉问题并支持大规模图的高效扩展。</li>
-</ul>
-<h3 id="b.-预训练-2">B. 预训练</h3>
-<p>GNN加LLM的方法可以同时在文本数据和图数据上进行训练，分为基于GNN或LLM的方法和基于对齐的方法。</p>
-<ul>
-<li><p><strong>SimTeG：</strong>融合了文本-文本对比学习（TTCL）技术，利用了预训练阶段某些文本对比随机选取的文本对具有更高语义相似性的特性。</p></li>
-<li><p><strong>GALM：</strong>在大规模图数据集上进行图重构预训练，从而将图结构信息有效整合到预训练语言模型中。</p></li>
-</ul>
-<h3 id="c.-适应-2">C. 适应</h3>
-<p>除少数研究在零样本任务上测试模型性能外，大多数情况下模型都需要进行适配。适配策略分为两大类：微调与提示调优。</p>
-<h4 id="微调方法">微调方法：</h4>
-<p>常规微调需要调整大量模型参数，存在计算密集和资源消耗大的问题。参数高效微调方法则实现了更高效节能的下游任务适配。例如利用分子图-文本配对数据对齐GNN与LLM的嵌入空间，针对TAGs进行分类任务调优，通过生成文本标注或描述来适配下游任务。</p>
-<h4 id="提示调优方法">提示调优方法：</h4>
-<ul>
-<li><p><strong>G2P2：</strong>通过提示调优自动优化提示模板，仅需少量标注数据即可高效适配下游任务。</p></li>
-<li><p><strong>TAPE：</strong>充分利用语言模型的内生能力，无需额外微调或参数调整，仅依赖模型预训练知识即可生成文本输出。</p></li>
-</ul>
-<h3 id="d.讨论-1">D.讨论</h3>
-<ul>
-<li><p>将LLM与GNN对齐到统一表征空间仍具挑战性，为解决这一问题，需建立衡量两者表征对齐程度的标准。</p></li>
-<li><p>现有研究已开始将GNN+LLM方法拓展至异质图与超图领域，如HiGPT提出了情境感知的异质图标记器与异质性感知指令微调框架，GHGRL利用LLM自动归纳和分类异质图数据的多格式多类型数据，Hyper-BERT添加超图感知层来增强预训练BERT模型用于节点分类任务。</p></li>
-</ul>
-<h2 id="挑战与展望">挑战与展望</h2>
-<h3 id="a.-数据与评估面临的挑战">A. 数据与评估面临的挑战</h3>
-<h4 id="数据评估与质量">数据评估与质量：</h4>
-<p>数据规模与质量的提升是基础模型效能提升的关键因素，而当前开源大规模图<strong>数据仍较为有限</strong>，各数据集多集中于单一领域，且有噪声、不完整或未经妥善处理的数据将影响图基础模型的性能。研究者已从图结构学习、特征补全、标签混合等多角度提出<strong>数据增强策略</strong>。然而现有数据增强技术多针对单一GNN模型设计，如何<strong>面向基于LLM或”GNN+LLM”架构的模型进行有效图数据增强</strong>仍需探索。</p>
-<h4 id="评估体系"><strong>评估体系</strong>：</h4>
-<p>开放式任务缺乏标准标签，如何<strong>评估图基础模型在开放式任务</strong>中的性能成为难题。在语言基础模型领域，对开放式任务的评估已从人工评估发展到元评估，现有LLM评估方法是否适用于图基础模型仍有待验证。此外，还需对图基础模型的鲁棒性、可信度及综合性能进行系统评估。</p>
-<h3 id="b.-模型相关挑战">B. 模型相关挑战</h3>
-<h4 id="模型架构">模型架构：</h4>
-<ul>
-<li><p>在骨干架构方面，近期研究提出的超越Transformer的架构已展现出更优性能或可解释性，但这些架构能否处理图数据仍是未知数。</p></li>
-<li><p><strong>在GNN+LLM联合模型中，如何更有效地对齐二者输出值得探索。</strong></p></li>
-<li><p>面对异质图、时序图、超图等多元图结构，设计能处理多类图数据的GFM是重要研究方向，例如使用专家混合模型。</p></li>
-<li><p>探索如何利用GNN扩展多模态基础模型的模态覆盖范围或增强多模态学习能力是颇具价值的研究方向。</p></li>
-</ul>
-<h4 id="模型训练">模型训练：</h4>
-<ul>
-<li><p>设计合适的预训练任务至关重要，针对不同GFM架构已衍生出多样化的预训练任务形式。各类预训练任务是否存在适用边界、未来是否会出现统一范式都值得深入研究。</p></li>
-<li><p>如何使图基础模型支持跨域数据仍待研究。现有研究或采用多领域数据作为预训练输入，或通过LLM嵌入、条件生成和零样本迁移等方法实现跨域适应。除本文涉及的微调与提示学习外，知识蒸馏、人类反馈强化学习和模型编辑等技术在提升效率或更新知识方面具有潜力。</p></li>
-</ul>
-<h3 id="c.应用层面挑战">C.应用层面挑战</h3>
-<h4 id="杀手级应用">杀手级应用：</h4>
-<ul>
-<li><p>图基础模型能否在图任务中催生突破性应用尚未可知，对于适合图神经网络应用的场景潜在研究方向包括：结合LLMs的图模型以更好支持开放式任务，或通过图学习技术增强LLMs的推理能力。</p></li>
-<li><p>传统交通预测技术多集中于出行需求预测和交通流量预测等单一任务，缺乏对交通系统的整体认知。将交通系统视为时空图时，图基础模型可捕捉参与者的行为模式，从而为城市计算问题提供统一解决方案。</p></li>
-</ul>
-<h4 id="可信度问题">可信度问题：</h4>
-<ul>
-<li>LLM的黑箱特性引发了幻觉输出和隐私泄露等安全隐患，近期工作指出，预训练GNNs同样存在公平性和抗攻击鲁棒性方面的可信风险。鉴于图数据的特殊性，需采用置信度校准或反事实推理等技术防范GFMs的安全风险。此外，GNN和LLM均存在的隐私风险使得GFMs的隐私增强成为关键议题，联邦学习、RLHF和红队测试等方案的应用可行性尚待验证。</li>
-<li>现实场景中的图数据常面临噪声、类别不平衡、数据残缺和多模态特征等挑战，如何利用非常规图数据构建GFMs或适配现有模型，将成为未来研究的重点方向。</li>
-</ul>
+          <h1
+id="pandas数据处理精通教程从数据类型转换到高级分析">Pandas数据处理精通教程：从数据类型转换到高级分析</h1>
+<h2
+id="一pandas数据结构与数据类型转换">一、Pandas数据结构与数据类型转换</h2>
+<h3 id="pandas核心数据结构">1.1 Pandas核心数据结构</h3>
+<p>Pandas提供两种主要数据结构：<strong>Series</strong>（一维标记数组）和<strong>DataFrame</strong>（二维表格型数据结构）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建DataFrame示例</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&#x27;Name&#x27;</span>: [<span class="string">&#x27;Tom&#x27;</span>, <span class="string">&#x27;Jack&#x27;</span>, <span class="string">&#x27;Lily&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;Age&#x27;</span>: [<span class="number">28</span>, <span class="number">24</span>, <span class="number">22</span>],</span><br><span class="line">    <span class="string">&#x27;City&#x27;</span>: [<span class="string">&#x27;Beijing&#x27;</span>, <span class="string">&#x27;Shanghai&#x27;</span>, <span class="string">&#x27;Shenzhen&#x27;</span>]</span><br><span class="line">&#125;</span><br><span class="line">df = pd.DataFrame(data)</span><br><span class="line"><span class="built_in">print</span>(df.dtypes)</span><br></pre></td></tr></table></figure>
+<h3 id="查看数据类型">1.2 查看数据类型</h3>
+<p>使用<code>dtypes</code>属性查看DataFrame中各列的数据类型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看数据类型</span></span><br><span class="line"><span class="built_in">print</span>(df.dtypes)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看单列数据类型</span></span><br><span class="line"><span class="built_in">print</span>(df[<span class="string">&#x27;Age&#x27;</span>].dtype)</span><br></pre></td></tr></table></figure>
+<h3 id="数据类型转换方法">1.3 数据类型转换方法</h3>
+<p>Pandas提供了多种数据类型转换方法：</p>
+<h4 id="使用astype方法">使用astype()方法</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建示例数据</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;C&#x27;</span>: [<span class="number">1.1</span>, <span class="number">2.2</span>, <span class="number">3.3</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换数据类型</span></span><br><span class="line">df[<span class="string">&#x27;A&#x27;</span>] = df[<span class="string">&#x27;A&#x27;</span>].astype(<span class="string">&#x27;float32&#x27;</span>)  <span class="comment"># 整型转浮点型</span></span><br><span class="line">df[<span class="string">&#x27;B&#x27;</span>] = df[<span class="string">&#x27;B&#x27;</span>].astype(<span class="string">&#x27;int64&#x27;</span>)    <span class="comment"># 字符串转整型</span></span><br><span class="line">df[<span class="string">&#x27;C&#x27;</span>] = df[<span class="string">&#x27;C&#x27;</span>].astype(<span class="string">&#x27;int32&#x27;</span>)    <span class="comment"># 浮点型转整型</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(df.dtypes)</span><br></pre></td></tr></table></figure>
+<h4 id="批量转换数据类型">批量转换数据类型</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 批量转换数值列为float类型</span></span><br><span class="line">df_numeric = df.select_dtypes(include=[np.number])</span><br><span class="line">df[df_numeric.columns] = df_numeric.astype(<span class="built_in">float</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="特殊数据类型转换">特殊数据类型转换</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&#x27;Date&#x27;</span>: [<span class="string">&#x27;2024-01-01&#x27;</span>, <span class="string">&#x27;2024-01-02&#x27;</span>, <span class="string">&#x27;2024-01-03&#x27;</span>, <span class="string">&#x27;2024-01-04&#x27;</span>, <span class="string">&#x27;2024-01-05&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;Category&#x27;</span>: [<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;Flag&#x27;</span>: [<span class="string">&#x27;True&#x27;</span>, <span class="string">&#x27;False&#x27;</span>, <span class="string">&#x27;True&#x27;</span>, <span class="string">&#x27;False&#x27;</span>, <span class="string">&#x27;True&#x27;</span>]</span><br><span class="line">&#125;</span><br><span class="line">df = pd.DataFrame(data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 日期时间转换</span></span><br><span class="line">df[<span class="string">&#x27;Date&#x27;</span>] = pd.to_datetime(df[<span class="string">&#x27;Date&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分类数据转换</span></span><br><span class="line">df[<span class="string">&#x27;Category&#x27;</span>] = df[<span class="string">&#x27;Category&#x27;</span>].astype(<span class="string">&#x27;category&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 布尔类型转换</span></span><br><span class="line">df[<span class="string">&#x27;Flag&#x27;</span>] = df[<span class="string">&#x27;Flag&#x27;</span>].astype(<span class="built_in">bool</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(df.dtypes)</span><br></pre></td></tr></table></figure>
+<h4 id="智能类型推断">智能类型推断</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自动推断合适的数据类型</span></span><br><span class="line">df_converted = df.convert_dtypes()</span><br><span class="line"><span class="built_in">print</span>(df_converted.dtypes)</span><br></pre></td></tr></table></figure>
+<p><em>表：Pandas常用数据类型对照表</em></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>描述</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int8/int16/int32/int64</td>
+<td>整型数据</td>
+<td>数值计算、索引</td>
+</tr>
+<tr>
+<td>float32/float64</td>
+<td>浮点型数据</td>
+<td>科学计算、统计分析</td>
+</tr>
+<tr>
+<td>object</td>
+<td>字符串或混合类型</td>
+<td>文本数据</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>布尔类型</td>
+<td>标志位、条件判断</td>
+</tr>
+<tr>
+<td>datetime64[ns]</td>
+<td>日期时间</td>
+<td>时间序列分析</td>
+</tr>
+<tr>
+<td>category</td>
+<td>分类数据</td>
+<td>有限取值的文本数据</td>
+</tr>
+<tr>
+<td>string</td>
+<td>字符串类型</td>
+<td>文本处理</td>
+</tr>
+</tbody>
+</table>
+<h2 id="二缺失值处理技术">二、缺失值处理技术</h2>
+<h3 id="检测缺失值">2.1 检测缺失值</h3>
+<p>Pandas使用<code>NaN</code>（Not a Number）表示缺失值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建包含缺失值的示例数据</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, np.nan, <span class="number">4</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">5</span>, np.nan, np.nan, <span class="number">8</span>],</span><br><span class="line">    <span class="string">&#x27;C&#x27;</span>: [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, np.nan]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测缺失值</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;缺失值检测结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df.isnull())</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n每列缺失值数量:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df.isnull().<span class="built_in">sum</span>())</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n缺失值比例:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df.isnull().<span class="built_in">sum</span>() / <span class="built_in">len</span>(df))</span><br></pre></td></tr></table></figure>
+<h3 id="删除缺失值">2.2 删除缺失值</h3>
+<p>根据具体情况删除包含缺失值的行或列：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除包含缺失值的行</span></span><br><span class="line">df_dropped_rows = df.dropna()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;删除缺失行后的形状:&quot;</span>, df_dropped_rows.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除包含缺失值的列</span></span><br><span class="line">df_dropped_cols = df.dropna(axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;删除缺失列后的形状:&quot;</span>, df_dropped_cols.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只删除全部为缺失值的行</span></span><br><span class="line">df_dropped_all = df.dropna(how=<span class="string">&#x27;all&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;删除全缺失行后的形状:&quot;</span>, df_dropped_all.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除缺失值达到一定数量的行</span></span><br><span class="line">df_dropped_thresh = df.dropna(thresh=<span class="number">2</span>)  <span class="comment"># 至少保留2个非空值</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;阈值删除后的形状:&quot;</span>, df_dropped_thresh.shape)</span><br></pre></td></tr></table></figure>
+<h3 id="填充缺失值">2.3 填充缺失值</h3>
+<h4 id="简单填充方法">简单填充方法</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用固定值填充</span></span><br><span class="line">df_filled_zero = df.fillna(<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;用0填充的结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df_filled_zero)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用前向填充（使用前面的值）</span></span><br><span class="line">df_filled_ffill = df.fillna(method=<span class="string">&#x27;ffill&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;前向填充的结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df_filled_ffill)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用后向填充（使用后面的值）</span></span><br><span class="line">df_filled_bfill = df.fillna(method=<span class="string">&#x27;bfill&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;后向填充的结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df_filled_bfill)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制填充数量</span></span><br><span class="line">df_filled_limit = df.fillna(method=<span class="string">&#x27;ffill&#x27;</span>, limit=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;限制填充数量的结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df_filled_limit)</span><br></pre></td></tr></table></figure>
+<h4 id="统计值填充">统计值填充</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用均值填充</span></span><br><span class="line">df_filled_mean = df.fillna(df.mean())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;均值填充的结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df_filled_mean)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用中位数填充</span></span><br><span class="line">df_filled_median = df.fillna(df.median())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;中位数填充的结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df_filled_median)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用众数填充（适用于分类数据）</span></span><br><span class="line">df_cat = pd.DataFrame(&#123;<span class="string">&#x27;Category&#x27;</span>: [<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, np.nan, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;B&#x27;</span>]&#125;)</span><br><span class="line">mode_value = df_cat[<span class="string">&#x27;Category&#x27;</span>].mode()[<span class="number">0</span>]</span><br><span class="line">df_cat_filled = df_cat.fillna(mode_value)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;众数填充的结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df_cat_filled)</span><br></pre></td></tr></table></figure>
+<h4 id="插值法填充">插值法填充</h4>
+<p>插值法可以提供更加精确的缺失值估计：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建时间序列数据</span></span><br><span class="line">dates = pd.date_range(<span class="string">&#x27;2024-01-01&#x27;</span>, periods=<span class="number">6</span>)</span><br><span class="line">ts_data = pd.Series([<span class="number">1</span>, np.nan, np.nan, <span class="number">4</span>, <span class="number">5</span>, np.nan], index=dates)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 线性插值</span></span><br><span class="line">ts_linear = ts_data.interpolate(method=<span class="string">&#x27;linear&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;线性插值结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(ts_linear)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 多项式插值（二次）</span></span><br><span class="line">ts_poly = ts_data.interpolate(method=<span class="string">&#x27;polynomial&#x27;</span>, order=<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;多项式插值结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(ts_poly)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间索引插值，根据索引之间的实际时间间隔来计算。</span></span><br><span class="line">ts_time = ts_data.interpolate(method=<span class="string">&#x27;time&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;时间插值结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(ts_time)</span><br></pre></td></tr></table></figure>
+<h3 id="高级缺失值处理技巧">2.4 高级缺失值处理技巧</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对不同列使用不同的填充策略</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_fill</span>(<span class="params">series</span>):</span><br><span class="line">    <span class="keyword">if</span> series.name == <span class="string">&#x27;A&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> series.fillna(series.mean())</span><br><span class="line">    <span class="keyword">elif</span> series.name == <span class="string">&#x27;B&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> series.fillna(series.median())</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> series.fillna(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">df_custom = df.apply(custom_fill)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;自定义填充结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df_custom)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用字典指定每列的填充值</span></span><br><span class="line">fill_values = &#123;<span class="string">&#x27;A&#x27;</span>: df[<span class="string">&#x27;A&#x27;</span>].mean(), <span class="string">&#x27;B&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;C&#x27;</span>: df[<span class="string">&#x27;C&#x27;</span>].median()&#125;</span><br><span class="line">df_dict_fill = df.fillna(fill_values)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;字典填充结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df_dict_fill)</span><br></pre></td></tr></table></figure>
+<p><em>表：缺失值处理策略选择指南</em></p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐方法</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>缺失值较少</td>
+<td>删除缺失值</td>
+<td>简单直接</td>
+<td>可能损失信息</td>
+</tr>
+<tr>
+<td>数值型数据，分布均匀</td>
+<td>均值填充</td>
+<td>保持均值不变</td>
+<td>低估方差</td>
+</tr>
+<tr>
+<td>数值型数据，存在异常值</td>
+<td>中位数填充</td>
+<td>抗异常值干扰</td>
+<td>忽略数据分布</td>
+</tr>
+<tr>
+<td>时间序列数据</td>
+<td>插值法填充</td>
+<td>保持趋势和模式</td>
+<td>对非线性关系敏感</td>
+</tr>
+<tr>
+<td>分类数据</td>
+<td>众数填充</td>
+<td>保持类别平衡</td>
+<td>忽略类别关系</td>
+</tr>
+<tr>
+<td>数据有自相关性</td>
+<td>前向/后向填充</td>
+<td>保持顺序关系</td>
+<td>可能传播误差</td>
+</tr>
+</tbody>
+</table>
+<h2 id="三异常值检测与处理">三、异常值检测与处理</h2>
+<h3 id="异常值的定义与影响">3.1 异常值的定义与影响</h3>
+<p>异常值（Outlier）是指与其他数据点相比显著偏离的数据点，可能由测量误差、数据录入错误或实际极端值引起。异常值会对统计分析结果产生显著影响。</p>
+<h3 id="统计方法检测异常值">3.2 统计方法检测异常值</h3>
+<h4 id="z-score法">Z-score法</h4>
+<p>Z-score衡量数据点与均值的偏离程度：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">detect_outliers_zscore</span>(<span class="params">data, threshold=<span class="number">3</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    使用Z-score方法检测异常值</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    z_scores = np.<span class="built_in">abs</span>((data - data.mean()) / data.std())</span><br><span class="line">    outliers = data[z_scores &gt; threshold]</span><br><span class="line">    <span class="keyword">return</span> outliers</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建包含异常值的示例数据</span></span><br><span class="line">np.random.seed(<span class="number">42</span>)</span><br><span class="line">normal_data = np.random.normal(<span class="number">50</span>, <span class="number">10</span>, <span class="number">100</span>)</span><br><span class="line">outlier_data = np.array([<span class="number">120</span>, <span class="number">130</span>, -<span class="number">30</span>])  <span class="comment"># 添加异常值</span></span><br><span class="line">combined_data = np.concatenate([normal_data, outlier_data])</span><br><span class="line">df = pd.DataFrame(&#123;<span class="string">&#x27;Value&#x27;</span>: combined_data&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测异常值</span></span><br><span class="line">outliers_zscore = detect_outliers_zscore(df[<span class="string">&#x27;Value&#x27;</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Z-score检测到的异常值:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(outliers_zscore)</span><br></pre></td></tr></table></figure>
+<h4 id="iqr法四分位距法">IQR法（四分位距法）</h4>
+<p>IQR法是箱线图检测异常值的原理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">detect_outliers_iqr</span>(<span class="params">data</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    使用IQR方法检测异常值</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    Q1 = data.quantile(<span class="number">0.25</span>)</span><br><span class="line">    Q3 = data.quantile(<span class="number">0.75</span>)</span><br><span class="line">    IQR = Q3 - Q1</span><br><span class="line">    lower_bound = Q1 - <span class="number">1.5</span> * IQR</span><br><span class="line">    upper_bound = Q3 + <span class="number">1.5</span> * IQR</span><br><span class="line">    outliers = data[(data &lt; lower_bound) | (data &gt; upper_bound)]</span><br><span class="line">    <span class="keyword">return</span> outliers, lower_bound, upper_bound</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测异常值</span></span><br><span class="line">outliers_iqr, lower_bound, upper_bound = detect_outliers_iqr(df[<span class="string">&#x27;Value&#x27;</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;IQR检测到的异常值:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(outliers_iqr)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;正常值范围: [<span class="subst">&#123;lower_bound:<span class="number">.2</span>f&#125;</span>, <span class="subst">&#123;upper_bound:<span class="number">.2</span>f&#125;</span>]&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="可视化异常值检测">3.3 可视化异常值检测</h3>
+<h4 id="箱线图法">箱线图法</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制箱线图检测异常值</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line">plt.subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">df[<span class="string">&#x27;Value&#x27;</span>].plot(kind=<span class="string">&#x27;box&#x27;</span>, title=<span class="string">&#x27;箱线图检测异常值&#x27;</span>)</span><br><span class="line">plt.subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">df[<span class="string">&#x27;Value&#x27;</span>].plot(kind=<span class="string">&#x27;hist&#x27;</span>, title=<span class="string">&#x27;数据分布直方图&#x27;</span>, bins=<span class="number">30</span>)</span><br><span class="line">plt.tight_layout()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h3 id="机器学习方法检测异常值">3.4 机器学习方法检测异常值</h3>
+<h4 id="孤立森林isolation-forest">孤立森林（Isolation Forest）</h4>
+<p><strong>核心思想：</strong></p>
+<p>异常点（Outliers）是<strong>少数的、与大多数数据点特征不同的</strong>观测值。因此，它们比正常数据点更容易被
+“孤立” 出来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> IsolationForest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备数据</span></span><br><span class="line">X = df[[<span class="string">&#x27;Value&#x27;</span>]]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练孤立森林模型</span></span><br><span class="line">clf = IsolationForest(contamination=<span class="number">0.1</span>, random_state=<span class="number">42</span>)</span><br><span class="line">clf.fit(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测异常值</span></span><br><span class="line">pred = clf.predict(X)</span><br><span class="line">df[<span class="string">&#x27;IsOutlier&#x27;</span>] = pred</span><br><span class="line">outliers_iso = df[df[<span class="string">&#x27;IsOutlier&#x27;</span>] == -<span class="number">1</span>][<span class="string">&#x27;Value&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;孤立森林检测到的异常值:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(outliers_iso)</span><br></pre></td></tr></table></figure>
+<h4 id="局部异常因子lof">局部异常因子（LOF）</h4>
+<p>LOF
+核心思想：<strong>一个异常点周围的密度通常比它的邻居们要低得多。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> LocalOutlierFactor</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练LOF模型</span></span><br><span class="line">lof = LocalOutlierFactor(n_neighbors=<span class="number">20</span>, contamination=<span class="number">0.1</span>)</span><br><span class="line">y_pred = lof.fit_predict(X)</span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;LOF_Outlier&#x27;</span>] = y_pred</span><br><span class="line">outliers_lof = df[df[<span class="string">&#x27;LOF_Outlier&#x27;</span>] == -<span class="number">1</span>][<span class="string">&#x27;Value&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;LOF检测到的异常值:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(outliers_lof)</span><br></pre></td></tr></table></figure>
+<h3 id="异常值处理方法">3.5 异常值处理方法</h3>
+<h4 id="删除异常值">删除异常值</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除异常值</span></span><br><span class="line">df_cleaned = df[df[<span class="string">&#x27;IsOutlier&#x27;</span>] != -<span class="number">1</span>].copy()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;原始数据形状: <span class="subst">&#123;df.shape&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;清理后数据形状: <span class="subst">&#123;df_cleaned.shape&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="替换异常值">替换异常值</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 缩尾处理（Winsorizing）</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">winsorize_data</span>(<span class="params">data, lower_limit=<span class="number">0.05</span>, upper_limit=<span class="number">0.95</span></span>):</span><br><span class="line">    lower = data.quantile(lower_limit)</span><br><span class="line">    upper = data.quantile(upper_limit)</span><br><span class="line">    <span class="keyword">return</span> data.clip(lower=lower, upper=upper)</span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;Value_Winsorized&#x27;</span>] = winsorize_data(df[<span class="string">&#x27;Value&#x27;</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;缩尾处理后的数据描述:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(df[<span class="string">&#x27;Value_Winsorized&#x27;</span>].describe())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用统计值替换异常值</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">replace_outliers_with_stats</span>(<span class="params">data, method=<span class="string">&#x27;median&#x27;</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;用统计值替换异常值&quot;&quot;&quot;</span></span><br><span class="line">    Q1 = data.quantile(<span class="number">0.25</span>)</span><br><span class="line">    Q3 = data.quantile(<span class="number">0.75</span>)</span><br><span class="line">    IQR = Q3 - Q1</span><br><span class="line">    lower_bound = Q1 - <span class="number">1.5</span> * IQR</span><br><span class="line">    upper_bound = Q3 + <span class="number">1.5</span> * IQR</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> method == <span class="string">&#x27;median&#x27;</span>:</span><br><span class="line">        replacement = data.median()</span><br><span class="line">    <span class="keyword">elif</span> method == <span class="string">&#x27;mean&#x27;</span>:</span><br><span class="line">        replacement = data.mean()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        replacement = method</span><br><span class="line">    </span><br><span class="line">    cleaned_data = data.copy()</span><br><span class="line">    cleaned_data[(data &lt; lower_bound) | (data &gt; upper_bound)] = replacement</span><br><span class="line">    <span class="keyword">return</span> cleaned_data</span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;Value_Replaced&#x27;</span>] = replace_outliers_with_stats(df[<span class="string">&#x27;Value&#x27;</span>], <span class="string">&#x27;median&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="异常值分析报告">异常值分析报告</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">generate_outlier_report</span>(<span class="params">data</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;生成异常值分析报告&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 检测异常值</span></span><br><span class="line">    outliers, lower_bound, upper_bound = detect_outliers_iqr(data)</span><br><span class="line">    </span><br><span class="line">    report = &#123;</span><br><span class="line">        <span class="string">&#x27;total_data_points&#x27;</span>: <span class="built_in">len</span>(data),</span><br><span class="line">        <span class="string">&#x27;outlier_count&#x27;</span>: <span class="built_in">len</span>(outliers),</span><br><span class="line">        <span class="string">&#x27;outlier_percentage&#x27;</span>: <span class="built_in">len</span>(outliers) / <span class="built_in">len</span>(data) * <span class="number">100</span>,</span><br><span class="line">        <span class="string">&#x27;lower_bound&#x27;</span>: lower_bound,</span><br><span class="line">        <span class="string">&#x27;upper_bound&#x27;</span>: upper_bound,</span><br><span class="line">        <span class="string">&#x27;outliers_values&#x27;</span>: outliers.values,</span><br><span class="line">        <span class="string">&#x27;data_min&#x27;</span>: data.<span class="built_in">min</span>(),</span><br><span class="line">        <span class="string">&#x27;data_max&#x27;</span>: data.<span class="built_in">max</span>(),</span><br><span class="line">        <span class="string">&#x27;data_mean&#x27;</span>: data.mean(),</span><br><span class="line">        <span class="string">&#x27;data_median&#x27;</span>: data.median()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> report</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成异常值报告</span></span><br><span class="line">outlier_report = generate_outlier_report(df[<span class="string">&#x27;Value&#x27;</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;异常值分析报告:&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> outlier_report.items():</span><br><span class="line">    <span class="keyword">if</span> key != <span class="string">&#x27;outliers_values&#x27;</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;key&#125;</span>: <span class="subst">&#123;value&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><em>表：异常值处理方法比较</em></p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>适用场景</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>删除法</td>
+<td>异常值较少且明显错误</td>
+<td>简单直接</td>
+<td>可能损失有用信息</td>
+</tr>
+<tr>
+<td>统计值替换</td>
+<td>需要保留样本量</td>
+<td>保持数据完整性</td>
+<td>可能扭曲分布</td>
+</tr>
+<tr>
+<td>缩尾处理</td>
+<td>保留极端值但限制影响</td>
+<td>保留数据趋势</td>
+<td>需要选择合适分位数</td>
+</tr>
+<tr>
+<td>插值法</td>
+<td>时间序列数据</td>
+<td>保持数据连续性</td>
+<td>对模式敏感</td>
+</tr>
+<tr>
+<td>分箱处理</td>
+<td>数值型数据</td>
+<td>减少异常值影响</td>
+<td>可能丢失细节</td>
+</tr>
+</tbody>
+</table>
+<h2 id="四groupby分组聚合高级用法">四、GroupBy分组聚合高级用法</h2>
+<h3 id="基础分组操作">4.1 基础分组操作</h3>
+<p>GroupBy是Pandas中强大的数据分组工具：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建示例数据</span></span><br><span class="line">sales_data = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;Region&#x27;</span>: [<span class="string">&#x27;North&#x27;</span>, <span class="string">&#x27;South&#x27;</span>, <span class="string">&#x27;East&#x27;</span>, <span class="string">&#x27;West&#x27;</span>, <span class="string">&#x27;North&#x27;</span>, <span class="string">&#x27;South&#x27;</span>, <span class="string">&#x27;East&#x27;</span>, <span class="string">&#x27;West&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;Product&#x27;</span>: [<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;B&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;Sales&#x27;</span>: [<span class="number">100</span>, <span class="number">120</span>, <span class="number">90</span>, <span class="number">110</span>, <span class="number">150</span>, <span class="number">130</span>, <span class="number">140</span>, <span class="number">160</span>],</span><br><span class="line">    <span class="string">&#x27;Profit&#x27;</span>: [<span class="number">20</span>, <span class="number">25</span>, <span class="number">18</span>, <span class="number">22</span>, <span class="number">30</span>, <span class="number">28</span>, <span class="number">35</span>, <span class="number">32</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;原始数据:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(sales_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 基本分组操作</span></span><br><span class="line">grouped = sales_data.groupby(<span class="string">&#x27;Region&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n按地区分组后的组别:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(grouped.groups)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看分组统计</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n各区域销售统计:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(grouped[<span class="string">&#x27;Sales&#x27;</span>].describe())</span><br></pre></td></tr></table></figure>
+<h3 id="单列分组与聚合">4.2 单列分组与聚合</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 单列分组聚合</span></span><br><span class="line">region_sales = sales_data.groupby(<span class="string">&#x27;Region&#x27;</span>)[<span class="string">&#x27;Sales&#x27;</span>].<span class="built_in">sum</span>()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;各区域总销售额:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(region_sales)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 多聚合函数</span></span><br><span class="line">region_stats = sales_data.groupby(<span class="string">&#x27;Region&#x27;</span>)[<span class="string">&#x27;Sales&#x27;</span>].agg([<span class="string">&#x27;sum&#x27;</span>, <span class="string">&#x27;mean&#x27;</span>, <span class="string">&#x27;std&#x27;</span>, <span class="string">&#x27;count&#x27;</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n各区域销售多维度统计:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(region_stats)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义聚合函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">range_function</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x.<span class="built_in">max</span>() - x.<span class="built_in">min</span>()</span><br><span class="line"></span><br><span class="line">custom_agg = sales_data.groupby(<span class="string">&#x27;Region&#x27;</span>)[<span class="string">&#x27;Sales&#x27;</span>].agg([<span class="string">&#x27;sum&#x27;</span>, range_function])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n自定义聚合结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(custom_agg)</span><br></pre></td></tr></table></figure>
+<h3 id="多列分组与高级聚合">4.3 多列分组与高级聚合</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 多列分组</span></span><br><span class="line">multi_grouped = sales_data.groupby([<span class="string">&#x27;Region&#x27;</span>, <span class="string">&#x27;Product&#x27;</span>])</span><br><span class="line">multi_sales = multi_grouped[<span class="string">&#x27;Sales&#x27;</span>].<span class="built_in">sum</span>()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;按地区和产品分组的总销售额:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(multi_sales)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 多列多指标聚合</span></span><br><span class="line">detailed_stats = sales_data.groupby([<span class="string">&#x27;Region&#x27;</span>, <span class="string">&#x27;Product&#x27;</span>]).agg(&#123;</span><br><span class="line">    <span class="string">&#x27;Sales&#x27;</span>: [<span class="string">&#x27;sum&#x27;</span>, <span class="string">&#x27;mean&#x27;</span>, <span class="string">&#x27;max&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;Profit&#x27;</span>: [<span class="string">&#x27;sum&#x27;</span>, <span class="string">&#x27;mean&#x27;</span>, <span class="string">&#x27;std&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n详细统计信息:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(detailed_stats)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名聚合结果列</span></span><br><span class="line">renamed_stats = sales_data.groupby([<span class="string">&#x27;Region&#x27;</span>, <span class="string">&#x27;Product&#x27;</span>]).agg(</span><br><span class="line">    total_sales=(<span class="string">&#x27;Sales&#x27;</span>, <span class="string">&#x27;sum&#x27;</span>),</span><br><span class="line">    avg_sales=(<span class="string">&#x27;Sales&#x27;</span>, <span class="string">&#x27;mean&#x27;</span>),</span><br><span class="line">    max_profit=(<span class="string">&#x27;Profit&#x27;</span>, <span class="string">&#x27;max&#x27;</span>),</span><br><span class="line">    profit_std=(<span class="string">&#x27;Profit&#x27;</span>, <span class="string">&#x27;std&#x27;</span>)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n重命名后的统计结果:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(renamed_stats)</span><br></pre></td></tr></table></figure>
+<h3 id="分组转换与过滤">4.4 分组转换与过滤</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分组转换（标准化数据）</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">z_score_normalize</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> (x - x.mean()) / x.std()</span><br><span class="line"></span><br><span class="line">sales_data[<span class="string">&#x27;Sales_ZScore&#x27;</span>] = sales_data.groupby(<span class="string">&#x27;Region&#x27;</span>)[<span class="string">&#x27;Sales&#x27;</span>].transform(z_score_normalize)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;分组标准化后的销售数据:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(sales_data[[<span class="string">&#x27;Region&#x27;</span>, <span class="string">&#x27;Sales&#x27;</span>, <span class="string">&#x27;Sales_ZScore&#x27;</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分组过滤</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">filter_small_groups</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x[<span class="string">&#x27;Sales&#x27;</span>].<span class="built_in">sum</span>() &gt; <span class="number">200</span></span><br><span class="line"></span><br><span class="line">filtered_groups = sales_data.groupby(<span class="string">&#x27;Region&#x27;</span>).<span class="built_in">filter</span>(filter_small_groups)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n过滤后的数据（只保留总销售额&gt;200的区域）:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(filtered_groups)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分组排序</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">top_n_sales</span>(<span class="params">df, n=<span class="number">2</span></span>):</span><br><span class="line">    <span class="keyword">return</span> df.nlargest(n, <span class="string">&#x27;Sales&#x27;</span>)</span><br><span class="line"></span><br><span class="line">top_sales_by_region = sales_data.groupby(<span class="string">&#x27;Region&#x27;</span>).apply(top_n_sales, n=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n每个区域销售额最高的记录:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(top_sales_by_region)</span><br></pre></td></tr></table></figure>
+<h3 id="时间序列分组">4.5 时间序列分组</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建时间序列数据</span></span><br><span class="line">date_rng = pd.date_range(start=<span class="string">&#x27;2024-01-01&#x27;</span>, end=<span class="string">&#x27;2024-03-31&#x27;</span>, freq=<span class="string">&#x27;D&#x27;</span>)</span><br><span class="line">ts_data = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;Date&#x27;</span>: date_rng,</span><br><span class="line">    <span class="string">&#x27;Sales&#x27;</span>: np.random.randint(<span class="number">100</span>, <span class="number">500</span>, <span class="built_in">len</span>(date_rng)),</span><br><span class="line">    <span class="string">&#x27;Region&#x27;</span>: np.random.choice([<span class="string">&#x27;North&#x27;</span>, <span class="string">&#x27;South&#x27;</span>, <span class="string">&#x27;East&#x27;</span>, <span class="string">&#x27;West&#x27;</span>], <span class="built_in">len</span>(date_rng))</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按时间频率分组</span></span><br><span class="line">ts_data[<span class="string">&#x27;Month&#x27;</span>] = ts_data[<span class="string">&#x27;Date&#x27;</span>].dt.to_period(<span class="string">&#x27;M&#x27;</span>)</span><br><span class="line">monthly_sales = ts_data.groupby(<span class="string">&#x27;Month&#x27;</span>)[<span class="string">&#x27;Sales&#x27;</span>].<span class="built_in">sum</span>()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;月度销售总额:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(monthly_sales)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重采样时间序列</span></span><br><span class="line">ts_data_indexed = ts_data.set_index(<span class="string">&#x27;Date&#x27;</span>)</span><br><span class="line">monthly_resampled = ts_data_indexed[<span class="string">&#x27;Sales&#x27;</span>].resample(<span class="string">&#x27;M&#x27;</span>).<span class="built_in">sum</span>()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n重采样后的月度销售:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(monthly_resampled)</span><br></pre></td></tr></table></figure>
+<h2 id="五数据透视表高级应用">五、数据透视表高级应用</h2>
+<h3 id="基础数据透视表">5.1 基础数据透视表</h3>
+<p>数据透视表是数据分析中强大的多维汇总工具：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建示例数据</span></span><br><span class="line">pivot_data = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;Date&#x27;</span>: [<span class="string">&#x27;2024-01-01&#x27;</span>, <span class="string">&#x27;2024-01-01&#x27;</span>, <span class="string">&#x27;2024-01-02&#x27;</span>, <span class="string">&#x27;2024-01-02&#x27;</span>] * <span class="number">2</span>,</span><br><span class="line">    <span class="string">&#x27;Region&#x27;</span>: [<span class="string">&#x27;North&#x27;</span>, <span class="string">&#x27;South&#x27;</span>, <span class="string">&#x27;North&#x27;</span>, <span class="string">&#x27;South&#x27;</span>] * <span class="number">2</span>,</span><br><span class="line">    <span class="string">&#x27;Product&#x27;</span>: [<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;B&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;Sales&#x27;</span>: [<span class="number">100</span>, <span class="number">120</span>, <span class="number">90</span>, <span class="number">110</span>, <span class="number">150</span>, <span class="number">130</span>, <span class="number">140</span>, <span class="number">160</span>],</span><br><span class="line">    <span class="string">&#x27;Profit&#x27;</span>: [<span class="number">20</span>, <span class="number">25</span>, <span class="number">18</span>, <span class="number">22</span>, <span class="number">30</span>, <span class="number">28</span>, <span class="number">35</span>, <span class="number">32</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 基础数据透视表</span></span><br><span class="line">basic_pivot = pd.pivot_table(pivot_data, values=<span class="string">&#x27;Sales&#x27;</span>, index=<span class="string">&#x27;Region&#x27;</span>, columns=<span class="string">&#x27;Product&#x27;</span>, aggfunc=<span class="string">&#x27;sum&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;基础数据透视表:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(basic_pivot)</span><br></pre></td></tr></table></figure>
+<h3 id="多维度多指标透视表">5.2 多维度多指标透视表</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 多值多函数透视表</span></span><br><span class="line">advanced_pivot = pd.pivot_table(pivot_data, </span><br><span class="line">                               values=[<span class="string">&#x27;Sales&#x27;</span>, <span class="string">&#x27;Profit&#x27;</span>],</span><br><span class="line">                               index=<span class="string">&#x27;Region&#x27;</span>,</span><br><span class="line">                               columns=<span class="string">&#x27;Product&#x27;</span>,</span><br><span class="line">                               aggfunc=&#123;<span class="string">&#x27;Sales&#x27;</span>: [<span class="string">&#x27;sum&#x27;</span>, <span class="string">&#x27;mean&#x27;</span>],</span><br><span class="line">                                       <span class="string">&#x27;Profit&#x27;</span>: [<span class="string">&#x27;sum&#x27;</span>, <span class="string">&#x27;mean&#x27;</span>, <span class="string">&#x27;std&#x27;</span>]&#125;)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;高级数据透视表:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(advanced_pivot)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 多索引透视表</span></span><br><span class="line">multi_index_pivot = pd.pivot_table(pivot_data,</span><br><span class="line">                                  values=<span class="string">&#x27;Sales&#x27;</span>,</span><br><span class="line">                                  index=[<span class="string">&#x27;Date&#x27;</span>, <span class="string">&#x27;Region&#x27;</span>],</span><br><span class="line">                                  columns=<span class="string">&#x27;Product&#x27;</span>,</span><br><span class="line">                                  aggfunc=<span class="string">&#x27;sum&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n多索引数据透视表:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(multi_index_pivot)</span><br></pre></td></tr></table></figure>
+<h3 id="透视表高级功能">5.3 透视表高级功能</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加小计和总计</span></span><br><span class="line">pivot_with_margins = pd.pivot_table(pivot_data,</span><br><span class="line">                                   values=<span class="string">&#x27;Sales&#x27;</span>,</span><br><span class="line">                                   index=<span class="string">&#x27;Region&#x27;</span>,</span><br><span class="line">                                   columns=<span class="string">&#x27;Product&#x27;</span>,</span><br><span class="line">                                   aggfunc=<span class="string">&#x27;sum&#x27;</span>,</span><br><span class="line">                                   margins=<span class="literal">True</span>,</span><br><span class="line">                                   margins_name=<span class="string">&#x27;总计&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;带总计的透视表:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(pivot_with_margins)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理缺失值</span></span><br><span class="line">pivot_data_with_na = pivot_data.copy()</span><br><span class="line">pivot_data_with_na.loc[<span class="number">0</span>, <span class="string">&#x27;Sales&#x27;</span>] = np.nan</span><br><span class="line"></span><br><span class="line">pivot_filled = pd.pivot_table(pivot_data_with_na,</span><br><span class="line">                             values=<span class="string">&#x27;Sales&#x27;</span>,</span><br><span class="line">                             index=<span class="string">&#x27;Region&#x27;</span>,</span><br><span class="line">                             columns=<span class="string">&#x27;Product&#x27;</span>,</span><br><span class="line">                             aggfunc=<span class="string">&#x27;sum&#x27;</span>,</span><br><span class="line">                             fill_value=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n填充缺失值的透视表:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(pivot_filled)</span><br></pre></td></tr></table></figure>
+<h3 id="自定义聚合函数">5.4 自定义聚合函数</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自定义聚合函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">profit_margin</span>(<span class="params">profit, sales</span>):</span><br><span class="line">    <span class="keyword">return</span> profit.<span class="built_in">sum</span>() / sales.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sales_range</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x.<span class="built_in">max</span>() - x.<span class="built_in">min</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 应用自定义函数</span></span><br><span class="line">custom_pivot = pd.pivot_table(pivot_data,</span><br><span class="line">                             values=[<span class="string">&#x27;Sales&#x27;</span>, <span class="string">&#x27;Profit&#x27;</span>],</span><br><span class="line">                             index=<span class="string">&#x27;Region&#x27;</span>,</span><br><span class="line">                             columns=<span class="string">&#x27;Product&#x27;</span>,</span><br><span class="line">                             aggfunc=&#123;<span class="string">&#x27;Sales&#x27;</span>: [<span class="string">&#x27;sum&#x27;</span>, sales_range],</span><br><span class="line">                                     <span class="string">&#x27;Profit&#x27;</span>: [<span class="string">&#x27;sum&#x27;</span>, <span class="string">&#x27;mean&#x27;</span>]&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;自定义聚合函数的透视表:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(custom_pivot)</span><br></pre></td></tr></table></figure>
+<h2 id="六综合实战案例">六、综合实战案例</h2>
+<h3 id="销售数据分析完整流程">6.1 销售数据分析完整流程</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 数据准备与加载</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_and_preprocess_data</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;加载并预处理销售数据&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 创建示例销售数据集</span></span><br><span class="line">    np.random.seed(<span class="number">42</span>)</span><br><span class="line">    dates = pd.date_range(<span class="string">&#x27;2024-01-01&#x27;</span>, <span class="string">&#x27;2024-06-30&#x27;</span>)</span><br><span class="line">    regions = [<span class="string">&#x27;North&#x27;</span>, <span class="string">&#x27;South&#x27;</span>, <span class="string">&#x27;East&#x27;</span>, <span class="string">&#x27;West&#x27;</span>]</span><br><span class="line">    products = [<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>]</span><br><span class="line">    </span><br><span class="line">    data = []</span><br><span class="line">    <span class="keyword">for</span> date <span class="keyword">in</span> dates:</span><br><span class="line">        <span class="keyword">for</span> region <span class="keyword">in</span> regions:</span><br><span class="line">            <span class="keyword">for</span> product <span class="keyword">in</span> products:</span><br><span class="line">                sales = np.random.randint(<span class="number">50</span>, <span class="number">200</span>)</span><br><span class="line">                profit = sales * np.random.uniform(<span class="number">0.1</span>, <span class="number">0.3</span>)</span><br><span class="line">                data.append(&#123;</span><br><span class="line">                    <span class="string">&#x27;Date&#x27;</span>: date,</span><br><span class="line">                    <span class="string">&#x27;Region&#x27;</span>: region,</span><br><span class="line">                    <span class="string">&#x27;Product&#x27;</span>: product,</span><br><span class="line">                    <span class="string">&#x27;Sales&#x27;</span>: sales,</span><br><span class="line">                    <span class="string">&#x27;Profit&#x27;</span>: profit</span><br><span class="line">                &#125;)</span><br><span class="line">    </span><br><span class="line">    df = pd.DataFrame(data)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 故意添加一些缺失值和异常值</span></span><br><span class="line">    df.iloc[<span class="number">10</span>:<span class="number">15</span>, <span class="number">3</span>] = np.nan  <span class="comment"># 添加缺失值</span></span><br><span class="line">    df.iloc[<span class="number">100</span>:<span class="number">105</span>, <span class="number">3</span>] = df.iloc[<span class="number">100</span>:<span class="number">105</span>, <span class="number">3</span>] * <span class="number">5</span>  <span class="comment"># 添加异常值</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> df</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载数据</span></span><br><span class="line">sales_df = load_and_preprocess_data()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;原始数据形状:&quot;</span>, sales_df.shape)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n前5行数据:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(sales_df.head())</span><br></pre></td></tr></table></figure>
+<h3 id="完整数据处理流程">6.2 完整数据处理流程</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">comprehensive_data_analysis</span>(<span class="params">df</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;综合数据分析流程&quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 1. 数据质量检查</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;=== 数据质量检查 ===&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;缺失值统计:&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(df.isnull().<span class="built_in">sum</span>())</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\n数据类型:&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(df.dtypes)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 2. 数据清洗</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\n=== 数据清洗 ===&quot;</span>)</span><br><span class="line">    <span class="comment"># 处理缺失值</span></span><br><span class="line">    df_cleaned = df.copy()</span><br><span class="line">    df_cleaned[<span class="string">&#x27;Sales&#x27;</span>] = df_cleaned[<span class="string">&#x27;Sales&#x27;</span>].fillna(df_cleaned[<span class="string">&#x27;Sales&#x27;</span>].median())</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 检测并处理异常值</span></span><br><span class="line">    Q1 = df_cleaned[<span class="string">&#x27;Sales&#x27;</span>].quantile(<span class="number">0.25</span>)</span><br><span class="line">    Q3 = df_cleaned[<span class="string">&#x27;Sales&#x27;</span>].quantile(<span class="number">0.75</span>)</span><br><span class="line">    IQR = Q3 - Q1</span><br><span class="line">    lower_bound = Q1 - <span class="number">1.5</span> * IQR</span><br><span class="line">    upper_bound = Q3 + <span class="number">1.5</span> * IQR</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 缩尾处理异常值</span></span><br><span class="line">    df_cleaned[<span class="string">&#x27;Sales&#x27;</span>] = df_cleaned[<span class="string">&#x27;Sales&#x27;</span>].clip(lower=lower_bound, upper=upper_bound)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;数据清洗完成&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 3. 数据分析</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\n=== 数据分析 ===&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 基本统计描述</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;销售数据描述性统计:&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(df_cleaned[[<span class="string">&#x27;Sales&#x27;</span>, <span class="string">&#x27;Profit&#x27;</span>]].describe())</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 分组分析</span></span><br><span class="line">    regional_analysis = df_cleaned.groupby(<span class="string">&#x27;Region&#x27;</span>).agg(&#123;</span><br><span class="line">        <span class="string">&#x27;Sales&#x27;</span>: [<span class="string">&#x27;sum&#x27;</span>, <span class="string">&#x27;mean&#x27;</span>, <span class="string">&#x27;std&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;Profit&#x27;</span>: [<span class="string">&#x27;sum&#x27;</span>, <span class="string">&#x27;mean&#x27;</span>]</span><br><span class="line">    &#125;).<span class="built_in">round</span>(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\n区域分析:&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(regional_analysis)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 时间序列分析</span></span><br><span class="line">    df_cleaned[<span class="string">&#x27;Month&#x27;</span>] = df_cleaned[<span class="string">&#x27;Date&#x27;</span>].dt.to_period(<span class="string">&#x27;M&#x27;</span>)</span><br><span class="line">    monthly_trend = df_cleaned.groupby(<span class="string">&#x27;Month&#x27;</span>)[<span class="string">&#x27;Sales&#x27;</span>].<span class="built_in">sum</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\n月度销售趋势:&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(monthly_trend)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 4. 数据透视表分析</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\n=== 数据透视表分析 ===&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    pivot_analysis = pd.pivot_table(df_cleaned,</span><br><span class="line">                                   values=[<span class="string">&#x27;Sales&#x27;</span>, <span class="string">&#x27;Profit&#x27;</span>],</span><br><span class="line">                                   index=[<span class="string">&#x27;Region&#x27;</span>, <span class="string">&#x27;Product&#x27;</span>],</span><br><span class="line">                                   columns=<span class="string">&#x27;Month&#x27;</span>,</span><br><span class="line">                                   aggfunc=<span class="string">&#x27;sum&#x27;</span>,</span><br><span class="line">                                   margins=<span class="literal">True</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;多维度透视分析:&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(pivot_analysis)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> df_cleaned</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行综合分析</span></span><br><span class="line">processed_data = comprehensive_data_analysis(sales_df)</span><br></pre></td></tr></table></figure>
+<h3 id="结果可视化">6.3 结果可视化</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">visualize_analysis_results</span>(<span class="params">df</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;可视化分析结果&quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line">    plt.figure(figsize=(<span class="number">15</span>, <span class="number">10</span>))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 1. 销售分布</span></span><br><span class="line">    plt.subplot(<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>)</span><br><span class="line">    df[<span class="string">&#x27;Sales&#x27;</span>].plot(kind=<span class="string">&#x27;hist&#x27;</span>, bins=<span class="number">30</span>, title=<span class="string">&#x27;销售分布直方图&#x27;</span>)</span><br><span class="line">    plt.xlabel(<span class="string">&#x27;销售额&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 2. 区域销售对比</span></span><br><span class="line">    plt.subplot(<span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>)</span><br><span class="line">    regional_sales = df.groupby(<span class="string">&#x27;Region&#x27;</span>)[<span class="string">&#x27;Sales&#x27;</span>].<span class="built_in">sum</span>()</span><br><span class="line">    regional_sales.plot(kind=<span class="string">&#x27;bar&#x27;</span>, title=<span class="string">&#x27;各区域总销售额&#x27;</span>)</span><br><span class="line">    plt.xticks(rotation=<span class="number">45</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 3. 产品销售趋势</span></span><br><span class="line">    plt.subplot(<span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">    product_trend = df.groupby([<span class="string">&#x27;Month&#x27;</span>, <span class="string">&#x27;Product&#x27;</span>])[<span class="string">&#x27;Sales&#x27;</span>].<span class="built_in">sum</span>().unstack()</span><br><span class="line">    product_trend.plot(title=<span class="string">&#x27;产品销售趋势&#x27;</span>, ax=plt.gca())</span><br><span class="line">    plt.xticks(rotation=<span class="number">45</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 4. 利润vs销售散点图</span></span><br><span class="line">    plt.subplot(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">    plt.scatter(df[<span class="string">&#x27;Sales&#x27;</span>], df[<span class="string">&#x27;Profit&#x27;</span>], alpha=<span class="number">0.5</span>)</span><br><span class="line">    plt.xlabel(<span class="string">&#x27;销售额&#x27;</span>)</span><br><span class="line">    plt.ylabel(<span class="string">&#x27;利润&#x27;</span>)</span><br><span class="line">    plt.title(<span class="string">&#x27;销售额vs利润&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 5. 区域-产品热力图</span></span><br><span class="line">    plt.subplot(<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line">    heatmap_data = pd.pivot_table(df, values=<span class="string">&#x27;Sales&#x27;</span>, index=<span class="string">&#x27;Region&#x27;</span>, columns=<span class="string">&#x27;Product&#x27;</span>, aggfunc=<span class="string">&#x27;sum&#x27;</span>)</span><br><span class="line">    sns.heatmap(heatmap_data, annot=<span class="literal">True</span>, fmt=<span class="string">&#x27;.0f&#x27;</span>, cmap=<span class="string">&#x27;YlOrRd&#x27;</span>)</span><br><span class="line">    plt.title(<span class="string">&#x27;区域-产品销售热力图&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 6. 月度销售趋势</span></span><br><span class="line">    plt.subplot(<span class="number">2</span>, <span class="number">3</span>, <span class="number">6</span>)</span><br><span class="line">    monthly_sales = df.groupby(<span class="string">&#x27;Month&#x27;</span>)[<span class="string">&#x27;Sales&#x27;</span>].<span class="built_in">sum</span>()</span><br><span class="line">    monthly_sales.plot(kind=<span class="string">&#x27;line&#x27;</span>, title=<span class="string">&#x27;月度销售趋势&#x27;</span>)</span><br><span class="line">    plt.xticks(rotation=<span class="number">45</span>)</span><br><span class="line">    </span><br><span class="line">    plt.tight_layout()</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行可视化</span></span><br><span class="line">visualize_analysis_results(processed_data)</span><br></pre></td></tr></table></figure>
+<h2 id="七性能优化与最佳实践">七、性能优化与最佳实践</h2>
+<h3 id="内存优化技巧">7.1 内存优化技巧</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 使用合适的数据类型</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">optimize_memory_usage</span>(<span class="params">df</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;优化DataFrame内存使用&quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line">    original_memory = df.memory_usage(deep=<span class="literal">True</span>).<span class="built_in">sum</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;原始数据内存使用: <span class="subst">&#123;original_memory / <span class="number">1024</span> ** <span class="number">2</span>:<span class="number">.2</span>f&#125;</span> MB&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 数值列类型优化</span></span><br><span class="line">    numeric_columns = df.select_dtypes(include=[np.number]).columns</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> numeric_columns:</span><br><span class="line">        col_min = df[col].<span class="built_in">min</span>()</span><br><span class="line">        col_max = df[col].<span class="built_in">max</span>()</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 选择最合适的整数类型</span></span><br><span class="line">        <span class="keyword">if</span> col_min &gt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> col_max &lt; <span class="number">255</span>:</span><br><span class="line">                df[col] = df[col].astype(np.uint8)</span><br><span class="line">            <span class="keyword">elif</span> col_max &lt; <span class="number">65535</span>:</span><br><span class="line">                df[col] = df[col].astype(np.uint16)</span><br><span class="line">            <span class="keyword">elif</span> col_max &lt; <span class="number">4294967295</span>:</span><br><span class="line">                df[col] = df[col].astype(np.uint32)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> col_min &gt; -<span class="number">128</span> <span class="keyword">and</span> col_max &lt; <span class="number">127</span>:</span><br><span class="line">                df[col] = df[col].astype(np.int8)</span><br><span class="line">            <span class="keyword">elif</span> col_min &gt; -<span class="number">32768</span> <span class="keyword">and</span> col_max &lt; <span class="number">32767</span>:</span><br><span class="line">                df[col] = df[col].astype(np.int16)</span><br><span class="line">            <span class="keyword">elif</span> col_min &gt; -<span class="number">2147483648</span> <span class="keyword">and</span> col_max &lt; <span class="number">2147483647</span>:</span><br><span class="line">                df[col] = df[col].astype(np.int32)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 分类数据优化</span></span><br><span class="line">    object_columns = df.select_dtypes(include=[<span class="string">&#x27;object&#x27;</span>]).columns</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> object_columns:</span><br><span class="line">        <span class="keyword">if</span> df[col].nunique() / <span class="built_in">len</span>(df[col]) &lt; <span class="number">0.5</span>:  <span class="comment"># 基数较低时使用category</span></span><br><span class="line">            df[col] = df[col].astype(<span class="string">&#x27;category&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    optimized_memory = df.memory_usage(deep=<span class="literal">True</span>).<span class="built_in">sum</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;优化后内存使用: <span class="subst">&#123;optimized_memory / <span class="number">1024</span> ** <span class="number">2</span>:<span class="number">.2</span>f&#125;</span> MB&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;内存减少: <span class="subst">&#123;(original_memory - optimized_memory) / original_memory * <span class="number">100</span>:<span class="number">.1</span>f&#125;</span>%&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> df</span><br><span class="line"></span><br><span class="line"><span class="comment"># 应用内存优化</span></span><br><span class="line">optimized_df = optimize_memory_usage(processed_data)</span><br></pre></td></tr></table></figure>
+<h3 id="大数据处理策略">7.2 大数据处理策略</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分块处理大数据集</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">process_large_dataset</span>(<span class="params">file_path, chunk_size=<span class="number">10000</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;分块处理大型数据集&quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line">    results = []</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 分块读取和处理</span></span><br><span class="line">    <span class="keyword">for</span> chunk <span class="keyword">in</span> pd.read_csv(file_path, chunksize=chunk_size):</span><br><span class="line">        <span class="comment"># 对每个数据块进行处理</span></span><br><span class="line">        processed_chunk = chunk.groupby(<span class="string">&#x27;category_column&#x27;</span>).agg(&#123;</span><br><span class="line">            <span class="string">&#x27;numeric_column&#x27;</span>: <span class="string">&#x27;sum&#x27;</span></span><br><span class="line">        &#125;)</span><br><span class="line">        results.append(processed_chunk)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 合并结果</span></span><br><span class="line">    final_result = pd.concat(results).groupby(level=<span class="number">0</span>).<span class="built_in">sum</span>()</span><br><span class="line">    <span class="keyword">return</span> final_result</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用Dask进行并行处理（大数据集）</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">import</span> dask.dataframe <span class="keyword">as</span> dd</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">parallel_processing_with_dask</span>(<span class="params">file_path</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;使用Dask进行并行处理&quot;&quot;&quot;</span></span><br><span class="line">        dask_df = dd.read_csv(file_path)</span><br><span class="line">        result = dask_df.groupby(<span class="string">&#x27;category_column&#x27;</span>).numeric_column.<span class="built_in">sum</span>().compute()</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"><span class="keyword">except</span> ImportError:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Dask未安装，跳过并行处理示例&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>通过本教程的系统学习，您已经掌握了Pandas数据处理的全面技能，包括数据类型转换、缺失值处理、异常值检测、分组聚合和数据透视表等高级功能。这些技能将帮助您在实际数据分析工作中更加高效地处理和分析数据。</p>
 
       
     </div>
@@ -609,7 +549,7 @@ alt="image-20250722162852718" />
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/null-index/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/20/">20</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/12/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/null-index/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/33/">33</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/12/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -632,14 +572,14 @@ alt="image-20250722162852718" />
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">81k</span>
+    <span title="站点总字数">182k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:26</span>
+    <span title="站点阅读时长">5:32</span>
   </span>
 </div>
 
