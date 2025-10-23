@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.015v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.018v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.015v1/" class="post-title-link" itemprop="url">THINK-ON-GRAPH: DEEP AND RESPONSIBLE REASONING OF LARGE LANGUAGE MODEL ON KNOWLEDGE GRAPH</a>
+          <a href="/posts/2510.018v1/" class="post-title-link" itemprop="url">Making Large Language Models Perform Better in Knowledge Graph Completion</a>
         </h2>
 
         <div class="post-meta-container">
@@ -242,7 +242,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：21:56:39" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
+      <time title="创建时间：2025-10-16 00:00:00 / 修改时间：00:37:59" itemprop="dateCreated datePublished" datetime="2025-10-16T00:00:00+08:00">2025-10-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -269,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.5k</span>
+      <span>1.9k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -287,88 +287,72 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="think-on-graph">THINK-ON-GRAPH</h1>
-<p>该论文提出了“LLM⊗KG”紧密耦合范式及“Think-on-Graph（ToG）”实现方法，有效解决了大语言模型（LLMs）在深度推理中的幻觉问题，同时兼具知识可追溯性与部署灵活性，在9个数据集的6个中实现了SOTA性能。</p>
-<p><strong>ICLR2024</strong></p>
-<h3 id="一研究背景与核心问题">一、研究背景与核心问题</h3>
-<p>当前LLMs虽在自然语言处理任务中表现出色，但在知识密集型深度推理场景中存在显著局限，主要体现在三方面：
-1.
-<strong>知识局限性</strong>：无法处理预训练数据之外的专业知识或过时信息，难以完成多跳逻辑链推理任务。
-2.
-<strong>责任与可解释性缺失</strong>：推理过程不透明，易产生幻觉内容或有毒文本，无法追溯答案来源。
-3.
-<strong>更新与部署成本高</strong>：LLMs训练过程耗时且昂贵，知识更新效率低，大模型部署成本高。</p>
-<p>现有“LLM⊕KG”范式（将KG信息检索后增强提示）存在松散耦合缺陷，LLM仅负责将问题转换为KG查询指令，不直接参与图推理，且依赖KG的完整性，若KG缺少关键关系（如“majority
-party”），推理会失败。</p>
-<h3
-id="二核心创新llmkg范式与tog方法">二、核心创新：LLM⊗KG范式与ToG方法</h3>
-<h4 id="llmkg范式">1. LLM⊗KG范式</h4>
-<p>该范式实现LLMs与知识图谱（KG）的紧密协作，LLM作为智能体（agent）深度参与KG推理的每一步：
--
-动态探索KG中的实体与关系，弥补KG缺失的信息（如用“澳大利亚总理”关系替代缺失的“多数党”关系）。
-- 结合LLM自身知识与KG检索知识生成答案，解决“LLM⊕KG”范式的依赖缺陷。</p>
-<h4 id="think-on-graphtog实现框架">2. Think-on-Graph（ToG）实现框架</h4>
-<p>ToG基于“LLM⊗KG”范式，通过<strong>波束搜索（beam search）</strong>
-让LLM迭代探索KG推理路径，核心流程分三阶段： -
-<strong>初始化阶段</strong>：LLM提取问题中的主题实体，确定初始推理路径的起点（如从问题“堪培拉所在国家的多数党”中提取初始实体“堪培拉”）。
--
-<strong>探索阶段</strong>：分“关系探索”与“实体探索”两步，均包含“搜索-剪枝”过程：
-1.
-关系探索：从当前实体的相邻关系中，LLM筛选出与问题最相关的Top-N关系（如从“堪培拉”的所有关系中选“capital
-of”“country”等）。 2.
-实体探索：基于筛选后的关系，检索相邻实体并再次由LLM剪枝，扩展推理路径（如从“capital
-of”关系检索到实体“澳大利亚”）。 -
-<strong>推理阶段</strong>：LLM评估当前Top-N推理路径是否足够回答问题，若足够则生成答案；若不足则重复探索阶段，直至达到最大搜索深度（默认3）或获取足够信息。</p>
-<h4 id="变体tog-rrelation-based-tog">3. 变体ToG-R（Relation-based
-ToG）</h4>
-<p>为降低成本，ToG-R仅探索关系链而非完整三元组路径，实体剪枝采用随机筛选替代LLM评估，优势如下：
--
-减少LLM调用次数，降低推理时间与成本（LLM调用量从ToG的“2ND+D+1”降至“ND+D+1”）。
-- 聚焦关系文本信息，避免中间实体信息缺失对LLM推理的误导。</p>
-<h3 id="三实验验证与关键结果">三、实验验证与关键结果</h3>
-<h4 id="实验设计">1. 实验设计</h4>
+          <h1>Making Large Language Models Perform Better in Knowledge Graph Completion</h1>
+<p><strong>ACM MM2024</strong></p>
+<p>该论文聚焦于解决大语言模型（LLM）在知识图谱补全（KGC）中忽视结构信息的核心问题，提出了融合图谱结构信息的新方法，显著提升了LLM的结构感知推理能力。</p>
+<h3 id="一、研究背景与问题">一、研究背景与问题</h3>
+<ol>
+<li><strong>知识图谱补全的重要性</strong>：知识图谱（KG）以（头实体，关系，尾实体）三元组形式存储知识，广泛应用于推荐系统、问答等领域，但存在大量缺失三元组，需通过KGC任务预测补充。</li>
+<li><strong>现有LLM-based KGC的缺陷</strong>：
 <ul>
-<li><strong>数据集</strong>：覆盖9类任务，包括5个KBQA数据集（CWQ、WebQSP等）、1个开放域QA数据集（WebQuestions）、2个槽位填充数据集（T-REx、Zero-Shot
-RE）、1个事实核查数据集（Creak）。</li>
-<li><strong>对比方法</strong>：标准提示（IO）、思维链提示（CoT）、自一致性（Self-Consistency），以及各数据集的现有SOTA方法（含微调与提示类）。</li>
-<li><strong>评估指标</strong>：精确匹配准确率（Hits@1）。</li>
+<li>未充分利用LLM的推理能力，且忽略KG关键的结构信息（如子图结构、关系模式）。</li>
+<li>现有方法（如零样本推理ZSR、指令微调IT）将KGC转化为文本预测，易导致LLM的“幻觉”问题，且无法有效融入非文本的结构信息。</li>
 </ul>
-<h4 id="核心实验结果">2. 核心实验结果</h4>
-<ul>
-<li><strong>SOTA性能</strong>：ToG（基于GPT-4）在9个数据集的6个中实现SOTA，包括WebQSP、GrailQA、Zero-Shot
-RE等；在CWQ数据集上性能接近SOTA（69.5% vs 70.4%）。</li>
-<li><strong>深度推理优势</strong>：在多跳推理任务上提升显著，如GrailQA数据集较CoT提升51.8%，Zero-Shot
-RE提升42.9%；单跳任务性能略低，验证其更适用于深度推理。</li>
-<li><strong>模型灵活性</strong>：支持不同LLM（ChatGPT、GPT-4、Llama2-70B）与KG（Freebase、Wikidata）的即插即用，无需额外训练。</li>
-<li><strong>成本优势</strong>：小模型（如Llama2-70B）结合ToG后，性能可超过未结合ToG的大模型（如GPT-4），降低部署成本。</li>
-</ul>
-<h4 id="消融实验关键发现">3. 消融实验关键发现</h4>
-<ul>
-<li><strong>搜索深度与宽度</strong>：性能随深度（1-3）和宽度（1-3）增加而提升，深度超过3后增长放缓（多数问题推理链长度≤3），默认设为3以平衡性能与成本。</li>
-<li><strong>KG来源影响</strong>：Freebase在基于其构建的数据集（CWQ、WebQSP）上效果优于Wikidata，因Wikidata规模大，检索与剪枝难度更高。</li>
-<li><strong>剪枝工具对比</strong>：LLM作为剪枝工具的性能最优，若用BM25或Sentence-BERT替代，CWQ性能平均下降8.4%，WebQSP下降15.1%，但可减少LLM调用量。</li>
-</ul>
-<h3 id="四核心优势与价值">四、核心优势与价值</h3>
-<ol type="1">
-<li><strong>深度推理能力</strong>：多跳推理路径为LLM提供结构化依据，提升知识密集型任务的推理准确性。</li>
-<li><strong>知识可追溯与可修正</strong>：显式的推理路径可追溯答案来源，若发现错误（如KG中“体育场旧名”错误），可定位并修正KG中的可疑三元组，反向优化KG质量。</li>
-<li><strong>灵活性与效率</strong>：
-<ul>
-<li>即插即用：适配不同LLM、KG与提示策略，无需额外训练。</li>
-<li>低成本更新：通过KG更新知识，替代昂贵的LLM重训练。</li>
-<li>小模型赋能：小LLM结合ToG可匹敌大LLM，降低部署成本。</li>
-</ul></li>
-<li><strong>通用性</strong>：在KBQA、开放域QA、事实核查等多类任务中均表现优异，验证跨场景适用性。</li>
+</li>
 </ol>
-<h3 id="五结论与局限">五、结论与局限</h3>
-<h4 id="结论">1. 结论</h4>
-<p>ToG作为无训练成本、低计算开销的方法，通过“LLM⊗KG”范式解决了LLMs的幻觉问题与推理局限性，在多类任务中超越现有微调与提示类SOTA，为LLM深度推理提供了高效解决方案。</p>
-<h4 id="局限">2. 局限</h4>
+<h3 id="二、核心方法设计">二、核心方法设计</h3>
+<p>论文提出两类方法：一是改进现有LLM范式以融入结构信息，二是提出全新的Knowledge Prefix Adapter（KoPA）框架。</p>
+<h4 id="1-改进现有LLM范式">1. 改进现有LLM范式</h4>
+<p>通过文本形式将KG局部结构信息融入现有范式，作为基础模型。</p>
 <ul>
-<li>依赖KG的准确性，若KG包含错误信息（如“费城 Phillies
-体育场旧名”），ToG会生成错误答案，需结合人工或LLM修正KG。</li>
-<li>推理深度与宽度增加会提升性能，但也会增加LLM调用成本，需进一步优化效率。</li>
+<li><strong>结构感知的上下文学习（ICL）</strong>：在输入中添加与测试三元组相关的局部结构演示（如头/尾实体的邻域三元组），包含正负样本，辅助LLM类比推理。</li>
+<li><strong>结构感知的指令微调（IT）</strong>：在微调输入中加入头/尾实体的一跳邻域三元组描述，为LLM提供局部结构背景，但存在文本冗余、上下文长度受限的问题。</li>
 </ul>
+<h4 id="2-创新框架：Knowledge-Prefix-Adapter（KoPA）">2. 创新框架：Knowledge Prefix Adapter（KoPA）</h4>
+<p>通过跨模态映射将KG结构信息高效融入LLM，解决文本形式的缺陷，分为两步：</p>
+<ul>
+<li><strong>步骤1：结构嵌入预训练</strong>：
+<ul>
+<li>借鉴基于嵌入的KGC方法（如RotatE），通过自监督学习（负采样+得分函数），将实体和关系编码为结构嵌入，捕捉KG的子图结构、关系模式等信息。</li>
+<li>定义得分函数(F(h, r, t))衡量三元组合理性，最小化损失函数优化嵌入：(\mathcal{L}<em>{pre} = \frac{1}{|\mathcal{T}|}\sum</em>{(h,r,t)\in\mathcal{T}}(-log\sigma(\gamma - F(h,r,t)) - \sum_{i=1}^{K}p_i log\sigma(F(h_i’,r_i’,t_i’) - \gamma)))。</li>
+</ul>
+</li>
+<li><strong>步骤2：知识前缀适配器</strong>：
+<ul>
+<li>设计投影层（适配器），将结构嵌入映射到LLM的文本表示空间，生成“虚拟知识令牌”。</li>
+<li>将虚拟令牌作为前缀插入输入序列（(S_{kpa} = \kappa \oplus I_{it} \oplus X)），利用LLM的单向注意力机制，让后续文本令牌感知结构信息，同时避免文本冗余（前缀长度固定为3，远短于文本描述）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="三、实验验证与结果">三、实验验证与结果</h3>
+<h4 id="1-实验设置">1. 实验设置</h4>
+<ul>
+<li><strong>数据集</strong>：3个公开KG基准（UMLS、CoDeX-S、FB15K-237N），均为平衡的正负样本三元组。</li>
+<li><strong>基线模型</strong>：分为三类——基于嵌入的方法（TransE、RotatE等）、基于预训练语言模型（PLM）的方法（KG-BERT、PKGC）、基于LLM的方法（ZSR、ICL、IT、KGLLaMA）。</li>
+<li><strong>评价指标</strong>：三元组分类任务的准确率（Acc）、精确率（P）、召回率（R）、F1分数。</li>
+</ul>
+<h4 id="2-核心实验结果">2. 核心实验结果</h4>
+<ul>
+<li><strong>主实验性能</strong>：KoPA在所有数据集上均超越16个基线模型，以CoDeX-S为例，Acc提升1.81%，F1提升1.85%；在FB15K-237N等复杂数据集上，显著优于RotatE等嵌入方法。</li>
+<li><strong>迁移能力验证</strong>：在“归纳设置”（测试集中含训练未见过的实体）下，KoPA在不同归纳率（IR=10%-40%）下，对未见过实体的三元组预测性能优于结构感知IT，且性能下降更少，证明结构嵌入的跨实体迁移性。</li>
+<li><strong>消融实验</strong>：
+<ul>
+<li>移除结构嵌入或替换为随机嵌入，性能显著下降；使用更强的结构嵌入（如RotatE）比弱嵌入（如DistMult）效果更好，验证结构信息的重要性。</li>
+<li>虚拟令牌放在前缀位置的效果（Acc=82.74）远优于中缀（81.21）和后缀（77.29），证明单向注意力下前缀位置的有效性。</li>
+</ul>
+</li>
+<li><strong>泛化能力保留</strong>：在MMLU基准测试中，KoPA微调后LLM的通用能力未大幅下降，且在与KG领域相关的科目（如医学、生物）上性能提升（如UMLS训练后，临床科目Acc+3.0%）。</li>
+</ul>
+<h3 id="四、研究结论与未来方向">四、研究结论与未来方向</h3>
+<ol>
+<li><strong>核心结论</strong>：通过结构嵌入预训练+知识前缀适配器，KoPA能高效将KG结构信息融入LLM，解决现有方法的文本冗余和结构感知不足问题，显著提升KGC性能。</li>
+<li><strong>未来方向</strong>：
+<ul>
+<li>设计统一框架，用LLM完成所有KGC子任务（如实体预测、关系预测）。</li>
+<li>探索KG在LLM下游应用中的灵活适配，提升LLM的可靠性和实用性。</li>
+</ul>
+</li>
+</ol>
 
       
     </div>
@@ -388,7 +372,7 @@ RE提升42.9%；单跳任务性能略低，验证其更适用于深度推理。<
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/null-index/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/33/">33</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/null-index/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -411,14 +395,14 @@ RE提升42.9%；单跳任务性能略低，验证其更适用于深度推理。<
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">182k</span>
+    <span title="站点总字数">206k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:32</span>
+    <span title="站点阅读时长">6:14</span>
   </span>
 </div>
 

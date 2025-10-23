@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.016v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.021v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.016v1/" class="post-title-link" itemprop="url">CoLoTa: A Dataset for Entity-based Commonsense Reasoning over Long-Tail Knowledge</a>
+          <a href="/posts/2510.021v1/" class="post-title-link" itemprop="url">Structgpt: A general framework for large language model to reason over structured data</a>
         </h2>
 
         <div class="post-meta-container">
@@ -242,7 +242,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：21:18:25" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
+      <time title="创建时间：2025-10-21 00:00:00 / 修改时间：11:22:41" itemprop="dateCreated datePublished" datetime="2025-10-21T00:00:00+08:00">2025-10-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/KGQA/" itemprop="url" rel="index"><span itemprop="name">KGQA</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%9B%BE%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图学习</span></a>
         </span>
     </span>
 
@@ -269,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.2k</span>
+      <span>3.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>7 分钟</span>
     </span>
 </div>
 
@@ -287,62 +287,165 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="colota数据集">CoLoTa数据集</h1>
-<p><strong>SIGIR2025</strong></p>
-<p>这篇论文聚焦LLMs在长尾实体常识推理中的短板，提出了CoLoTa数据集，既填补了相关研究空白，也为LLM和KGQA方法的评估提供了新基准，洞察极具价值。</p>
-<h3 id="一研究背景与动机">一、研究背景与动机</h3>
-<p>现有大型语言模型（LLMs）虽在事实知识编码和推理任务中表现出色，但幻觉和推理错误仍是其在高风险场景部署的关键障碍。研究发现，即使是OpenAI-o1等顶尖LLMs，在处理涉及晦涩长尾实体的常识推理任务时，推理错误和幻觉率也极高。</p>
-<p>现有实体类常识推理基准（如StrategyQA、CREAK）多围绕“巴拉克·奥巴马”等热门实体构建，LLMs能凭借训练数据中丰富的相关信息轻松应对。但面对“廖晓娴”这类长尾实体时，LLMs不仅无法拒绝回答或查询事实信息，还会生成幻觉事实并出现推理错误。同时，现有知识图谱问答（KGQA）数据集仅关注事实类问题，缺乏需常识推理的查询，因此亟需新的基准数据集来研究上述问题。</p>
-<h3 id="二colota数据集详情">二、CoLoTa数据集详情</h3>
-<h4 id="数据集构成">1. 数据集构成</h4>
-<p>CoLoTa包含3300条查询，均基于实体类常识推理，涵盖问答和声明验证两大任务，各占1650条。每条查询条目包含五个核心部分：
--
-查询：以疑问句（问答任务）或陈述句（声明验证任务）呈现，答案非真即假，需结合知识图谱事实和常识推理得出。
--
-实体标识：提供查询中锚定实体的维基数据（Wikidata）唯一QID和标签，便于获取相关事实。
--
-知识图谱子图：包含回答查询所需的维基数据三元组，部分三元组还附带限定词以提供额外上下文。
--
-推理规则：以自然语言公理形式呈现的常识知识，明确推理所需的实体属性和关系条件。
--
-推理步骤：将推理规则分解为有序步骤，包括从知识图谱提取事实和对提取事实进行逻辑推理，每个涉及事实提取的步骤均对应维基数据三元组。</p>
-<h4 id="构建方法">2. 构建方法</h4>
+          <p>StructGPT是首个能统一提升大型语言模型（LLMs）对多种结构化数据（知识图谱KG、表格Table、数据库DB）推理能力的框架，其核心是通过“专用接口+迭代阅读-推理流程”，让LLMs无需微调即可高效处理结构化数据相关任务，在零样本/少样本场景下显著优于直接使用LLMs的效果。</p>
+<h3 id="一、研究背景与待解问题">一、研究背景与待解问题</h3>
+<p>LLMs（如ChatGPT、GPT-4）虽在自然语言任务中表现出色，但在结构化数据推理上存在明显短板，核心问题可归纳为三点：</p>
+<ol>
+<li><strong>结构化数据理解难</strong>：LLMs预训练以文本为主，对KG的三元组、表格的行列结构、数据库的外键关联等特殊格式不熟悉，难以直接解析。</li>
+<li><strong>数据规模与输入限制冲突</strong>：结构化数据通常规模庞大，直接线性化为文本会超出LLMs的输入长度限制，无法完整输入。</li>
+<li><strong>现有方案通用性差</strong>：此前方法要么针对单一结构化数据（如仅处理表格），要么需要全数据微调（如UnifiedSKG），无法零样本适配多种数据类型和任务。</li>
+</ol>
+<h3 id="二、核心方法：StructGPT的两大支柱">二、核心方法：StructGPT的两大支柱</h3>
+<p>StructGPT的核心思路是“解耦阅读与推理”——用<strong>专用接口</strong>处理结构化数据的“阅读”（提取证据），让LLMs专注于“推理”（基于证据生成答案），具体通过“接口设计”和“IRR框架”实现。</p>
+<h4 id="1-面向三类结构化数据的专用接口">1. 面向三类结构化数据的专用接口</h4>
+<p>针对KG、表格、数据库的特性，设计了轻量化接口，功能是“精准提取相关证据”，避免LLMs处理数据格式细节。接口设计如下：</p>
+<table>
+<thead>
+<tr>
+<th>结构化数据类型</th>
+<th>核心接口</th>
+<th>接口功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>知识图谱（KG）</strong></td>
+<td>Extract_Neighbor_Relations(e)</td>
+<td>提取实体e的所有相邻关系（如“Jeff Probst”的“spouse”“is_a”）</td>
+</tr>
+<tr>
+<td></td>
+<td>Extract_Triples(e, {r})</td>
+<td>提取实体e与指定关系{r}对应的三元组（如“Jeff Probst + spouse”对应的&lt;Jeff Probst, spouse, Lisa Ann Russell&gt;）</td>
+</tr>
+<tr>
+<td><strong>表格（Table）</strong></td>
+<td>Extract_Column_Name(T)</td>
+<td>提取表格T的所有列名（如“Team”“Stadium”“Capacity”）</td>
+</tr>
+<tr>
+<td></td>
+<td>Extract_Columns(T, {c})</td>
+<td>提取表格T中指定列{c}的所有内容（如“Stadium”列的“Provident”“DW”）</td>
+</tr>
+<tr>
+<td></td>
+<td>Extract_SubTable(T, {c}, {j})</td>
+<td>提取表格T中“指定列{c}+指定行{j}”构成的子表（如“Stadium列+第2行”）</td>
+</tr>
+<tr>
+<td><strong>数据库（DB）</strong></td>
+<td>Extract_Table&amp;Column_Name(D)</td>
+<td>提取数据库D的所有表名及各表的列名（如“visitor表：ID、Age；museum表：Mus_ID、Name”）</td>
+</tr>
+<tr>
+<td></td>
+<td>Extract_Tables_Information({T})</td>
+<td>提取指定表集{T}的列名、外键关联（如“<a target="_blank" rel="noopener" href="http://visitor.ID">visitor.ID</a> 关联 visit.visitor_ID”）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-迭代阅读-推理（IRR）框架">2. 迭代阅读-推理（IRR）框架</h4>
+<p>通过“调用接口→线性化证据→LLM生成”的迭代流程，逐步逼近最终答案，解决“单次提取证据不足”的问题。具体步骤如下：</p>
+<ol>
+<li><strong>调用接口（阅读）</strong>：根据当前任务进度，选择合适接口提取相关证据（如KGQA先调用Extract_Neighbor_Relations获取关系）。</li>
+<li><strong>线性化证据</strong>：将接口输出的结构化证据转为LLMs可理解的文本，例如：
 <ul>
-<li>查询筛选：从StrategyQA（问答任务）和CREAK（声明验证任务）中筛选查询，要求回答所需事实可在维基数据中获取，且经两名标注者独立验证通过。优先选择StrategyQA中推理步骤多、CREAK中解释长且推理技能多样的查询。</li>
-<li>实体替换：通过SPARQL查询在维基数据中检索与原热门实体属性相似的候选实体，随机选择维基数据三元组数量少的长尾实体替换原实体。对无特定目标实体的查询，引入长尾实体作为锚定实体。</li>
-<li>查询重写：参考相关方案优化查询表述，修正语法问题（如语序不当）、调整表述形式（如避免测验式语气），并移除原查询中不正确的隐含假设，确保查询自然且准确。</li>
+<li>KG三元组转为“(Jeff Probst, spouse, Lisa Ann Russell)”；</li>
+<li>表格行转为“row 2: (Team, Wigan Warriors), (Stadium, DW), (Capacity, 25138)”。</li>
 </ul>
-<h4 id="核心特征">3. 核心特征</h4>
+</li>
+<li><strong>LLM生成（推理）</strong>：设计两类Prompt引导LLMs推理：
 <ul>
-<li>聚焦长尾知识：以维基数据三元组数量衡量实体流行度，CoLoTa中实体的三元组数量远少于原数据集，分布偏向小值，明确聚焦长尾实体。</li>
-<li>推理技能多样：涵盖领域无关（如时间推理、数值比较）和领域相关（如历史推理、地理推理）两类推理技能，且在问答和声明验证任务中分布广泛，如问答任务中时间推理占比25%、地理推理占12%。</li>
+<li>证据筛选Prompt：“以下是10个关系，哪些与问题‘Jeff Probst的妻子是谁’最相关？”（输出“spouse”）；</li>
+<li>答案生成Prompt：“基于三元组(Jeff Probst, spouse, Lisa Ann Russell)，回答问题‘Jeff Probst的妻子是谁’”（输出“Lisa Ann Russell”）。</li>
 </ul>
-<h3 id="三实验设计与结果">三、实验设计与结果</h3>
-<h4 id="实验设置">1. 实验设置</h4>
+</li>
+</ol>
+<p>通过多轮迭代，LLMs可逐步获取更精准的证据（如先选关系、再提三元组），最终生成答案或可执行SQL。</p>
+<h4 id="3-任务实例化：适配三大核心任务">3. 任务实例化：适配三大核心任务</h4>
+<p>StructGPT可直接适配KGQA、TableQA、Text-to-SQL三类任务，具体流程差异如下：</p>
 <ul>
-<li>基线模型：LLM基线包括GPT-3.5
-Turbo、GPT-4o等5种主流模型，采用零样本和少样本（k=2）思维链（CoT）提示；KGQA基线为KB-Binder和KGR两种基于LLM的方法。</li>
-<li>评估指标：准确率（衡量答案正确性）、回答率（模型给出真/假答案的查询比例）、FActScore（评估回答中原子事实的真实性，基于维基数据）、推理分数（评估推理步骤的逻辑有效性）。</li>
+<li><strong>KGQA（如“Harper Lee毕业于哪所高中”）</strong>：
+<ol>
+<li>调用Extract_Neighbor_Relations(Harper Lee)获取关系（如“education”“birthplace”）；</li>
+<li>LLM筛选出相关关系“education”；</li>
+<li>调用Extract_Triples(Harper Lee, {education})获取三元组；</li>
+<li>LLM从三元组中提取答案“Monroe County High School”。</li>
+</ol>
+</li>
+<li><strong>TableQA（如“表格中最后一个体育馆是什么”）</strong>：
+<ol>
+<li>调用Extract_Column_Name获取列名“Stadium”；</li>
+<li>调用Extract_Columns提取“Stadium”列所有内容；</li>
+<li>LLM筛选出最后一行内容“DW”作为答案。</li>
+</ol>
+</li>
+<li><strong>Text-to-SQL（如“查询30岁以下访客数量”）</strong>：
+<ol>
+<li>调用Extract_Table&amp;Column_Name获取表名“visitor”及列名“Age”；</li>
+<li>调用Extract_Tables_Information确认“Age”列属性；</li>
+<li>LLM生成SQL“SELECT count(*) FROM visitor WHERE age &lt; 30”。</li>
+</ol>
+</li>
 </ul>
-<h4 id="关键结果">2. 关键结果</h4>
+<h3 id="三、实验设计与核心结果">三、实验设计与核心结果</h3>
+<p>论文在8个数据集（覆盖三类任务）上验证效果，对比“全数据微调基线”“直接使用LLMs”，核心结论是：StructGPT在零样本/少样本场景下显著提升LLMs性能，部分场景接近全数据微调效果。</p>
+<h4 id="1-实验设置">1. 实验设置</h4>
 <ul>
-<li>LLMs在CoLoTa上表现显著下滑：所有LLM在CoLoTa查询上的准确率和回答率均低于原数据集。问答任务中准确率下降0.15-0.27，声明验证任务下降0.20-0.42，Llama-3.3-70B在声明验证任务零样本CoT设置下准确率从0.84降至0.42。</li>
-<li>KGQA方法无法应对常识推理：KB-Binder在原声明验证任务中准确率最高仅0.35，CoLoTa上更低；KGR在原声明验证任务准确率0.80，但在CoLoTa上骤降至0.20，表明现有KGQA方法难以结合常识知识进行推理。</li>
-<li>LLMs易产生幻觉与推理错误：OpenAI-o1在原数据集上FActScore接近1、推理分数达0.95以上，但在CoLoTa上FActScore最低降至0.58、推理分数最低降至0.79；GPT-3.5-Turbo的FActScore在CoLoTa上也下降0.09-0.20，且LLMs在CoLoTa上回答率仍接近原数据集，说明其在缺乏长尾知识时仍会猜测答案，导致幻觉和推理错误。</li>
-</ul>
-<h3 id="四研究结论与意义">四、研究结论与意义</h3>
-<h4 id="核心结论">1. 核心结论</h4>
+<li><strong>数据集</strong>：
 <ul>
-<li>CoLoTa是评估LLM长尾实体常识推理能力和抗幻觉能力的有效基准，现有顶尖LLM在该数据集上仍面临巨大挑战。</li>
-<li>CoLoTa填补了KGQA数据集的空白，是首个需结合常识推理的KGQA基准，现有KGQA方法无法满足其推理需求。</li>
-<li>长尾知识不仅影响LLMs的事实记忆，还会显著增加其常识推理错误和幻觉率，且对声明验证任务的影响大于问答任务。</li>
+<li>KGQA：WebQSP（2跳推理）、MetaQA（1/2/3跳推理）；</li>
+<li>TableQA：WikiSQL（过滤聚合）、WTQ（排序推理）、TabFact（事实验证）；</li>
+<li>Text-to-SQL：Spider（复杂查询）、Spider-SYN（同义词干扰）、Spider-Realistic（无列名提示）。</li>
 </ul>
-<h4 id="研究意义">2. 研究意义</h4>
+</li>
+<li><strong>基线</strong>：
 <ul>
-<li>为LLM研究提供新方向：推动针对长尾实体常识推理的LLM优化，如探索结合外部知识图谱减少幻觉、提升推理准确性的方法。</li>
-<li>促进KGQA方法创新：促使研究者开发融合事实知识和常识知识的KGQA技术，突破现有方法仅能处理事实类问题的局限。</li>
-<li>完善评估体系：补充了长尾实体常识推理领域的评估基准，为后续相关模型的性能对比和改进提供统一标准。</li>
+<li>全数据微调：如KGQA的GraftNet、TableQA的TAPEX、Text-to-SQL的RESDSQL-3B；</li>
+<li>直接LLMs：零样本使用Davinci-003、ChatGPT（6月/8月版本）。</li>
 </ul>
+</li>
+<li><strong>评估指标</strong>：
+<ul>
+<li>KGQA：Hits@1（Top1答案准确率）；</li>
+<li>TableQA：准确率（TabFact）、指示准确率（WTQ/WikiSQL）；</li>
+<li>Text-to-SQL：执行准确率（预测SQL与标准答案执行结果一致率）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-关键结果">2. 关键结果</h4>
+<ul>
+<li><strong>零样本场景提升显著</strong>：
+<ul>
+<li>KGQA：ChatGPT在WebQSP的Hits@1从61.2%（直接用）提升至72.6%（+IRR），涨幅11.4%；</li>
+<li>TableQA：ChatGPT在TabFact的准确率从82.9%提升至87.1%，涨幅4.2%；</li>
+<li>Text-to-SQL：ChatGPT在Spider的执行准确率从70.1%提升至74.8%，涨幅4.7%。</li>
+</ul>
+</li>
+<li><strong>少样本场景进一步优化</strong>：加入32个示例后，Davinci-003在WikiSQL的指示准确率从49.1%（零样本+IRR）提升至64.6%（少样本+IRR）。</li>
+<li><strong>鲁棒性验证</strong>：对8月版本ChatGPT（性能略有变化），+IRR后仍能提升：WebQSP从62.1%→75.3%，Spider从75.2%→77.1%。</li>
+</ul>
+<h4 id="3-错误分析">3. 错误分析</h4>
+<p>通过100个错误案例抽样，发现主要错误类型及分布：</p>
+<ul>
+<li><strong>选择错误</strong>（30%-74%）：LLMs未筛选出正确证据（如KGQA中选错关系），WebQSP中占比最高（74%）；</li>
+<li><strong>推理错误</strong>（8%-30%）：有证据但无法生成正确答案（如Text-to-SQL中生成错误SQL逻辑），Spider中占比21%；</li>
+<li><strong>格式错误</strong>（2%-34%）：生成答案格式不规范（如多输出无关内容），WikiSQL中占比34%。</li>
+</ul>
+<h3 id="四、局限性与未来方向">四、局限性与未来方向</h3>
+<p>论文明确指出StructGPT的三大局限，也是未来优化方向：</p>
+<ol>
+<li><strong>LLM适配性有限</strong>：仅验证了ChatGPT、Davinci-003（指令跟随能力强），需在指令理解弱的LLMs（如开源模型Llama 2）上测试；</li>
+<li><strong>任务覆盖范围窄</strong>：仅评估了“基于结构化数据的QA任务”，需扩展到“数据转文本”“形式语言转文本”等场景；</li>
+<li><strong>格式错误待解决</strong>：LLMs生成答案格式不统一，需设计更精准的Prompt和解析规则。</li>
+</ol>
+<h3 id="五、核心贡献总结">五、核心贡献总结</h3>
+<ol>
+<li><strong>通用性突破</strong>：首个统一处理KG、表格、数据库三类结构化数据的LLM推理框架，无需针对单一数据类型设计方案；</li>
+<li><strong>方法创新</strong>：通过“专用接口解耦阅读”“迭代流程逼近答案”，解决LLMs对结构化数据的理解难、输入长限制问题；</li>
+<li><strong>效果验证</strong>：在8个数据集上证明零样本/少样本场景的有效性，为LLMs处理结构化数据提供新范式。</li>
+</ol>
 
       
     </div>
@@ -362,7 +465,7 @@ Turbo、GPT-4o等5种主流模型，采用零样本和少样本（k=2）思维�
 
 
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/null-index/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/33/">33</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/null-index/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -385,14 +488,14 @@ Turbo、GPT-4o等5种主流模型，采用零样本和少样本（k=2）思维�
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">182k</span>
+    <span title="站点总字数">206k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:32</span>
+    <span title="站点阅读时长">6:14</span>
   </span>
 </div>
 

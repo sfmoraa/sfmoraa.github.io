@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2508.004v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.004v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2508.004v1/" class="post-title-link" itemprop="url">论文阅读——LLM Enhancers for GNNs: An Analysis from the Perspective of Causal Mechanism Identification</a>
+          <a href="/posts/2510.004v1/" class="post-title-link" itemprop="url">机器学习模型评估体系完整教程：从交叉验证到超参数调优</a>
         </h2>
 
         <div class="post-meta-container">
@@ -241,14 +241,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2025-08-06 00:00:00" itemprop="dateCreated datePublished" datetime="2025-08-06T00:00:00+08:00">2025-08-06</time>
+      <time title="创建时间：2025-10-06 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-06T00:00:00+08:00">2025-10-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-08-07 23:05:04" itemprop="dateModified" datetime="2025-08-07T23:05:04+08:00">2025-08-07</time>
+      <time title="修改时间：2025-10-14 09:52:36" itemprop="dateModified" datetime="2025-10-14T09:52:36+08:00">2025-10-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -256,15 +256,11 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/" itemprop="url" rel="index"><span itemprop="name">学习提升</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%9B%BE%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图学习</span></a>
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/%E5%9B%BE%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图与大模型学习</span></a>
         </span>
     </span>
 
@@ -275,14 +271,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>464</span>
+      <span>11k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>20 分钟</span>
     </span>
 </div>
 
@@ -293,32 +289,188 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况">论文概况</h1>
-<p><strong>题目</strong>：<a
-target="_blank" rel="noopener" href="https://arxiv.org/pdf/2505.08265?">LLM Enhancers for GNNs: An
-Analysis from the Perspective of Causal Mechanism Identification</a></p>
-<p><strong>通讯作者</strong>： Fenge Wu： fengge@iscas.ac.cn</p>
-<p><strong>作者院校</strong>：清华大学等</p>
-<p><strong>发表于</strong>：arxiv</p>
-<p><strong>代码仓库</strong>：<a
-target="_blank" rel="noopener" href="https://github.com/WX4code/LLMEnhCausalMechanism">WX4code/LLMEnhCausalMechanism</a></p>
-<h1 id="论文内容">论文内容</h1>
-<h2 id="概括总结">概括总结</h2>
-<p>基于互换干预法分析了LLM用作特征增强器来优化节点表示并作为GNN的输入的方法。根据分析结果设计了一个即插即用的优化模块来改善
-LLM增强器与GNN之间的信息传递。</p>
-<p>该模块首先使用 LLM
-生成<em>q</em>个不同提示，然后从每组特征中均匀选取<em>m</em>个token特征，随后通过
-Transformer
-编码器计算每组子集的注意力矩阵，平均后得到归一化权重。基于权重加权融合所有子集中的特征，输出作为
-GNN 的输入。</p>
-<figure>
-<img
-src="/images/post_images/2025-08-06-论文阅读——LLM-Enhancers-for-GNNs-An-Analysis-from-the-Perspective-of-Causal-Mechanism-Identification/image-20250805202117765.png"
-alt="image-20250805202117765" />
-<figcaption aria-hidden="true">image-20250805202117765</figcaption>
-</figure>
-<h4 id="问题">问题</h4>
-<p>效果提升幅度有限，效率可能较低，但作为即插即用模块有一定效果。</p>
+          <h1
+id="机器学习模型评估体系完整教程从交叉验证到超参数调优">机器学习模型评估体系完整教程：从交叉验证到超参数调优</h1>
+<h2 id="一模型评估概述">一、模型评估概述</h2>
+<p>模型评估是机器学习流程中的关键环节，它帮助我们量化模型性能、检测过拟合或欠拟合问题，并为模型优化提供方向。一个完整的评估体系不仅要关注模型在训练数据上的表现，更要评估其在未知数据上的<strong>泛化能力</strong>。</p>
+<p>构建完整的评估体系需要掌握三个核心模块：交叉验证方法、超参数调优技术和评估指标解读。下面我将通过理论讲解和Python实例带你逐步掌握这些内容。</p>
+<h2 id="二交叉验证方法">二、交叉验证方法</h2>
+<h3 id="为什么需要交叉验证">2.1 为什么需要交叉验证？</h3>
+<p>简单地将数据分为训练集和测试集存在一个明显问题：<strong>评估结果对数据划分方式敏感</strong>。不同的划分可能得到截然不同的性能评估结果。交叉验证通过多次划分数据，减少评估结果方差，提供更稳定的性能估计。</p>
+<h3 id="k折交叉验证原理">2.2 K折交叉验证原理</h3>
+<p>K折交叉验证将数据集随机分为K个大小相似的互斥子集。每次用K-1个子集的并集作为训练集，剩下的一个子集作为测试集。重复K次，每次使用不同的测试集，最终返回K次测试结果的均值。</p>
+<p><strong>算法流程：</strong> 1. 将数据集分为K份 2.
+对于每一折i（i=1到K）： - 使用第i折作为测试集，其余K-1折作为训练集 -
+在训练集上训练模型 - 在测试集上评估模型，保存评估结果 3.
+计算K次评估结果的平均值</p>
+<h3 id="k折交叉验证python实现">2.3 K折交叉验证Python实现</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> KFold</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_classification</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成示例数据集</span></span><br><span class="line">X, y = make_classification(n_samples=<span class="number">1000</span>, n_features=<span class="number">10</span>, n_informative=<span class="number">5</span>, n_redundant=<span class="number">0</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建K折交叉验证对象（设置K=5）</span></span><br><span class="line">kf = KFold(n_splits=<span class="number">5</span>, shuffle=<span class="literal">True</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建模型</span></span><br><span class="line">model = LogisticRegression()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 存储每次交叉验证的准确率</span></span><br><span class="line">accuracies = []</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;开始K折交叉验证（K=5）...&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> fold, (train_index, test_index) <span class="keyword">in</span> <span class="built_in">enumerate</span>(kf.split(X)):</span><br><span class="line">    X_train, X_test = X[train_index], X[test_index]</span><br><span class="line">    y_train, y_test = y[train_index], y[test_index]</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 训练模型</span></span><br><span class="line">    model.fit(X_train, y_train)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 预测</span></span><br><span class="line">    y_pred = model.predict(X_test)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 计算准确率</span></span><br><span class="line">    accuracy = accuracy_score(y_test, y_pred)</span><br><span class="line">    accuracies.append(accuracy)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;第<span class="subst">&#123;fold+<span class="number">1</span>&#125;</span>折验证准确率: <span class="subst">&#123;accuracy:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出平均准确率</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;\n平均准确率: <span class="subst">&#123;np.mean(accuracies):<span class="number">.4</span>f&#125;</span> (±<span class="subst">&#123;np.std(accuracies):<span class="number">.4</span>f&#125;</span>)&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="分层k折交叉验证">2.4 分层K折交叉验证</h3>
+<p>当数据集类别分布不平衡时，普通K折交叉验证可能导致某些折中某一类别样本过少。分层K折交叉验证确保每一折中各类别的比例与原始数据集保持一致。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> StratifiedKFold</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建分层K折交叉验证对象</span></span><br><span class="line">skf = StratifiedKFold(n_splits=<span class="number">5</span>, shuffle=<span class="literal">True</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 存储每次交叉验证的准确率</span></span><br><span class="line">stratified_accuracies = []</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;开始分层K折交叉验证...&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> fold, (train_index, test_index) <span class="keyword">in</span> <span class="built_in">enumerate</span>(skf.split(X, y)):</span><br><span class="line">    X_train, X_test = X[train_index], X[test_index]</span><br><span class="line">    y_train, y_test = y[train_index], y[test_index]</span><br><span class="line">    </span><br><span class="line">    model.fit(X_train, y_train)</span><br><span class="line">    y_pred = model.predict(X_test)</span><br><span class="line">    </span><br><span class="line">    accuracy = accuracy_score(y_test, y_pred)</span><br><span class="line">    stratified_accuracies.append(accuracy)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;第<span class="subst">&#123;fold+<span class="number">1</span>&#125;</span>折验证准确率: <span class="subst">&#123;accuracy:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;\n分层K折平均准确率: <span class="subst">&#123;np.mean(stratified_accuracies):<span class="number">.4</span>f&#125;</span> (±<span class="subst">&#123;np.std(stratified_accuracies):<span class="number">.4</span>f&#125;</span>)&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="交叉验证方法比较">2.5 交叉验证方法比较</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>方法</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K折交叉验证</td>
+<td>评估结果稳定，数据利用充分</td>
+<td>计算成本较高</td>
+<td>中等规模数据集</td>
+</tr>
+<tr>
+<td>分层K折交叉验证</td>
+<td>保持类别分布，结果更可靠</td>
+<td>实现稍复杂</td>
+<td>不平衡数据集</td>
+</tr>
+<tr>
+<td>留一法交叉验证</td>
+<td>无偏估计，训练集最大化</td>
+<td>计算成本最高</td>
+<td>小数据集</td>
+</tr>
+<tr>
+<td>留出法</td>
+<td>简单快速</td>
+<td>结果方差大，数据利用不充分</td>
+<td>大数据集初步评估</td>
+</tr>
+</tbody>
+</table>
+<h2 id="三超参数调优方法">三、超参数调优方法</h2>
+<h3 id="超参数调优概述">3.1 超参数调优概述</h3>
+<p>超参数是在模型训练开始前设置的参数，它们不能从训练数据中学习得到。选择合适的超参数对模型性能至关重要。</p>
+<p>常见的超参数包括： - 学习率（神经网络） -
+正则化参数C（逻辑回归、SVM） - 树的最大深度（决策树、随机森林） -
+邻居数量K（K近邻）</p>
+<h3 id="网格搜索调优">3.2 网格搜索调优</h3>
+<p>网格搜索通过遍历所有可能的超参数组合，寻找性能最佳的组合。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> GridSearchCV</span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = load_iris()</span><br><span class="line">X, y = iris.data, iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义超参数搜索空间</span></span><br><span class="line">param_grid = &#123;</span><br><span class="line">    <span class="string">&#x27;C&#x27;</span>: [<span class="number">0.1</span>, <span class="number">1</span>, <span class="number">10</span>, <span class="number">100</span>],           <span class="comment"># 正则化参数</span></span><br><span class="line">    <span class="string">&#x27;gamma&#x27;</span>: [<span class="number">1</span>, <span class="number">0.1</span>, <span class="number">0.01</span>, <span class="number">0.001</span>],    <span class="comment"># 核函数系数</span></span><br><span class="line">    <span class="string">&#x27;kernel&#x27;</span>: [<span class="string">&#x27;rbf&#x27;</span>, <span class="string">&#x27;linear&#x27;</span>]        <span class="comment"># 核函数类型</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建SVM模型</span></span><br><span class="line">svc = SVC(random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建网格搜索对象（使用5折交叉验证）</span></span><br><span class="line">grid_search = GridSearchCV(</span><br><span class="line">    estimator=svc, </span><br><span class="line">    param_grid=param_grid, </span><br><span class="line">    cv=<span class="number">5</span>,                               <span class="comment"># 5折交叉验证</span></span><br><span class="line">    scoring=<span class="string">&#x27;accuracy&#x27;</span>,                 <span class="comment"># 评估指标</span></span><br><span class="line">    verbose=<span class="number">1</span>,                          <span class="comment"># 输出详细过程</span></span><br><span class="line">    n_jobs=-<span class="number">1</span>                           <span class="comment"># 使用所有可用的CPU核心</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行网格搜索</span></span><br><span class="line">grid_search.fit(X, y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出最佳结果</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最佳超参数组合:&quot;</span>, grid_search.best_params_)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最佳交叉验证得分:&quot;</span>, grid_search.best_score_)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最佳模型:&quot;</span>, grid_search.best_estimator_)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有参数组合的结果</span></span><br><span class="line">results_df = pd.DataFrame(grid_search.cv_results_)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n前5个最佳参数组合:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(results_df[[<span class="string">&#x27;params&#x27;</span>, <span class="string">&#x27;mean_test_score&#x27;</span>, <span class="string">&#x27;std_test_score&#x27;</span>]].sort_values(<span class="string">&#x27;mean_test_score&#x27;</span>, ascending=<span class="literal">False</span>).head())</span><br></pre></td></tr></table></figure>
+<h3 id="随机搜索调优">3.3 随机搜索调优</h3>
+<p>当超参数空间较大时，网格搜索计算成本过高。随机搜索通过随机采样超参数组合，能以更少的迭代次数找到接近最优的解。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> RandomizedSearchCV</span><br><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> uniform, randint</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义超参数分布</span></span><br><span class="line">param_dist = &#123;</span><br><span class="line">    <span class="string">&#x27;C&#x27;</span>: uniform(<span class="number">0.1</span>, <span class="number">100</span>),            <span class="comment"># 连续均匀分布</span></span><br><span class="line">    <span class="string">&#x27;gamma&#x27;</span>: uniform(<span class="number">0.001</span>, <span class="number">1</span>),         <span class="comment"># 连续均匀分布</span></span><br><span class="line">    <span class="string">&#x27;kernel&#x27;</span>: [<span class="string">&#x27;rbf&#x27;</span>, <span class="string">&#x27;linear&#x27;</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建随机搜索对象</span></span><br><span class="line">random_search = RandomizedSearchCV(</span><br><span class="line">    estimator=svc,</span><br><span class="line">    param_distributions=param_dist,</span><br><span class="line">    n_iter=<span class="number">20</span>,                          <span class="comment"># 随机采样20次</span></span><br><span class="line">    cv=<span class="number">5</span>,</span><br><span class="line">    scoring=<span class="string">&#x27;accuracy&#x27;</span>,</span><br><span class="line">    verbose=<span class="number">1</span>,</span><br><span class="line">    n_jobs=-<span class="number">1</span>,</span><br><span class="line">    random_state=<span class="number">42</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行随机搜索</span></span><br><span class="line">random_search.fit(X, y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出最佳结果</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最佳超参数组合:&quot;</span>, random_search.best_params_)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最佳交叉验证得分:&quot;</span>, random_search.best_score_)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 比较两种方法的效果</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n方法比较:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;网格搜索最佳得分: <span class="subst">&#123;grid_search.best_score_:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;随机搜索最佳得分: <span class="subst">&#123;random_search.best_score_:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="超参数调优策略对比">3.4 超参数调优策略对比</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>方法</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>网格搜索</td>
+<td>找到全局最优解，结果可重现</td>
+<td>计算成本高，参数空间大时不可行</td>
+<td>参数空间小（&lt;100种组合）</td>
+</tr>
+<tr>
+<td>随机搜索</td>
+<td>计算效率高，适合高维参数空间</td>
+<td>可能错过全局最优解</td>
+<td>参数空间大或连续参数</td>
+</tr>
+<tr>
+<td>贝叶斯优化</td>
+<td>智能搜索，效率更高</td>
+<td>实现复杂，需要额外库</td>
+<td>计算成本高的复杂模型</td>
+</tr>
+</tbody>
+</table>
+<h2 id="四评估指标详解">四、评估指标详解</h2>
+<h3 id="分类问题评估指标">4.1 分类问题评估指标</h3>
+<h4 id="混淆矩阵基础">4.1.1 混淆矩阵基础</h4>
+<p>混淆矩阵是分类问题的基础评估工具，它展示了模型预测结果与真实标签的对应关系。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">               预测为正例    预测为负例</span><br><span class="line">真实为正例      TP(真正例)    FN(假负例)</span><br><span class="line">真实为负例      FP(假正例)    TN(真负例)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用之前训练的模型进行预测</span></span><br><span class="line">y_pred = grid_search.best_estimator_.predict(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算混淆矩阵</span></span><br><span class="line">cm = confusion_matrix(y, y_pred)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化混淆矩阵</span></span><br><span class="line">plt.figure(figsize=(<span class="number">8</span>, <span class="number">6</span>))</span><br><span class="line">sns.heatmap(cm, annot=<span class="literal">True</span>, fmt=<span class="string">&#x27;d&#x27;</span>, cmap=<span class="string">&#x27;Blues&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;混淆矩阵&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;真实标签&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;预测标签&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h4 id="准确率精确率召回率和f1分数">4.1.2
+准确率、精确率、召回率和F1分数</h4>
+<p><strong>计算公式：</strong> - <strong>准确率(Accuracy)</strong> = (TP
++ TN) / (TP + TN + FP + FN) - <strong>精确率(Precision)</strong> = TP /
+(TP + FP) - <strong>召回率(Recall)</strong> = TP / (TP + FN)<br />
+- <strong>F1分数(F1-Score)</strong> = 2 × (Precision × Recall) /
+(Precision + Recall)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, precision_score, recall_score, f1_score</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> classification_report</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算各项指标</span></span><br><span class="line">accuracy = accuracy_score(y, y_pred)</span><br><span class="line">precision = precision_score(y, y_pred, average=<span class="string">&#x27;weighted&#x27;</span>)  <span class="comment"># 多分类使用加权平均</span></span><br><span class="line">recall = recall_score(y, y_pred, average=<span class="string">&#x27;weighted&#x27;</span>)</span><br><span class="line">f1 = f1_score(y, y_pred, average=<span class="string">&#x27;weighted&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;模型评估指标:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;准确率(Accuracy): <span class="subst">&#123;accuracy:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;精确率(Precision): <span class="subst">&#123;precision:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;召回率(Recall): <span class="subst">&#123;recall:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;F1分数(F1-Score): <span class="subst">&#123;f1:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 详细的分类报告</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n详细分类报告:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(classification_report(y, y_pred, target_names=iris.target_names))</span><br></pre></td></tr></table></figure>
+<h4 id="指标应用场景">4.1.3 指标应用场景</h4>
+<p>不同指标适用于不同的业务场景：</p>
+<ul>
+<li><strong>准确率</strong>：适用于类别平衡的数据集，是最直观的指标</li>
+<li><strong>精确率</strong>：关注预测的准确性，适用于<strong>减少误报</strong>的场景
+<ul>
+<li>例：垃圾邮件检测中，避免将正常邮件误判为垃圾邮件</li>
+</ul></li>
+<li><strong>召回率</strong>：关注正例的识别能力，适用于<strong>减少漏报</strong>的场景
+<ul>
+<li>例：疾病诊断中，避免将患病者误判为健康</li>
+</ul></li>
+<li><strong>F1分数</strong>：平衡精确率和召回率，适用于<strong>类别不平衡</strong>的数据集</li>
+</ul>
+<h3 id="roc曲线与auc值">4.2 ROC曲线与AUC值</h3>
+<p>ROC曲线以假正例率为横轴，真正例率为纵轴，展示模型在不同阈值下的性能。AUC值是ROC曲线下的面积，用于衡量模型排序质量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> roc_curve, auc</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> label_binarize</span><br><span class="line"><span class="keyword">from</span> sklearn.multiclass <span class="keyword">import</span> OneVsRestClassifier</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将标签二值化（用于多分类ROC曲线）</span></span><br><span class="line">y_bin = label_binarize(y, classes=[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line">n_classes = y_bin.shape[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用OneVsRest策略</span></span><br><span class="line">classifier = OneVsRestClassifier(SVC(probability=<span class="literal">True</span>, random_state=<span class="number">42</span>))</span><br><span class="line">y_score = classifier.fit(X, y).predict_proba(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算每一类的ROC曲线和AUC值</span></span><br><span class="line">fpr = <span class="built_in">dict</span>()</span><br><span class="line">tpr = <span class="built_in">dict</span>()</span><br><span class="line">roc_auc = <span class="built_in">dict</span>()</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">8</span>))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n_classes):</span><br><span class="line">    fpr[i], tpr[i], _ = roc_curve(y_bin[:, i], y_score[:, i])</span><br><span class="line">    roc_auc[i] = auc(fpr[i], tpr[i])</span><br><span class="line">    plt.plot(fpr[i], tpr[i], label=<span class="string">f&#x27;类别 <span class="subst">&#123;iris.target_names[i]&#125;</span> (AUC = <span class="subst">&#123;roc_auc[i]:<span class="number">.2</span>f&#125;</span>)&#x27;</span>)</span><br><span class="line"></span><br><span class="line">plt.plot([<span class="number">0</span>, <span class="number">1</span>], [<span class="number">0</span>, <span class="number">1</span>], <span class="string">&#x27;k--&#x27;</span>, label=<span class="string">&#x27;随机分类器&#x27;</span>)</span><br><span class="line">plt.xlim([<span class="number">0.0</span>, <span class="number">1.0</span>])</span><br><span class="line">plt.ylim([<span class="number">0.0</span>, <span class="number">1.05</span>])</span><br><span class="line">plt.xlabel(<span class="string">&#x27;假正例率 (False Positive Rate)&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;真正例率 (True Positive Rate)&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;多分类ROC曲线&#x27;</span>)</span><br><span class="line">plt.legend(loc=<span class="string">&quot;lower right&quot;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h2 id="五完整实战案例">五、完整实战案例</h2>
+<h3 id="端到端模型评估流程">5.1 端到端模型评估流程</h3>
+<p>下面通过一个完整案例展示如何将交叉验证、超参数调优和指标评估结合使用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据准备</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(</span><br><span class="line">    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据标准化</span></span><br><span class="line">scaler = StandardScaler()</span><br><span class="line">X_train_scaled = scaler.fit_transform(X_train)</span><br><span class="line">X_test_scaled = scaler.transform(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义超参数网格</span></span><br><span class="line">param_grid_rf = &#123;</span><br><span class="line">    <span class="string">&#x27;n_estimators&#x27;</span>: [<span class="number">50</span>, <span class="number">100</span>, <span class="number">200</span>],</span><br><span class="line">    <span class="string">&#x27;max_depth&#x27;</span>: [<span class="literal">None</span>, <span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>],</span><br><span class="line">    <span class="string">&#x27;min_samples_split&#x27;</span>: [<span class="number">2</span>, <span class="number">5</span>, <span class="number">10</span>],</span><br><span class="line">    <span class="string">&#x27;min_samples_leaf&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建随机森林模型</span></span><br><span class="line">rf = RandomForestClassifier(random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 网格搜索结合交叉验证</span></span><br><span class="line">grid_search_rf = GridSearchCV(</span><br><span class="line">    estimator=rf,</span><br><span class="line">    param_grid=param_grid_rf,</span><br><span class="line">    cv=<span class="number">5</span>,</span><br><span class="line">    scoring=<span class="string">&#x27;accuracy&#x27;</span>,</span><br><span class="line">    n_jobs=-<span class="number">1</span>,</span><br><span class="line">    verbose=<span class="number">1</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行搜索</span></span><br><span class="line">grid_search_rf.fit(X_train_scaled, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在测试集上评估最佳模型</span></span><br><span class="line">best_rf = grid_search_rf.best_estimator_</span><br><span class="line">y_pred_test = best_rf.predict(X_test_scaled)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 综合评估</span></span><br><span class="line">test_accuracy = accuracy_score(y_test, y_pred_test)</span><br><span class="line">test_f1 = f1_score(y_test, y_pred_test, average=<span class="string">&#x27;weighted&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;=&quot;</span> * <span class="number">50</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;模型评估最终结果&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;=&quot;</span> * <span class="number">50</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;最佳超参数: <span class="subst">&#123;grid_search_rf.best_params_&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;交叉验证最佳得分: <span class="subst">&#123;grid_search_rf.best_score_:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;测试集准确率: <span class="subst">&#123;test_accuracy:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;测试集F1分数: <span class="subst">&#123;test_f1:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查是否过拟合</span></span><br><span class="line"><span class="keyword">if</span> grid_search_rf.best_score_ &gt; test_accuracy + <span class="number">0.1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;警告:模型可能存在过拟合风险!&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;模型泛化能力良好&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 特征重要性分析（随机森林特有）</span></span><br><span class="line">feature_importances = best_rf.feature_importances_</span><br><span class="line">feature_names = iris.feature_names</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line">indices = np.argsort(feature_importances)[::-<span class="number">1</span>]</span><br><span class="line">plt.title(<span class="string">&quot;特征重要性排序&quot;</span>)</span><br><span class="line">plt.bar(<span class="built_in">range</span>(<span class="built_in">len</span>(feature_importances)), feature_importances[indices])</span><br><span class="line">plt.xticks(<span class="built_in">range</span>(<span class="built_in">len</span>(feature_importances)), [feature_names[i] <span class="keyword">for</span> i <span class="keyword">in</span> indices], rotation=<span class="number">45</span>)</span><br><span class="line">plt.tight_layout()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h2 id="六总结与最佳实践">六、总结与最佳实践</h2>
+<p>通过本教程，你已经掌握了机器学习模型评估的核心技术。以下是实际应用中的最佳实践建议：</p>
+<ol type="1">
+<li><strong>数据准备阶段</strong>：
+<ul>
+<li>确保数据代表性和多样性</li>
+<li>合理划分训练集、验证集和测试集</li>
+<li>进行必要的数据预处理和特征工程</li>
+</ul></li>
+<li><strong>评估指标选择</strong>：
+<ul>
+<li>根据业务需求选择合适的评估指标</li>
+<li>对于不平衡数据集，优先使用F1分数或AUC值</li>
+<li>结合多个指标全面评估模型性能</li>
+</ul></li>
+<li><strong>交叉验证实践</strong>：
+<ul>
+<li>中小数据集使用5-10折交叉验证</li>
+<li>不平衡数据使用分层K折交叉验证</li>
+<li>大数据集可简单使用留出法</li>
+</ul></li>
+<li><strong>超参数调优</strong>：
+<ul>
+<li>参数空间小时使用网格搜索</li>
+<li>参数空间大时使用随机搜索或贝叶斯优化</li>
+<li>始终在验证集上调优，在测试集上最终评估</li>
+</ul></li>
+<li><strong>避免常见误区</strong>：
+<ul>
+<li>不要基于测试集结果进行模型调优</li>
+<li>关注模型泛化能力而非单纯训练集表现</li>
+<li>定期重新评估模型以适应数据分布变化</li>
+</ul></li>
+</ol>
+<p>模型评估不是一次性的任务，而是一个持续的过程。随着业务需求和数据分布的变化，需要定期重新评估和优化模型，确保其始终保持最佳性能。</p>
+<p>希望本教程对你的学习有帮助！你可以尝试将这些技术应用到自己的项目中，进一步巩固所学知识。</p>
 
       
     </div>
@@ -338,7 +490,7 @@ alt="image-20250805202117765" />
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/18/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/null-index/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/33/">33</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/20/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/18/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/null-index/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/20/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -361,14 +513,14 @@ alt="image-20250805202117765" />
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">182k</span>
+    <span title="站点总字数">206k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:32</span>
+    <span title="站点阅读时长">6:14</span>
   </span>
 </div>
 
