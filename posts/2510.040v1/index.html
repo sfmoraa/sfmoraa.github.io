@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations EMNLP 一、论文概览 1. 核心问题 大型语言模型（LLMs）在三种主要使用场景（基础模型BASE、监督微调模型SFT、知识编辑模型EDIT）中普遍存在安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations">
+<meta property="og:url" content="http://example.com/posts/2510.040v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations EMNLP 一、论文概览 1. 核心问题 大型语言模型（LLMs）在三种主要使用场景（基础模型BASE、监督微调模型SFT、知识编辑模型EDIT）中普遍存在安全">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-29T08:28:57.009Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.040v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.040v1/","path":"/posts/2510.040v1/","title":"Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">一、论文概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 核心问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%BB%E8%A6%81%E8%B4%A1%E7%8C%AE"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 主要贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 研究方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">二、各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Introduction%EF%BC%88%E5%BC%95%E8%A8%80%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 1 Introduction（引言）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Related-work%EF%BC%88%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 2 Related work（相关工作）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-SAFETY-ARITHMETIC%EF%BC%88%E6%A1%86%E6%9E%B6%E7%BB%86%E8%8A%82%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 3 SAFETY ARITHMETIC（框架细节）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-Preliminaries%EF%BC%88%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86%E4%B8%8E%E7%AC%A6%E5%8F%B7%E5%AE%9A%E4%B9%89%EF%BC%89"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">3.1 Preliminaries（预备知识与符号定义）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-Harm-Direction-Removal%EF%BC%88HDR%EF%BC%89"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">3.2 Harm Direction Removal（HDR）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-Safety-Alignment%EF%BC%88Safe-Align%EF%BC%89"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">3.3 Safety Alignment（Safe-Align）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-Experimental-setup%EF%BC%88%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE%EF%BC%89"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 4 Experimental setup（实验设置）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E5%9C%BA%E6%99%AF%E5%8C%96%E6%A1%86%E6%9E%B6%E5%BA%94%E7%94%A8"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">4.1 场景化框架应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%9F%BA%E7%BA%BF"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">4.2 数据与基线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E4%B8%8E%E8%B6%85%E5%8F%82%E6%95%B0"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">4.3 评估指标与超参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-Impact-of-top-k-parameters%EF%BC%88Top-k%E5%8F%82%E6%95%B0%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%89"><span class="nav-number">1.2.5.</span> <span class="nav-text">5. 5 Impact of top k parameters（Top-k参数的影响）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-6-Results-and-discussions%EF%BC%88%E7%BB%93%E6%9E%9C%E4%B8%8E%E5%88%86%E6%9E%90%EF%BC%89"><span class="nav-number">1.2.6.</span> <span class="nav-text">6. 6 Results and discussions（结果与分析）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-7-Utility-and-over-safety-testing%EF%BC%88%E6%95%88%E7%94%A8%E4%B8%8E%E8%BF%87%E5%BA%A6%E5%AE%89%E5%85%A8%E6%B5%8B%E8%AF%95%EF%BC%89"><span class="nav-number">1.2.7.</span> <span class="nav-text">7. 7 Utility and over-safety testing（效用与过度安全测试）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-8-Conclusion%EF%BC%88%E7%BB%93%E8%AE%BA%EF%BC%89"><span class="nav-number">1.2.8.</span> <span class="nav-text">8. 8 Conclusion（结论）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-9-Limitation%EF%BC%88%E5%B1%80%E9%99%90%E6%80%A7%EF%BC%89"><span class="nav-number">1.2.9.</span> <span class="nav-text">9. 9 Limitation（局限性）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-10-11-Ethical-consideration-Potential-risk%EF%BC%88%E4%BC%A6%E7%90%86%E4%B8%8E%E9%A3%8E%E9%99%A9%EF%BC%89"><span class="nav-number">1.2.10.</span> <span class="nav-text">10. 10-11 Ethical consideration &amp; Potential risk（伦理与风险）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E9%99%84%E5%BD%95%EF%BC%88Appendix%EF%BC%89"><span class="nav-number">1.2.11.</span> <span class="nav-text">11. 附录（Appendix）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">三、一句话总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.040v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：16:28:57" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations</h1>
+<p>EMNLP</p>
+<h2 id="一、论文概览">一、论文概览</h2>
+<h3 id="1-核心问题">1. 核心问题</h3>
+<p>大型语言模型（LLMs）在三种主要使用场景（基础模型BASE、监督微调模型SFT、知识编辑模型EDIT）中普遍存在安全漏洞，易受越狱攻击生成有害内容（如虚假信息、仇恨言论）；现有对齐方法难以应对动态用户意图与复杂目标，且微调或模型编辑可能进一步削弱安全机制，同时缺乏能覆盖三种场景且保留模型效用的统一安全对齐方案。</p>
+<h3 id="2-主要贡献">2. 主要贡献</h3>
+<ul>
+<li>提出<strong>SAFETY ARITHMETIC</strong>框架：一种无训练（training-free）的测试时安全对齐技术，通过“去除参数有害方向”和“引导 latent space 向安全响应”两阶段实现安全对齐，且不损害模型效用。</li>
+<li>首次全面评估LLM三种使用场景的安全性：针对BASE、SFT、EDIT模型，验证框架在保留效用、缓解“过度安全”（over-safety）前提下的鲁棒性。</li>
+<li>构建<strong>NOINTENTEDIT数据集</strong>：包含约40个“无意编辑实例”，这类实例本身无害，但用于模型编辑时会意外导致模型生成有害内容，填补了无意编辑安全风险评估的数据空白。</li>
+</ul>
+<h3 id="3-研究方法">3. 研究方法</h3>
+<p>SAFETY ARITHMETIC包含两个核心阶段：</p>
+<ul>
+<li><strong>Harm Direction Removal（HDR，有害方向去除）</strong>：将“生成有害内容”视为特定任务，训练有害模型$\theta_{\mathcal{H}}$并计算“伤害向量”$\tau_{\mathcal{H}}=\theta_{\mathcal{H}}-\theta_b$（$\theta_b$为基础对齐模型），筛选向量中Top-k量级参数去除冗余后，通过$\hat{\theta}<em>{t}=\theta</em>{t}-\lambda * \tau_{\mathcal{H}}'$（$\theta_t$为目标模型，$\lambda$为超参数）调整目标模型参数，剥离有害方向。</li>
+<li><strong>Safety Alignment（Safe-Align，安全对齐）</strong>：基于上下文学习，构建包含“有害提示-有害回答”“有害提示-安全回答”的示例集$D_{icl}$，计算“上下文安全向量（ICV）”（即安全与有害提示 latent 表示差异的第一主成分），将ICV加权（$\alpha$为超参数）添加到$\hat{\theta}<em>{t}$的所有层、所有token的 latent 状态中，并归一化以保留模型原有能力，最终得到安全模型$\theta</em>{sf}$。</li>
+</ul>
+<h2 id="二、各章节详解">二、各章节详解</h2>
+<h3 id="1-1-Introduction（引言）">1. 1 Introduction（引言）</h3>
+<ul>
+<li>背景：LLMs（如GPT、PaLM）因大规模预训练具备多任务能力，但训练数据中的固有偏见、微调对有害行为的放大、编辑的意外风险，导致其易生成有害内容；现有对齐方法受动态目标限制，即使对齐后的模型仍易被越狱。</li>
+<li>研究场景界定：明确LLM的三种核心使用场景——BASE（直接使用基础模型）、SFT（任务特定微调模型，如数学任务WizardMath、代码任务EvolCodeAlpaca）、EDIT（知识更新后的编辑模型，含“无意编辑”和“有意编辑”）。</li>
+<li>研究问题：是否存在一种无训练框架，可高效处理三种场景的安全对齐并保留模型通用能力？</li>
+<li>框架引入：提出SAFETY ARITHMETIC，通过HDR和Safe-Align两阶段实现无训练安全对齐，同时验证其对模型效用的无显著损害。</li>
+</ul>
+<h3 id="2-2-Related-work（相关工作）">2. 2 Related work（相关工作）</h3>
+<ul>
+<li><strong>任务向量与模型融合</strong>：现有研究（如Task Arithmetic）通过参数插值、Fisher融合等实现多任务能力，但未聚焦安全方向；本文整合“安全向量”，通过任务向量变换解决参数交互中的安全鲁棒性问题。</li>
+<li><strong>上下文学习（ICL）</strong>：LLM对演示示例敏感，ICL可通过隐式贝叶斯推理或梯度下降近似引导模型响应；本文基于此设计“上下文安全向量（ICV）”，实现测试时的 latent space 安全引导。</li>
+<li><strong>LLM安全</strong>：现有研究分为“攻击策略”（如提示操纵）和“防御措施”（如RAIN），但缺乏覆盖多场景的统一方案；本文在防御基础上整合先进检测与伦理准则，提升真实场景下的安全性。</li>
+</ul>
+<h3 id="3-3-SAFETY-ARITHMETIC（框架细节）">3. 3 SAFETY ARITHMETIC（框架细节）</h3>
+<h4 id="3-1-Preliminaries（预备知识与符号定义）">3.1 Preliminaries（预备知识与符号定义）</h4>
+<ul>
+<li>核心符号：$\theta_b$（基础对齐模型，如llama2-7b-chat-hf）、$\theta_{sft}$（监督微调模型）、$\theta_{edit}$（编辑模型）、$\theta_t$（目标模型，可为三者之一）、$D_H$（有害问答数据集，用于训练$\theta_{\mathcal{H}}$）、$D_{icl}$（上下文安全示例集）、$\theta_{sf}$（SAFETY ARITHMETIC处理后的安全模型）。</li>
+</ul>
+<h4 id="3-2-Harm-Direction-Removal（HDR）">3.2 Harm Direction Removal（HDR）</h4>
+<ul>
+<li>步骤1：用$D_H$微调与$\theta_b$同架构的模型，得到有害模型$\theta_{\mathcal{H}}$；</li>
+<li>步骤2：计算伤害向量$\tau_{\mathcal{H}}=\theta_{\mathcal{H}}-\theta_b$（公式1）；</li>
+<li>步骤3：筛选Top-k量级参数（$\mathcal{S}<em>{k}=arg top</em>{k}\left(\left|\tau_{\mathcal{H}}\right|\right)$，公式2），将其余参数置零得到$\tau_{\mathcal{H}}'$（公式3），减少对目标模型的过度干预；</li>
+<li>步骤4：调整目标模型参数$\hat{\theta}<em>{t}=\theta</em>{t}-\lambda * \tau_{\mathcal{H}}'$（公式4），得到去除有害方向的中间模型$\hat{\theta}_{t}$。</li>
+</ul>
+<h4 id="3-3-Safety-Alignment（Safe-Align）">3.3 Safety Alignment（Safe-Align）</h4>
+<ul>
+<li>
+<p>步骤1：构建$D_{icl}$：对每个有害查询$q_h$，配对“有害提示$p_{usf}$（$q_h$+有害回答$a_h$）”和“安全提示$p_{sf}$（$q_h$+安全回答$a_s$）”；</p>
+</li>
+<li>
+<p>步骤2：计算 latent 表示：将$p_{usf}$和$p_{sf}$输入$\hat{\theta}<em>{t}$，提取所有层（L层）最后一个token的 latent 状态并拼接，得到$\mathscr{P}</em>{usf}={h(p_{usf}^1),…,h(p_{usf}^{|P_{usf}|})}$（公式5）和$\mathscr{P}<em>{sf}={h(p</em>{sf}^1),…,h(p_{sf}^{|P_{sf}|})}$（公式6）；</p>
+</li>
+<li>
+<p>步骤3：计算上下文安全向量ICV：将ICV视为目标函数$\mathcal{Y}=\frac{1}{|D_{icl}|}\sum_{p_{usf},p_{sf}}g(h,h(p_{usf}),h(p_{sf}))$（公式7）的最优解$h_{ICV} = arg max_<br>
+h (\mathcal{Y})$，采用$l_2$范数优化后，取$h(p_{sf}^i)-h(p_{usf}^i)$的第一主成分作为ICV；</p>
+<p>其中$g(·)$定义为$\frac{1}{|\mathcal{D}<em>{icl}|}\sum</em>{i=1}^{|\mathcal{D}<em>{icl}|}\left(h^{T}h( \mathsf{p}</em>{\mathit{sf}})-h^{T}h(\mathsf{p}_{\mathit{usf}})\right)^{2}$</p>
+</li>
+<li>
+<p>步骤4：调整 latent 状态：将ICV分段（$ICV^l$）加权添加到$\hat{\theta}<em>{t}$所有层、所有token的 latent 状态（$(h</em>{sf})_l^t=(h)<em>l^t+\alpha * ICV^l$，公式9），并归一化以匹配原 latent 状态的$l_2$范数（公式10），得到$\theta</em>{sf}$。</p>
+</li>
+</ul>
+<h3 id="4-4-Experimental-setup（实验设置）">4. 4 Experimental setup（实验设置）</h3>
+<h4 id="4-1-场景化框架应用">4.1 场景化框架应用</h4>
+<ul>
+<li><strong>BASE模型</strong>：以llama2-7b-chat-hf、mistral-7b-instruct-v0.2为目标模型，直接应用HDR和Safe-Align；</li>
+<li><strong>SFT模型</strong>：覆盖数学任务（WizardMath-7B、LlamaMath）和代码任务（Llama-2-7b-evolcodealpaca），验证框架对微调模型的安全提升；</li>
+<li><strong>EDIT模型</strong>：基于ROME编辑方法，对llama2-7b-chat-hf进行“无意编辑”（编辑实例无害但引发有害生成）和“有意编辑”（编辑实例含有害信息），仅在编辑层及相邻层（$l-1,l,l+1$）应用HDR，减少对非编辑区域的干预。</li>
+</ul>
+<h4 id="4-2-数据与基线">4.2 数据与基线</h4>
+<ul>
+<li>核心数据：$D_H$和$D_{icl}$源于NicheHazardQA；评估数据集为AdvBench、DangerousQA、HarmfulQA、NicheHazardQA、HEx-PHI（覆盖有害提示的多领域场景）；新增NOINTENTEDIT数据集（约40个无意编辑实例）。</li>
+<li>基线方法：Original（原始模型）、HDR†（仅HDR+TIES合并）、HDR‡（仅HDR+任务向量，无参数剪枝）、Safe-align（仅Safe-Align+ICV）。</li>
+</ul>
+<h4 id="4-3-评估指标与超参数">4.3 评估指标与超参数</h4>
+<ul>
+<li>评估指标：<strong>攻击成功率（ASR）</strong>——GPT-4评估模型生成有害内容的比例；效用测试用MMLU、TruthfulQA、GSM8K等；过度安全测试用XS Test的“拒绝率”（对合规问题的拒绝回答比例）。</li>
+<li>超参数：$\alpha=0.12$，$\lambda=2\sim3$，Top-k参数比例选择10%（平衡ASR与效用）。</li>
+</ul>
+<h3 id="5-5-Impact-of-top-k-parameters（Top-k参数的影响）">5. 5 Impact of top k parameters（Top-k参数的影响）</h3>
+<ul>
+<li>实验发现：随k值（伤害向量中筛选的参数比例）增加，模型MMLU得分（通用能力指标）显著下降，ASR先降后稳；最终选择k=10%，既保证ASR低（安全），又避免模型通用能力退化。</li>
+</ul>
+<h3 id="6-6-Results-and-discussions（结果与分析）">6. 6 Results and discussions（结果与分析）</h3>
+<ul>
+<li><strong>BASE模型</strong>：SAFETY ARITHMETIC显著降低ASR，如Llama2在AdvBench从19.81%（Original）降至6.15%，Mistral在HEx-PHI从54.55%降至35.15%，优于所有基线；</li>
+<li><strong>SFT模型</strong>：WizardMath在AdvBench的ASR从79.62%（Original）降至37.69%，LlamaMath在DangerousQA从27.00%降至6.00%，验证框架对微调模型的安全提升；</li>
+<li><strong>EDIT模型</strong>：无意编辑场景中，Llama2在NicheHazardQA的ASR从38.43%（Edited Model）降至2.09%；有意编辑场景中，HEx-PHI的ASR从45.45%降至7.27%，证明框架对编辑模型的安全修复能力。</li>
+</ul>
+<h3 id="7-7-Utility-and-over-safety-testing（效用与过度安全测试）">7. 7 Utility and over-safety testing（效用与过度安全测试）</h3>
+<ul>
+<li>效用保留：SAFETY ARITHMETIC对模型性能无显著损害，如Llama2的MMLU得分从0.469（Base）降至0.456，WizardMath的GSM8K得分从0.820降至0.810；</li>
+<li>过度安全缓解：Llama2的拒绝率从17.826（Base）降至8.696，WizardMath从6.087降至2.609，避免模型对合规问题的过度拒绝。</li>
+</ul>
+<h3 id="8-8-Conclusion（结论）">8. 8 Conclusion（结论）</h3>
+<p>总结SAFETY ARITHMETIC在LLM三种使用场景中的安全对齐有效性，提出未来优化方向：超参数（如$\lambda$、$\alpha$）调优、扩展更大参数规模模型（&gt;7B）的验证。</p>
+<h3 id="9-9-Limitation（局限性）">9. 9 Limitation（局限性）</h3>
+<ul>
+<li>实验仅覆盖7B参数模型，未验证更大规模模型；</li>
+<li>HDR中Top-k参数选择依赖经验，缺乏自适应机制；</li>
+<li>Safe-Align中ICV添加到latent状态的比例需进一步优化。</li>
+</ul>
+<h3 id="10-10-11-Ethical-consideration-Potential-risk（伦理与风险）">10. 10-11 Ethical consideration &amp; Potential risk（伦理与风险）</h3>
+<ul>
+<li>伦理：框架通过减少有害内容提升AI伦理应用，倡导研究者、政策制定者与产业界协作保障AI安全；</li>
+<li>风险：论文中涉及的有害提示与生成内容存在被滥用的可能，需加强数据管控。</li>
+</ul>
+<h3 id="11-附录（Appendix）">11. 附录（Appendix）</h3>
+<p>补充NOINTENTEDIT数据集的类别示例（如历史文化、社会科学等18类）、框架时间复杂度分析（ICV添加不改变Transformer的$O(L\cdot(T^2d+Td^2))$复杂度）、额外基线对比（如SafeDecoding、Self-CD）等。</p>
+<h2 id="三、一句话总结">三、一句话总结</h2>
+<p>论文假设存在无训练框架可高效处理LLM的BASE、SFT、EDIT三种场景安全对齐并保留效用，提出两阶段SAFETY ARITHMETIC框架（HDR通过伤害向量去除参数有害方向，Safe-Align通过ICV引导latent space向安全响应），实验显示该框架在五种数据集上显著降低ASR（如Llama2在AdvBench的ASR从19.81%降至6.15%）、保留模型效用且缓解过度安全，结论是其有效提升LLM在三种场景的安全性，性能优于现有基线方法。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.025v1/" rel="prev" title="Safety Alignment Should Be Made More Than Just a Few Tokens Deep">
+                  <i class="fa fa-angle-left"></i> Safety Alignment Should Be Made More Than Just a Few Tokens Deep
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.044v1/" rel="next" title="Toxicity Detection for Free">
+                  Toxicity Detection for Free <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

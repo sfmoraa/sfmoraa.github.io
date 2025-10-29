@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2505.004v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.015v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2505.004v1/" class="post-title-link" itemprop="url">论文阅读——Don’t Say No: Jailbreaking LLM by Suppressing Refusal</a>
+          <a href="/posts/2510.015v1/" class="post-title-link" itemprop="url">THINK-ON-GRAPH: DEEP AND RESPONSIBLE REASONING OF LARGE LANGUAGE MODEL ON KNOWLEDGE GRAPH</a>
         </h2>
 
         <div class="post-meta-container">
@@ -242,7 +242,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-05-26 00:00:00 / 修改时间：23:01:07" itemprop="dateCreated datePublished" datetime="2025-05-26T00:00:00+08:00">2025-05-26</time>
+      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：21:56:39" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E8%B6%8A%E7%8B%B1/" itemprop="url" rel="index"><span itemprop="name">越狱</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/KGQA/" itemprop="url" rel="index"><span itemprop="name">KGQA</span></a>
         </span>
     </span>
 
@@ -269,7 +269,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.6k</span>
+      <span>2.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -287,222 +287,88 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="论文概况">论文概况</h1>
-<p><strong>题目</strong>：<a
-href="%5B2404.16369%5D(https://arxiv.org/pdf/2404.16369)">Don’t Say No:
-Jailbreaking LLM by Suppressing Refusal</a></p>
-<p><strong>通讯作者</strong>：Wenjie
-Wang：wangwj1@shanghaitech.edu.cn</p>
-<p><strong>作者院校</strong>：上海科技大学、中国科学技术大学、浙江大学</p>
-<p><strong>发表于</strong>：arXiv</p>
-<h1 id="论文内容">论文内容</h1>
-<h2 id="研究背景与问题">1 研究背景与问题</h2>
-<h3 id="llm安全对齐的挑战">1.1 LLM安全对齐的挑战</h3>
-<p>大型语言模型（LLMs）通过RLHF、模型微调等技术实现安全对齐，但仍面临越狱攻击（Jailbreaking）威胁，攻击者通过精心设计的输入诱导模型生成有害内容。这样的传统方法存在限制，现有方法（如GCG）通过优化对抗后缀最大化肯定响应（如“Sure,
-here is…”），但存在两大问题：</p>
+          <h1 id="think-on-graph">THINK-ON-GRAPH</h1>
+<p>该论文提出了“LLM⊗KG”紧密耦合范式及“Think-on-Graph（ToG）”实现方法，有效解决了大语言模型（LLMs）在深度推理中的幻觉问题，同时兼具知识可追溯性与部署灵活性，在9个数据集的6个中实现了SOTA性能。</p>
+<p><strong>ICLR2024</strong></p>
+<h3 id="一研究背景与核心问题">一、研究背景与核心问题</h3>
+<p>当前LLMs虽在自然语言处理任务中表现出色，但在知识密集型深度推理场景中存在显著局限，主要体现在三方面：
+1.
+<strong>知识局限性</strong>：无法处理预训练数据之外的专业知识或过时信息，难以完成多跳逻辑链推理任务。
+2.
+<strong>责任与可解释性缺失</strong>：推理过程不透明，易产生幻觉内容或有毒文本，无法追溯答案来源。
+3.
+<strong>更新与部署成本高</strong>：LLMs训练过程耗时且昂贵，知识更新效率低，大模型部署成本高。</p>
+<p>现有“LLM⊕KG”范式（将KG信息检索后增强提示）存在松散耦合缺陷，LLM仅负责将问题转换为KG查询指令，不直接参与图推理，且依赖KG的完整性，若KG缺少关键关系（如“majority
+party”），推理会失败。</p>
+<h3
+id="二核心创新llmkg范式与tog方法">二、核心创新：LLM⊗KG范式与ToG方法</h3>
+<h4 id="llmkg范式">1. LLM⊗KG范式</h4>
+<p>该范式实现LLMs与知识图谱（KG）的紧密协作，LLM作为智能体（agent）深度参与KG推理的每一步：
+-
+动态探索KG中的实体与关系，弥补KG缺失的信息（如用“澳大利亚总理”关系替代缺失的“多数党”关系）。
+- 结合LLM自身知识与KG检索知识生成答案，解决“LLM⊕KG”范式的依赖缺陷。</p>
+<h4 id="think-on-graphtog实现框架">2. Think-on-Graph（ToG）实现框架</h4>
+<p>ToG基于“LLM⊗KG”范式，通过<strong>波束搜索（beam search）</strong>
+让LLM迭代探索KG推理路径，核心流程分三阶段： -
+<strong>初始化阶段</strong>：LLM提取问题中的主题实体，确定初始推理路径的起点（如从问题“堪培拉所在国家的多数党”中提取初始实体“堪培拉”）。
+-
+<strong>探索阶段</strong>：分“关系探索”与“实体探索”两步，均包含“搜索-剪枝”过程：
+1.
+关系探索：从当前实体的相邻关系中，LLM筛选出与问题最相关的Top-N关系（如从“堪培拉”的所有关系中选“capital
+of”“country”等）。 2.
+实体探索：基于筛选后的关系，检索相邻实体并再次由LLM剪枝，扩展推理路径（如从“capital
+of”关系检索到实体“澳大利亚”）。 -
+<strong>推理阶段</strong>：LLM评估当前Top-N推理路径是否足够回答问题，若足够则生成答案；若不足则重复探索阶段，直至达到最大搜索深度（默认3）或获取足够信息。</p>
+<h4 id="变体tog-rrelation-based-tog">3. 变体ToG-R（Relation-based
+ToG）</h4>
+<p>为降低成本，ToG-R仅探索关系链而非完整三元组路径，实体剪枝采用随机筛选替代LLM评估，优势如下：
+-
+减少LLM调用次数，降低推理时间与成本（LLM调用量从ToG的“2ND+D+1”降至“ND+D+1”）。
+- 聚焦关系文本信息，避免中间实体信息缺失对LLM推理的误导。</p>
+<h3 id="三实验验证与关键结果">三、实验验证与关键结果</h3>
+<h4 id="实验设计">1. 实验设计</h4>
+<ul>
+<li><strong>数据集</strong>：覆盖9类任务，包括5个KBQA数据集（CWQ、WebQSP等）、1个开放域QA数据集（WebQuestions）、2个槽位填充数据集（T-REx、Zero-Shot
+RE）、1个事实核查数据集（Creak）。</li>
+<li><strong>对比方法</strong>：标准提示（IO）、思维链提示（CoT）、自一致性（Self-Consistency），以及各数据集的现有SOTA方法（含微调与提示类）。</li>
+<li><strong>评估指标</strong>：精确匹配准确率（Hits@1）。</li>
+</ul>
+<h4 id="核心实验结果">2. 核心实验结果</h4>
+<ul>
+<li><strong>SOTA性能</strong>：ToG（基于GPT-4）在9个数据集的6个中实现SOTA，包括WebQSP、GrailQA、Zero-Shot
+RE等；在CWQ数据集上性能接近SOTA（69.5% vs 70.4%）。</li>
+<li><strong>深度推理优势</strong>：在多跳推理任务上提升显著，如GrailQA数据集较CoT提升51.8%，Zero-Shot
+RE提升42.9%；单跳任务性能略低，验证其更适用于深度推理。</li>
+<li><strong>模型灵活性</strong>：支持不同LLM（ChatGPT、GPT-4、Llama2-70B）与KG（Freebase、Wikidata）的即插即用，无需额外训练。</li>
+<li><strong>成本优势</strong>：小模型（如Llama2-70B）结合ToG后，性能可超过未结合ToG的大模型（如GPT-4），降低部署成本。</li>
+</ul>
+<h4 id="消融实验关键发现">3. 消融实验关键发现</h4>
+<ul>
+<li><strong>搜索深度与宽度</strong>：性能随深度（1-3）和宽度（1-3）增加而提升，深度超过3后增长放缓（多数问题推理链长度≤3），默认设为3以平衡性能与成本。</li>
+<li><strong>KG来源影响</strong>：Freebase在基于其构建的数据集（CWQ、WebQSP）上效果优于Wikidata，因Wikidata规模大，检索与剪枝难度更高。</li>
+<li><strong>剪枝工具对比</strong>：LLM作为剪枝工具的性能最优，若用BM25或Sentence-BERT替代，CWQ性能平均下降8.4%，WebQSP下降15.1%，但可减少LLM调用量。</li>
+</ul>
+<h3 id="四核心优势与价值">四、核心优势与价值</h3>
 <ol type="1">
-<li><p><strong>Token
-Shift现象</strong>：损失函数平均计算所有token的损失，忽略前几个关键token的重要性。</p></li>
-<li><p><strong>拒绝抑制不足</strong>：未显式抑制模型的拒绝响应（如“I
-cannot assist”）。</p></li>
-</ol>
-<h3 id="现有评估方法的缺陷">1.2 现有评估方法的缺陷</h3>
+<li><strong>深度推理能力</strong>：多跳推理路径为LLM提供结构化依据，提升知识密集型任务的推理准确性。</li>
+<li><strong>知识可追溯与可修正</strong>：显式的推理路径可追溯答案来源，若发现错误（如KG中“体育场旧名”错误），可定位并修正KG中的可疑三元组，反向优化KG质量。</li>
+<li><strong>灵活性与效率</strong>：
 <ul>
-<li><p><strong>关键词匹配</strong>（Refusal
-Matching）：通过检测响应的前若干个长度是否不包含拒绝关键词（如“Sorry”）来判断攻击成功与否，但存在高误判率（见Table
-2）。这是由于如果选定的检测长度过短，这个指标会忽视后续的拒绝内容，而过长则会将有害内容后面的拒绝内容检测到。</p>
-<figure>
-<img
-src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526013110599.png"
-alt="image-20250526013110599" />
-<figcaption aria-hidden="true">image-20250526013110599</figcaption>
-</figure>
-<figure>
-<img
-src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526121404360.png"
-alt="image-20250526121404360" />
-<figcaption aria-hidden="true">image-20250526121404360</figcaption>
-</figure></li>
-</ul>
-<hr />
-<h2 id="核心方法dsn攻击">2 核心方法：DSN攻击</h2>
-<h3 id="拒绝抑制suppress-refusal">2.1 拒绝抑制（Suppress Refusal）</h3>
-<ul>
-<li><p><strong>Unlikelihood损失</strong>：降低模型生成预定义拒绝关键词的概率：
-<span
-class="math display">ℒ<sub><em>U</em><em>n</em></sub>(<em>p</em>, <em>q</em>) = −∑<sub><em>i</em></sub><em>p</em><sub><em>i</em></sub><em>l</em><em>o</em><em>g</em>(1 − <em>q</em><sub><em>i</em></sub>)</span></p>
-<p><span class="math display">$$
-\mathcal{L}_{\text{refusal}}(x_{1:n}) = \sum_{y \in RKL}
-\sum_{i=n+1}^{n+H-RTL(y)} \mathcal{L}_{Un}(y,x_{i:i+RTL(y)})
-$$</span> 其中，<code>RKL</code>为拒绝关键词列表（如“sorry, i cannot”,
-“unethical”），<code>RTL</code>为每个拒绝关键词的长度。该式的含义是在给定输入的条件下，对于拒绝关键词列表里的每个拒绝关键词，限定输出长度区间内的每一个RTL长度的窗口都要最小化Unlikelihood损失。</p></li>
-</ul>
-<h3 id="肯定响应诱导elicit-affirmative-response">2.2
-肯定响应诱导（Elicit Affirmative Response）</h3>
-<ul>
-<li><p><strong>余弦衰减加权（Cosine
-Decay）</strong>：对生成序列的前几个token赋予更高权重，缓解Token Shift：
-<span class="math display">$$
-CD(i) = 0.5 + 0.5 \cos\left(\frac{i}{H} \cdot \frac{\pi}{2}\right)
-$$</span> 其中i表示第i个token，H是序列长度。加权后生成目标响应的概率为：
-<span class="math display">$$
-p_{CD}(x_{n+1:n+H}|x_{1:n}) = \prod_{i=1}^H CD(i) \cdot
-p(x_{n+i}|x_{1:n+i-1})
-$$</span></p></li>
-<li><p><strong>肯定响应损失</strong>： <span
-class="math display">ℒ<sub>affirmative</sub>(<em>x</em><sub>1 : <em>n</em></sub>) = −log <em>p</em><sub><em>C</em><em>D</em></sub>(<em>x̂</em><sub><em>n</em> + 1 : <em>n</em> + <em>H</em></sub>|<em>x</em><sub>1 : <em>n</em></sub>)</span>
-该式的含义是在给定输入的条件下，最大化尽早生成指定输出的概率。</p></li>
-</ul>
-<h3 id="综合损失函数">2.3 综合损失函数</h3>
-<p><span
-class="math display">ℒ<sub><em>D</em><em>S</em><em>N</em></sub>(<em>x</em><sub>1 : <em>n</em></sub>) = ℒ<sub>affirmative</sub>(<em>x</em><sub>1 : <em>n</em></sub>) + <em>α</em> ⋅ ℒ<sub>refusal</sub>(<em>x</em><sub>1 : <em>n</em></sub>)</span></p>
-<p><span
-class="math display"><em>a</em><em>d</em><em>v</em><sup>*</sup> ← <em>a</em><em>r</em><em>g</em><em>m</em><em>i</em><em>n</em>ℒ<sub><em>D</em><em>S</em><em>N</em></sub>(<em>x</em><sub>1 : <em>n</em></sub> ⊕ <em>a</em><em>d</em><em>v</em>)</span></p>
-<p>目标为找到使综合损失最小的后缀adv*。</p>
-<h2 id="集成评估ensemble-evaluation">3. 集成评估（Ensemble
-Evaluation）</h2>
-<h3 id="评估框架">3.1 评估框架</h3>
-<table>
-<colgroup>
-<col style="width: 24%" />
-<col style="width: 75%" />
-</colgroup>
-<thead>
-<tr>
-<th>模块</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>NLI矛盾检测</strong></td>
-<td>使用自然语言推理模型检测响应中的语义矛盾，越大说明越低的回复连续性（算法1）</td>
-</tr>
-<tr>
-<td><strong>HarmBench评估器</strong></td>
-<td>基于微调的Llama-2分类器判断有害性</td>
-</tr>
-<tr>
-<td><strong>GPT-4评估器</strong></td>
-<td>通过提示工程判断生成内容是否符合攻击目标</td>
-</tr>
-</tbody>
-</table>
-<figure>
-<img
-src="/images/post_images/2025-05-26-论文阅读——Don’t-Say-No-Jailbreaking-LLM-by-Suppressing-Refusal/image-20250526152512651.png"
-alt="image-20250526152512651" />
-<figcaption aria-hidden="true">image-20250526152512651</figcaption>
-</figure>
-<p>将输出划分为n个句子，计算每个句子与用户提问的一致性，以及句子之间的关系，然后根据句子长度加权得到总的矛盾得分，与预设阈值比较。</p>
-<h3 id="评估效果对比">3.2 评估效果对比</h3>
-<table>
-<thead>
-<tr>
-<th>评估方法</th>
-<th>准确率（%）</th>
-<th>AUC</th>
-<th>F1</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Refusal Matching</td>
-<td>74</td>
-<td>0.72</td>
-<td>0.79</td>
-</tr>
-<tr>
-<td>NLI</td>
-<td>80</td>
-<td>0.80</td>
-<td>0.81</td>
-</tr>
-<tr>
-<td><strong>集成评估</strong></td>
-<td><strong>82</strong></td>
-<td><strong>0.79</strong></td>
-<td><strong>0.86</strong></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="实验结果与分析">4. 实验结果与分析</h2>
-<h3 id="攻击成功率asr">4.1 攻击成功率（ASR）</h3>
-<table>
-<thead>
-<tr>
-<th>模型</th>
-<th>GCG（ASR%）</th>
-<th>DSN（ASR%）</th>
-<th>提升幅度</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Llama2-13B</td>
-<td>24</td>
-<td>38</td>
-<td>+58%</td>
-</tr>
-<tr>
-<td>Vicuna-13B</td>
-<td>89</td>
-<td>95</td>
-<td>+7%</td>
-</tr>
-<tr>
-<td>Mistral-7B</td>
-<td>92</td>
-<td>98</td>
-<td>+6%</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><strong>迁移性测试</strong>：DSN后缀迁移至GPT-3.5
-Turbo的ASR达95%（GCG为34%）。</li>
-</ul>
-<h3 id="消融实验">4.2 消融实验</h3>
-<ul>
-<li><strong>余弦衰减的作用</strong>：移除后，Llama2-7B的ASR从38%降至22%。</li>
-<li><strong>拒绝抑制系数α</strong>：α=0.5时性能最优（见图3）。</li>
-</ul>
-<hr />
-<h2 id="贡献与讨论">5. 贡献与讨论</h2>
-<h3 id="主要贡献">5.1 主要贡献</h3>
-<ol type="1">
-<li><strong>理论创新</strong>：
-<ul>
-<li>揭示Token Shift现象，提出余弦衰减加权。</li>
-<li>首次将拒绝抑制纳入越狱攻击目标函数。</li>
+<li>即插即用：适配不同LLM、KG与提示策略，无需额外训练。</li>
+<li>低成本更新：通过KG更新知识，替代昂贵的LLM重训练。</li>
+<li>小模型赋能：小LLM结合ToG可匹敌大LLM，降低部署成本。</li>
 </ul></li>
-<li><strong>实用价值</strong>：
-<ul>
-<li>DSN攻击在真实场景中仅需附加优化后缀（20 token），易于部署。</li>
-<li>集成评估减少误判率（F1提升7%）。</li>
-</ul></li>
+<li><strong>通用性</strong>：在KBQA、开放域QA、事实核查等多类任务中均表现优异，验证跨场景适用性。</li>
 </ol>
-<h3 id="局限性">5.2 局限性</h3>
+<h3 id="五结论与局限">五、结论与局限</h3>
+<h4 id="结论">1. 结论</h4>
+<p>ToG作为无训练成本、低计算开销的方法，通过“LLM⊗KG”范式解决了LLMs的幻觉问题与推理局限性，在多类任务中超越现有微调与提示类SOTA，为LLM深度推理提供了高效解决方案。</p>
+<h4 id="局限">2. 局限</h4>
 <ul>
-<li><strong>黑盒模型挑战</strong>：对GPT-4、Claude等高度对齐模型攻击仍困难。</li>
-<li><strong>防御措施</strong>：PPL过滤可部分防御，但可通过添加无关前缀绕过（PPL从11k降至1.1k）。</li>
+<li>依赖KG的准确性，若KG包含错误信息（如“费城 Phillies
+体育场旧名”），ToG会生成错误答案，需结合人工或LLM修正KG。</li>
+<li>推理深度与宽度增加会提升性能，但也会增加LLM调用成本，需进一步优化效率。</li>
 </ul>
-<hr />
-<h2 id="总结与展望">6. 总结与展望</h2>
-<p>本文通过改进损失函数和评估方法，显著提升了越狱攻击的效果和评估可靠性。未来方向包括：
-- 将DSN扩展至多模态攻击 - 探索动态拒绝关键词生成 -
-结合对抗训练提升模型鲁棒性</p>
-<h1 id="复现">复现</h1>
-<h2 id="代码修改记录">代码修改记录</h2>
-<ol type="1">
-<li>由于环境的numpy版本过高，源代码中的np.infty全部被替换为np.inf</li>
-<li>eval2_gpt.py中有笔误“whehter”，改为“whether”</li>
-<li>eval2_gpt.py中的get_eval2_gpt4_results改为使用了硅基流动接口的deepseek-ai/DeepSeek-V3模型</li>
-<li></li>
-</ol>
-<p>TODO：</p>
-<p>改一下device，支持多卡</p>
 
       
     </div>
@@ -522,7 +388,7 @@ Turbo的ASR达95%（GCG为34%）。</li>
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/33/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/33/">33</a><span class="page-number current">34</span><a class="page-number" href="/null-index/page/35/">35</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/35/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/33/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/33/">33</a><span class="page-number current">34</span><a class="page-number" href="/null-index/page/35/">35</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/35/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -545,14 +411,14 @@ Turbo的ASR达95%（GCG为34%）。</li>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

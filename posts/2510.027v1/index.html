@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="论文深度总结：通过表征工程实现大语言模型与人类偏好的对齐（RAHF） 该论文假设通过表征工程（RepE）识别大语言模型（LLMs）内部与人类偏好相关的活动模式并操纵这些表征，可实现 LLMs 与人类偏好的高效对齐，且无需依赖复杂的强化学习或易受噪声影响的无奖励微调；实验发现所提出的 RAHF 方法（含 RAHF-SCIT 和 RAHF-Dual 两种实现）在 自动评价基准及人类评价中，均显著优于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Aligning Large Language Models with Human Preferences through Representation Engineering">
+<meta property="og:url" content="http://example.com/posts/2510.027v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="论文深度总结：通过表征工程实现大语言模型与人类偏好的对齐（RAHF） 该论文假设通过表征工程（RepE）识别大语言模型（LLMs）内部与人类偏好相关的活动模式并操纵这些表征，可实现 LLMs 与人类偏好的高效对齐，且无需依赖复杂的强化学习或易受噪声影响的无奖励微调；实验发现所提出的 RAHF 方法（含 RAHF-SCIT 和 RAHF-Dual 两种实现）在 自动评价基准及人类评价中，均显著优于">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Aligning-Large-Language-Models-with-Human-Preferences-through-Representation-Engineering/image-20251028200726150.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Aligning-Large-Language-Models-with-Human-Preferences-through-Representation-Engineering/image-20251028200829371.png">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-28T12:32:38.672Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Aligning-Large-Language-Models-with-Human-Preferences-through-Representation-Engineering/image-20251028200726150.png">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.027v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.027v1/","path":"/posts/2510.027v1/","title":"Aligning Large Language Models with Human Preferences through Representation Engineering"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Aligning Large Language Models with Human Preferences through Representation Engineering | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">论文深度总结：通过表征工程实现大语言模型与人类偏好的对齐（RAHF）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF%E4%B8%8E%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">一、研究背景与核心问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%A0%B8%E5%BF%83%E6%96%B9%E6%B3%95%EF%BC%9ARAHF%EF%BC%88Representation-Alignment-from-Human-Feedback%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">二、核心方法：RAHF（Representation Alignment from Human Feedback）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%AD%A5%E9%AA%A41%EF%BC%9A%E8%AE%A9LLM%E7%90%86%E8%A7%A3%E4%BA%BA%E7%B1%BB%E5%81%8F%E5%A5%BD%EF%BC%88%E5%81%8F%E5%A5%BD%E6%8C%87%E4%BB%A4%E6%B3%A8%E5%85%A5%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 步骤1：让LLM理解人类偏好（偏好指令注入）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E5%8D%95%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94%E6%8C%87%E4%BB%A4%E5%BE%AE%E8%B0%83%EF%BC%88RAHF-SCIT%EF%BC%89"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">（1）单模型对比指令微调（RAHF-SCIT）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E5%8F%8C%E6%A8%A1%E5%9E%8B%E5%88%86%E5%88%AB%E8%AE%AD%E7%BB%83%EF%BC%88RAHF-Dual%EF%BC%89"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">（2）双模型分别训练（RAHF-Dual）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%AD%A5%E9%AA%A42%EF%BC%9A%E6%94%B6%E9%9B%86%E6%B4%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8F%90%E5%8F%96%E5%B7%AE%E5%BC%82%E5%90%91%E9%87%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 步骤2：收集活动模式与提取差异向量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%AD%A5%E9%AA%A43%EF%BC%9A%E6%9E%84%E5%BB%BA%E6%9C%80%E7%BB%88%E5%AF%B9%E9%BD%90%E6%A8%A1%E5%9E%8B%EF%BC%88LoRA%E9%80%82%E9%85%8D%E5%B7%AE%E5%BC%82%E5%90%91%E9%87%8F%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 步骤3：构建最终对齐模型（LoRA适配差异向量）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%A0%B8%E5%BF%83%E7%BB%93%E6%9E%9C"><span class="nav-number">1.3.</span> <span class="nav-text">三、实验设计与核心结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%AE%9E%E9%AA%8C%E5%9F%BA%E7%A1%80%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 实验基础设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%85%B3%E9%94%AE%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 关键实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E8%87%AA%E5%8A%A8%E8%AF%84%E4%BB%B7%EF%BC%9ARAHF%E5%85%A8%E9%9D%A2%E8%B6%85%E8%B6%8A%E5%9F%BA%E7%BA%BF"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">（1）自动评价：RAHF全面超越基线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E4%BA%BA%E7%B1%BB%E8%AF%84%E4%BB%B7%EF%BC%9ARAHF%E8%B5%A2%E7%8E%87%E7%A2%BE%E5%8E%8B%E5%9F%BA%E7%BA%BF"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">（2）人类评价：RAHF赢率碾压基线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%883%EF%BC%89%E6%B6%88%E8%9E%8D%E5%AE%9E%E9%AA%8C%EF%BC%9A%E9%AA%8C%E8%AF%81%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97%E5%BF%85%E8%A6%81%E6%80%A7"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">（3）消融实验：验证核心模块必要性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%884%EF%BC%89%E6%B3%9B%E5%8C%96%E6%80%A7%E9%AA%8C%E8%AF%81%EF%BC%9AMistral-7B%E4%B8%8A%E4%BB%8D%E6%9C%89%E6%95%88"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">（4）泛化性验证：Mistral-7B上仍有效</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E5%8F%AF%E8%A7%86%E5%8C%96%E9%AA%8C%E8%AF%81"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 可视化验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%88%9B%E6%96%B0%E7%82%B9%E4%B8%8E%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">1.4.</span> <span class="nav-text">四、创新点与局限性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%A0%B8%E5%BF%83%E5%88%9B%E6%96%B0"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 核心创新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 局限性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%BB%93%E8%AE%BA%E4%B8%8E%E6%9C%AA%E6%9D%A5%E6%96%B9%E5%90%91"><span class="nav-number">1.5.</span> <span class="nav-text">五、结论与未来方向</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.027v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Aligning Large Language Models with Human Preferences through Representation Engineering | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Aligning Large Language Models with Human Preferences through Representation Engineering
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-28 20:32:38" itemprop="dateModified" datetime="2025-10-28T20:32:38+08:00">2025-10-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>论文深度总结：通过表征工程实现大语言模型与人类偏好的对齐（RAHF）</h1>
+<p>该论文假设通过表征工程（RepE）识别大语言模型（LLMs）内部与人类偏好相关的活动模式并操纵这些表征，可实现 LLMs 与人类偏好的高效对齐，且无需依赖复杂的强化学习或易受噪声影响的无奖励微调；实验发现所提出的 RAHF 方法（含 RAHF-SCIT 和 RAHF-Dual 两种实现）在 自动评价基准及人类评价中，均显著优于 RLHF、DPO、HIR 等基线方法，能更有效地对齐多维度人类偏好，且计算成本低、实现简单。思想是让模型建立 “偏好响应” 与 “非偏好响应” 的认知，然后利用偏好与非偏好状态的差值作为<strong>LoRA</strong>微调的目标。</p>
+<h2 id="一、研究背景与核心问题">一、研究背景与核心问题</h2>
+<p>大语言模型（LLMs）虽具备广泛的世界知识和推理能力，但受无监督预训练特性影响，其行为可控性差，易生成有害、不真实、有偏见的内容。为解决这一问题，学界提出<strong>人类偏好对齐</strong>方法，核心目标是让LLMs的输出满足“有用性、真实性、安全性、无害性、趣味性”等人类需求。现有方法存在显著缺陷，具体如下：</p>
+<table>
+<thead>
+<tr>
+<th>方法类别</th>
+<th>代表方法</th>
+<th>核心问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>强化学习</td>
+<td>RLHF（基于人类反馈的强化学习）</td>
+<td>1. 训练流程复杂（需训练奖励模型、价值网络）；2. 对超参数敏感，训练不稳定；3. 计算成本极高</td>
+</tr>
+<tr>
+<td>无奖励微调</td>
+<td>对比学习（如DPO）、HIR（事后指令重标记）</td>
+<td>1. 易受训练集中噪声数据/错误标签影响；2. 泛化能力弱，对分布外查询适配差；3. 性能普遍低于RLHF</td>
+</tr>
+</tbody>
+</table>
+<p>论文的核心目标：提出一种<strong>计算高效、实现简单、抗噪声</strong>的对齐方法，无需依赖强化学习和显式奖励模型，同时支持多维度人类偏好（而非单一概念如“诚实”“无偏见”）的对齐。</p>
+<h2 id="二、核心方法：RAHF（Representation-Alignment-from-Human-Feedback）">二、核心方法：RAHF（Representation Alignment from Human Feedback）</h2>
+<p>RAHF基于<strong>表征工程（RepE）</strong> 思想：通过识别LLM内部与人类偏好相关的“活动模式”（隐藏层状态），并通过操纵这些表征实现行为对齐。其流程分为三大步骤，整体框架如图2所示。</p>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Aligning-Large-Language-Models-with-Human-Preferences-through-Representation-Engineering/image-20251028200726150.png" alt="image-20251028200726150"></p>
+<h3 id="2-1-步骤1：让LLM理解人类偏好（偏好指令注入）">2.1 步骤1：让LLM理解人类偏好（偏好指令注入）</h3>
+<p>此步骤的核心是让模型建立“偏好响应”与“非偏好响应”的认知，提出两种实现方案：</p>
+<h4 id="（1）单模型对比指令微调（RAHF-SCIT）">（1）单模型对比指令微调（RAHF-SCIT）</h4>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Aligning-Large-Language-Models-with-Human-Preferences-through-Representation-Engineering/image-20251028200829371.png" alt="image-20251028200829371"></p>
+<ul>
+<li><strong>核心逻辑</strong>：用“偏好指令”和“非偏好指令”（如图7所示）微调一个LLM，使其能区分两种响应类型。
+<ul>
+<li>偏好指令：要求模型生成“有用、真实、无害、无偏见”的响应，若问题无意义需解释而非编造答案；</li>
+<li>非偏好指令：诱导模型生成“无用、虚假、有害、有偏见”的响应，即使问题无意义也需强行回答。</li>
+</ul>
+</li>
+<li><strong>训练数据</strong>：每条样本包含“查询（q）+ 响应（r）+ 指令类型（p，正/负）”，基于UltraFeedback数据集构建。</li>
+<li><strong>损失函数</strong>：最小化“偏好响应概率降低、非偏好响应概率升高”的联合损失，公式如下：<br>
+$$\mathcal{L}=-\sum_{\left(p_{i}, q_{i}, r_{i}\right) \in D}\left(P^{+}+\log \frac{\exp \left(P^{+}\right)}{\exp \left(P^{+}\right)+\exp \left(P^{-}\right)}\right)$$<br>
+其中$P^{+}=\log \pi(r_{i} | p_{i}, q_{i} ; \theta)$（偏好指令下的响应概率），$P^{-}=\log \pi(r_{i} | p_{i}^{<em>}, q_{i} ; \theta)$（非偏好指令下的响应概率），$p_i^</em>$为与$p_i$相反的指令。</li>
+</ul>
+<h4 id="（2）双模型分别训练（RAHF-Dual）">（2）双模型分别训练（RAHF-Dual）</h4>
+<ul>
+<li><strong>核心逻辑</strong>：训练两个独立LLM，分别学习“偏好响应”和“非偏好响应”的表征，无需额外指令：
+<ul>
+<li>偏好模型（$\pi_h$）：用数据集中的“查询+偏好响应”（$D_h$）做监督微调，最大化生成偏好响应的概率；</li>
+<li>非偏好模型（$\pi_l$）：用“查询+非偏好响应”（$D_l$）做监督微调，最大化生成非偏好响应的概率。</li>
+</ul>
+</li>
+<li><strong>损失函数</strong>：采用最大似然损失，分别优化两个模型：<br>
+$$\pi_{h}\left(\theta^{<em>}\right)=\arg \max <em>{\theta} \sum</em>{\left(q_{i}, r_{i}\right) \in D_{h}} \log \pi\left(r_{i} | q_{i} ; \theta\right)$$<br>
+$$\pi_{l}\left(\theta^{</em>}\right)=\arg \max <em>{\theta} \sum</em>{\left(q_{i}, r_{i}\right) \in D_{l}} \log \pi\left(r_{i} | q_{i} ; \theta\right)$$</li>
+</ul>
+<h3 id="2-2-步骤2：收集活动模式与提取差异向量">2.2 步骤2：收集活动模式与提取差异向量</h3>
+<p>LLM的行为由其内部神经活动模式（隐藏层状态）决定，因此需提取“偏好”与“非偏好”刺激下的<strong>隐藏状态差异</strong>，作为对齐的“信号”：</p>
+<ol>
+<li><strong>处理序列长度不一致问题</strong>：对“指令+查询+响应”序列进行padding（指令和查询左填充至最大长度，响应右填充至最大长度），确保不同序列的隐藏状态维度一致。</li>
+<li><strong>提取隐藏状态</strong>：对每个样本，输入至步骤1训练的模型（SCIT的单模型或Dual的双模型），获取指定层（如LLaMA2-7B的第10、20、22层）的隐藏状态$A$。</li>
+<li><strong>计算差异向量</strong>：偏好与非偏好状态的差值即为“偏好信号”，公式如下：<br>
+$$v_{l}=A_{p^{+}, \pi, l}-A_{p^{-}, \pi, l}$$
+<ul>
+<li>对SCIT：$A_{p^+}$和$A_{p^-}$来自同一模型在正负指令下的输出；</li>
+<li>对Dual：$A_{p^+}$来自偏好模型，$A_{p^-}$来自非偏好模型。</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-3-步骤3：构建最终对齐模型（LoRA适配差异向量）">2.3 步骤3：构建最终对齐模型（LoRA适配差异向量）</h3>
+<p>为避免全参数微调的高成本，RAHF采用<strong>低秩适配器（LoRA）</strong> 适配差异向量，通过微调LoRA参数实现表征对齐：</p>
+<ol>
+<li><strong>核心思路</strong>：将LoRA的输出视为对基础模型隐藏状态的“扰动”，使扰动后的状态与“基础状态+差异向量”对齐（$\alpha$为扰动强度超参数）。</li>
+<li><strong>损失函数</strong>：采用均方误差（MSE）损失，最小化LoRA输出与差异向量的偏差：<br>
+$$\mathcal{L}<em>{Align }=\left| A</em>{p, \pi_{L o R A}, l}-\left(A_{p, \pi_{b a s e}, l}+\alpha v_{l}\right)\right| <em>{2}$$<br>
+其中$A</em>{\pi_{LoRA},l}$是带LoRA的模型隐藏状态，$A_{\pi_{base},l}$是基础模型隐藏状态。</li>
+<li><strong>优势</strong>：LoRA仅引入少量参数（如秩为8），计算成本远低于全参数微调或RLHF。</li>
+</ol>
+<h2 id="三、实验设计与核心结果">三、实验设计与核心结果</h2>
+<h3 id="3-1-实验基础设置">3.1 实验基础设置</h3>
+<ul>
+<li><strong>数据集</strong>：UltraFeedback（含人类标注的偏好/非偏好响应对）、Anthropic的Helpful and Harmless（用于基础模型微调）；</li>
+<li><strong>基础模型</strong>：LLaMA2-7B（主实验）、Mistral-7B（泛化性验证）；</li>
+<li><strong>基线模型</strong>：Preferred-SFT（仅用偏好数据微调）、HIR、DPO（直接偏好优化）、RLHF-PPO（标准RLHF）；</li>
+<li><strong>评价维度</strong>：自动评价（Open LLM Leaderboard、AlpacaEval、MT-Bench）、人类评价、消融实验。</li>
+</ul>
+<h3 id="3-2-关键实验结果">3.2 关键实验结果</h3>
+<h4 id="（1）自动评价：RAHF全面超越基线">（1）自动评价：RAHF全面超越基线</h4>
+<ul>
+<li>
+<p><strong>Open LLM Leaderboard（6个任务）</strong>：<br>
+RAHF-SCIT平均得分57.27，较基础模型提升2.33，在Arc（74.86）、TruthfulQA（52.34）、HellaSwag（79.78）三个任务中排名第一；RAHF-Dual在MMLU（46.22）中最优，且两者在“真实性”（TruthfulQA）上显著优于RLHF和DPO。</p>
+</li>
+<li>
+<p><strong>AlpacaEval（GPT-4判定赢率）</strong>：<br>
+RAHF-SCIT赢率87.44%，RAHF-Dual 86.98%，远超DPO（83.68%）、RLHF-PPO（44.69%）和HIR（61.81%），证明其指令跟随能力更贴近人类偏好。</p>
+</li>
+<li>
+<p><strong>MT-Bench（多轮对话评分）</strong>：<br>
+RAHF在8个任务中的6个（推理、角色扮演、STEM等）排名第一，即使未针对多轮对话微调，其两轮对话得分仍超过所有基线，体现强泛化性。</p>
+</li>
+</ul>
+<h4 id="（2）人类评价：RAHF赢率碾压基线">（2）人类评价：RAHF赢率碾压基线</h4>
+<p>人类 evaluators 对比模型响应，RAHF表现如下：</p>
+<ul>
+<li>RAHF-Dual vs HIR：赢率74%，平局21%，输率5%；</li>
+<li>RAHF-SCIT vs RLHF-PPO：赢率88%，平局11%，输率1%；</li>
+<li>结论：人类对RAHF的偏好与GPT-4评价高度一致，且RAHF生成的内容更符合“有用、真实、无害”需求。</li>
+</ul>
+<h4 id="（3）消融实验：验证核心模块必要性">（3）消融实验：验证核心模块必要性</h4>
+<ul>
+<li><strong>偏好学习步骤的重要性</strong>：对比LORRA（无偏好学习的纯RepE方法），RAHF在AlpacaEval赢率提升超25%，证明“让LLM先理解偏好”是对齐的关键；</li>
+<li><strong>超参数α的影响</strong>：α=5时性能最优（α过小则扰动不足，α过大则破坏原表征）；</li>
+<li><strong>目标层选择</strong>：中间层（如LLaMA2-7B的10、20、22层）效果最优，浅层表征不完整，深层过于任务特异，且双模型在深层易因表征偏差导致性能下降。</li>
+</ul>
+<h4 id="（4）泛化性验证：Mistral-7B上仍有效">（4）泛化性验证：Mistral-7B上仍有效</h4>
+<p>在Mistral-7B上，RAHF-Dual的AlpacaEval赢率94.19%，MT-Bench最终得分6.06，远超Preferred-SFT（5.14）和DPO（5.18），证明方法不依赖特定基础模型。</p>
+<h3 id="3-3-可视化验证">3.3 可视化验证</h3>
+<p>通过t-SNE对第22层隐藏状态可视化发现：</p>
+<ul>
+<li>基础模型的表征介于“偏好模型”（好方向）和“非偏好模型”（坏方向）之间；</li>
+<li>RAHF-Dual的表征显著向“好方向”偏移，直接验证了“通过差异向量引导表征对齐”的核心逻辑。</li>
+</ul>
+<h2 id="四、创新点与局限性">四、创新点与局限性</h2>
+<h3 id="4-1-核心创新">4.1 核心创新</h3>
+<ol>
+<li><strong>方法论创新</strong>：将表征工程（RepE）从“单一安全问题（如真实性）”扩展到“多维度人类偏好对齐”，突破了RepE的应用边界；</li>
+<li><strong>效率优势</strong>：无需RLHF的奖励模型和PPO训练，也无需全参数微调，计算成本仅为RLHF的1/10（基于LoRA），且实现简单；</li>
+<li><strong>抗噪声能力</strong>：通过“差异向量提取”间接利用人类偏好，避免了对比学习/HIR对噪声数据的直接依赖，鲁棒性更强。</li>
+</ol>
+<h3 id="4-2-局限性">4.2 局限性</h3>
+<ol>
+<li><strong>模型规模限制</strong>：仅在7B参数模型上验证，未扩展到100B+的大模型，需进一步验证 scalability；</li>
+<li><strong>参数冗余</strong>：依赖LoRA引入少量额外参数，未来可探索“直接将差异向量整合到原模型”以消除参数冗余；</li>
+<li><strong>多轮对话适配</strong>：虽在MT-Bench多轮任务中表现优异，但未针对多轮数据优化，仍有提升空间。</li>
+</ol>
+<h2 id="五、结论与未来方向">五、结论与未来方向</h2>
+<p>论文提出的RAHF方法，通过“偏好理解-表征差异提取-LoRA适配”三步流程，实现了LLM与人类偏好的高效对齐，在计算成本、性能、鲁棒性上均超越现有方法。未来可重点探索：</p>
+<ol>
+<li>扩展到更大参数模型（如LLaMA3-70B、GPT-4级模型）；</li>
+<li>优化差异向量的整合方式，消除LoRA参数；</li>
+<li>结合多模态数据，实现跨模态的人类偏好对齐。</li>
+</ol>
+<p>代码已开源：<a target="_blank" rel="noopener" href="https://github.com/LiuAmber/RAHF">https://github.com/LiuAmber/RAHF</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.029v1/" rel="prev" title="CONTRANS: Weak-to-Strong Alignment Engineering via Concept Transplantation">
+                  <i class="fa fa-angle-left"></i> CONTRANS: Weak-to-Strong Alignment Engineering via Concept Transplantation
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.028v1/" rel="next" title="Assessing the Brittleness of Safety Alignment via Pruning and Low-Rank Modifications ">
+                  Assessing the Brittleness of Safety Alignment via Pruning and Low-Rank Modifications  <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

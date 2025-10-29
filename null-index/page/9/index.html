@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.015v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.033v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.015v1/" class="post-title-link" itemprop="url">THINK-ON-GRAPH: DEEP AND RESPONSIBLE REASONING OF LARGE LANGUAGE MODEL ON KNOWLEDGE GRAPH</a>
+          <a href="/posts/2510.033v1/" class="post-title-link" itemprop="url">InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance</a>
         </h2>
 
         <div class="post-meta-container">
@@ -242,7 +242,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：21:56:39" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：01:42:13" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/KGQA/" itemprop="url" rel="index"><span itemprop="name">KGQA</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
         </span>
     </span>
 
@@ -269,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.5k</span>
+      <span>5.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
+      <span>9 分钟</span>
     </span>
 </div>
 
@@ -287,87 +287,213 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="think-on-graph">THINK-ON-GRAPH</h1>
-<p>该论文提出了“LLM⊗KG”紧密耦合范式及“Think-on-Graph（ToG）”实现方法，有效解决了大语言模型（LLMs）在深度推理中的幻觉问题，同时兼具知识可追溯性与部署灵活性，在9个数据集的6个中实现了SOTA性能。</p>
-<p><strong>ICLR2024</strong></p>
-<h3 id="一研究背景与核心问题">一、研究背景与核心问题</h3>
-<p>当前LLMs虽在自然语言处理任务中表现出色，但在知识密集型深度推理场景中存在显著局限，主要体现在三方面：
-1.
-<strong>知识局限性</strong>：无法处理预训练数据之外的专业知识或过时信息，难以完成多跳逻辑链推理任务。
-2.
-<strong>责任与可解释性缺失</strong>：推理过程不透明，易产生幻觉内容或有毒文本，无法追溯答案来源。
-3.
-<strong>更新与部署成本高</strong>：LLMs训练过程耗时且昂贵，知识更新效率低，大模型部署成本高。</p>
-<p>现有“LLM⊕KG”范式（将KG信息检索后增强提示）存在松散耦合缺陷，LLM仅负责将问题转换为KG查询指令，不直接参与图推理，且依赖KG的完整性，若KG缺少关键关系（如“majority
-party”），推理会失败。</p>
-<h3
-id="二核心创新llmkg范式与tog方法">二、核心创新：LLM⊗KG范式与ToG方法</h3>
-<h4 id="llmkg范式">1. LLM⊗KG范式</h4>
-<p>该范式实现LLMs与知识图谱（KG）的紧密协作，LLM作为智能体（agent）深度参与KG推理的每一步：
--
-动态探索KG中的实体与关系，弥补KG缺失的信息（如用“澳大利亚总理”关系替代缺失的“多数党”关系）。
-- 结合LLM自身知识与KG检索知识生成答案，解决“LLM⊕KG”范式的依赖缺陷。</p>
-<h4 id="think-on-graphtog实现框架">2. Think-on-Graph（ToG）实现框架</h4>
-<p>ToG基于“LLM⊗KG”范式，通过<strong>波束搜索（beam search）</strong>
-让LLM迭代探索KG推理路径，核心流程分三阶段： -
-<strong>初始化阶段</strong>：LLM提取问题中的主题实体，确定初始推理路径的起点（如从问题“堪培拉所在国家的多数党”中提取初始实体“堪培拉”）。
--
-<strong>探索阶段</strong>：分“关系探索”与“实体探索”两步，均包含“搜索-剪枝”过程：
-1.
-关系探索：从当前实体的相邻关系中，LLM筛选出与问题最相关的Top-N关系（如从“堪培拉”的所有关系中选“capital
-of”“country”等）。 2.
-实体探索：基于筛选后的关系，检索相邻实体并再次由LLM剪枝，扩展推理路径（如从“capital
-of”关系检索到实体“澳大利亚”）。 -
-<strong>推理阶段</strong>：LLM评估当前Top-N推理路径是否足够回答问题，若足够则生成答案；若不足则重复探索阶段，直至达到最大搜索深度（默认3）或获取足够信息。</p>
-<h4 id="变体tog-rrelation-based-tog">3. 变体ToG-R（Relation-based
-ToG）</h4>
-<p>为降低成本，ToG-R仅探索关系链而非完整三元组路径，实体剪枝采用随机筛选替代LLM评估，优势如下：
--
-减少LLM调用次数，降低推理时间与成本（LLM调用量从ToG的“2ND+D+1”降至“ND+D+1”）。
-- 聚焦关系文本信息，避免中间实体信息缺失对LLM推理的误导。</p>
-<h3 id="三实验验证与关键结果">三、实验验证与关键结果</h3>
-<h4 id="实验设计">1. 实验设计</h4>
+          <h1>InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance</h1>
+<p>EMNLP</p>
+<h2 id="1-论文概览">1. 论文概览</h2>
 <ul>
-<li><strong>数据集</strong>：覆盖9类任务，包括5个KBQA数据集（CWQ、WebQSP等）、1个开放域QA数据集（WebQuestions）、2个槽位填充数据集（T-REx、Zero-Shot
-RE）、1个事实核查数据集（Creak）。</li>
-<li><strong>对比方法</strong>：标准提示（IO）、思维链提示（CoT）、自一致性（Self-Consistency），以及各数据集的现有SOTA方法（含微调与提示类）。</li>
-<li><strong>评估指标</strong>：精确匹配准确率（Hits@1）。</li>
+<li><strong>核心问题</strong>：当前大语言模型（LLMs）的训练时对齐方法（如SFT、RLHF）复杂且资源消耗大，现有推理时对齐方法效果差且影响下游任务，同时缺乏针对多模态大语言模型（MLLMs）的无害性对齐方法及评估数据集。</li>
+<li><strong>主要贡献</strong>：1. 提出InferAligner，一种无需训练的推理时对齐方法，能有效提升模型安全性且保持下游任务性能，无对齐模型时也可使用；2. 首次探索MLLMs的无害性对齐，构建首个多模态安全研究数据集MM-Harmful Bench；3. 实验验证InferAligner在金融、医疗、数学领域模型及MLLMs（如LLaVA）上均有效，显著降低有害指令与越狱攻击的攻击成功率（ASR）。</li>
+<li><strong>研究方法</strong>：提取安全对齐模型的安全引导向量（SSVs），推理时通过目标模型的安全相关向量（SRVs）判断输入是否有害，若有害则在指定Transformer层添加SSVs调整激活值，引导目标模型生成无害响应。</li>
 </ul>
-<h4 id="核心实验结果">2. 核心实验结果</h4>
+<h2 id="2-各章节详解">2. 各章节详解</h2>
+<h3 id="2-1-摘要">2.1 摘要</h3>
 <ul>
-<li><strong>SOTA性能</strong>：ToG（基于GPT-4）在9个数据集的6个中实现SOTA，包括WebQSP、GrailQA、Zero-Shot
-RE等；在CWQ数据集上性能接近SOTA（69.5% vs 70.4%）。</li>
-<li><strong>深度推理优势</strong>：在多跳推理任务上提升显著，如GrailQA数据集较CoT提升51.8%，Zero-Shot
-RE提升42.9%；单跳任务性能略低，验证其更适用于深度推理。</li>
-<li><strong>模型灵活性</strong>：支持不同LLM（ChatGPT、GPT-4、Llama2-70B）与KG（Freebase、Wikidata）的即插即用，无需额外训练。</li>
-<li><strong>成本优势</strong>：小模型（如Llama2-70B）结合ToG后，性能可超过未结合ToG的大模型（如GPT-4），降低部署成本。</li>
+<li>背景：LLMs广泛应用于通用助手及定制化场景，对齐是其成功的关键，但现有训练时对齐方法（SFT、RLHF）复杂繁琐。</li>
+<li>方法：提出InferAligner，一种推理时无害性对齐方法，利用安全对齐模型提取的SSVs调整目标模型对有害输入的激活值。</li>
+<li>结果：InferAligner可有效应用于金融、医疗、数学领域模型及MLLMs（如LLaVA），显著降低有害指令与越狱攻击的ASR，同时几乎不影响下游任务性能。</li>
 </ul>
-<h4 id="消融实验关键发现">3. 消融实验关键发现</h4>
+<h3 id="2-2-1-引言">2.2 1. 引言</h3>
 <ul>
-<li><strong>搜索深度与宽度</strong>：性能随深度（1-3）和宽度（1-3）增加而提升，深度超过3后增长放缓（多数问题推理链长度≤3），默认设为3以平衡性能与成本。</li>
-<li><strong>KG来源影响</strong>：Freebase在基于其构建的数据集（CWQ、WebQSP）上效果优于Wikidata，因Wikidata规模大，检索与剪枝难度更高。</li>
-<li><strong>剪枝工具对比</strong>：LLM作为剪枝工具的性能最优，若用BM25或Sentence-BERT替代，CWQ性能平均下降8.4%，WebQSP下降15.1%，但可减少LLM调用量。</li>
+<li>LLM发展现状：LLMs（如GPT、LLaMA）成为AI应用基础，开源或API可访问的基础模型可微调为定制化目标模型，但需通过对齐确保符合人类价值观，本文聚焦无害性对齐。</li>
+<li>现有对齐方法局限：
+<ul>
+<li>训练时对齐（SFT、RLHF）：对齐效果好，但训练流程复杂、需大量资源，实施难度高。</li>
+<li>现有推理时对齐：如输入添加对齐提示、目标模型自身激活值偏移，对齐效果弱且严重影响下游任务性能。</li>
 </ul>
-<h3 id="四核心优势与价值">四、核心优势与价值</h3>
-<ol type="1">
-<li><strong>深度推理能力</strong>：多跳推理路径为LLM提供结构化依据，提升知识密集型任务的推理准确性。</li>
-<li><strong>知识可追溯与可修正</strong>：显式的推理路径可追溯答案来源，若发现错误（如KG中“体育场旧名”错误），可定位并修正KG中的可疑三元组，反向优化KG质量。</li>
-<li><strong>灵活性与效率</strong>：
+</li>
+<li>本文方案：提出InferAligner，通过跨模型引导实现推理时无害性对齐，流程为：用对话模板构建有害/无害提示，计算两者最后token激活值差异得到SRVs，将无害对齐模型的SRVs作为SSVs；推理时用目标模型SRVs判断输入意图，有害则添加SSVs调整激活值，引导生成无害响应。</li>
+</ul>
+<h3 id="2-3-2-相关工作">2.3 2. 相关工作</h3>
+<h4 id="2-3-1-LLM对齐">2.3.1 LLM对齐</h4>
 <ul>
-<li>即插即用：适配不同LLM、KG与提示策略，无需额外训练。</li>
-<li>低成本更新：通过KG更新知识，替代昂贵的LLM重训练。</li>
-<li>小模型赋能：小LLM结合ToG可匹敌大LLM，降低部署成本。</li>
-</ul></li>
-<li><strong>通用性</strong>：在KBQA、开放域QA、事实核查等多类任务中均表现优异，验证跨场景适用性。</li>
+<li>分类：训练时对齐与推理时对齐。
+<ul>
+<li>训练时对齐：通过SFT（利用标注数据微调）或RLHF（基于人类反馈的强化学习）实现，需多样代表性数据集及大量训练资源，流程复杂。</li>
+<li>推理时对齐：无需复杂训练，如输入添加对齐提示、目标模型自身激活值偏移，但对齐效果弱且影响下游任务性能。</li>
+</ul>
+</li>
+<li>本文目标：提出有效推理时对齐方法，兼顾对齐效果与下游任务性能。</li>
+</ul>
+<h4 id="2-3-2-LLM安全问题">2.3.2 LLM安全问题</h4>
+<ul>
+<li>安全隐患：LLMs存在生成有害内容的风险，如亵渎、暴力描述等。</li>
+<li>越狱攻击：通过精心设计提示（如角色扮演、权限提升、注意力转移）诱导LLMs生成有害响应，凸显无害性对齐的紧迫性。</li>
+</ul>
+<h4 id="2-3-3-激活工程">2.3.3 激活工程</h4>
+<ul>
+<li>定义：通过对模型激活值进行针对性扰动实现对齐的技术，如提取高层概念对应的表征引导模型行为。</li>
+<li>现有方法：
+<ul>
+<li>ITI（推理时干预）：用线性探针识别“真实”注意力头，沿探针方向偏移激活值以生成真实输出。</li>
+<li>RepE（表征工程）：从特定概念数据集的激活值中生成“读取向量”，引导模型行为。</li>
+</ul>
+</li>
+<li>本文创新：首次将激活工程用于推理时无害性对齐，采用跨模型引导（用对齐模型的SSVs）而非目标模型自身向量。</li>
+</ul>
+<h3 id="2-4-3-方法">2.4 3. 方法</h3>
+<h4 id="3-1-安全相关向量（SRV）">3.1 安全相关向量（SRV）</h4>
+<ul>
+<li>核心思想：通过有害与无害提示的最后token激活值差异，提取能感知输入意图、引导输出向无害方向偏移的SRVs。</li>
+<li>计算过程：
+<ol>
+<li>给定有害提示数据集(D^-)（含N个有害提示(P_i^-)）和无害提示数据集(D^+)（含N个无害提示(P_j^+)）。</li>
+<li>计算层l的激活值平均差异：$$v_l’ = \frac{1}{N} \sum_{i=1}^{N} a_l(P_i^-) - \frac{1}{N} \sum_{j=1}^{N} a_l(P_j^+)$$，其中(a_l(P))表示提示P在层l的最后token激活值。</li>
+<li>对(v_l’)归一化得到SRV：$$v_l = \frac{v_l’}{|v_l’|}$$。</li>
 </ol>
-<h3 id="五结论与局限">五、结论与局限</h3>
-<h4 id="结论">1. 结论</h4>
-<p>ToG作为无训练成本、低计算开销的方法，通过“LLM⊗KG”范式解决了LLMs的幻觉问题与推理局限性，在多类任务中超越现有微调与提示类SOTA，为LLM深度推理提供了高效解决方案。</p>
-<h4 id="局限">2. 局限</h4>
+</li>
+<li>关键定义：将无害对齐模型提取的SRVs定义为安全引导向量（SSVs）。</li>
+</ul>
+<h4 id="3-2-InferAligner">3.2 InferAligner</h4>
 <ul>
-<li>依赖KG的准确性，若KG包含错误信息（如“费城 Phillies
-体育场旧名”），ToG会生成错误答案，需结合人工或LLM修正KG。</li>
-<li>推理深度与宽度增加会提升性能，但也会增加LLM调用成本，需进一步优化效率。</li>
+<li>核心假设：未对齐/弱对齐的目标模型可能具备感知有害意图的能力，但无法有效利用；无害对齐模型已掌握有害输入响应方式，其SSVs可引导目标模型对齐。</li>
+<li>实现流程：
+<ol>
+<li>输入意图判断（引导门）：用目标模型的SRVs判断输入是否有害，层l的引导门(g_l)计算如下：$$g_l = \begin{cases}1 &amp; \text{if } a_l(P)^T s_l + b_l &gt; 0 \ 0 &amp; \text{otherwise} \end{cases}$$，其中(s_l)是目标模型层l的SRV，(b_l)是意图边界偏置（计算为所有训练样本在(s_l)上的负投影均值，可灵活调整以控制无害性严格程度）；实际使用中可选择最准确的(g_0)作为所有层的引导门。</li>
+<li>激活值调整：对需调整的Transformer层集合(L_G)（ heuristic选择目标模型与对齐模型中能准确判断有害意图的层），层l的激活值调整公式为：$$x_l = x_l’ + \alpha \cdot g_l \cdot \theta_l$$，其中(x_l’)是原始激活值，(x_l)是调整后激活值，(\alpha)是干预强度（通过超参数搜索确定），(\theta_l)是对齐模型层l的SSV。</li>
+</ol>
+</li>
+<li>参数说明：InferAligner含三类参数——(b_l)（意图边界）、(\alpha)（干预强度）、(L_G)（需调整的层）。</li>
+</ul>
+<h3 id="2-5-4-实验设置">2.5 4. 实验设置</h3>
+<h4 id="4-1-数据集">4.1 数据集</h4>
+<table>
+<thead>
+<tr>
+<th>数据集类型</th>
+<th>来源与构成</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SRV构建数据集</td>
+<td>有害指令：AdvBench的520条（含亵渎、暴力等）；无害指令：TruthfulQA生成子集的817条中随机抽520条；各抽64条用于提取SRV/SSV，剩余用于有害性测试。</td>
+</tr>
+<tr>
+<td>领域微调数据集</td>
+<td>金融：Yang等的指令微调数据+1万条UltraChat对话；医疗：MEDQA（含患者档案与医疗问题）+同等对话；数学：GSM8K训练集（侧重推理过程）+同等对话。</td>
+</tr>
+<tr>
+<td>安全评估数据集</td>
+<td>1. 有害性测试集：上述剩余有害指令；2. 越狱测试集：10种越狱提示（角色扮演、权限提升等）×50条有害指令=500条；3. 多模态有害测试集（MM-Harmful Bench）：100条需图文结合的有害指令，含10类恶意意图（歧视、盗窃等）。</td>
+</tr>
+<tr>
+<td>效用评估数据集</td>
+<td>金融：FPB、FiQA SA（情感分析）、Headline（判断任务）；医疗：MEDQA测试集；数学：GSM8K测试集。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="4-2-评估指标">4.2 评估指标</h4>
+<ul>
+<li>有害性指标：攻击成功率（ASR），即生成有害响应的指令占比；LLM用GPT-3.5 turbo判断，MLLM用GPT-4V判断。</li>
+<li>效用指标：下游任务准确率（Acc.），如情感分析、选择题、数学推理等任务的正确率。</li>
+</ul>
+<h4 id="4-3-实现细节">4.3 实现细节</h4>
+<ul>
+<li>基础模型：主要基于LLaMA2-7B，微调后得到领域模型DS-LLaMA2；MLLM用LLaVA-v1.5（基于Vicuna微调，Vicuna源自LLaMA2指令微调）。</li>
+<li>微调参数：DS-LLaMA2微调2轮，AdamW优化器，学习率2e-5，批大小128，最大序列长度2048，8张A800 GPU。</li>
+<li>SSV来源：从LLaMA2-CHAT（安全对齐模型）提取SSV；参数确定：通过初步实验确定（如(\alpha=4.0)，InternLM-Chat因对齐差设为8.0）；解码：最大序列长度256，贪心解码（保证可复现性）。</li>
+</ul>
+<h3 id="2-6-5-实验结果">2.6 5. 实验结果</h3>
+<h4 id="5-1-基线模型">5.1 基线模型</h4>
+<ol>
+<li>DS-LLaMA2-CHAT：LLaMA2-CHAT（经多轮SFT/RLHF）微调领域数据，继承无害性。</li>
+<li>DS-LLaMA2+Safety SFT：LLaMA2用领域数据+100条安全样本（基于GPT-3.5 turbo生成）微调，训练时对齐基线。</li>
+<li>DS-LLaMA2+Self-Reminder：推理时添加Li等的提示，推理时对齐基线。</li>
+<li>DS-LLaMA2+Goal Priority：推理时添加Zhang等的提示（优先无害性），推理时对齐基线。</li>
+</ol>
+<h4 id="5-2-主要结果（领域模型）">5.2 主要结果（领域模型）</h4>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>金融领域（ASR/越狱ASR/Acc.）</th>
+<th>医疗领域（ASR/越狱ASR/Acc.）</th>
+<th>数学领域（ASR/越狱ASR/Acc.）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DS-LLaMA2-CHAT</td>
+<td>0.7%/1.0%/93.7%</td>
+<td>0.2%/1.4%/40.6%</td>
+<td>0.7%/2.6%/36.8%</td>
+</tr>
+<tr>
+<td>DS-LLaMA2</td>
+<td>38.4%/48.2%/92.9%</td>
+<td>31.6%/21.4%/42.7%</td>
+<td>36.8%/42.2%/39.0%</td>
+</tr>
+<tr>
+<td>DS-LLaMA2+Safety SFT</td>
+<td>0.7%/13.4%/92.9%</td>
+<td>0.0%/0.6%/40.1%</td>
+<td>0.2%/14.0%/36.7%</td>
+</tr>
+<tr>
+<td>DS-LLaMA2+Self-Reminder</td>
+<td>25.0%/34.8%/92.8%</td>
+<td>29.2%/25.8%/43.4%</td>
+<td>14.9%/37.2%/38.0%</td>
+</tr>
+<tr>
+<td>DS-LLaMA2+Goal Priority</td>
+<td>21.3%/25.8%/92.4%</td>
+<td>11.0%/13.6%/43.8%</td>
+<td>7.5%/4.2%/39.3%</td>
+</tr>
+<tr>
+<td>DS-LLaMA2+InferAligner</td>
+<td>0.0%/0.2%/92.9%</td>
+<td>0.0%/0.0%/42.7%</td>
+<td>0.0%/0.0%/39.0%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>结论：1. InferAligner优于所有基线，ASR接近0，且保持下游Acc.；2. 训练时对齐模型（如DS-LLaMA2-CHAT、DS-LLaMA2+Safety SFT）因“对齐税”导致医疗/数学领域Acc.下降；3. 推理时对齐方法中，Goal Priority在数学模型上效果较好，但整体弱于InferAligner。</li>
+</ul>
+<h4 id="5-3-多模态模型结果（LLaVA）">5.3 多模态模型结果（LLaVA）</h4>
+<ul>
+<li>原始性能：LLaVA-7B/13B在MM-Harmful Bench上ASR高（未经过训练时对齐）。</li>
+<li>InferAligner效果：添加LLaMA2-CHAT的SSVs后，可拒绝所有多模态有害指令，响应连贯且能说明拒绝理由。</li>
+<li>推理时间：InferAligner无上下文长度增加，推理时间不受影响；Goal Priority因提示长导致推理速度显著下降。</li>
+</ul>
+<h3 id="2-7-6-分析">2.7 6. 分析</h3>
+<h4 id="6-1-消融研究（SSV来源）">6.1 消融研究（SSV来源）</h4>
+<ul>
+<li>目标模型自身SRV作为SSV：添加SSV无法有效降低ASR；减去SSV虽降低ASR，但响应意图模糊（安全分数2.5-3.5，1=极不安全，5=极安全），无法有效对齐。</li>
+<li>对齐模型（LLaMA2-CHAT）的SSV：添加SSV可显著降低ASR，且响应意图清晰、安全分数高；减去SSV会增加响应有害性，间接证明SSV有效性。</li>
+</ul>
+<h4 id="6-2-可扩展性与适应性">6.2 可扩展性与适应性</h4>
+<ul>
+<li>模型规模：InferAligner在LLaMA2-7B/13B上均有效。</li>
+<li>模型系列：在Qwen-7B（用Qwen-7B-Chat的SSV）、InternLM-7B（用InternLM-7B-Chat的SSV）上均有效，证明通用性。</li>
+</ul>
+<h4 id="6-3-无安全对齐模型时的方案">6.3 无安全对齐模型时的方案</h4>
+<ul>
+<li>替代方案：InferAlignerSIMPLE，引导门激活时用预设通用模板拒绝响应。</li>
+<li>局限性：InferAligner可提供拒绝理由，更符合Askell等的无害性定义，因此优先推荐InferAligner。</li>
+</ul>
+<h3 id="2-8-7-结论">2.8 7. 结论</h3>
+<ul>
+<li>总结：InferAligner是一种推理时跨模型引导的无害性对齐方法，通过提取安全对齐模型的SSVs，在推理时判断输入有害性并调整目标模型激活值，实现无害性引导。</li>
+<li>效果：在金融、医疗、数学领域模型及MLLMs（LLaVA）上均有效，显著降低有害指令与越狱攻击的ASR，同时几乎不影响下游任务性能。</li>
+</ul>
+<h2 id="3-整体评价">3. 整体评价</h2>
+<ul>
+<li><strong>核心思想</strong>：针对现有LLM对齐方法复杂、资源消耗大或效果差的问题，提出InferAligner，通过跨模型引导的激活值调整实现推理时无害性对齐，实验验证其在多领域、多模型系列及多模态场景下的有效性，兼顾安全性与下游任务性能。</li>
+<li><strong>未来方向</strong>：1. 将SSVs作为训练时监督信号，引导基础模型原生安全对齐；2. 扩展InferAligner至更多模型系列（如GPT系列、ChatGLM）及模态（如音频、视频）；3. 为InferAligner的参数（如(\alpha)、(L_G)）提供理论层面的最优值推导依据。</li>
 </ul>
 
       
@@ -388,7 +514,7 @@ RE提升42.9%；单跳任务性能略低，验证其更适用于深度推理。<
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/null-index/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/10/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/null-index/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/10/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -411,14 +537,14 @@ RE提升42.9%；单跳任务性能略低，验证其更适用于深度推理。<
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

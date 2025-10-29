@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Improving Alignment and Robustness with Circuit Breakers NeurIPS 1. 论文概览  核心问题：AI系统易产生有害输出且高度易受对抗攻击，现有拒绝训练易被绕过、对抗训练泛化性差且牺牲模型能力，难以平衡对抗鲁棒性与效用。 主要贡献：1. 提出基于表示工程（RepE）的“断路器”方法，直接控制与有害输出相关的内部表示，实现攻击无关的防御；2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Improving Alignment and Robustness with Circuit Breakers">
+<meta property="og:url" content="http://example.com/posts/2510.036v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="Improving Alignment and Robustness with Circuit Breakers NeurIPS 1. 论文概览  核心问题：AI系统易产生有害输出且高度易受对抗攻击，现有拒绝训练易被绕过、对抗训练泛化性差且牺牲模型能力，难以平衡对抗鲁棒性与效用。 主要贡献：1. 提出基于表示工程（RepE）的“断路器”方法，直接控制与有害输出相关的内部表示，实现攻击无关的防御；2">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Improving-Alignment-and-Robustness-with-Circuit-Breakers/image-20251029123122011.png">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-29T04:38:38.703Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Improving-Alignment-and-Robustness-with-Circuit-Breakers/image-20251029123122011.png">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.036v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.036v1/","path":"/posts/2510.036v1/","title":"Improving Alignment and Robustness with Circuit Breakers"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Improving Alignment and Robustness with Circuit Breakers | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Improving Alignment and Robustness with Circuit Breakers</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">1. 论文概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">2. 各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%91%98%E8%A6%81"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-%E5%BC%95%E8%A8%80"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 1. 引言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-%E8%83%8C%E6%99%AF%E4%B8%8E%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.2.1 背景与问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-%E6%96%B9%E6%B3%95%E6%80%9D%E8%B7%AF"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.2.2 方法思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-%E5%AE%9E%E9%AA%8C%E4%BA%AE%E7%82%B9"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">2.2.3 实验亮点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 2. 相关工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-LLM%E7%9A%84%E5%AF%B9%E6%8A%97%E6%94%BB%E5%87%BB"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.3.1 LLM的对抗攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-LLM%E7%9A%84%E9%98%B2%E5%BE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.3.2 LLM的防御方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-3-%E8%A1%A8%E7%A4%BA%E5%B7%A5%E7%A8%8B"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">2.3.3 表示工程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-3-%E5%9F%BA%E4%BA%8E%E8%A1%A8%E7%A4%BA%E5%B7%A5%E7%A8%8B%E7%9A%84%E6%96%AD%E8%B7%AF%E5%99%A8"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 3. 基于表示工程的断路器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">2.4.1 核心概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-%E5%85%B3%E9%94%AE%E7%BB%84%E4%BB%B6%EF%BC%9A%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8E%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">2.4.2 关键组件：数据集与损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.2.4.2.1.</span> <span class="nav-text">（1）数据集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.4.2.2.</span> <span class="nav-text">（2）损失函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%883%EF%BC%89%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%8F%98%E4%BD%93%E5%AF%B9%E6%AF%94"><span class="nav-number">1.2.4.2.3.</span> <span class="nav-text">（3）损失函数变体对比</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-4-%E5%AE%9E%E9%AA%8C"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 4. 实验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-1-%E5%AE%9E%E9%AA%8C1%EF%BC%9A%E5%A4%A7%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%88LLM%EF%BC%89"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">2.5.1 实验1：大型语言模型（LLM）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.2.5.1.1.</span> <span class="nav-text">（1）实验设置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%EF%BC%88%E8%A1%A81%E3%80%81%E5%9B%BE2%EF%BC%89"><span class="nav-number">1.2.5.1.2.</span> <span class="nav-text">（2）实验结果（表1、图2）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-2-%E5%AE%9E%E9%AA%8C2%EF%BC%9A%E5%A4%9A%E6%A8%A1%E6%80%81%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">2.5.2 实验2：多模态模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE-2"><span class="nav-number">1.2.5.2.1.</span> <span class="nav-text">（1）实验设置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%EF%BC%88%E5%9B%BE3%E3%80%81%E8%A1%A84%EF%BC%89"><span class="nav-number">1.2.5.2.2.</span> <span class="nav-text">（2）实验结果（图3、表4）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-3-%E5%AE%9E%E9%AA%8C3%EF%BC%9AAI%E6%99%BA%E8%83%BD%E4%BD%93"><span class="nav-number">1.2.5.3.</span> <span class="nav-text">2.5.3 实验3：AI智能体</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE-3"><span class="nav-number">1.2.5.3.1.</span> <span class="nav-text">（1）实验设置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%EF%BC%88%E5%9B%BE4%EF%BC%89"><span class="nav-number">1.2.5.3.2.</span> <span class="nav-text">（2）实验结果（图4）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-4-%E6%B6%88%E8%9E%8D%E5%AE%9E%E9%AA%8C%E4%B8%8E%E5%88%86%E6%9E%90"><span class="nav-number">1.2.5.4.</span> <span class="nav-text">2.5.4 消融实验与分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E6%95%B0%E6%8D%AE%E9%9B%86%E6%B6%88%E8%9E%8D"><span class="nav-number">1.2.5.4.1.</span> <span class="nav-text">（1）数据集消融</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E6%B6%88%E8%9E%8D"><span class="nav-number">1.2.5.4.2.</span> <span class="nav-text">（2）损失函数消融</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%883%EF%BC%89%E8%A1%A8%E7%A4%BA%E5%88%86%E6%9E%90%EF%BC%88%E5%9B%BE6%E3%80%8110-13%EF%BC%89"><span class="nav-number">1.2.5.4.3.</span> <span class="nav-text">（3）表示分析（图6、10-13）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%884%EF%BC%89%E6%9C%89%E5%AE%B3%E6%80%A7%E6%8E%A2%E6%B5%8B%EF%BC%88HP%EF%BC%89%E5%AF%B9%E6%AF%94"><span class="nav-number">1.2.5.4.4.</span> <span class="nav-text">（4）有害性探测（HP）对比</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-5-%E5%B1%80%E9%99%90%E6%80%A7%E4%B8%8E%E7%BB%93%E8%AE%BA"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.6 5. 局限性与结论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-1-%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">2.6.1 局限性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-2-%E7%BB%93%E8%AE%BA"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">2.6.2 结论</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-%E9%99%84%E5%BD%95%E5%85%B3%E9%94%AE%E4%BF%A1%E6%81%AF%EF%BC%88%E6%94%AF%E6%92%91%E5%AE%9E%E9%AA%8C%EF%BC%89"><span class="nav-number">1.2.7.</span> <span class="nav-text">2.7 附录关键信息（支撑实验）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B4%E4%BD%93%E8%AF%84%E4%BB%B7"><span class="nav-number">1.3.</span> <span class="nav-text">3. 整体评价</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.036v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Improving Alignment and Robustness with Circuit Breakers | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Improving Alignment and Robustness with Circuit Breakers
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：12:38:38" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>Improving Alignment and Robustness with Circuit Breakers</h1>
+<p>NeurIPS</p>
+<h2 id="1-论文概览">1. 论文概览</h2>
+<ul>
+<li><strong>核心问题</strong>：AI系统易产生有害输出且高度易受对抗攻击，现有拒绝训练易被绕过、对抗训练泛化性差且牺牲模型能力，难以平衡对抗鲁棒性与效用。</li>
+<li><strong>主要贡献</strong>：1. 提出基于表示工程（RepE）的“断路器”方法，直接控制与有害输出相关的内部表示，实现攻击无关的防御；2. 该方法适用于纯文本、多模态语言模型及AI智能体，在抵御未知强攻击的同时几乎不损失模型能力；3. 开发Llama-3-8B-Instruct微调模型Cygnet，将有害输出率降低约两个数量级，实现能力与无害性的帕累托改进。</li>
+<li><strong>研究方法</strong>：基于表示工程设计Representation Rerouting（RR）技术，通过“断路器集”（触发有害表示）和“保留集”（维持良性表示）构建训练数据，结合重定向损失（使有害表示正交于原始表示）和保留损失（维持良性表示），使用LoRA调优实现模型微调。</li>
+</ul>
+<h2 id="2-各章节详解">2. 各章节详解</h2>
+<h3 id="2-1-摘要">2.1 摘要</h3>
+<p>论文针对AI系统的有害输出与对抗攻击脆弱性问题，提出受表示工程启发的“断路器”方法。该方法不同于拒绝训练（易被绕过）和对抗训练（泛化差、牺牲能力），直接控制产生有害输出的内部表示：当模型开始生成有害内容时，中断其内部过程。实验表明，该方法可应用于纯文本和多模态模型，在抵御未知强攻击（包括图像“劫持”）时几乎不损失效用；扩展到AI智能体后，有害行为率显著降低，为AI系统安全防护提供新方向。<a target="_blank" rel="noopener" href="http://xn--github-og8itwf47iks6auyv.com/GraySwanAI/circuit-breakers%E3%80%82">代码开源于github.com/GraySwanAI/circuit-breakers。</a></p>
+<h3 id="2-2-1-引言">2.2 1. 引言</h3>
+<h4 id="2-2-1-背景与问题">2.2.1 背景与问题</h4>
+<ul>
+<li>对抗攻击长期威胁神经网络，利用AI系统固有脆弱性导致输出失效，现有防御难以在不牺牲性能的前提下实现高可靠性，“鲁棒性与效用权衡”被视为固有问题。</li>
+<li>生成模型（如LLM）存在输出侵权、诽谤等风险，AI智能体可能执行有害行为；拒绝训练虽提升对齐性，但易被对抗攻击绕过，且针对特定攻击的防御（如对抗训练）泛化差、资源消耗高，系统级过滤（输入/输出过滤）仍易被规避。</li>
+</ul>
+<h4 id="2-2-2-方法思路">2.2.2 方法思路</h4>
+<p>提出“断路器”方法：不消除特定攻击漏洞，而是直接阻止模型生成有害输出的能力。基于表示工程（RepE），将与有害输出相关的内部表示与断路器关联，当模型触发有害表示时，中断生成过程（“短路”有害流程）。该方法具有攻击无关性，无需额外训练、对抗微调或辅助“守卫”模型，无额外计算负担，可与现有监控机制无缝集成。</p>
+<h4 id="2-2-3-实验亮点">2.2.3 实验亮点</h4>
+<ul>
+<li>LLM实验：RR技术显著提升对齐性，对未知攻击（嵌入攻击、表示空间攻击）的防御效果远超拒绝训练和对抗训练，Llama-3-8B-Instruct微调模型Cygnet有害输出率降低约两个数量级，且能力提升。</li>
+<li>多模态模型实验：在PGD攻击下，断路器使模型抵御图像“劫持”攻击，且无能力损失（独立图像分类器难以实现）。</li>
+<li>AI智能体实验：在新的函数调用安全基准上，有害函数调用率显著降低，同时保留能力。</li>
+</ul>
+<h3 id="2-3-2-相关工作">2.3 2. 相关工作</h3>
+<h4 id="2-3-1-LLM的对抗攻击">2.3.1 LLM的对抗攻击</h4>
+<ul>
+<li>手动攻击提示：构成LLM红队测试基础，但缺乏标准化；自动红队（如梯度优化生成对抗后缀）可实现迁移攻击，白盒访问可发起预填充攻击（诱导有害生成）。</li>
+<li>多模态攻击：涵盖排版攻击、梯度优化攻击；LLM智能体的安全性与鲁棒性尚未被充分探索。</li>
+</ul>
+<h4 id="2-3-2-LLM的防御方法">2.3.2 LLM的防御方法</h4>
+<ul>
+<li>现有防御局限：RLHF、DPO易被先进对抗攻击绕过；对抗训练（如针对GCG攻击的R2D2模型）泛化差、MT-Bench分数下降；推理时防御（困惑度过滤、SmoothLLM）仅对非自适应攻击有效或计算成本高；系统级过滤仍易被规避。</li>
+<li>本文差异：直接操作内部表示，而非输入/输出文本，泛化性更强、计算成本更低。</li>
+</ul>
+<h4 id="2-3-3-表示工程">2.3.3 表示工程</h4>
+<p>现有研究通过分析/控制内部表示提升模型可控性（如识别中间表示的可解释结构、修改嵌入知识、引导输出），本文基于表示工程的“控制向量”基线，扩展鲁棒遗忘技术（RMU），设计针对有害输出的表示级控制方法。</p>
+<h3 id="2-4-3-基于表示工程的断路器">2.4 3. 基于表示工程的断路器</h3>
+<h4 id="2-4-1-核心概念">2.4.1 核心概念</h4>
+<p>“断路器”是一类技术的统称，通过监控/重映射与有害流程相关的模型表示，将其导向无意义或拒绝表示，阻止有害行为。针对生成模型的多步生成特性，在每个生成步骤中破坏对抗控制，无需识别所有有害输入，仅需覆盖目标有害输出的表示。</p>
+<h4 id="2-4-2-关键组件：数据集与损失函数">2.4.2 关键组件：数据集与损失函数</h4>
+<h5 id="（1）数据集">（1）数据集</h5>
+<ul>
+<li>断路器集（Ds）：包含触发有害表示的样本（如绕过拒绝机制的文本），用于激活断路器。</li>
+<li>保留集（Dr）：包含良性样本（如指令对话、拒绝数据），用于维持模型良性表示与能力。</li>
+<li>数据集构建要点：LLM需添加拒绝数据到保留集以增强拒绝机制；多模态模型需混合文本与图像-有害文本对；AI智能体需结合函数调用有害样本与良性样本。</li>
+</ul>
+<h5 id="（2）损失函数">（2）损失函数</h5>
+<p>算法1（LoRRA+RR损失）流程如下：</p>
+<ol>
+<li>输入：冻结的原始模型M、带LoRA适配器的断路器模型Mcb、表示提取函数rep、Ds、Dr、训练步数T、超参数α。</li>
+<li>训练步骤（t=1到T）：
+<ul>
+<li>采样批次：xs∼Ds，xr∼Dr。</li>
+<li>系数调度：cs=α(1−t/(2T))（断路器损失系数递减），cr=α(t/(2T))（保留损失系数递增）。</li>
+<li>重定向损失（Ls）：$$L_s = \text{ReLU}\left(cosine_sim\left(rep_M(x_s), rep_{Mcb}(x_s)\right)\right)$$，使Mcb的有害表示与M的有害表示正交（ReLU确保相似度不低于0）。</li>
+<li>保留损失（Lr）：$$L_r = \left|rep_M(x_r) - rep_{Mcb}(x_r)\right|_2$$，维持良性表示一致。</li>
+<li>总损失：$$L = c_sL_s + c_rL_r$$。</li>
+</ul>
+</li>
+</ol>
+<h5 id="（3）损失函数变体对比">（3）损失函数变体对比</h5>
+<ul>
+<li>RMU损失：$$\left|rep_{c/b} - \alpha rep_{rand}\right|_2$$（需调α），收敛性差。</li>
+<li>随机单位向量损失：$$\left|rep_{c/b}/\left|rep_{c/b}\right| - rep_{rand}/\left|rep_{rand}\right|\right|_2$$（无需调参），效果不如余弦损失。</li>
+<li>余弦损失（本文采用）：直观且有效，平衡鲁棒性与能力。</li>
+</ul>
+<h3 id="2-5-4-实验">2.5 4. 实验</h3>
+<h4 id="2-5-1-实验1：大型语言模型（LLM）">2.5.1 实验1：大型语言模型（LLM）</h4>
+<h5 id="（1）实验设置">（1）实验设置</h5>
+<ul>
+<li>模型：Mistral-7B-Instruct-v2、Llama-3-8B-Instruct。</li>
+<li>数据集：断路器集（合成有害样本，过滤与HarmBench重复样本）；保留集（UltraChat、XSTest，Llama-3额外添加拒绝数据）。</li>
+<li>训练参数：150步，批次16，α（Mistral=5，Llama-3=10），目标层10/20，LoRA适配器（层0-20），1×A100-80GB训练20分钟。</li>
+<li>评估基准：
+<ul>
+<li>鲁棒性：HarmBench框架，含手动/自动攻击（GCG、PAIR、TAP-T、AutoDAN）、多语言攻击、3类强攻击（预填充攻击、输入嵌入攻击、RepE攻击），用HarmBench分类器+人工验证攻击成功率（ASR）。</li>
+<li>能力：MT-Bench（指令跟随）、OpenLLM排行榜（MMLU、ARC-c、HellaSwag等）。</li>
+<li>基线：原始模型、对抗训练模型（Mistral R2D2）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="（2）实验结果（表1、图2）">（2）实验结果（表1、图2）</h5>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Improving-Alignment-and-Robustness-with-Circuit-Breakers/image-20251029123122011.png" alt="image-20251029123122011"></p>
+<ul>
+<li>鲁棒性：RR使Mistral的平均ASR从76.7%降至9.8%，Llama-3从38.1%降至3.8%，Cygnet降至0.8%；对抗训练模型（R2D2）泛化差（如GCG攻击有效但其他攻击无效）。</li>
+<li>能力：RR模型MT-Bench分数下降&lt;1%（Mistral从7.60→7.53，Llama-3从8.05→8.00），Cygnet提升至8.21；对抗训练模型MT-Bench从7.60→6.00，下降超8%。</li>
+</ul>
+<h4 id="2-5-2-实验2：多模态模型">2.5.2 实验2：多模态模型</h4>
+<h5 id="（1）实验设置-2">（1）实验设置</h5>
+<ul>
+<li>模型：LLaVA-NeXT-Mistral-7B（冻结图像编码器与投影层，仅调语言模型 backbone）。</li>
+<li>数据集：混合LLM的Ds/Dr与多模态Ds（COCO图像描述+有害文本对）、LLaVA-Instruct保留集。</li>
+<li>训练参数：α=5，目标层16，LoRA适配器（层14-16），交替训练文本与多模态样本。</li>
+<li>评估基准：
+<ul>
+<li>鲁棒性：133个有害文本-图像对（54来自HarmBench，79来自MM-SafetyBench），PGD攻击（ε=32/255，1000步），评估合规率；基线：原始模型、加安全提示的模型。</li>
+<li>能力：MMMU（多模态理解）、LLaVA-Wild（视觉对话）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="（2）实验结果（图3、表4）">（2）实验结果（图3、表4）</h5>
+<ul>
+<li>鲁棒性：PGD攻击下，RR模型合规率比原始模型降低84%，比安全提示模型降低85%（平均ASR：原始91.0%→RR 14.3%）。</li>
+<li>能力：MMMU、LLaVA-Wild分数与原始模型差异&lt;0.5%，安全提示模型LLaVA-Wild下降3.3%。</li>
+</ul>
+<h4 id="2-5-3-实验3：AI智能体">2.5.3 实验3：AI智能体</h4>
+<h5 id="（1）实验设置-3">（1）实验设置</h5>
+<ul>
+<li>模型：Llama-3-8B-Instruct（支持函数调用）。</li>
+<li>数据集：断路器集（100个有害函数调用请求，涵盖网络犯罪、虚假信息等）；保留集（Glaive Function Calling v2）。</li>
+<li>评估基准：
+<ul>
+<li>鲁棒性：直接请求（模型决定是否调用）、强制函数调用（预填充函数名）下的有害合规率，用GPT-4-turbo判断。</li>
+<li>能力：Berkeley Function Calling Leaderboard（BFCL）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="（2）实验结果（图4）">（2）实验结果（图4）</h5>
+<ul>
+<li>鲁棒性：强制函数调用下，RR模型有害合规率降低83%（原始82%→RR 14%）。</li>
+<li>能力：BFCL分数从74.8→76.0，无损失。</li>
+</ul>
+<h4 id="2-5-4-消融实验与分析">2.5.4 消融实验与分析</h4>
+<h5 id="（1）数据集消融">（1）数据集消融</h5>
+<ul>
+<li>断路器集增强：添加绕过拒绝机制的样本，ASR降低且能力保留。</li>
+<li>保留集消融：移除拒绝数据，ASR降低但能力下降（MT-Bench分数从8.0→7.7）。</li>
+</ul>
+<h5 id="（2）损失函数消融">（2）损失函数消融</h5>
+<ul>
+<li>RandC（随机中心向量）、RMU损失：不收敛；RandP（随机正向量）：收敛但ASR（9.7%）高于RR（2.5%）；RR的余弦损失稳定性最优。</li>
+</ul>
+<h5 id="（3）表示分析（图6、10-13）">（3）表示分析（图6、10-13）</h5>
+<ul>
+<li>预填充有害文本时，RR模型在层10/20的表示余弦相似度显著下降、范数剧增，表明断路器在生成前已激活； obfuscated有害文本（如“m-e-t-h”）触发断路器在生成过程中激活，阻止有害内容完整输出。</li>
+</ul>
+<h5 id="（4）有害性探测（HP）对比">（4）有害性探测（HP）对比</h5>
+<ul>
+<li>HP（线性/MLP分类器监控有害表示）：比拒绝训练降低ASR，但效果弱于RR（如Llama-3平均ASR：HP(MLP) 6.8%→RR 3.1%）；HP未针对对抗攻击优化，鲁棒性依赖表示监控的持续性。</li>
+</ul>
+<h3 id="2-6-5-局限性与结论">2.6 5. 局限性与结论</h3>
+<h4 id="2-6-1-局限性">2.6.1 局限性</h4>
+<ul>
+<li>攻击范围局限：仅针对“诱导生成有害内容”的对抗攻击，不防御传统对抗攻击（如改变图像分类标签，因无“有害”标签定义）。</li>
+<li>场景局限：聚焦单轮对话，多轮对话场景的有效性需进一步验证。</li>
+</ul>
+<h4 id="2-6-2-结论">2.6.2 结论</h4>
+<p>基于表示工程的“断路器”方法使模型本质上更安全、对未知对抗攻击更鲁棒，适用于LLM、多模态模型及AI智能体，在不牺牲能力的前提下提升安全性，为AI系统在真实场景的可靠部署提供可行路径。</p>
+<h3 id="2-7-附录关键信息（支撑实验）">2.7 附录关键信息（支撑实验）</h3>
+<ul>
+<li>数据集构建：
+<ul>
+<li>LLM断路器集：用无审查LLM生成有害样本，过滤与HarmBench重复样本（BLEU&lt;0.3）。</li>
+<li>多模态断路器集：COCO图像→LLaVA生成描述→无审查LLM生成有害文本对。</li>
+<li>智能体断路器集：Glaive函数定义→生成有害请求→GPT-3.5-turbo生成函数输出，过滤与AgentBench重复样本（BLEU&lt;0.1）。</li>
+</ul>
+</li>
+<li>评估细节：
+<ul>
+<li>多语言攻击：6种语言（高/中/低资源），翻译输入→模型生成→翻译回英文评估。</li>
+<li>输入嵌入攻击：优化嵌入矩阵A（初始为“x x …x”的嵌入），SGD优化500步，早停（损失&lt;0.05/0.01）。</li>
+<li>RepE攻击：有害/无害样本对→提取层激活差→PCA降维得有害方向→推理时添加方向向量调制拒绝倾向。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-整体评价">3. 整体评价</h2>
+<ul>
+<li><strong>核心思想</strong>：论文提出基于表示工程的“断路器”方法，通过重定向与有害输出相关的内部表示，在LLM、多模态模型及AI智能体中实现对未知对抗攻击的鲁棒防御，同时几乎不损失模型能力，首次实现LLM能力与无害性的帕累托改进。</li>
+<li><strong>未来方向</strong>：将有害表示映射到语义方向（如拒绝方向、EOS嵌入）、扩展至多轮对话场景、优化多模态模型中图像与文本表示的协同防御、探索断路器在更复杂AI系统（如多智能体协作）中的应用。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.033v1/" rel="prev" title="InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance">
+                  <i class="fa fa-angle-left"></i> InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.032v1/" rel="next" title="How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States">
+                  How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.016v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.031v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.016v1/" class="post-title-link" itemprop="url">CoLoTa: A Dataset for Entity-based Commonsense Reasoning over Long-Tail Knowledge</a>
+          <a href="/posts/2510.031v1/" class="post-title-link" itemprop="url">Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing</a>
         </h2>
 
         <div class="post-meta-container">
@@ -242,7 +242,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：21:18:25" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：00:45:17" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/KGQA/" itemprop="url" rel="index"><span itemprop="name">KGQA</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
         </span>
     </span>
 
@@ -269,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.2k</span>
+      <span>4.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -287,61 +287,208 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="colota数据集">CoLoTa数据集</h1>
-<p><strong>SIGIR2025</strong></p>
-<p>这篇论文聚焦LLMs在长尾实体常识推理中的短板，提出了CoLoTa数据集，既填补了相关研究空白，也为LLM和KGQA方法的评估提供了新基准，洞察极具价值。</p>
-<h3 id="一研究背景与动机">一、研究背景与动机</h3>
-<p>现有大型语言模型（LLMs）虽在事实知识编码和推理任务中表现出色，但幻觉和推理错误仍是其在高风险场景部署的关键障碍。研究发现，即使是OpenAI-o1等顶尖LLMs，在处理涉及晦涩长尾实体的常识推理任务时，推理错误和幻觉率也极高。</p>
-<p>现有实体类常识推理基准（如StrategyQA、CREAK）多围绕“巴拉克·奥巴马”等热门实体构建，LLMs能凭借训练数据中丰富的相关信息轻松应对。但面对“廖晓娴”这类长尾实体时，LLMs不仅无法拒绝回答或查询事实信息，还会生成幻觉事实并出现推理错误。同时，现有知识图谱问答（KGQA）数据集仅关注事实类问题，缺乏需常识推理的查询，因此亟需新的基准数据集来研究上述问题。</p>
-<h3 id="二colota数据集详情">二、CoLoTa数据集详情</h3>
-<h4 id="数据集构成">1. 数据集构成</h4>
-<p>CoLoTa包含3300条查询，均基于实体类常识推理，涵盖问答和声明验证两大任务，各占1650条。每条查询条目包含五个核心部分：
--
-查询：以疑问句（问答任务）或陈述句（声明验证任务）呈现，答案非真即假，需结合知识图谱事实和常识推理得出。
--
-实体标识：提供查询中锚定实体的维基数据（Wikidata）唯一QID和标签，便于获取相关事实。
--
-知识图谱子图：包含回答查询所需的维基数据三元组，部分三元组还附带限定词以提供额外上下文。
--
-推理规则：以自然语言公理形式呈现的常识知识，明确推理所需的实体属性和关系条件。
--
-推理步骤：将推理规则分解为有序步骤，包括从知识图谱提取事实和对提取事实进行逻辑推理，每个涉及事实提取的步骤均对应维基数据三元组。</p>
-<h4 id="构建方法">2. 构建方法</h4>
+          <h1
+id="defending-large-language-models-against-jailbreak-attacks-via-layer-specific-editing">Defending
+Large Language Models Against Jailbreak Attacks via Layer-specific
+Editing</h1>
+<p>EMNLP</p>
+<h2 id="论文概览">1. 论文概览</h2>
 <ul>
-<li>查询筛选：从StrategyQA（问答任务）和CREAK（声明验证任务）中筛选查询，要求回答所需事实可在维基数据中获取，且经两名标注者独立验证通过。优先选择StrategyQA中推理步骤多、CREAK中解释长且推理技能多样的查询。</li>
-<li>实体替换：通过SPARQL查询在维基数据中检索与原热门实体属性相似的候选实体，随机选择维基数据三元组数量少的长尾实体替换原实体。对无特定目标实体的查询，引入长尾实体作为锚定实体。</li>
-<li>查询重写：参考相关方案优化查询表述，修正语法问题（如语序不当）、调整表述形式（如避免测验式语气），并移除原查询中不正确的隐含假设，确保查询自然且准确。</li>
+<li><strong>核心问题</strong>：大语言模型（LLMs）虽经人类反馈强化学习（RLHF）或监督微调对齐，仍易受精心设计的越狱攻击生成有害内容，现有防御多聚焦于检测或降低有害响应概率，未深入LLM内部机制，亟需基于LLM内部机制的抗越狱攻击防御方法。</li>
+<li><strong>主要贡献</strong>：
+<ol type="1">
+<li>发现LLM中仅部分早期层对识别有害提示起关键作用，移除这些层会使LLM对齐失效并生成有害响应；</li>
+<li>提出层特定编辑（LED）方法，通过定位安全层与毒性层并编辑安全层，在增强LLM抗越狱攻击能力的同时保持对良性提示的性能；</li>
+<li>在Llama2、Mistral等模型上验证LED有效性，能有效防御多种最先进越狱攻击，且对模型有用性影响极小。</li>
+</ol></li>
+<li><strong>研究方法</strong>：通过层剪枝分析识别关键安全层与额外防御层（编辑层），通过解码隐藏状态定位毒性层，再以毒性层的安全响应解码结果为目标，编辑安全层与额外防御层，使毒性层仅输出安全响应。</li>
 </ul>
-<h4 id="核心特征">3. 核心特征</h4>
+<h2 id="各章节详解">2. 各章节详解</h2>
+<h3 id="引言1.-introduction">2.1 引言（1. Introduction）</h3>
+<ol type="1">
+<li><strong>LLM现状与问题</strong>：LLMs（如GPT4、Llama2、Mistral）在多任务中表现优异且广泛应用，但即使经过对齐优化，仍易受“越狱攻击”（
+adversarial prompts）诱导生成有害、有偏见内容，威胁安全部署。</li>
+<li><strong>现有防御局限</strong>：现有防御分两类——①通过困惑度过滤、输入变异或LLM自身检测有害提示/响应；②通过安全指令或logit处理器降低有害响应概率，但均易被自适应攻击突破，且未深入LLM内部工作机制。</li>
+<li><strong>研究动机</strong>：基于LLM剪枝与层跳过研究（移除部分层不影响性能）及早期层抗攻击关键作用的观察，通过层级分析识别影响LLM对有害/越狱提示响应的关键层，进而提出防御方法。</li>
+<li><strong>核心发现预览</strong>：存在关键安全层（早期层），移除后LLM对原始有害提示即生成有害响应；部分层（非全部）含触发有害响应的毒性信息，部分层仍保持高拒绝token解码概率。</li>
+</ol>
+<h3 id="相关工作2.-related-work">2.2 相关工作（2. Related Work）</h3>
+<h4 id="越狱攻击jailbreak-attacks">2.2.1 越狱攻击（Jailbreak
+Attacks）</h4>
 <ul>
-<li>聚焦长尾知识：以维基数据三元组数量衡量实体流行度，CoLoTa中实体的三元组数量远少于原数据集，分布偏向小值，明确聚焦长尾实体。</li>
-<li>推理技能多样：涵盖领域无关（如时间推理、数值比较）和领域相关（如历史推理、地理推理）两类推理技能，且在问答和声明验证任务中分布广泛，如问答任务中时间推理占比25%、地理推理占12%。</li>
+<li>早期依赖手工设计提示（如社交媒体收集的有效越狱提示）或对话模板生成提示；</li>
+<li>近期聚焦自动生成提示：梯度方法（如GCG）、无梯度遗传算法、随机搜索迭代优化，或利用辅助LLM（如GPTFuzzer用预训练LLM更新模板、PAIR用攻击LLM选候选提示），但LLM在恶意语境下的脆弱性仍未被充分探索。</li>
 </ul>
-<h3 id="三实验设计与结果">三、实验设计与结果</h3>
-<h4 id="实验设置">1. 实验设置</h4>
+<h4 id="越狱防御jailbreak-defenses">2.2.2 越狱防御（Jailbreak
+Defenses）</h4>
 <ul>
-<li>基线模型：LLM基线包括GPT-3.5
-Turbo、GPT-4o等5种主流模型，采用零样本和少样本（k=2）思维链（CoT）提示；KGQA基线为KB-Binder和KGR两种基于LLM的方法。</li>
-<li>评估指标：准确率（衡量答案正确性）、回答率（模型给出真/假答案的查询比例）、FActScore（评估回答中原子事实的真实性，基于维基数据）、推理分数（评估推理步骤的逻辑有效性）。</li>
+<li>防御方法与引言分类一致，但均未全面理解LLM内在安全机制，无法从根本上抵御攻击。</li>
 </ul>
-<h4 id="关键结果">2. 关键结果</h4>
+<h4 id="知识编辑knowledge-editing">2.2.3 知识编辑（Knowledge
+Editing）</h4>
 <ul>
-<li>LLMs在CoLoTa上表现显著下滑：所有LLM在CoLoTa查询上的准确率和回答率均低于原数据集。问答任务中准确率下降0.15-0.27，声明验证任务下降0.20-0.42，Llama-3.3-70B在声明验证任务零样本CoT设置下准确率从0.84降至0.42。</li>
-<li>KGQA方法无法应对常识推理：KB-Binder在原声明验证任务中准确率最高仅0.35，CoLoTa上更低；KGR在原声明验证任务准确率0.80，但在CoLoTa上骤降至0.20，表明现有KGQA方法难以结合常识知识进行推理。</li>
-<li>LLMs易产生幻觉与推理错误：OpenAI-o1在原数据集上FActScore接近1、推理分数达0.95以上，但在CoLoTa上FActScore最低降至0.58、推理分数最低降至0.79；GPT-3.5-Turbo的FActScore在CoLoTa上也下降0.09-0.20，且LLMs在CoLoTa上回答率仍接近原数据集，说明其在缺乏长尾知识时仍会猜测答案，导致幻觉和推理错误。</li>
+<li>目标：在特定领域修改LLM行为且不影响其他输入性能，分三类——
+<ol type="1">
+<li>微调：用新数据集直接更新知识（如Lee et al., 2022）；</li>
+<li>元学习：训练超网络学习编辑模型而非直接更新权重（如KE、MEND）；</li>
+<li>定位-编辑：利用知识存储于MLP模块的发现，定位并编辑目标知识（如ROME、MEMIT用因果中介分析定位隐藏状态）；</li>
+</ol></li>
+<li>与本文差异：传统知识编辑试图“解毒”毒性层，而本文不直接编辑毒性层（无法完全消除有害知识），而是编辑安全层使毒性层输出安全响应。</li>
 </ul>
-<h3 id="四研究结论与意义">四、研究结论与意义</h3>
-<h4 id="核心结论">1. 核心结论</h4>
+<h3
+id="led方法3.-led-layer-specific-editing-for-enhancing-defense-of-llms">2.3
+LED方法（3. LED: Layer-specific Editing for Enhancing Defense of
+LLMs）</h3>
+<p>LED含三个核心步骤，流程如图2所示：</p>
+<figure>
+<img
+src="/images/post_images/2025-10-29-论文阅读——Defending-Large-Language-Models-Against-Jailbreak-Attacks-via-Layer-specific-Editing/image-20251029003349867.png"
+alt="image-20251029003349867" />
+<figcaption aria-hidden="true">image-20251029003349867</figcaption>
+</figure>
+<h4 id="步骤1选择编辑层selecting-edited-layers">2.3.1
+步骤1：选择编辑层（Selecting Edited Layers）</h4>
+<ol type="1">
+<li><strong>识别安全层（S）</strong>：
 <ul>
-<li>CoLoTa是评估LLM长尾实体常识推理能力和抗幻觉能力的有效基准，现有顶尖LLM在该数据集上仍面临巨大挑战。</li>
-<li>CoLoTa填补了KGQA数据集的空白，是首个需结合常识推理的KGQA基准，现有KGQA方法无法满足其推理需求。</li>
-<li>长尾知识不仅影响LLMs的事实记忆，还会显著增加其常识推理错误和幻觉率，且对声明验证任务的影响大于问答任务。</li>
+<li>过程：通过层剪枝分析，迭代移除LLM（设为L层，记为f）中1个或连续多个层（从层1开始，避免初始嵌入层；最多移除L/2层以保证输出有意义），得到剪枝模型<span
+class="math inline"><em>f</em><sub><em>l</em>, <em>n</em></sub></span>（移除层l至l+n，<span
+class="math inline">1 ≤ <em>l</em> ≤ <em>L</em></span>，<span
+class="math inline">0 ≤ <em>n</em> ≤ <em>m</em><em>i</em><em>n</em>(<em>L</em>/2, <em>L</em> − <em>l</em>)</span>）；</li>
+<li>判定：若<span
+class="math inline"><em>f</em><sub><em>l</em>, <em>n</em></sub></span>对有害提示生成有害响应，停止剪枝，层l至l+n为安全层候选；</li>
+<li>筛选：用<code>layer_frequency</code>统计所有有害提示下安全层候选出现频率，取top-k层为安全层S（公式2，原文未列具体公式，核心为频率排序）。</li>
+</ul></li>
+<li><strong>确定编辑层（E）</strong>：将安全层S与额外防御贡献层（增强编辑鲁棒性）合并，得到最终编辑层E。</li>
+</ol>
+<h4 id="步骤2定位毒性层locating-toxic-layers">2.3.2
+步骤2：定位毒性层（Locating Toxic Layers）</h4>
+<ol type="1">
+<li><strong>毒性层定义</strong>：含促进有害响应生成“毒性区域”的层，通过解码隐藏状态识别。</li>
+<li><strong>定位方法</strong>：输入越狱提示，用LLM原始解码层将层l的隐藏状态<span
+class="math inline"><em>h</em><sub><em>l</em></sub></span>解码到词汇空间<span
+class="math inline"><em>v</em><sub><em>l</em></sub> ∈ ℝ<sup>#<em>v</em><em>o</em><em>c</em><em>a</em><em>b</em> × 1</sup></span>，观察解码token概率；</li>
+<li><strong>毒性评分（<span
+class="math inline"><em>T</em>(<em>h</em><sub><em>l</em></sub>)</span>）</strong>：量化层l解码输出中有害响应的比例，公式为：
+<span class="math display">$$T(h_l) =
+\frac{v_l(t_{toxic})}{max(v_l)}$$</span> 其中<span
+class="math inline"><em>t</em><sub><em>t</em><em>o</em><em>x</em><em>i</em><em>c</em></sub></span>是LLM最终层生成的有害token，<span
+class="math inline"><em>v</em><sub><em>l</em></sub>(<em>t</em><sub><em>t</em><em>o</em><em>x</em><em>i</em><em>c</em></sub>)</span>是层l中<span
+class="math inline"><em>t</em><sub><em>t</em><em>o</em><em>x</em><em>i</em><em>c</em></sub></span>的概率，<span
+class="math inline"><em>m</em><em>a</em><em>x</em>(<em>v</em><sub><em>l</em></sub>)</span>是层l解码logits最大值；</li>
+<li><strong>毒性层筛选</strong>：平均毒性评分&gt;0.5的层为毒性层（T），需对齐使其仅输出安全内容。</li>
+</ol>
+<h4 id="步骤3层特定编辑layer-specific-editing">2.3.3
+步骤3：层特定编辑（Layer-specific Editing）</h4>
+<ol type="1">
+<li><strong>输入输出对</strong>：采用<span
+class="math inline">(<em>X</em><sub><em>h</em><em>a</em><em>r</em><em>m</em></sub>, <em>Y</em><sub><em>s</em><em>a</em><em>f</em><em>e</em></sub>)</span>，<span
+class="math inline"><em>X</em><sub><em>h</em><em>a</em><em>r</em><em>m</em></sub></span>为有害提示，<span
+class="math inline"><em>Y</em><sub><em>s</em><em>a</em><em>f</em><em>e</em></sub></span>为期望安全响应；</li>
+<li><strong>编辑损失</strong>：使编辑层对齐毒性层的安全响应解码结果，损失公式为：
+<span
+class="math display"><em>L</em><sub><em>e</em><em>d</em><em>i</em><em>t</em></sub> = −<em>l</em><em>o</em><em>g</em><em>P</em><sub><em>f</em></sub>(<em>Y</em><sub><em>s</em><em>a</em><em>f</em><em>e</em></sub>|<em>X</em><sub><em>h</em><em>a</em><em>r</em><em>m</em></sub>, <em>h</em><sub><em>t</em></sub>)</span>
+其中<span
+class="math inline"><em>h</em><sub><em>t</em></sub></span>是毒性层t的隐藏状态；</li>
+<li><strong>模型更新</strong>：基于<span
+class="math inline"><em>L</em><sub><em>e</em><em>d</em><em>i</em><em>t</em></sub></span>计算编辑层E中每层l的更新方向<span
+class="math inline"><em>Δ</em><sub><em>t</em></sub><sup><em>l</em></sup></span>，更新层l权重，得到抗攻击的鲁棒模型<span
+class="math inline"><em>f</em><sub><em>r</em><em>o</em><em>b</em><em>u</em><em>s</em><em>t</em></sub></span>。</li>
+</ol>
+<h3
+id="llm的安全与毒性层分析4.-a-closer-look-at-llms-safety-and-toxic-layers">2.4
+LLM的安全与毒性层分析（4. A Closer Look at LLMs: Safety and Toxic
+Layers）</h3>
+<h4 id="早期安全层主导防御early-safety-layers-dominates-defense">2.4.1
+早期安全层主导防御（Early Safety Layers Dominates Defense）</h4>
+<ul>
+<li><p>实验：对AdvBench中100个随机有害提示进行层剪枝分析（4个模型：Llama2-13B、Llama2-7B、Mistral-7B、Vicuna-7B）；</p></li>
+<li><p>结果：</p>
+<figure>
+<img
+src="/images/post_images/2025-10-29-论文阅读——Defending-Large-Language-Models-Against-Jailbreak-Attacks-via-Layer-specific-Editing/image-20251029003720163.png"
+alt="image-20251029003720163" />
+<figcaption aria-hidden="true">image-20251029003720163</figcaption>
+</figure>
+<ol type="1">
+<li>所有模型均存在安全层，移除后对自然有害提示的攻击成功率（ASR）显著提升（ASR越高防御越差，图3(a)）；</li>
+<li>安全层集中在早期层（图3(b)），后期层基本不参与有害提示防御，验证早期层识别有害提示的关键作用。</li>
+</ol></li>
 </ul>
-<h4 id="研究意义">2. 研究意义</h4>
+<h4
+id="多个后期层含毒性信息multiple-later-layers-contain-toxic-information">2.4.2
+多个后期层含毒性信息（Multiple Later Layers Contain Toxic
+Information）</h4>
 <ul>
-<li>为LLM研究提供新方向：推动针对长尾实体常识推理的LLM优化，如探索结合外部知识图谱减少幻觉、提升推理准确性的方法。</li>
-<li>促进KGQA方法创新：促使研究者开发融合事实知识和常识知识的KGQA技术，突破现有方法仅能处理事实类问题的局限。</li>
-<li>完善评估体系：补充了长尾实体常识推理领域的评估基准，为后续相关模型的性能对比和改进提供统一标准。</li>
+<li><p>实验：分析Llama2-7B和Mistral-7B对100个越狱提示的层毒性评分（图4）；</p>
+<figure>
+<img
+src="/images/post_images/2025-10-29-论文阅读——Defending-Large-Language-Models-Against-Jailbreak-Attacks-via-Layer-specific-Editing/image-20251029003837313.png"
+alt="image-20251029003837313" />
+<figcaption aria-hidden="true">image-20251029003837313</figcaption>
+</figure></li>
+<li><p>结果：后期层（非仅最终层）普遍高概率输出有害token，需对齐；但不直接编辑毒性层（无法穷尽触发有害内容的越狱提示，且无法防止新方法提取有害知识），而是通过编辑安全层使毒性层生成安全拒绝响应。</p></li>
+</ul>
+<h3 id="实验5.-experiments">2.5 实验（5. Experiments）</h3>
+<h4 id="实验设置experiment-setup">2.5.1 实验设置（Experiment
+Setup）</h4>
+<ol type="1">
+<li><strong>数据集与模型</strong>：
+<ul>
+<li>攻击评估：AdvBench生成越狱提示，用攻击成功率（ASR）为指标；</li>
+<li>层分析与编辑：200个来自Trojan Detection Competition
+2023的有害提示（用于层剪枝与输入输出对），500个越狱提示（用于定位毒性层），两类数据集无重叠；</li>
+<li>有用性评估：MT-bench、Just-Eval；</li>
+<li>测试模型：强对齐模型Llama2-7B，弱对齐模型Mistral-7B。</li>
+</ul></li>
+<li><strong>攻击设置</strong>：5种最先进越狱攻击——PAIR、AutoDAN、GPTFuzzer、GCG、DeepInception，用EasyJailbreak实现，GPT-4生成攻击材料（如有害前缀/后缀）。</li>
+<li><strong>防御设置</strong>：
+<ul>
+<li>对比防御：Self-Reminder、PPL、Paraphrase、Self-Examination、SafeDecoding，及LoRA（低秩适应，同数据集微调作对比）；</li>
+<li>LED参数：
+<ul>
+<li>Mistral-7B：编辑层=top-5安全层{2,3,4,5,6}+额外中层{13,14,15}，毒性层{29,30,31}；</li>
+<li>Llama2-7B：编辑层=top-3安全层{4,5,6}+额外层{13,14,15}，毒性层{29,30,31}。</li>
+</ul></li>
+</ul></li>
+</ol>
+<h4
+id="led抗越狱攻击有效性effectiveness-of-led-against-jailbreak-attacks">2.5.2
+LED抗越狱攻击有效性（Effectiveness of LED against Jailbreak
+Attacks）</h4>
+<ul>
+<li>核心结果（表1）：
+<ol type="1">
+<li>Mistral-7B（弱对齐）：传统防御（如Self-Reminder、PPL）基本无效，LED使自然有害提示ASR降为0，平均越狱攻击ASR降至11.3%；</li>
+<li>Llama2-7B（强对齐）：LED使所有攻击ASR接近0%（如GCG、PAIR攻击ASR均为0）；</li>
+<li>有用性保留（表2）：LED对有用性影响极小，Mistral-7B平均有用性仅降2%，Llama2-7B降1%。</li>
+</ol></li>
+</ul>
+<h4 id="与lora对比comparison-with-lora">2.5.3 与LoRA对比（Comparison
+with LoRA）</h4>
+<ul>
+<li>LoRA局限：微调全部层或仅安全层，对鲁棒性提升有限（仅GPTFuzzer攻击有改善），且需更大数据集才接近LED性能；</li>
+<li>差异原因：LED对齐多毒性层输出，而非仅关注LLM最终输出（LoRA重点）。</li>
+</ul>
+<h4 id="消融研究ablation-studies">2.5.4 消融研究（Ablation
+Studies）</h4>
+<ol type="1">
+<li><strong>安全层选择影响</strong>（表3）：
+<ul>
+<li>单一层编辑：编辑早期层防御效果最优，后期层基本无效；</li>
+<li>多层编辑：仅编辑安全层虽提升防御，但使模型对类有害良性提示过度敏感，有用性下降；编辑安全层+额外中层最优，兼顾鲁棒性与有用性；</li>
+</ul></li>
+<li><strong>编辑模型增强Self-Examination</strong>：用编辑后模型进行Self-Examination（输出后检测有害性），所有攻击防御效果提升，但DeepInception攻击因文本含复杂场景，检测效果仍弱于直接用LED防御。</li>
+</ol>
+<h3 id="结论6.-conclusion">2.6 结论（6. Conclusion）</h3>
+<ol type="1">
+<li><strong>核心结论</strong>：通过层剪枝与解码分析，发现LLM中早期安全层主导防御、后期多层含毒性信息，且防御层分布不均衡（多数层未充分参与防御）；LED通过层编辑增强抗攻击能力并保留有用性。</li>
+<li><strong>局限性</strong>：未确定有害知识的具体位置及有效删除方法，编辑安全层无法直接清除毒性层有害知识。</li>
+</ol>
+<h2 id="整体评价">3. 整体评价</h2>
+<ul>
+<li><strong>核心贡献</strong>：提出层特定编辑（LED）方法，首次基于LLM层级机制识别安全层与毒性层，实现抗越狱攻击防御的同时保持良性提示性能，为LLM安全防御提供了从内部机制出发的新思路。</li>
+<li><strong>未来方向</strong>：确定LLM中有害知识的精确存储位置及有效删除方法；深入研究LLM各组件功能，优化防御机制并扩展其适用范围。</li>
 </ul>
 
       
@@ -362,7 +509,7 @@ Turbo、GPT-4o等5种主流模型，采用零样本和少样本（k=2）思维�
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/null-index/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/null-index/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -385,14 +532,14 @@ Turbo、GPT-4o等5种主流模型，采用零样本和少样本（k=2）思维�
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

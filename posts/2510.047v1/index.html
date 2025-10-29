@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="The Blessing and Curse of Dimensionality in Safety Alignment （发表于Second Conference on Language Modeling 2025） 一、论文概览 1. 核心问题 大语言模型（LLMs）的广泛应用推动了安全对齐研究的发展，而LLMs的成功依赖于参数规模的扩大，这伴随着隐藏维度的增长。论文提出核心假设：隐藏维度的增">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Blessing and Curse of Dimensionality in Safety Alignment">
+<meta property="og:url" content="http://example.com/posts/2510.047v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="The Blessing and Curse of Dimensionality in Safety Alignment （发表于Second Conference on Language Modeling 2025） 一、论文概览 1. 核心问题 大语言模型（LLMs）的广泛应用推动了安全对齐研究的发展，而LLMs的成功依赖于参数规模的扩大，这伴随着隐藏维度的增长。论文提出核心假设：隐藏维度的增">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94The-Blessing-and-Curse-of-Dimensionality-in-Safety-Alignment/image-20251030002250992.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94The-Blessing-and-Curse-of-Dimensionality-in-Safety-Alignment/image-20251030002431198.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94The-Blessing-and-Curse-of-Dimensionality-in-Safety-Alignment/image-20251030002521302.png">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-29T16:43:06.332Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94The-Blessing-and-Curse-of-Dimensionality-in-Safety-Alignment/image-20251030002250992.png">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.047v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.047v1/","path":"/posts/2510.047v1/","title":"The Blessing and Curse of Dimensionality in Safety Alignment"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>The Blessing and Curse of Dimensionality in Safety Alignment | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">The Blessing and Curse of Dimensionality in Safety Alignment</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">一、论文概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 核心问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%BB%E8%A6%81%E8%B4%A1%E7%8C%AE"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 主要贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 研究方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%AE%BA%E6%96%87%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">二、论文各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BC%95%E8%A8%80%EF%BC%88Introduction%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 引言（Introduction）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%83%8C%E6%99%AF%EF%BC%88Background%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 背景（Background）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E7%AC%A6%E5%8F%B7%E5%AE%9A%E4%B9%89"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">（1）符号定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%A4%BA%EF%BC%88Linear-Representations%EF%BC%89"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">（2）线性表示（Linear Representations）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%883%EF%BC%89%E6%BF%80%E6%B4%BB%E5%B7%A5%E7%A8%8B%E8%B6%8A%E7%8B%B1%EF%BC%88Jailbreaking-via-Activation-Engineering%EF%BC%89"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">（3）激活工程越狱（Jailbreaking via Activation Engineering）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%884%EF%BC%89Transformer%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">（4）Transformer架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86%E6%80%A7%E6%82%96%E8%AE%BA%EF%BC%88The-Paradox-of-Linear-Separability%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 线性可分性悖论（The Paradox of Linear Separability）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86%E6%80%A7%E9%AA%8C%E8%AF%81"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">（1）线性可分性验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86%E6%80%A7%E6%82%96%E8%AE%BA"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">（2）线性可分性悖论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%883%EF%BC%89%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA%E8%A7%86%E8%A7%92"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">（3）学习理论视角</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%8A%B5%E5%BE%A1%E5%BC%95%E5%AF%BC%E5%90%91%E9%87%8F%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%88Guarding-Against-Steering-Vectors%EF%BC%89"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 抵御引导向量的方法（Guarding Against Steering Vectors）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%881%EF%BC%89FJLT%E6%96%B9%E6%B3%95%EF%BC%88Fast-Johnson%E2%80%93Lindenstrauss-Transform%EF%BC%89"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">（1）FJLT方法（Fast Johnson–Lindenstrauss Transform）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%882%EF%BC%89Bottleneck%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">（2）Bottleneck方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%AE%9E%E9%AA%8C%EF%BC%88Experiments%EF%BC%89"><span class="nav-number">1.2.5.</span> <span class="nav-text">5. 实验（Experiments）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">（1）实验设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%882%EF%BC%89FJLT%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%EF%BC%88%E8%A1%A81%EF%BC%89"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">（2）FJLT实验结果（表1）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%883%EF%BC%89Bottleneck%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%EF%BC%88%E8%A1%A82%EF%BC%89"><span class="nav-number">1.2.5.3.</span> <span class="nav-text">（3）Bottleneck实验结果（表2）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%884%EF%BC%89%E6%A6%82%E5%BF%B5%E4%BF%9D%E7%95%99%E5%88%86%E6%9E%90%EF%BC%88%E5%9B%BE4%EF%BC%89"><span class="nav-number">1.2.5.4.</span> <span class="nav-text">（4）概念保留分析（图4）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C%EF%BC%88Related-Work%EF%BC%89"><span class="nav-number">1.2.6.</span> <span class="nav-text">6. 相关工作（Related Work）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E7%BB%93%E8%AE%BA%EF%BC%88Conclusion%EF%BC%89"><span class="nav-number">1.2.7.</span> <span class="nav-text">7. 结论（Conclusion）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E8%A1%A5%E5%85%85%E5%86%85%E5%AE%B9%EF%BC%88Supplement%EF%BC%89"><span class="nav-number">1.2.8.</span> <span class="nav-text">8. 补充内容（Supplement）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">三、一句话总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.047v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="The Blessing and Curse of Dimensionality in Safety Alignment | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          The Blessing and Curse of Dimensionality in Safety Alignment
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-30 00:43:06" itemprop="dateModified" datetime="2025-10-30T00:43:06+08:00">2025-10-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>The Blessing and Curse of Dimensionality in Safety Alignment</h1>
+<p>（发表于Second Conference on Language Modeling 2025）</p>
+<h2 id="一、论文概览">一、论文概览</h2>
+<h3 id="1-核心问题">1. 核心问题</h3>
+<p>大语言模型（LLMs）的广泛应用推动了安全对齐研究的发展，而LLMs的成功依赖于参数规模的扩大，这伴随着隐藏维度的增长。论文提出核心假设：<strong>隐藏维度的增加既是LLMs的“祝福”（支持复杂概念的线性表示以提升性能），也是“诅咒”（高维激活空间中的线性结构易被“激活工程”（如ActAdd越狱攻击）利用，破坏安全对齐）</strong>，即维度在LLM安全对齐中存在“双刃剑”效应。</p>
+<h3 id="2-主要贡献">2. 主要贡献</h3>
+<ol>
+<li><strong>维度与线性表示的关联分析</strong>：通过系统实验（线性探针）和可视化（PCA），验证了“抽象概念（如安全、情绪）的线性表示依赖足够大的隐藏维度”，并揭示该关联对安全对齐的影响。</li>
+<li><strong>越狱方法的理论洞察</strong>：从学习理论（Rademacher复杂度、VC维）出发，分析了利用激活空间线性结构的越狱攻击（如ActAdd、Ablation）与模型隐藏维度的关系，证明高维度会提升线性攻击的有效性。</li>
+<li><strong>新型防御微调方法</strong>：提出两种基于低维投影的微调策略——<strong>FJLT（快速约翰逊-林登施特劳斯变换）</strong> 和<strong>Bottleneck（线性自编码器瓶颈）</strong>，在保留安全对齐信息的同时，破坏易被攻击的线性结构，显著降低越狱 susceptibility。</li>
+</ol>
+<h3 id="3-研究方法">3. 研究方法</h3>
+<ol>
+<li><strong>可视化验证</strong>：用主成分分析（PCA）将不同规模模型（如Qwen0.5B、GPT-XL、Qwen7B）的激活投影到前2个主成分，观察“正负情绪”“安全/有害”等概念的线性可分性。</li>
+<li><strong>线性探针实验</strong>：训练线性分类器（探针），基于模型激活预测“情绪正负”“指令安全与否”，验证高维模型对抽象概念的线性表示能力更强。</li>
+<li><strong>理论分析</strong>：基于Rademacher复杂度推导维度与线性假设类容量的关系（定理1：$\mathfrak{R}_N(\mathcal{F}) \lesssim L\sqrt{D/N}$），证明降维可降低线性攻击的有效性。</li>
+<li><strong>防御方法设计与实验</strong>：在Llama2-7B-Chat、Gemma-1.1-7B-IT、Qwen2-7B-Instruct三种模型上实现FJLT和Bottleneck，以“拒绝率”（有害指令的拒绝比例）、“安全分数”（Llama Guard 2判定的安全响应比例）、“困惑度（PPL）”（良性指令的响应连贯性）为指标，评估对ActAdd、Ablation越狱的防御效果。</li>
+</ol>
+<h2 id="二、论文各章节详解">二、论文各章节详解</h2>
+<h3 id="1-引言（Introduction）">1. 引言（Introduction）</h3>
+<ul>
+<li><strong>LLMs的应用与安全需求</strong>：LLMs在自然语言生成、逻辑推理、摘要等领域广泛应用，但自主性提升导致“有害响应”风险加剧；安全对齐的目标是让模型对无害指令提供帮助，对有害指令拒绝响应，常用方法包括监督微调（SFT）、基于人类反馈的强化学习（RLHF）、直接偏好优化（DPO）。</li>
+<li><strong>线性表示假设与维度问题</strong>：现有研究认为LLMs中抽象概念（如安全、真理）以“激活空间中的线性方向”存在（即“线性表示假设”），且该结构仅在高维大模型中涌现；这一结构可被激活工程利用（如修改激活引导模型行为），但此前缺乏对“维度-线性表示-安全对齐”关联的系统分析。</li>
+<li><strong>研究目标与贡献</strong>：明确三个核心贡献（见“主要贡献”），旨在阐明维度的双重作用，并提出防御策略。</li>
+</ul>
+<h3 id="2-背景（Background）">2. 背景（Background）</h3>
+<h4 id="（1）符号定义">（1）符号定义</h4>
+<ul>
+<li>prompt-response对：$(x,y)\sim\mathcal{D}$（$\mathcal{D}$为数据分布），$y_{&lt;t}$表示$y$的前$t-1$个token，$y_t$为第$t$个token；</li>
+<li>LLM表示：$\pi_\theta$（参数为$\theta$的基础模型），$\pi_{aligned}$（经过对齐的Chat/Instruct模型）；</li>
+<li>下一个token概率：$\pi(y_t|x,y_{&lt;t})$（给定$x$和$y_{&lt;t}$时生成$y_t$的概率向量）。</li>
+</ul>
+<h4 id="（2）线性表示（Linear-Representations）">（2）线性表示（Linear Representations）</h4>
+<ul>
+<li>
+<p>抽象概念（如情绪、安全）在激活空间中表现为“线性方向”（称为“引导向量”），通过“对比prompt的激活差”获取：例如，收集“正情绪prompt”和“负情绪prompt”的激活，计算均值差即为“情绪引导向量”（示例见图1）。</p>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94The-Blessing-and-Curse-of-Dimensionality-in-Safety-Alignment/image-20251030002250992.png" alt="image-20251030002250992"></p>
+</li>
+<li>
+<p>复杂概念（如安全）的线性表示仅在高维模型中涌现，低维模型无法形成清晰线性结构。</p>
+</li>
+</ul>
+<h4 id="（3）激活工程越狱（Jailbreaking-via-Activation-Engineering）">（3）激活工程越狱（Jailbreaking via Activation Engineering）</h4>
+<ul>
+<li><strong>ActAdd</strong>：计算“有害prompt激活均值”与“无害prompt激活均值”的差（$r_{i}^{(\ell)}=\mu_i^{(\ell)}-v_i^{(\ell)}$），将该向量添加到无害prompt的激活中，诱导模型生成有害内容；</li>
+<li><strong>Ablation</strong>：将“安全引导向量”归一化为单位向量$\hat{r}<em>{i}^{(\ell)}$，通过投影移除激活中该方向的分量（$x_i^{(\ell)\prime}=x_i^{(\ell)}-\hat{r}</em>{i}^{(\ell)}(\hat{r}_{i}^{(\ell)\top}x_i^{(\ell)})$），破坏安全对齐，导致模型拒绝无害指令。</li>
+</ul>
+<h4 id="（4）Transformer架构">（4）Transformer架构</h4>
+<ul>
+<li>注意力机制：给定层$\ell$的隐藏表示$x^{(\ell)}$，通过线性变换得到查询（$Q=x^{(\ell)}W_Q^\top$）、键（$K=x^{(\ell)}W_K^\top$）、值（$V=x^{(\ell)}W_V^\top$）；</li>
+<li>注意力输出：$\tilde{x}^{(\ell)}=x^{(\ell)}+softmax\left(\frac{QK^\top}{\sqrt{D}}\right)V$（$D$为隐藏维度）；</li>
+<li>层输出：$x^{(\ell+1)}=\tilde{x}^{(\ell)}+MLP(\tilde{x}^{(\ell)})$（MLP为多层感知机）。</li>
+</ul>
+<h3 id="3-线性可分性悖论（The-Paradox-of-Linear-Separability）">3. 线性可分性悖论（The Paradox of Linear Separability）</h3>
+<h4 id="（1）线性可分性验证">（1）线性可分性验证</h4>
+<ul>
+<li>
+<p><strong>激活可视化（PCA）</strong>：图2显示，低维模型（如Qwen0.5B，896维）的最终层中“正负情绪”prompt的激活投影高度重叠；高维模型（如Llama2-7B，4096维）的最终层中两类激活形成清晰聚类，线性可分性显著增强。</p>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94The-Blessing-and-Curse-of-Dimensionality-in-Safety-Alignment/image-20251030002431198.png" alt="image-20251030002431198"></p>
+</li>
+<li>
+<p><strong>线性探针实验</strong>：图3显示，当模型隐藏维度超过2000时，线性探针对“情绪正负”的分类准确率从~0.6提升至~0.7，证明高维模型对抽象概念的线性表示能力更强。</p>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94The-Blessing-and-Curse-of-Dimensionality-in-Safety-Alignment/image-20251030002521302.png" alt="image-20251030002521302"></p>
+</li>
+</ul>
+<h4 id="（2）线性可分性悖论">（2）线性可分性悖论</h4>
+<ul>
+<li>核心结论：<strong>模型规模扩大（维度增加）虽提升性能，但也使线性结构更易被越狱攻击利用</strong>，即“维度既是性能提升的祝福，也是安全风险的诅咒”。</li>
+</ul>
+<h4 id="（3）学习理论视角">（3）学习理论视角</h4>
+<ul>
+<li><strong>Rademacher复杂度分析</strong>：Rademacher复杂度衡量假设类（如线性分类器）的“拟合能力”，论文证明线性假设类的Rademacher复杂度满足$\mathfrak{R}_N(\mathcal{F}) \lesssim L\sqrt{\frac{D}{N}}$（定理1），其中$D$为输入维度，$N$为样本量；</li>
+<li>降维的防御逻辑：降维（$k&lt;D$）可使Rademacher复杂度按$\sqrt{D}$的速率降低，导致线性分类器（如攻击用的引导向量学习）更难找到有效方向，从而削弱ActAdd等攻击。</li>
+</ul>
+<h3 id="4-抵御引导向量的方法（Guarding-Against-Steering-Vectors）">4. 抵御引导向量的方法（Guarding Against Steering Vectors）</h3>
+<h4 id="（1）FJLT方法（Fast-Johnson–Lindenstrauss-Transform）">（1）FJLT方法（Fast Johnson–Lindenstrauss Transform）</h4>
+<ul>
+<li><strong>核心思想</strong>：利用FJLT（快速约翰逊-林登施特劳斯变换）将注意力层的Q和K投影到低维子空间（$K&lt;D$），在保留欧氏距离的同时破坏线性结构。</li>
+<li><strong>实现细节</strong>：为每层注意力的单个头（超参数）构造投影矩阵$\Phi^{(\ell)}\in\mathbb{R}^{D×K}$，投影后Q和K为$Q_{proj}=Q\Phi^{(\ell)}$、$K_{proj}=K\Phi^{(\ell)}$，注意力输出为$\tilde{x}^{(\ell)}=x^{(\ell)}+softmax\left(\frac{Q_{proj}K_{proj}^\top}{\sqrt{D}}\right)V$。</li>
+<li><strong>微调目标</strong>：采用token级约束目标，最小化FJLT模型与对齐模型的分布差异：<br>
+$$min <em>{\theta}\left{\mathbb{E}</em>{(x, y) \sim \mathcal{D}}-\sum_{t=1}^{|y|} \frac{2}{\beta_{t}} log \left[\sigma\left(\beta_{t} log \frac{\pi_{\theta}\left(y_{t} | x, y_{&lt;t}\right)}{\pi_{aligned }\left(y_{t} | x, y_{&lt;t}\right)}\right)\right]\right}$$<br>
+其中$\sigma(x)=\frac{1}{1+\exp^{-x}}$（sigmoid函数），$\beta_t$为正则化超参数。</li>
+<li><strong>局限性</strong>：在专业数据集（如SQL Create Context、GSM8k）上性能下降，因过度压缩导致概念丢失。</li>
+</ul>
+<h4 id="（2）Bottleneck方法">（2）Bottleneck方法</h4>
+<ul>
+<li><strong>核心思想</strong>：在连续两层间插入“线性自编码器”，形成“压缩-重构”瓶颈，局部降维以减少线性结构，同时避免全局压缩导致的信息丢失。</li>
+<li><strong>实现细节</strong>：插入层$\ell$后，激活经过$x_{compressed}^{(\ell)}=\sigma(x^{(\ell)}W_{down}W_{up})$（$W_{down}\in\mathbb{R}^{D×K}$、$W_{up}\in\mathbb{R}^{K×D}$为压缩/重构权重，$\sigma$为激活函数），再输入层$\ell+1$。</li>
+<li><strong>微调目标</strong>：结合“有害指令拒绝数据集$\mathcal{D}_P$”和“良性指令安全数据集$\mathcal{D}<em>B$”的损失，平衡安全与效用：<br>
+$$min <em>{\theta} \mathbb{E}</em>{(x, y) \sim \mathcal{D}<em>P}\left[-log \pi</em>{\theta}(y | x)\right]+\alpha \mathbb{E}</em>{(x, y) \sim \mathcal{D}<em>B}\left[-log \pi</em>{\theta}(y | x)\right]$$<br>
+其中$\alpha$为正则化超参数，控制$\mathcal{D}_B$的影响。</li>
+</ul>
+<h3 id="5-实验（Experiments）">5. 实验（Experiments）</h3>
+<h4 id="（1）实验设置">（1）实验设置</h4>
+<ul>
+<li><strong>模型与数据集</strong>：三种对齐模型（Llama2-7B-Chat、Gemma-1.1-7B-IT、Qwen2-7B-Instruct），评估数据集为JailbreakBench（有害指令）、Alpaca（良性指令），微调数据集为$\mathcal{D}_P$（有害指令+拒绝响应）、$\mathcal{D}_B$（良性指令+安全响应）；</li>
+<li><strong>硬件与重复次数</strong>：8个H100 GPU，结果为5次实验平均值；</li>
+<li><strong>评估指标</strong>：
+<ul>
+<li>有害指令：拒绝率（↑）、安全分数（↑）；</li>
+<li>良性指令：拒绝率（↓）、困惑度（PPL，↓，衡量响应连贯性）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="（2）FJLT实验结果（表1）">（2）FJLT实验结果（表1）</h4>
+<ul>
+<li>对比“基线模型”“仅微调模型（FT）”“FJLT模型”：ActAdd攻击后，FJLT模型的有害指令拒绝率显著提升（如Llama2-7B-Chat-FJLT为0.94±0.06，基线仅0.03），安全分数接近基线水平（0.96±0.03 vs 0.99），良性指令拒绝率降低（0.63±0.03 vs 1.00），证明FJLT有效抵御越狱且保留安全对齐。</li>
+</ul>
+<h4 id="（3）Bottleneck实验结果（表2）">（3）Bottleneck实验结果（表2）</h4>
+<ul>
+<li>Bottleneck模型表现更优：Llama2-7B-Chat-Bottleneck在ActAdd攻击后，有害指令拒绝率达0.95±0.02，安全分数0.97±0.01，良性指令拒绝率仅0.30±0.03（70%良性指令可正常响应），且在SQL Create Context、GSM8k等专业数据集上效用接近基线（表13），克服了FJLT的局限性。</li>
+</ul>
+<h4 id="（4）概念保留分析（图4）">（4）概念保留分析（图4）</h4>
+<ul>
+<li>PCA显示：FJLT模型虽破坏“安全”的线性表示，但也扭曲“真理”“情绪”的概念结构；Bottleneck模型仅破坏“安全”的线性表示，同时保留“真理”“情绪”的清晰聚类，证明其在“防御”与“效用”间的平衡更优。</li>
+</ul>
+<h3 id="6-相关工作（Related-Work）">6. 相关工作（Related Work）</h3>
+<ul>
+<li><strong>概念擦除</strong>：INLP（迭代零空间投影）、LEACE（完美线性概念擦除）等方法旨在移除表示中的特定属性，但多聚焦线性结构，且难以平衡“擦除”与“效用”；</li>
+<li><strong>安全对齐</strong>：Zhou et al.（2024a）指出标准对齐方法的局限性，Li et al.（2025）发现中间层存在隐性安全机制，但均未关注维度的作用；</li>
+<li><strong>本文差异</strong>：首次系统分析“维度-线性表示-安全对齐”的关联，从理论+实验验证维度的双重作用，提出的降维方法针对性抵御线性越狱。</li>
+</ul>
+<h3 id="7-结论（Conclusion）">7. 结论（Conclusion）</h3>
+<ul>
+<li>核心发现：LLMs的高维度是“双刃剑”——支持复杂概念的线性表示以提升性能（祝福），但线性结构易被越狱攻击利用（诅咒）；</li>
+<li>方法有效性：FJLT和Bottleneck通过低维投影破坏安全相关的线性结构，显著降低ActAdd、Ablation越狱的成功率，且Bottleneck能更好保留模型效用；</li>
+<li>未来方向：需设计“基于语义的投影方法”，进一步平衡防御效果与概念保留。</li>
+</ul>
+<h3 id="8-补充内容（Supplement）">8. 补充内容（Supplement）</h3>
+<ul>
+<li><strong>理论背景</strong>：补充多头注意力细节、JL引理（存在低维映射保留 pairwise 距离）、FJLT的矩阵构造（稀疏矩阵P+沃尔什-哈达玛矩阵H+对角矩阵D）、命题1（正态分布特征向量的Rademacher复杂度边界）的证明；</li>
+<li><strong>实验细节</strong>：ActAdd/Ablation的具体实现步骤、超参数设置（如学习率、epoch、投影维度K）、开源模型与数据集链接；</li>
+<li><strong>消融实验</strong>：
+<ul>
+<li>FJLT的注意力头选择：仅投影第0个头时效果最优（表6），多头部投影会导致模型过度拒绝（表7）；</li>
+<li>Bottleneck的层位置：插入第0层（早期层）效果最好，插入后期层会丢失已提取的复杂信息（表8）；</li>
+<li>$\alpha$的敏感性：$\alpha$在0.8-1.2范围内变化时，模型性能稳定（表10），无需精细调参；</li>
+</ul>
+</li>
+<li><strong>局限性</strong>：对非线性攻击（如GCG）防御效果有限（Llama2-7B-Chat-FJLT的GCG攻击成功率53%，基线42%），依赖“安全概念线性表示”的假设，需模型特定的$\mathcal{D}_B$数据集。</li>
+</ul>
+<h2 id="三、一句话总结">三、一句话总结</h2>
+<p>论文假设LLMs高维隐藏表示既是安全对齐的“祝福”（支持复杂概念线性表示以提升性能）也是“诅咒”（线性结构易被ActAdd等越狱攻击利用），通过PCA可视化、线性探针验证了维度与线性表示的正相关，用Rademacher复杂度（$\mathfrak{R}_N(\mathcal{F}) \lesssim L\sqrt{D/N}$）提供理论支撑，提出FJLT和Bottleneck两种低维投影微调方法，在三种主流LLM上实验表明两种方法能显著提升对ActAdd越狱的抵御能力（如Llama2-7B-Chat的两种方法有害指令拒绝率均超0.94），且Bottleneck能保留模型在专业任务上的效用，最终证实维度在LLM安全对齐中的双重作用，为抵御线性越狱攻击提供有效策略。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.044v1/" rel="prev" title="Toxicity Detection for Free">
+                  <i class="fa fa-angle-left"></i> Toxicity Detection for Free
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.026v1/" rel="next" title="Superficial Safety Alignment Hypothesis">
+                  Superficial Safety Alignment Hypothesis <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

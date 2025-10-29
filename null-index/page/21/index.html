@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.002v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.040v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.002v1/" class="post-title-link" itemprop="url">朴素贝叶斯分类器公式推导与实现教程</a>
+          <a href="/posts/2510.040v1/" class="post-title-link" itemprop="url">Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations</a>
         </h2>
 
         <div class="post-meta-container">
@@ -240,15 +240,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2025-10-04 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-04T00:00:00+08:00">2025-10-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-10-14 09:52:20" itemprop="dateModified" datetime="2025-10-14T09:52:20+08:00">2025-10-14</time>
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：16:28:57" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -256,11 +250,15 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/" itemprop="url" rel="index"><span itemprop="name">学习提升</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/%E5%9B%BE%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图与大模型学习</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
         </span>
     </span>
 
@@ -271,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>8k</span>
+      <span>5.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>14 分钟</span>
+      <span>10 分钟</span>
     </span>
 </div>
 
@@ -289,165 +287,115 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1
-id="朴素贝叶斯分类器公式推导与实现教程">朴素贝叶斯分类器公式推导与实现教程</h1>
-<h2 id="一朴素贝叶斯分类器基本概念">一、朴素贝叶斯分类器基本概念</h2>
-<p>朴素贝叶斯分类器是一种基于贝叶斯定理与特征条件独立假设的分类方法。它之所以被称为”朴素”，是因为其假设特征之间是相互条件独立的，这一假设大大简化了计算复杂度。</p>
-<p>朴素贝叶斯法通过训练数据集学习联合概率分布<span
-class="math inline"><em>P</em>(<em>X</em>, <em>Y</em>)</span>，然后基于此模型，对给定的输入<span
-class="math inline"><em>x</em></span>，利用贝叶斯定理求出后验概率最大的输出<span
-class="math inline"><em>y</em></span>。</p>
-<h2 id="二公式推导过程">二、公式推导过程</h2>
-<h3 id="条件概率与贝叶斯定理">2.1 条件概率与贝叶斯定理</h3>
-<p>首先回顾条件概率公式： <span class="math display">$$P(B|A) =
-\frac{P(AB)}{P(A)}$$</span></p>
-<p>由此可推导出贝叶斯定理： <span class="math display">$$P(A|B) =
-\frac{P(B|A)P(A)}{P(B)}$$</span></p>
-<table style="width:100%;">
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 11%" />
-<col style="width: 15%" />
-<col style="width: 56%" />
-</colgroup>
-<thead>
-<tr>
-<th style="text-align: left;">成分</th>
-<th style="text-align: left;">符号</th>
-<th style="text-align: left;">名称</th>
-<th style="text-align: left;">意义解释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><strong>更新后的信念</strong></td>
-<td style="text-align: left;"><em>P</em>(<em>A</em>∥<em>B</em>)</td>
-<td style="text-align: left;"><strong>后验概率</strong></td>
-<td style="text-align: left;">在观察到新证据 <em>B</em> 之后，假设
-<em>A</em>
-为真的概率。这是我们最终想要求得的结果，它综合了我们先前的知识和新的证据。</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>当前证据的强度</strong></td>
-<td style="text-align: left;"><em>P</em>(<em>B</em>∥<em>A</em>)</td>
-<td style="text-align: left;"><strong>似然概率</strong></td>
-<td style="text-align: left;">在假设 <em>A</em>
-为真的条件下，观察到当前证据 <em>B</em>
-的可能性有多大。它反映了证据与假设的匹配程度。</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>初始信念</strong></td>
-<td style="text-align: left;"><em>P</em>(<em>A</em>)</td>
-<td style="text-align: left;"><strong>先验概率</strong></td>
-<td style="text-align: left;">在尚未观察到新证据 <em>B</em>
-之前，我们对假设 <em>A</em>
-为真的初始概率估计。这通常基于历史数据或领域知识。</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>证据的总体概率</strong></td>
-<td style="text-align: left;"><em>P</em>(<em>B</em>)</td>
-<td style="text-align: left;"><strong>边缘概率/证据</strong></td>
-<td style="text-align: left;">证据 <em>B</em>
-发生的总概率，通常通过考虑所有可能的情况（<em>A</em> 发生和 <em>A</em>
-不发生）计算得出。它的作用是<strong>归一化</strong>，确保后验概率是一个有效的概率值（在0到1之间）。</td>
-</tr>
-</tbody>
-</table>
-<p>在分类问题中，我们关心的是给定特征<span
-class="math inline"><em>X</em></span>情况下样本属于类别<span
-class="math inline"><em>c</em><sub><em>k</em></sub></span>的概率： <span
-class="math display">$$P(Y=c_k|X=x) =
-\frac{P(X=x|Y=c_k)P(Y=c_k)}{P(X=x)}$$</span></p>
-<h3 id="后验概率最大化准则">2.2 后验概率最大化准则</h3>
-<p>贝叶斯分类器的目标是<strong>最小化期望风险</strong>(做出平均损失最小的决策)。采用0-1损失函数时，对某个样本
-<em>x</em> 进行分类的<strong>条件风险</strong>，就是将其误分类的概率：
-<span class="math display">$$R(c_i | x) = \sum_{k=1}^{K} \lambda(c_i,
-c_k) P(c_k | x) = 1 - P(c_i | x)$$</span> 其中，<span
-class="math display"><em>λ</em>(<em>c</em><sub><em>i</em></sub>, <em>c</em><sub><em>k</em></sub>)</span>
-在 <em>i</em>=<em>k</em> 时为0，否则为1。</p>
-<p>为了使<strong>总体风险</strong>最小化，我们需要对每个样本 <em>x</em>
-逐个最小化其条件风险。这等价于<strong>最大化该样本属于正确类别的后验概率</strong>：
-<span
-class="math display"><em>f</em>(<em>x</em>) = arg min<sub><em>c</em><sub><em>i</em></sub></sub><em>R</em>(<em>c</em><sub><em>i</em></sub>|<em>x</em>) = arg min<sub><em>c</em><sub><em>i</em></sub></sub>[1 − <em>P</em>(<em>c</em><sub><em>i</em></sub>|<em>x</em>)] = arg max<sub><em>c</em><sub><em>i</em></sub></sub><em>P</em>(<em>c</em><sub><em>i</em></sub>|<em>x</em>)</span>
-因此，<strong>后验概率最大化准则实质上就是在0-1损失函数下的最优决策，它保证了期望风险最小化</strong>。这一深刻的等价关系奠定了该准则在分类问题中的理论基础。</p>
-<h3 id="特征条件独立性假设">2.3 特征条件独立性假设</h3>
-<p>直接计算<span
-class="math inline"><em>P</em>(<em>X</em> = <em>x</em>|<em>Y</em> = <em>c</em><sub><em>k</em></sub>)</span>面临组合爆炸问题（参数个数为<span
-class="math inline">$K\prod_{j=1}^{n}S_j$</span>,<span
-class="math inline"><em>K</em></span>为类别数，<span
-class="math inline"><em>S</em><sub><em>j</em></sub></span>为第j个特征的可能的取值数）。为解决此问题，朴素贝叶斯引入了<strong>特征条件独立性假设</strong>：</p>
-<p><span class="math display">$$P(X=x|Y=c_k) =
-P(X^{(1)}=x^{(1)},...,X^{(n)}=x^{(n)}|Y=c_k) = \prod_{j=1}^{n}
-P(X^{(j)}=x^{(j)}|Y=c_k)$$</span></p>
-<h3 id="完整的朴素贝叶斯公式">2.4 完整的朴素贝叶斯公式</h3>
-<p>将独立性假设代入贝叶斯公式： <span
-class="math display">$$P(Y=c_k|X=x) = \frac{P(Y=c_k) \prod_{j=1}^{n}
-P(X^{(j)}=x^{(j)}|Y=c_k)}{\sum_{k} P(Y=c_k) \prod_{j=1}^{n}
-P(X^{(j)}=x^{(j)}|Y=c_k)}$$</span></p>
-<p>由于分母对所有<span
-class="math inline"><em>c</em><sub><em>k</em></sub></span>相同，朴素贝叶斯分类器可简化为：
-<span class="math display">$$y = f(x) = argmax_{c_k} P(Y=c_k)
-\prod_{j=1}^{n} P(X^{(j)}=x^{(j)}|Y=c_k)$$</span></p>
-<h2 id="三参数估计与平滑技术">三、参数估计与平滑技术</h2>
-<h3 id="极大似然估计">3.1 极大似然估计</h3>
-<p>使用极大似然估计法估计先验概率和条件概率：</p>
+          <h1>Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations</h1>
+<p>EMNLP</p>
+<h2 id="一、论文概览">一、论文概览</h2>
+<h3 id="1-核心问题">1. 核心问题</h3>
+<p>大型语言模型（LLMs）在三种主要使用场景（基础模型BASE、监督微调模型SFT、知识编辑模型EDIT）中普遍存在安全漏洞，易受越狱攻击生成有害内容（如虚假信息、仇恨言论）；现有对齐方法难以应对动态用户意图与复杂目标，且微调或模型编辑可能进一步削弱安全机制，同时缺乏能覆盖三种场景且保留模型效用的统一安全对齐方案。</p>
+<h3 id="2-主要贡献">2. 主要贡献</h3>
 <ul>
-<li>先验概率：<span class="math inline">$P(Y=c_k) = \frac{\sum_{i=1}^{N}
-I(y_i=c_k)}{N}$</span>，即用频率来估计概率</li>
-<li>条件概率：<span class="math inline">$P(X^{(j)}=a_{jl}|Y=c_k) =
-\frac{\sum_{i=1}^{N} I(x_i^{(j)}=a_{jl},y_i=c_k)}{\sum_{i=1}^{N}
-I(y_i=c_k)}$</span></li>
+<li>提出<strong>SAFETY ARITHMETIC</strong>框架：一种无训练（training-free）的测试时安全对齐技术，通过“去除参数有害方向”和“引导 latent space 向安全响应”两阶段实现安全对齐，且不损害模型效用。</li>
+<li>首次全面评估LLM三种使用场景的安全性：针对BASE、SFT、EDIT模型，验证框架在保留效用、缓解“过度安全”（over-safety）前提下的鲁棒性。</li>
+<li>构建<strong>NOINTENTEDIT数据集</strong>：包含约40个“无意编辑实例”，这类实例本身无害，但用于模型编辑时会意外导致模型生成有害内容，填补了无意编辑安全风险评估的数据空白。</li>
 </ul>
-<h3 id="拉普拉斯平滑">3.2 拉普拉斯平滑</h3>
-<p>极大似然估计可能出现概率值为0的情况，解决方案是使用<strong>贝叶斯估计（拉普拉斯平滑）</strong>：</p>
-<p><span class="math display">$$P(Y=c_k) = \frac{\sum_{i=1}^{N}
-I(y_i=c_k) + \lambda}{N + K\lambda}$$</span></p>
-<p><span class="math display">$$P(X^{(j)}=a_{jl}|Y=c_k) =
-\frac{\sum_{i=1}^{N} I(x_i^{(j)}=a_{jl},y_i=c_k) +
-\lambda}{\sum_{i=1}^{N} I(y_i=c_k) + S_j\lambda}$$</span></p>
-<p>其中<span class="math inline"><em>λ</em> ≥ 0</span>，常取<span
-class="math inline"><em>λ</em> = 1</span>。</p>
-<h2 id="四python实现示例">四、Python实现示例</h2>
-<h3 id="文本分类示例">4.1 文本分类示例</h3>
-<p>下面是一个简单的朴素贝叶斯文本分类实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NaiveBayesClassifier</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, lambda_param=<span class="number">1</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.lambda_param = lambda_param  <span class="comment"># 拉普拉斯平滑参数</span></span><br><span class="line">        <span class="variable language_">self</span>.prior_prob = &#123;&#125;              <span class="comment"># 先验概率 P(c)</span></span><br><span class="line">        <span class="variable language_">self</span>.cond_prob = &#123;&#125;               <span class="comment"># 条件概率 P(x|c)</span></span><br><span class="line">        <span class="variable language_">self</span>.classes = []                 <span class="comment"># 类别列表</span></span><br><span class="line">        <span class="variable language_">self</span>.feature_total = &#123;&#125;           <span class="comment"># 每个类别下的特征总数</span></span><br><span class="line">        <span class="variable language_">self</span>.vocabulary = <span class="built_in">set</span>()           <span class="comment"># 所有出现过的特征集合</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fit</span>(<span class="params">self, X, y</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;训练模型&quot;&quot;&quot;</span></span><br><span class="line">        <span class="variable language_">self</span>.classes = <span class="built_in">list</span>(<span class="built_in">set</span>(y))</span><br><span class="line">        n_samples = <span class="built_in">len</span>(y)</span><br><span class="line">        n_classes = <span class="built_in">len</span>(<span class="variable language_">self</span>.classes)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 计算先验概率（使用拉普拉斯平滑）</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes:</span><br><span class="line">            count_c = <span class="built_in">sum</span>(<span class="number">1</span> <span class="keyword">for</span> label <span class="keyword">in</span> y <span class="keyword">if</span> label == c)</span><br><span class="line">            <span class="variable language_">self</span>.prior_prob[c] = (count_c + <span class="variable language_">self</span>.lambda_param) / (n_samples + n_classes * <span class="variable language_">self</span>.lambda_param)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 统计特征频率</span></span><br><span class="line">        feature_counts = &#123;c: defaultdict(<span class="built_in">int</span>) <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes&#125;</span><br><span class="line">        <span class="variable language_">self</span>.feature_total = &#123;c: <span class="number">0</span> <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n_samples):</span><br><span class="line">            features = X[i]</span><br><span class="line">            label = y[i]</span><br><span class="line">            <span class="keyword">for</span> feature <span class="keyword">in</span> features:</span><br><span class="line">                feature_counts[label][feature] += <span class="number">1</span></span><br><span class="line">                <span class="variable language_">self</span>.feature_total[label] += <span class="number">1</span></span><br><span class="line">                <span class="variable language_">self</span>.vocabulary.add(feature)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 计算条件概率（使用拉普拉斯平滑）</span></span><br><span class="line">        vocab_size = <span class="built_in">len</span>(<span class="variable language_">self</span>.vocabulary)</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes:</span><br><span class="line">            <span class="variable language_">self</span>.cond_prob[c] = &#123;&#125;</span><br><span class="line">            total_features_c = <span class="variable language_">self</span>.feature_total[c]</span><br><span class="line">            <span class="keyword">for</span> feature <span class="keyword">in</span> <span class="variable language_">self</span>.vocabulary:</span><br><span class="line">                count_feature = feature_counts[c][feature]  <span class="comment"># 如果feature没出现过，count_feature为0</span></span><br><span class="line">                <span class="variable language_">self</span>.cond_prob[c][feature] = (count_feature + <span class="variable language_">self</span>.lambda_param) / \</span><br><span class="line">                                            (total_features_c + vocab_size * <span class="variable language_">self</span>.lambda_param)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">self, X</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;预测新样本&quot;&quot;&quot;</span></span><br><span class="line">        predictions = []</span><br><span class="line">        vocab_size = <span class="built_in">len</span>(<span class="variable language_">self</span>.vocabulary)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> sample <span class="keyword">in</span> X:</span><br><span class="line">            max_prob = -<span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)</span><br><span class="line">            predicted_class = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes:</span><br><span class="line">                log_prob = np.log(<span class="variable language_">self</span>.prior_prob[c])</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> feature <span class="keyword">in</span> sample:</span><br><span class="line">                    <span class="keyword">if</span> feature <span class="keyword">in</span> <span class="variable language_">self</span>.cond_prob[c]:</span><br><span class="line">                        log_prob += np.log(<span class="variable language_">self</span>.cond_prob[c][feature])</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="comment"># 处理未出现的特征（使用拉普拉斯平滑）</span></span><br><span class="line">                        total_features_c = <span class="variable language_">self</span>.feature_total[c]</span><br><span class="line">                        prob = <span class="variable language_">self</span>.lambda_param / (total_features_c + vocab_size * <span class="variable language_">self</span>.lambda_param)</span><br><span class="line">                        log_prob += np.log(prob)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> log_prob &gt; max_prob:</span><br><span class="line">                    max_prob = log_prob</span><br><span class="line">                    predicted_class = c</span><br><span class="line"></span><br><span class="line">            predictions.append(predicted_class)</span><br><span class="line">        <span class="keyword">return</span> predictions</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例数据集</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_dataset</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;创建简单的文本分类数据集&quot;&quot;&quot;</span></span><br><span class="line">    X = [</span><br><span class="line">        [<span class="string">&#x27;my&#x27;</span>, <span class="string">&#x27;dog&#x27;</span>, <span class="string">&#x27;has&#x27;</span>, <span class="string">&#x27;flea&#x27;</span>, <span class="string">&#x27;problems&#x27;</span>, <span class="string">&#x27;help&#x27;</span>, <span class="string">&#x27;please&#x27;</span>],</span><br><span class="line">        [<span class="string">&#x27;maybe&#x27;</span>, <span class="string">&#x27;not&#x27;</span>, <span class="string">&#x27;take&#x27;</span>, <span class="string">&#x27;him&#x27;</span>, <span class="string">&#x27;to&#x27;</span>, <span class="string">&#x27;dog&#x27;</span>, <span class="string">&#x27;park&#x27;</span>, <span class="string">&#x27;stupid&#x27;</span>],</span><br><span class="line">        [<span class="string">&#x27;my&#x27;</span>, <span class="string">&#x27;dalmation&#x27;</span>, <span class="string">&#x27;is&#x27;</span>, <span class="string">&#x27;so&#x27;</span>, <span class="string">&#x27;cute&#x27;</span>, <span class="string">&#x27;I&#x27;</span>, <span class="string">&#x27;love&#x27;</span>, <span class="string">&#x27;him&#x27;</span>],</span><br><span class="line">        [<span class="string">&#x27;stop&#x27;</span>, <span class="string">&#x27;posting&#x27;</span>, <span class="string">&#x27;stupid&#x27;</span>, <span class="string">&#x27;worthless&#x27;</span>, <span class="string">&#x27;garbage&#x27;</span>],</span><br><span class="line">        [<span class="string">&#x27;mr&#x27;</span>, <span class="string">&#x27;licks&#x27;</span>, <span class="string">&#x27;ate&#x27;</span>, <span class="string">&#x27;my&#x27;</span>, <span class="string">&#x27;steak&#x27;</span>, <span class="string">&#x27;how&#x27;</span>, <span class="string">&#x27;to&#x27;</span>, <span class="string">&#x27;stop&#x27;</span>, <span class="string">&#x27;him&#x27;</span>],</span><br><span class="line">        [<span class="string">&#x27;quit&#x27;</span>, <span class="string">&#x27;buying&#x27;</span>, <span class="string">&#x27;worthless&#x27;</span>, <span class="string">&#x27;dog&#x27;</span>, <span class="string">&#x27;food&#x27;</span>, <span class="string">&#x27;stupid&#x27;</span>]</span><br><span class="line">    ]</span><br><span class="line">    y = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> X, y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用示例</span></span><br><span class="line">X_train, y_train = create_dataset()</span><br><span class="line">nb_classifier = NaiveBayesClassifier(lambda_param=<span class="number">1</span>)</span><br><span class="line">nb_classifier.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试新样本</span></span><br><span class="line">test_sample = [[<span class="string">&#x27;love&#x27;</span>, <span class="string">&#x27;my&#x27;</span>, <span class="string">&#x27;dalmation&#x27;</span>]]</span><br><span class="line">prediction = nb_classifier.predict(test_sample)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;预测结果: <span class="subst">&#123;prediction[<span class="number">0</span>]&#125;</span>&quot;</span>)  <span class="comment"># 输出0（非侮辱性）</span></span><br></pre></td></tr></table></figure>
-<h3 id="使用scikit-learn实现">4.2 使用scikit-learn实现</h3>
-<p>对于实际应用，推荐使用scikit-learn库中的朴素贝叶斯实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> MultinomialNB, GaussianNB, BernoulliNB</span><br><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, classification_report</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建文本数据向量化表示</span></span><br><span class="line">vectorizer = CountVectorizer()</span><br><span class="line">X_vectorized = vectorizer.fit_transform([<span class="string">&#x27; &#x27;</span>.join(doc) <span class="keyword">for</span> doc <span class="keyword">in</span> X_train])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用多项式朴素贝叶斯（适用于文本数据）</span></span><br><span class="line">mnb = MultinomialNB(alpha=<span class="number">1.0</span>)  <span class="comment"># alpha对应拉普拉斯平滑参数</span></span><br><span class="line">mnb.fit(X_vectorized, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测</span></span><br><span class="line">test_text = [<span class="string">&#x27; &#x27;</span>.join([<span class="string">&#x27;love&#x27;</span>, <span class="string">&#x27;my&#x27;</span>, <span class="string">&#x27;dalmation&#x27;</span>])]</span><br><span class="line">test_vectorized = vectorizer.transform(test_text)</span><br><span class="line">prediction = mnb.predict(test_vectorized)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Scikit-learn预测结果: <span class="subst">&#123;prediction[<span class="number">0</span>]&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 评估模型</span></span><br><span class="line">y_pred = mnb.predict(X_vectorized)</span><br><span class="line">accuracy = accuracy_score(y_train, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;模型准确率: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="五不同数据类型的处理">五、不同数据类型的处理</h2>
-<p>朴素贝叶斯有多种变体，适用于不同类型的数据：</p>
-<ol type="1">
-<li><strong>高斯朴素贝叶斯</strong>：假设特征服从正态分布，适用于连续特征</li>
-<li><strong>多项式朴素贝叶斯</strong>：适用于离散特征（如文本分类中的词频）</li>
-<li><strong>伯努利朴素贝叶斯</strong>：适用于二值特征</li>
-</ol>
-<h2 id="六特征条件独立性的影响">六、特征条件独立性的影响</h2>
-<h3 id="假设的合理性">6.1 假设的合理性</h3>
-<p>特征条件独立性假设在现实中<strong>往往不成立</strong>，例如在文本分类中，词语之间通常存在关联。但这假设带来了两个重要好处：</p>
-<ol type="1">
-<li><strong>计算简化</strong>：将<span
-class="math inline"><em>O</em>(2<sup><em>n</em></sup>)</span>的参数空间减少到<span
-class="math inline"><em>O</em>(<em>n</em>)</span></li>
-<li><strong>数据效率</strong>：减少了对大量训练数据的需求</li>
-</ol>
-<h3 id="实际影响">6.2 实际影响</h3>
-<p>尽管有关联性假设，朴素贝叶斯在实践中的表现却经常出人意料地好，原因包括：</p>
+<h3 id="3-研究方法">3. 研究方法</h3>
+<p>SAFETY ARITHMETIC包含两个核心阶段：</p>
 <ul>
-<li>分类决策只依赖于<strong>概率的排序</strong>而非精确值</li>
-<li>当特征相关性较小时，性能接近最优贝叶斯分类器</li>
-<li>对文本分类等许多实际任务效果良好</li>
+<li><strong>Harm Direction Removal（HDR，有害方向去除）</strong>：将“生成有害内容”视为特定任务，训练有害模型$\theta_{\mathcal{H}}$并计算“伤害向量”$\tau_{\mathcal{H}}=\theta_{\mathcal{H}}-\theta_b$（$\theta_b$为基础对齐模型），筛选向量中Top-k量级参数去除冗余后，通过$\hat{\theta}<em>{t}=\theta</em>{t}-\lambda * \tau_{\mathcal{H}}'$（$\theta_t$为目标模型，$\lambda$为超参数）调整目标模型参数，剥离有害方向。</li>
+<li><strong>Safety Alignment（Safe-Align，安全对齐）</strong>：基于上下文学习，构建包含“有害提示-有害回答”“有害提示-安全回答”的示例集$D_{icl}$，计算“上下文安全向量（ICV）”（即安全与有害提示 latent 表示差异的第一主成分），将ICV加权（$\alpha$为超参数）添加到$\hat{\theta}<em>{t}$的所有层、所有token的 latent 状态中，并归一化以保留模型原有能力，最终得到安全模型$\theta</em>{sf}$。</li>
 </ul>
-<h2 id="七总结">七、总结</h2>
-<p>朴素贝叶斯分类器通过以下步骤实现： 1. 基于训练数据估计先验概率<span
-class="math inline"><em>P</em>(<em>Y</em> = <em>c</em><sub><em>k</em></sub>)</span>和条件概率<span
-class="math inline"><em>P</em>(<em>X</em><sup>(<em>j</em>)</sup>|<em>Y</em> = <em>c</em><sub><em>k</em></sub>)</span>
-2. 对给定的新实例<span
-class="math inline"><em>x</em></span>，计算每个类别的后验概率分子<span
-class="math inline">$P(Y=c_k) \prod_{j=1}^{n}
-P(X^{(j)}=x^{(j)}|Y=c_k)$</span> 3.
-选择使后验概率最大的类别作为预测结果</p>
-<p>虽然其”朴素”的独立性假设在现实中往往不成立，但朴素贝叶斯仍因其简单高效、需要少量训练数据、对缺失数据不敏感等优点，在实践中得到广泛应用，特别是在文本分类和垃圾邮件过滤等领域。</p>
-<p>通过本教程，您应该能够完整理解朴素贝叶斯的数学原理、推导过程和实践应用。建议结合具体数据集进一步练习，以加深理解。</p>
+<h2 id="二、各章节详解">二、各章节详解</h2>
+<h3 id="1-1-Introduction（引言）">1. 1 Introduction（引言）</h3>
+<ul>
+<li>背景：LLMs（如GPT、PaLM）因大规模预训练具备多任务能力，但训练数据中的固有偏见、微调对有害行为的放大、编辑的意外风险，导致其易生成有害内容；现有对齐方法受动态目标限制，即使对齐后的模型仍易被越狱。</li>
+<li>研究场景界定：明确LLM的三种核心使用场景——BASE（直接使用基础模型）、SFT（任务特定微调模型，如数学任务WizardMath、代码任务EvolCodeAlpaca）、EDIT（知识更新后的编辑模型，含“无意编辑”和“有意编辑”）。</li>
+<li>研究问题：是否存在一种无训练框架，可高效处理三种场景的安全对齐并保留模型通用能力？</li>
+<li>框架引入：提出SAFETY ARITHMETIC，通过HDR和Safe-Align两阶段实现无训练安全对齐，同时验证其对模型效用的无显著损害。</li>
+</ul>
+<h3 id="2-2-Related-work（相关工作）">2. 2 Related work（相关工作）</h3>
+<ul>
+<li><strong>任务向量与模型融合</strong>：现有研究（如Task Arithmetic）通过参数插值、Fisher融合等实现多任务能力，但未聚焦安全方向；本文整合“安全向量”，通过任务向量变换解决参数交互中的安全鲁棒性问题。</li>
+<li><strong>上下文学习（ICL）</strong>：LLM对演示示例敏感，ICL可通过隐式贝叶斯推理或梯度下降近似引导模型响应；本文基于此设计“上下文安全向量（ICV）”，实现测试时的 latent space 安全引导。</li>
+<li><strong>LLM安全</strong>：现有研究分为“攻击策略”（如提示操纵）和“防御措施”（如RAIN），但缺乏覆盖多场景的统一方案；本文在防御基础上整合先进检测与伦理准则，提升真实场景下的安全性。</li>
+</ul>
+<h3 id="3-3-SAFETY-ARITHMETIC（框架细节）">3. 3 SAFETY ARITHMETIC（框架细节）</h3>
+<h4 id="3-1-Preliminaries（预备知识与符号定义）">3.1 Preliminaries（预备知识与符号定义）</h4>
+<ul>
+<li>核心符号：$\theta_b$（基础对齐模型，如llama2-7b-chat-hf）、$\theta_{sft}$（监督微调模型）、$\theta_{edit}$（编辑模型）、$\theta_t$（目标模型，可为三者之一）、$D_H$（有害问答数据集，用于训练$\theta_{\mathcal{H}}$）、$D_{icl}$（上下文安全示例集）、$\theta_{sf}$（SAFETY ARITHMETIC处理后的安全模型）。</li>
+</ul>
+<h4 id="3-2-Harm-Direction-Removal（HDR）">3.2 Harm Direction Removal（HDR）</h4>
+<ul>
+<li>步骤1：用$D_H$微调与$\theta_b$同架构的模型，得到有害模型$\theta_{\mathcal{H}}$；</li>
+<li>步骤2：计算伤害向量$\tau_{\mathcal{H}}=\theta_{\mathcal{H}}-\theta_b$（公式1）；</li>
+<li>步骤3：筛选Top-k量级参数（$\mathcal{S}<em>{k}=arg top</em>{k}\left(\left|\tau_{\mathcal{H}}\right|\right)$，公式2），将其余参数置零得到$\tau_{\mathcal{H}}'$（公式3），减少对目标模型的过度干预；</li>
+<li>步骤4：调整目标模型参数$\hat{\theta}<em>{t}=\theta</em>{t}-\lambda * \tau_{\mathcal{H}}'$（公式4），得到去除有害方向的中间模型$\hat{\theta}_{t}$。</li>
+</ul>
+<h4 id="3-3-Safety-Alignment（Safe-Align）">3.3 Safety Alignment（Safe-Align）</h4>
+<ul>
+<li>
+<p>步骤1：构建$D_{icl}$：对每个有害查询$q_h$，配对“有害提示$p_{usf}$（$q_h$+有害回答$a_h$）”和“安全提示$p_{sf}$（$q_h$+安全回答$a_s$）”；</p>
+</li>
+<li>
+<p>步骤2：计算 latent 表示：将$p_{usf}$和$p_{sf}$输入$\hat{\theta}<em>{t}$，提取所有层（L层）最后一个token的 latent 状态并拼接，得到$\mathscr{P}</em>{usf}={h(p_{usf}^1),…,h(p_{usf}^{|P_{usf}|})}$（公式5）和$\mathscr{P}<em>{sf}={h(p</em>{sf}^1),…,h(p_{sf}^{|P_{sf}|})}$（公式6）；</p>
+</li>
+<li>
+<p>步骤3：计算上下文安全向量ICV：将ICV视为目标函数$\mathcal{Y}=\frac{1}{|D_{icl}|}\sum_{p_{usf},p_{sf}}g(h,h(p_{usf}),h(p_{sf}))$（公式7）的最优解$h_{ICV} = arg max_<br>
+h (\mathcal{Y})$，采用$l_2$范数优化后，取$h(p_{sf}^i)-h(p_{usf}^i)$的第一主成分作为ICV；</p>
+<p>其中$g(·)$定义为$\frac{1}{|\mathcal{D}<em>{icl}|}\sum</em>{i=1}^{|\mathcal{D}<em>{icl}|}\left(h^{T}h( \mathsf{p}</em>{\mathit{sf}})-h^{T}h(\mathsf{p}_{\mathit{usf}})\right)^{2}$</p>
+</li>
+<li>
+<p>步骤4：调整 latent 状态：将ICV分段（$ICV^l$）加权添加到$\hat{\theta}<em>{t}$所有层、所有token的 latent 状态（$(h</em>{sf})_l^t=(h)<em>l^t+\alpha * ICV^l$，公式9），并归一化以匹配原 latent 状态的$l_2$范数（公式10），得到$\theta</em>{sf}$。</p>
+</li>
+</ul>
+<h3 id="4-4-Experimental-setup（实验设置）">4. 4 Experimental setup（实验设置）</h3>
+<h4 id="4-1-场景化框架应用">4.1 场景化框架应用</h4>
+<ul>
+<li><strong>BASE模型</strong>：以llama2-7b-chat-hf、mistral-7b-instruct-v0.2为目标模型，直接应用HDR和Safe-Align；</li>
+<li><strong>SFT模型</strong>：覆盖数学任务（WizardMath-7B、LlamaMath）和代码任务（Llama-2-7b-evolcodealpaca），验证框架对微调模型的安全提升；</li>
+<li><strong>EDIT模型</strong>：基于ROME编辑方法，对llama2-7b-chat-hf进行“无意编辑”（编辑实例无害但引发有害生成）和“有意编辑”（编辑实例含有害信息），仅在编辑层及相邻层（$l-1,l,l+1$）应用HDR，减少对非编辑区域的干预。</li>
+</ul>
+<h4 id="4-2-数据与基线">4.2 数据与基线</h4>
+<ul>
+<li>核心数据：$D_H$和$D_{icl}$源于NicheHazardQA；评估数据集为AdvBench、DangerousQA、HarmfulQA、NicheHazardQA、HEx-PHI（覆盖有害提示的多领域场景）；新增NOINTENTEDIT数据集（约40个无意编辑实例）。</li>
+<li>基线方法：Original（原始模型）、HDR†（仅HDR+TIES合并）、HDR‡（仅HDR+任务向量，无参数剪枝）、Safe-align（仅Safe-Align+ICV）。</li>
+</ul>
+<h4 id="4-3-评估指标与超参数">4.3 评估指标与超参数</h4>
+<ul>
+<li>评估指标：<strong>攻击成功率（ASR）</strong>——GPT-4评估模型生成有害内容的比例；效用测试用MMLU、TruthfulQA、GSM8K等；过度安全测试用XS Test的“拒绝率”（对合规问题的拒绝回答比例）。</li>
+<li>超参数：$\alpha=0.12$，$\lambda=2\sim3$，Top-k参数比例选择10%（平衡ASR与效用）。</li>
+</ul>
+<h3 id="5-5-Impact-of-top-k-parameters（Top-k参数的影响）">5. 5 Impact of top k parameters（Top-k参数的影响）</h3>
+<ul>
+<li>实验发现：随k值（伤害向量中筛选的参数比例）增加，模型MMLU得分（通用能力指标）显著下降，ASR先降后稳；最终选择k=10%，既保证ASR低（安全），又避免模型通用能力退化。</li>
+</ul>
+<h3 id="6-6-Results-and-discussions（结果与分析）">6. 6 Results and discussions（结果与分析）</h3>
+<ul>
+<li><strong>BASE模型</strong>：SAFETY ARITHMETIC显著降低ASR，如Llama2在AdvBench从19.81%（Original）降至6.15%，Mistral在HEx-PHI从54.55%降至35.15%，优于所有基线；</li>
+<li><strong>SFT模型</strong>：WizardMath在AdvBench的ASR从79.62%（Original）降至37.69%，LlamaMath在DangerousQA从27.00%降至6.00%，验证框架对微调模型的安全提升；</li>
+<li><strong>EDIT模型</strong>：无意编辑场景中，Llama2在NicheHazardQA的ASR从38.43%（Edited Model）降至2.09%；有意编辑场景中，HEx-PHI的ASR从45.45%降至7.27%，证明框架对编辑模型的安全修复能力。</li>
+</ul>
+<h3 id="7-7-Utility-and-over-safety-testing（效用与过度安全测试）">7. 7 Utility and over-safety testing（效用与过度安全测试）</h3>
+<ul>
+<li>效用保留：SAFETY ARITHMETIC对模型性能无显著损害，如Llama2的MMLU得分从0.469（Base）降至0.456，WizardMath的GSM8K得分从0.820降至0.810；</li>
+<li>过度安全缓解：Llama2的拒绝率从17.826（Base）降至8.696，WizardMath从6.087降至2.609，避免模型对合规问题的过度拒绝。</li>
+</ul>
+<h3 id="8-8-Conclusion（结论）">8. 8 Conclusion（结论）</h3>
+<p>总结SAFETY ARITHMETIC在LLM三种使用场景中的安全对齐有效性，提出未来优化方向：超参数（如$\lambda$、$\alpha$）调优、扩展更大参数规模模型（&gt;7B）的验证。</p>
+<h3 id="9-9-Limitation（局限性）">9. 9 Limitation（局限性）</h3>
+<ul>
+<li>实验仅覆盖7B参数模型，未验证更大规模模型；</li>
+<li>HDR中Top-k参数选择依赖经验，缺乏自适应机制；</li>
+<li>Safe-Align中ICV添加到latent状态的比例需进一步优化。</li>
+</ul>
+<h3 id="10-10-11-Ethical-consideration-Potential-risk（伦理与风险）">10. 10-11 Ethical consideration &amp; Potential risk（伦理与风险）</h3>
+<ul>
+<li>伦理：框架通过减少有害内容提升AI伦理应用，倡导研究者、政策制定者与产业界协作保障AI安全；</li>
+<li>风险：论文中涉及的有害提示与生成内容存在被滥用的可能，需加强数据管控。</li>
+</ul>
+<h3 id="11-附录（Appendix）">11. 附录（Appendix）</h3>
+<p>补充NOINTENTEDIT数据集的类别示例（如历史文化、社会科学等18类）、框架时间复杂度分析（ICV添加不改变Transformer的$O(L\cdot(T^2d+Td^2))$复杂度）、额外基线对比（如SafeDecoding、Self-CD）等。</p>
+<h2 id="三、一句话总结">三、一句话总结</h2>
+<p>论文假设存在无训练框架可高效处理LLM的BASE、SFT、EDIT三种场景安全对齐并保留效用，提出两阶段SAFETY ARITHMETIC框架（HDR通过伤害向量去除参数有害方向，Safe-Align通过ICV引导latent space向安全响应），实验显示该框架在五种数据集上显著降低ASR（如Llama2在AdvBench的ASR从19.81%降至6.15%）、保留模型效用且缓解过度安全，结论是其有效提升LLM在三种场景的安全性，性能优于现有基线方法。</p>
 
       
     </div>
@@ -467,7 +415,7 @@ P(X^{(j)}=x^{(j)}|Y=c_k)$</span> 3.
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/20/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/null-index/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/22/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/20/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/null-index/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/22/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -490,14 +438,14 @@ P(X^{(j)}=x^{(j)}|Y=c_k)$</span> 3.
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

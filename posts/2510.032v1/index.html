@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States EMNLP 1. 论文概览  核心问题：大型语言模型（LLMs）的安全对齐（Alignment）与越狱（Jailbreak）机制因模型“黑箱”特性难以阐明，需通过中间隐藏状态揭示LLM安全运行及越狱突破安全护栏的内在原理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States">
+<meta property="og:url" content="http://example.com/posts/2510.032v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States EMNLP 1. 论文概览  核心问题：大型语言模型（LLMs）的安全对齐（Alignment）与越狱（Jailbreak）机制因模型“黑箱”特性难以阐明，需通过中间隐藏状态揭示LLM安全运行及越狱突破安全护栏的内在原理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-28T17:38:32.998Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.032v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.032v1/","path":"/posts/2510.032v1/","title":"How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">1. 论文概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">2. 各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Introduction%EF%BC%88%E5%BC%95%E8%A8%80%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 Introduction（引言）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Related-Works%EF%BC%88%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 Related Works（相关工作）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-LLM-Explainability%EF%BC%88LLM%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%EF%BC%89"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.2.1 LLM Explainability（LLM可解释性）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-LLM-Safety%EF%BC%88LLM%E5%AE%89%E5%85%A8%E6%80%A7%EF%BC%89"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.2.2 LLM Safety（LLM安全性）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Not-Only-Alignment-How-LLMs-Ensure-Safety%EF%BC%88%E4%B8%8D%E6%AD%A2%E5%AF%B9%E9%BD%90%EF%BC%9ALLM%E5%A6%82%E4%BD%95%E4%BF%9D%E9%9A%9C%E5%AE%89%E5%85%A8%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 Not Only Alignment: How LLMs Ensure Safety（不止对齐：LLM如何保障安全）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-LLMs-Learn-Ethical-Concepts-During-Pre-training-Rather-Than-Alignment%EF%BC%88LLM%E7%9A%84%E4%BC%A6%E7%90%86%E6%A6%82%E5%BF%B5%E5%AD%A6%E4%B9%A0%E5%9C%A8%E9%A2%84%E8%AE%AD%E7%BB%83%E9%98%B6%E6%AE%B5%EF%BC%89"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.3.1 LLMs Learn Ethical Concepts During Pre-training Rather Than Alignment（LLM的伦理概念学习在预训练阶段）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-Safety-Alignment-Bridging-Ethical-with-Positive-and-Unethical-with-Negative%EF%BC%88%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90%EF%BC%9A%E8%BF%9E%E6%8E%A5%E4%BC%A6%E7%90%86%E4%B8%8E%E6%83%85%E6%84%9F%EF%BC%89"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.3.2 Safety Alignment: Bridging Ethical with Positive and Unethical with Negative（安全对齐：连接伦理与情感）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-How-Jailbreak-Causes-LLMs-Alignment-to-Fail%EF%BC%88%E8%B6%8A%E7%8B%B1%E5%A6%82%E4%BD%95%E5%AF%BC%E8%87%B4LLM%E5%AF%B9%E9%BD%90%E5%A4%B1%E6%95%88%EF%BC%89"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 How Jailbreak Causes LLMs Alignment to Fail（越狱如何导致LLM对齐失效）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-Perturbations-in-Association-Stage%EF%BC%88%E5%85%B3%E8%81%94%E9%98%B6%E6%AE%B5%E7%9A%84%E5%B9%B2%E6%89%B0%EF%BC%89"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">2.4.1 Perturbations in Association Stage（关联阶段的干扰）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-Approximate-to-Jailbreak-with-Logit-Grafting%EF%BC%88%E7%94%A8Logit-Grafting%E8%BF%91%E4%BC%BC%E8%B6%8A%E7%8B%B1%EF%BC%89"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">2.4.2 Approximate to Jailbreak with Logit Grafting（用Logit Grafting近似越狱）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-Conclusions%EF%BC%88%E7%BB%93%E8%AE%BA%EF%BC%89"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 Conclusions（结论）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-Limitations%EF%BC%88%E5%B1%80%E9%99%90%E6%80%A7%EF%BC%89"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.6 Limitations（局限性）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-Ethics-Statement%EF%BC%88%E4%BC%A6%E7%90%86%E5%A3%B0%E6%98%8E%EF%BC%89"><span class="nav-number">1.2.7.</span> <span class="nav-text">2.7 Ethics Statement（伦理声明）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B4%E4%BD%93%E8%AF%84%E4%BB%B7"><span class="nav-number">1.3.</span> <span class="nav-text">3. 整体评价</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.032v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：01:38:32" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States</h1>
+<p>EMNLP</p>
+<h2 id="1-论文概览">1. 论文概览</h2>
+<ul>
+<li><strong>核心问题</strong>：大型语言模型（LLMs）的安全对齐（Alignment）与越狱（Jailbreak）机制因模型“黑箱”特性难以阐明，需通过中间隐藏状态揭示LLM安全运行及越狱突破安全护栏的内在原理。</li>
+<li><strong>主要贡献</strong>：
+<ol>
+<li>发现LLMs的伦理概念学习发生在预训练阶段而非对齐阶段，且能在早期层区分恶意与正常输入；</li>
+<li>阐明对齐的作用是将早期伦理概念与中期层情感猜测关联，并将其精炼为拒绝token，而越狱通过干扰该关联突破安全护栏；</li>
+<li>提出Weak-to-Strong Explanation和Logit Grafting方法，在7B至70B规模的多模型家族上验证结论。</li>
+</ol>
+</li>
+<li><strong>研究方法</strong>：采用弱分类器（SVM、单隐藏层MLP）分析中间隐藏状态（Weak-to-Strong Explanation）；用Logit Lens转化隐藏状态为token以追踪层间变化；定义Top-K Intermediate Consistency量化中间层一致性；设计Logit Grafting近似越狱对关联阶段的干扰。</li>
+</ul>
+<h2 id="2-各章节详解">2. 各章节详解</h2>
+<h3 id="2-1-Introduction（引言）">2.1 Introduction（引言）</h3>
+<ol>
+<li><strong>背景</strong>：LLMs在提供帮助的同时存在安全隐患，需通过对齐匹配人类价值观，但越狱会导致对齐失效并生成有害内容；由于LLM参数规模大（数十亿级），其对齐与越狱机制难以解释。</li>
+<li><strong>现有研究不足</strong>：此前研究发现对齐与基础模型的logits差异微小（多为风格化token，如免责声明），但这种微小差异如何实现安全防护仍不明确。</li>
+<li><strong>本文工作</strong>：
+<ul>
+<li>提出LLM安全由预训练与对齐协同保障；</li>
+<li>用Weak-to-Strong Explanation验证：无论对齐/基础模型，弱分类器对早期层隐藏状态的恶意/正常输入分类准确率超95%，证明预训练阶段已学习伦理概念；</li>
+<li>用Logit Lens发现：对齐模型在中期层将合规输入关联积极情感、不合规输入关联消极情感，最终精炼为风格化token（图1）；基础模型无此情感关联。</li>
+</ul>
+</li>
+<li><strong>实验数据</strong>：恶意数据集（advbench、strongreject、jailbreakbench）、正常数据集（GPT-4、Claude3-Opus生成），覆盖多领域。</li>
+</ol>
+<h3 id="2-2-Related-Works（相关工作）">2.2 Related Works（相关工作）</h3>
+<h4 id="2-2-1-LLM-Explainability（LLM可解释性）">2.2.1 LLM Explainability（LLM可解释性）</h4>
+<ul>
+<li>模型规模扩大导致可解释性下降，但部分研究可揭示局部机制：如In-Context Learning中特定注意力头负责上下文理解；Logit Lens通过最终线性函数将中间层隐藏状态转化为logits，辅助追踪输出精炼过程；GPT-4等强模型可解释小模型的细粒度神经元。</li>
+</ul>
+<h4 id="2-2-2-LLM-Safety（LLM安全性）">2.2.2 LLM Safety（LLM安全性）</h4>
+<ul>
+<li><strong>对齐</strong>：通过高质量数据微调预训练模型以拒绝有害查询，是主流安全手段（如RLHF）；</li>
+<li><strong>越狱</strong>：存在手工与自动（如GCG、AutoDAN）两类方法，可突破安全护栏；</li>
+<li><strong>防御局限</strong>：现有防御多为被动响应（在越狱出现后设计），无法从根源解决问题。</li>
+</ul>
+<h3 id="2-3-Not-Only-Alignment-How-LLMs-Ensure-Safety（不止对齐：LLM如何保障安全）">2.3 Not Only Alignment: How LLMs Ensure Safety（不止对齐：LLM如何保障安全）</h3>
+<h4 id="2-3-1-LLMs-Learn-Ethical-Concepts-During-Pre-training-Rather-Than-Alignment（LLM的伦理概念学习在预训练阶段）">2.3.1 LLMs Learn Ethical Concepts During Pre-training Rather Than Alignment（LLM的伦理概念学习在预训练阶段）</h4>
+<ol>
+<li><strong>关键定义</strong>：取每层隐藏状态的最后位置代表该层对输入的理解，公式为：<br>
+$$u_{l}=H_{l}[n] \in \mathbb{R}^{d_{model }}$$<br>
+其中$H_l$为第$l$层隐藏状态，$n$为序列长度，$d_{model}$为模型维度。</li>
+<li><strong>Weak-to-Strong Explanation实验设计</strong>：
+<ul>
+<li><strong>弱分类器</strong>：线性核SVM（默认参数）、单隐藏层MLP（100个神经元，基于sklearn）；</li>
+<li><strong>模型选择</strong>：5个开源模型家族（Llama-2、Llama-3、Mistral、Vicuna、Falcon），覆盖7B-70B规模，含基础模型与聊天模型；</li>
+<li><strong>数据设置</strong>：从恶意/正常数据集中各随机选500样本，测试集占比0.3。</li>
+</ul>
+</li>
+<li><strong>实验结果（图3、表2）</strong>：
+<ul>
+<li>嵌入层分类准确率接近随机（~0.3），证明弱分类器无过拟合；</li>
+<li>第0层后准确率达80%，早期层（如1-5层）后超95%；</li>
+<li>基础模型与对齐模型的分类性能相近，证明伦理概念学习于预训练阶段。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-3-2-Safety-Alignment-Bridging-Ethical-with-Positive-and-Unethical-with-Negative（安全对齐：连接伦理与情感）">2.3.2 Safety Alignment: Bridging Ethical with Positive and Unethical with Negative（安全对齐：连接伦理与情感）</h4>
+<ol>
+<li><strong>中期层情感关联现象</strong>：
+<ul>
+<li>对齐模型在中期层（16-24层，40层模型为21-28层）生成粗粒度情感token（积极如“glad”，消极如“sorry”），后期层精炼为拒绝/响应初始token；</li>
+<li>基础模型中期层无情感关联，仅生成无意义token（如“answer”“quelle”）。</li>
+</ul>
+</li>
+<li><strong>量化指标定义</strong>：
+<ul>
+<li><strong>Top-K Guess</strong>：对输入$d$的第$l$层隐藏状态$u_l$，通过线性函数$F(\cdot)$映射为logits后，取Top-K token，记为$G_{l}^{d}=Top-K(F(u_l))$；</li>
+<li><strong>Top-K Intermediate Consistency</strong>：衡量某层对不同输入的隐藏状态一致性，公式为：
+<ol>
+<li>计算token频率：$$f_{l}(t)=\sum_{d \in D} \mathbb{1}\left[t \in G_{l}^{d}\right]$$（$\mathbb{1}[\cdot]$为指示函数，$D$为数据集）；</li>
+<li>取频率最高的$k$个token组成$T_l$，计算一致性：$$C_{l}=\frac{1}{k} \sum_{t \in T_{l}} \frac{f_{l}(t)}{N}$$（$N$为样本数）。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><strong>实验结果（表1）</strong>：
+<ul>
+<li>中期层一致性与模型安全性负相关：平均Top-5一致性与恶意输入ASR（攻击成功率）相关系数-0.516，与越狱输入ASR相关系数-0.810；</li>
+<li>安全性差的模型（如Vicuna-7b-v1.5）中期层情感关联弱、一致性低；安全性强的模型（如Llama-2-13b-chat）则相反。</li>
+</ul>
+</li>
+<li><strong>结论</strong>：对齐的核心作用是“桥梁”——连接早期层伦理特征与中期层情感token，再由后期层精炼为安全输出；预训练与对齐协同实现LLM安全。</li>
+</ol>
+<h3 id="2-4-How-Jailbreak-Causes-LLMs-Alignment-to-Fail（越狱如何导致LLM对齐失效）">2.4 How Jailbreak Causes LLMs Alignment to Fail（越狱如何导致LLM对齐失效）</h3>
+<h4 id="2-4-1-Perturbations-in-Association-Stage（关联阶段的干扰）">2.4.1 Perturbations in Association Stage（关联阶段的干扰）</h4>
+<ol>
+<li><strong>越狱输入生成</strong>：用GCG、AutoDAN、Deepinception三种方法构造越狱输入。</li>
+<li><strong>实验发现</strong>：
+<ul>
+<li>弱分类器对早期层“越狱/恶意/正常”三类输入的分类准确率高（表2），证明越狱无法欺骗预训练阶段的伦理判断；</li>
+<li>中期层：越狱输入的情感模糊（如同时出现“Step”“Sure”等积极token与中性token，图6），干扰早期伦理概念与中期情感的关联；</li>
+<li>有害输出条件：仅当积极情感完全主导中期层时，模型才会生成有害内容；若干扰不足，后期层会修正为拒绝响应。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-4-2-Approximate-to-Jailbreak-with-Logit-Grafting（用Logit-Grafting近似越狱）">2.4.2 Approximate to Jailbreak with Logit Grafting（用Logit Grafting近似越狱）</h4>
+<ol>
+<li><strong>方法设计</strong>：将正常输入的中期层（如23层）隐藏状态（存在肯定性标记）“嫁接”到恶意输入的对应层，仅修改最后位置隐藏状态（最小化语义干扰），模拟越狱对关联阶段的干扰。</li>
+<li><strong>实验结果（表3）</strong>：
+<ul>
+<li>嫁接后模型对恶意输入的ASR显著提升，部分模型（如Vicuna-7b-v1.5）的ASR超原生越狱；</li>
+<li>对越狱输入进一步嫁接，可增强其攻击效果，证明越狱的核心是干扰“早期伦理-中期情感”关联，导致后期层无法精炼为拒绝token。</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-5-Conclusions（结论）">2.5 Conclusions（结论）</h3>
+<ol>
+<li>LLM安全机制：预训练阶段学习伦理概念，早期层区分恶意/正常输入；对齐阶段将早期伦理特征与中期层情感猜测（积极/消极）关联；后期层将情感token精炼为拒绝/响应初始token。</li>
+<li>越狱机制：不干扰早期层伦理判断，而是破坏“早期伦理-中期情感”的关联，导致安全护栏失效。</li>
+<li>优化方向：LLM安全优化的核心目标应是强化中期层“非伦理-拒绝”的关联。</li>
+</ol>
+<h3 id="2-6-Limitations（局限性）">2.6 Limitations（局限性）</h3>
+<ol>
+<li>仅使用默认参数的简单弱分类器，未探索更复杂分类器的效果；</li>
+<li>仅从安全角度用弱分类器解释强模型，未扩展到LLM的其他能力（如推理、生成）的可解释性研究。</li>
+</ol>
+<h3 id="2-7-Ethics-Statement（伦理声明）">2.7 Ethics Statement（伦理声明）</h3>
+<ol>
+<li>研究提升LLM安全透明度，不增强越狱有效性；</li>
+<li>Logit Grafting需白盒设置，仅用于验证结论，无潜在不良影响；</li>
+<li>开源代码及正常/恶意数据集，不开源越狱数据集，避免滥用。</li>
+</ol>
+<h2 id="3-整体评价">3. 整体评价</h2>
+<ul>
+<li><strong>核心思想</strong>：论文通过弱分类器和Logit Lens揭示LLM安全的“预训练学伦理-对齐联情感-后期精炼token”三层机制，证明越狱通过干扰“伦理-情感”关联突破安全护栏，在多规模多模型上验证结论，为LLM安全优化提供明确目标。</li>
+<li><strong>未来方向</strong>：探索弱分类器在LLM其他能力（如数学推理、文本摘要）可解释性中的应用；基于“强化中期层非伦理-拒绝关联”设计更高效的对齐方法；开发基于该机制的主动防御策略，从根源抵御越狱攻击。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.036v1/" rel="prev" title="Improving Alignment and Robustness with Circuit Breakers">
+                  <i class="fa fa-angle-left"></i> Improving Alignment and Robustness with Circuit Breakers
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.031v1/" rel="next" title="Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing">
+                  Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.013v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.037v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.013v1/" class="post-title-link" itemprop="url">The Role of Exploration Modules in Small Language Models for Knowledge Graph Question Answering</a>
+          <a href="/posts/2510.037v1/" class="post-title-link" itemprop="url">NLSR: Neuron-Level Safety Realignment of Large Language Models Against Harmful Fine-Tuning</a>
         </h2>
 
         <div class="post-meta-container">
@@ -242,7 +242,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：19:33:22" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：13:39:53" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/KGQA/" itemprop="url" rel="index"><span itemprop="name">KGQA</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
         </span>
     </span>
 
@@ -269,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>3.1k</span>
+      <span>8.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>6 分钟</span>
+      <span>15 分钟</span>
     </span>
 </div>
 
@@ -287,111 +287,290 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1
-id="小型语言模型在知识图谱问答中探索模块的作用arxiv2509.07399">小型语言模型在知识图谱问答中探索模块的作用（arxiv2509.07399）</h1>
-<p><strong>ACL2025</strong></p>
-<h2 id="一研究背景与问题提出">一、研究背景与问题提出</h2>
-<h3 id="核心背景">1. 核心背景</h3>
+          <h1>NLSR: Neuron-Level Safety Realignment of Large Language Models Against Harmful Fine-Tuning</h1>
+<p>AAAI</p>
+<h2 id="1-论文概览">1. 论文概览</h2>
 <ul>
-<li><strong>LLM与知识图谱结合的现状</strong>：将知识图谱（KG）融入大型语言模型（LLM）推理过程，已成为缓解模型幻觉的有效方向。例如Think-on-Graph（ToG）框架将LLM视为与知识图谱动态交互的智能体，通过检索外部知识提升推理可靠性，形成“LLM×KG”范式。</li>
-<li><strong>现有方案的局限性</strong>：当前相关研究多依赖专有或超大规模模型（如GPT-4.1、Gemini），导致可访问性低、扩展性差；部分改进方案（如额外推理模块）需任务特定训练，难以适配低资源场景。</li>
-<li><strong>SLM的实际需求</strong>：在终端用户或系统部署中，常仅能获取中小型语言模型（SLM，参数规模0.5B-8B）用于推理，而SLM在利用知识图谱进行问答时性能受限，成为亟待解决的实际问题。</li>
+<li><strong>核心问题</strong>：针对大语言模型（LLMs）在“微调即服务”场景中因少量恶意数据导致的安全对齐失效问题，解决现有防御方法计算资源消耗大、易影响任务性能的缺陷。</li>
+<li><strong>主要贡献</strong>：
+<ol>
+<li>提出与微调阶段解耦的无训练神经元级安全重对齐方法（NLSR），通过识别安全关键神经元并基于受损程度决定是否修复，实现安全恢复。</li>
+<li>在多种下游任务（SST-2、AGNEWS、GSM8K）、中毒指令比例（0.01-0.3）和对齐方法（SFT、DPO等）上验证，NLSR不仅恢复且超越微调前安全基准，同时保持任务精度。</li>
+<li>验证自适应安全关键层剪枝的必要性，且安全预放大后不同安全神经元识别方法（Wanda、SNIP等）在定位安全关键神经元上具有高相似性。</li>
+</ol>
+</li>
+<li><strong>研究方法</strong>：构建NLSR框架，分三步实现安全重对齐：①预放大初始对齐模型得到“超对齐”安全参考模型；②基于参考模型识别安全关键神经元；③计算微调后模型与参考模型的安全关键神经元相似度，对相似度低的层移植参考模型神经元以修复安全漏洞。</li>
 </ul>
-<h3 id="关键问题">2. 关键问题</h3>
+<h2 id="2-各章节详解">2. 各章节详解</h2>
+<h3 id="2-1-Abstract（摘要）">2.1 Abstract（摘要）</h3>
 <ul>
-<li>现有ToG框架对SLM的适配性如何？</li>
-<li>SLM在知识图谱问答（KGQA）中性能不佳的核心瓶颈是什么？</li>
-<li>如何通过轻量型模块改进SLM的知识图谱探索与推理能力？</li>
+<li><strong>研究背景</strong>：“微调即服务”暴露LLMs漏洞，少量用户上传的恶意数据可破坏模型安全对齐；现有防御方法需大量计算资源，即使参数高效的LoRA也需梯度更新。</li>
+<li><strong>NLSR框架核心</strong>：
+<ol>
+<li>基于初始对齐模型构建安全参考模型，放大神经元中与安全相关的特征。</li>
+<li>利用参考模型识别安全关键神经元，作为“修复补丁”。</li>
+<li>对比微调前后安全关键神经元的相似度，仅修复相似度差异显著的神经元，最小化对微调后模型的改动。</li>
+</ol>
+</li>
+<li><strong>实验结果</strong>：在多个下游任务中，NLSR显著提升微调后模型的安全性，同时大幅保持任务精度。</li>
+<li><strong>关键发现</strong>：微调后部分安全关键神经元区域存在明显差异，移植参考模型的神经元可有效修复，且无需额外训练。</li>
 </ul>
-<h2 id="二核心理论与方法">二、核心理论与方法</h2>
-<h3 id="基础框架think-on-graphtog">1.
-基础框架：Think-on-Graph（ToG）</h3>
-<p>ToG是面向KGQA的无训练框架，通过三阶段让语言模型实现多跳推理，具体流程如下：
-| 阶段 | 核心任务 | 实现逻辑 | |——|———-|———-| | 初始化（Initialization）
-| 提取主题实体并定位 | 从输入问题中识别关键实体（如“Northern
-District”），在知识图谱中匹配对应节点，构建初始推理路径 | |
-探索（Exploration） | 迭代扩展推理路径 | 基于束搜索（beam
-search），让模型探索相邻关系与实体，结合问题上下文对候选路径排序并剪枝 |
-| 推理（Reasoning） | 生成最终答案 |
-收集足够证据后，利用维护的推理路径生成答案，兼顾可解释性与上下文敏感性
-|</p>
-<h3 id="slm的探索模块改进方案">2. SLM的探索模块改进方案</h3>
-<p>针对SLM在“探索阶段”的能力不足，论文提出<strong>用轻量型 passage
-检索模型替代SLM自身完成探索任务</strong>，核心思路是“解耦探索与推理”，具体采用三类检索模型：
--
-<strong>BM25</strong>：基于关键词的传统检索模型，通过词频（TF）和逆文档频率（IDF）计算问题与候选
-passage 的相关性，无需训练，适用于简单匹配场景。 -
-<strong>SentenceBERT</strong>：BERT
-衍生模型，经微调生成语义级句子嵌入，通过向量相似度（点积）衡量相关性，参数约1.1亿，远小于最小SLM（0.5B）。
-- <strong>GTR</strong>：T5 衍生模型，针对 passage
-检索优化，同样通过嵌入向量计算相似度，参数规模与 SentenceBERT
-相当，检索精度更优。</p>
-<p>上述模型均采用“零样本即插即用”模式，无需额外训练，完美适配低资源场景。</p>
-<h2 id="三实验设计与关键结果">三、实验设计与关键结果</h2>
-<h3 id="实验-setup">1. 实验 setup</h3>
+<h3 id="2-2-Introduction（引言）">2.2 Introduction（引言）</h3>
+<h4 id="2-2-1-研究背景与问题">2.2.1 研究背景与问题</h4>
 <ul>
-<li><strong>知识图谱与数据集</strong>：基于Freebase知识图谱，在两个KGQA基准数据集上测试：
-<ul>
-<li>ComplexWebQuestions（CWQ）：含复杂多跳问题（最多4跳），侧重深度推理能力。</li>
-<li>WebQSP：以1-2跳问题为主，侧重基础检索与匹配能力。</li>
-</ul></li>
-<li><strong>评价指标</strong>：采用精确匹配（EM）分数，衡量预测答案与标准答案的完全一致性。</li>
-<li><strong>模型选择</strong>：
-<ul>
-<li>LLM对照组：GPT-4.1（2025年4月快照）。</li>
-<li>SLM实验组：Qwen2-0.5b、Gemma2-2b、Phi-3-mini-3.8b、Qwen2-7b、Llama-3-8b（参数0.5B-8B）。</li>
-</ul></li>
+<li>“微调即服务”的安全风险：用户无直接参数访问权，但上传的恶意/无意有害数据会破坏模型安全；仅1%有害指令混入微调数据即可突破安全机制，甚至干净数据微调也会降低模型安全性（图1展示有害微调导致模型响应恶意请求的过程）。</li>
+<li>现有防御方法分类及缺陷：
+<ol>
+<li><strong>扰动法</strong>：注入触发有害行为的扰动以校准参数，但对有害指令形式敏感，效果波动大。</li>
+<li><strong>偏好数据融合法</strong>：用任务数据+偏好数据共同微调，平衡任务性能与安全，但难以把控两者优化平衡。</li>
+<li><strong>微调后重对齐法</strong>：不干扰微调目标，直接重对齐微调后模型（如SafeLoRA通过投影矩阵评估层安全子空间差异），但易遗漏下游任务关键神经元。</li>
+</ol>
+</li>
+<li>研究动机：受“神经元对模型安全起关键作用”启发，提出神经元级安全重对齐，在恢复安全的同时最小化对任务性能的影响。</li>
 </ul>
-<h3 id="核心实验结果与分析">2. 核心实验结果与分析</h3>
-<h4
-id="rq1tog对slm与llm的适配性对比表1">（1）RQ1：ToG对SLM与LLM的适配性对比（表1）</h4>
+<h4 id="2-2-2-NLSR框架简介与主要贡献">2.2.2 NLSR框架简介与主要贡献</h4>
 <ul>
-<li><strong>LLM表现</strong>：GPT-4.1在ToG框架下性能显著提升，CWQ从0.457（CoT）升至0.540（ToG），WebQSP从0.710（CoT）升至0.813（ToG），验证ToG对LLM的有效性。</li>
-<li><strong>SLM表现</strong>：SLM采用ToG后性能无稳定提升，部分模型甚至低于CoT基线。例如Qwen2-0.5b的CWQ分数从0.129（CoT）降至0.081（ToG），平均SLM的CWQ分数从0.219（CoT）降至0.217（ToG），表明ToG框架无法直接适配SLM。</li>
+<li>NLSR框架三步流程：构建安全参考模型→识别安全关键神经元→修复安全受损神经元。</li>
+<li>重申三大核心贡献（与论文概览一致）。</li>
 </ul>
-<h4
-id="rq2slm性能瓶颈定位探索阶段缺陷表2表3">（2）RQ2：SLM性能瓶颈定位——探索阶段缺陷（表2、表3）</h4>
+<h3 id="2-3-Neuron-Level-Safety-Realignment（神经元级安全重对齐）">2.3 Neuron-Level Safety Realignment（神经元级安全重对齐）</h3>
+<h4 id="2-3-1-框架概述">2.3.1 框架概述</h4>
 <ul>
-<li><strong>案例验证</strong>：以问题“What type of government is used in
-the country with Northern District？”为例，SLM自身仅检索到（“Northern
-District”，“country”，“Israel”）等基础三元组，无法回答政府类型；而使用GPT-4.1检索的三元组（含“Israel”→“Parliamentary
-system”）时，SLM可生成正确答案，证明SLM推理能力无缺陷，核心瓶颈是探索阶段无法获取关键知识。</li>
-<li><strong>定量验证</strong>：让GPT-4.1辅助SLM完成探索后，所有SLM性能显著提升。例如Llama-3-8b的CWQ分数从0.291（CoT）升至0.451（GPT-4.1
-ToG），WebQSP从0.603升至0.772，平均提升0.159（CWQ）和0.238（WebQSP），进一步确认“探索阶段”是核心瓶颈。</li>
+<li>目标：使微调后的定制模型($F_{W_{t}}$)（由初始对齐模型($F_{W_{a}}$)在含少量有害指令的任务数据上微调得到）安全水平接近($F_{W_{a}}$)。</li>
+<li>三步流程：①预放大初始对齐模型得到安全参考模型；②建立评分机制识别参考模型中的安全关键神经元；③对比定制模型与参考模型各层安全关键神经元相似度，对相似度低的层移植参考模型神经元修复。</li>
 </ul>
-<h4
-id="rq3轻量检索模块对slm的改进效果表4">（3）RQ3：轻量检索模块对SLM的改进效果（表4）</h4>
+<h4 id="2-3-2-安全参考模型构建">2.3.2 安全参考模型构建</h4>
 <ul>
-<li><strong>整体趋势</strong>：SentenceBERT和GTR可显著提升SLM的KGQA性能，且优于BM25和原始ToG。例如：
-<ul>
-<li>Qwen2-7b的CWQ分数从0.300（ToG）升至0.331（GTR），WebQSP从0.637升至0.671。</li>
-<li>Phi-3-mini-3.8b的WebQSP分数从0.520（ToG）升至0.605（GTR）。</li>
-</ul></li>
-<li><strong>关键发现</strong>：轻量检索模块对SLM的增益，与对LLM的影响形成对比——Sun等人（2024）发现检索模块会导致LLM性能下降，而本研究中SLM性能提升，核心原因是SLM自身探索能力弱，轻量模块可弥补缺陷，而LLM自身探索能力强，外部模块反而干扰决策。</li>
+<li>核心思路：基于“弱到强外推”（Weak-to-Strong Extrapolation）思想，用LoRA外推放大初始对齐模型的安全特征，得到“超对齐”模型($F_{W_{e}}$)。</li>
+<li>实现方式：冻结模型大部分权重($\bar{W}_{unaligned}$)，仅更新LoRA权重：
+<ol>
+<li>若有弱LoRA权重($W_{weak}$)（SFT训练得到）和强LoRA权重($W_{strong}$)，通过插值得到中等安全LoRA权重($W_{medium}$)。</li>
+<li>若无($W_{strong}$)，用偏好对齐LoRA权重($W_{a}$)和SFT权重($\bar{W}<em>{0}$)外推得到超对齐权重($W</em>{e}$)，公式为：<br>
+$$W_{e} = W_{a} + \beta \cdot (W_{a} - \bar{W}<em>{0})$$<br>
+其中($\beta=\frac{1-\alpha}{\alpha} \in[0,+\infty)$)为预放大系数，且($W</em>{e}=W_{strong}$)、($W_{0}^{-}=W_{weak}$)、($W_{a}=W_{medium}$)。</li>
+</ol>
+</li>
 </ul>
-<h2 id="四研究结论与局限">四、研究结论与局限</h2>
-<h3 id="核心结论">1. 核心结论</h3>
+<h4 id="2-3-3-安全关键神经元识别">2.3.3 安全关键神经元识别</h4>
 <ul>
-<li><strong>ToG框架的适配性</strong>：现有ToG框架对SLM无效，仅能提升LLM性能。</li>
-<li><strong>SLM的核心瓶颈</strong>：知识图谱“探索阶段”的路径检索与剪枝能力不足，导致无法获取关键推理证据。</li>
-<li><strong>有效改进方案</strong>：引入轻量型 passage
-检索模型（如SentenceBERT、GTR）替代SLM完成探索，可在无额外训练的情况下，显著提升SLM的KGQA性能，兼顾效率与精度。</li>
+<li>数据准备：构建识别数据集，包含($x_{prompt}, y_{response}$)实例（$s \in S, S={s_1,…,s_n}$)，(n)为实例数）。</li>
+<li>低秩近似与权重更新：
+<ol>
+<li>目标：在稀疏率($P_{SR}$)下移除部分LoRA权重，找低秩矩阵($\hat{W}<em>j$)最小化输出差异的F范数：<br>
+$$W</em>{j}=\underset{rank\left(\hat{W}<em>{j}\right) \leq r^{*}}{arg min }\left| W</em>{j} \hat{X}<em>{j}^{i}-\hat{W}</em>{j} \hat{X}<em>{j}^{i}\right| <em>{F}^{2}$$<br>
+其中($r^{*}=r \times (1-P</em>{SR}$)（(r)为原始秩），($\hat{X}</em>{j}^{i} \in \mathbb{R}^{n \times (d’ \times l)}$)是所有实例在第(j)层的表示矩阵，($W_j \in \mathbb{R}^{d’ \times d}$)是第(j)层权重。</li>
+<li>截断SVD分解：对($W_j \hat{X}_{j}^{i}$)做截断SVD，保留前($r^{*}$)个左奇异向量，构建低秩近似矩阵($\hat{W}_j = UU^T W_j$)（保留安全关键权重）。</li>
+</ol>
+</li>
+<li>安全关键神经元筛选：
+<ol>
+<li>计算权重重要性：将($\hat{W}<em>j$)按绝对值大小转为安全分数，选择前($top_k = N^{*} \times (1-P</em>{SR})$)个神经元（($N^{*}$)为总神经元数），筛选索引为：<br>
+$$indices = argsort(-|\hat{W}_j|)[:, :topk]$$</li>
+<li>位置掩码定义：用掩码($M_{j,i^{<em>}}$)标记安全关键神经元位置：<br>
+$$M_{j, i^{</em>}}= \begin{cases}1, &amp; if i^{*} \in indices \ 0, &amp; otherwise \end{cases}$$</li>
+</ol>
+</li>
 </ul>
-<h3 id="研究局限">2. 研究局限</h3>
+<h4 id="2-3-4-安全受损神经元修复">2.3.4 安全受损神经元修复</h4>
 <ul>
-<li><strong>实验设计</strong>：受计算资源限制，仅进行单次实验（未使用多随机种子），无法量化结果方差，但跨模型的一致趋势仍能支撑结论。</li>
-<li><strong>模块通用性</strong>：未测试更多轻量检索模型，且仅针对Freebase和两个数据集，需进一步验证在其他知识图谱与任务中的适配性。</li>
+<li>
+<ol>
+<li>基于概率的层剪枝（Probability-based Layer Pruning）</li>
+</ol>
+<ul>
+<li>微调后模型特征：定制模型($F_{W_t}$)第(j)层LoRA权重($W_{t,j}=B_{t,j}A_{t,j}$)（($A \in \mathbb{R}^{r \times k}$)），微调提升任务性能但破坏安全关键神经元。</li>
+<li>安全区域定义：用掩码($M_j^A \in \mathbb{R}^{r \times k}$)和($M_j^B \in \mathbb{R}^{d \times r}$)标记安全关键神经元区域（仅安全关键位置为1，其余为0），则参考模型和定制模型第(j)层安全区域权重分别为：<br>
+$$W_{e,j}’ = (M_j^B \odot B_j)(M_j^A \odot A_{e,j})$$<br>
+$$W_{t,j}’ = (M_j^B \odot B_j)(M_j^A \odot A_{t,j})$$</li>
+<li>相似度计算：用Frobenius内积和范数计算两层安全区域的相似度($S_j$)，相似度低表示安全受损严重。</li>
+<li>剪枝概率分配：对层相似度($S_1,…,S_N$)排序得($rank(S_1,…,S_N)$)，基于第(j)层排名($r_j$)分配剪枝概率：<br>
+$$P_j = P_L + \frac{\delta r_j}{N}$$<br>
+其中($P_L$)为基础剪枝概率，($\delta$)为增量因子，(N)为总层数；仅对未剪枝的层进行神经元修复。</li>
 </ul>
-<h2 id="五研究意义与延伸">五、研究意义与延伸</h2>
-<h3 id="理论意义">1. 理论意义</h3>
+</li>
+<li>
+<ol start="2">
+<li>神经元级修正（Neuron-Level Correction）</li>
+</ol>
 <ul>
-<li>首次系统分析SLM在KGQA中的瓶颈，明确“探索阶段”的关键作用，补充“LLM×KG”范式在低资源场景的研究空白。</li>
-<li>验证“解耦探索与推理”思路的有效性，为小型模型与知识图谱的结合提供新方向。</li>
+<li>基于剪枝系数($\gamma_j$)（标记第(j)层是否剪枝），更新定制模型第(j)层安全区域权重：<br>
+$$W_{t,j}‘’ = \begin{cases} W_{e,j}’ + \hat{W}<em>{t,j}’ &amp; if \gamma_j = 0 \ W</em>{t,j}’ &amp; otherwise \end{cases}$$<br>
+其中($\hat{W}<em>{t,j}’ = ((1-M_j^B) \odot B</em>{t,j})((1-M_j^A) \odot A_{t,j})$)（非安全关键区域权重），即未剪枝层用参考模型安全关键权重+定制模型非安全权重实现修复。</li>
 </ul>
-<h3 id="实践意义">2. 实践意义</h3>
+</li>
+</ul>
+<h3 id="2-4-Experiments（实验）">2.4 Experiments（实验）</h3>
+<h4 id="2-4-1-实验设置">2.4.1 实验设置</h4>
 <ul>
-<li>为终端部署、低资源场景提供可行方案：无需依赖大型模型，通过轻量模块即可让SLM高效利用知识图谱，降低幻觉风险。</li>
-<li>开源代码（https://github.com/yijie-cheng/SLM-ToG/）为后续研究提供基础工具。</li>
+<li><strong>数据集</strong>：
+<ul>
+<li>对齐数据集：从PKU-SafeRLHF采样2000条偏好数据，用于SFT、DPO、ORPO、KTO、SimPO得到初始对齐模型。</li>
+<li>下游任务数据集：SST-2（情感分类）、AGNEWS（新闻分类）、GSM8K（数学推理）；每个数据集含1000条实例，从BeaverTails注入中毒指令（比例(p=0.05)）。</li>
+</ul>
+</li>
+<li><strong>模型</strong>：基础模型为Llama3 8B，用LoRA（秩128）实现参数高效微调。</li>
+<li><strong>基线方法</strong>：
+<ul>
+<li>非对齐模型（NonAligned）：初始化未对齐模型；</li>
+<li>对齐模型（Aligned）：仅初始对齐未修复模型；</li>
+<li>微调前防御（Vaccine）：扰动感知对齐；</li>
+<li>微调中防御（Vlguard、Lisa、ConstrainedSFT）：融合偏好数据或约束SFT；</li>
+<li>微调后防御（SafeLoRA）：层级安全重对齐。</li>
+</ul>
+</li>
+<li><strong>评价指标</strong>：
+<ul>
+<li>微调精度（FA）：下游任务性能；</li>
+<li>危害分数（HS）：模型对有害查询生成不安全内容的比例，由QA-Moderation判断。</li>
+</ul>
+</li>
+<li><strong>实现细节</strong>：
+<ul>
+<li>对齐阶段：AdamW优化器，学习率2e-6（ORPO为2e-4），训练3轮；</li>
+<li>微调阶段：训练10轮，批次大小8；</li>
+<li>超参数：稀疏率($P_{SR}=0.8$)（安全区域比例0.2），基础剪枝概率($P_L=0.5$)。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-4-2-主要结果">2.4.2 主要结果</h4>
+<ul>
+<li>
+<ol>
+<li>
+<p>不同中毒比例下的有效性（表1，SST-2任务）</p>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94NLSR-Neuron-Level-Safety-Realignment-of-Large-Language-Models-Against-Harmful-Fine-Tuning/image-20251029130531960.png" alt="image-20251029130531960"></p>
+</li>
+</ol>
+<ul>
+<li>NLSR平均HS仅22.8%，比Aligned（61.1%）降低38.3%，比SafeLoRA（53.1%）降低30.3%；</li>
+<li>NLSR平均FA达95.1%，与ConstrainedSFT（95.2%）接近，且显著高于SafeLoRA（94.0%）。</li>
+</ul>
+</li>
+<li>
+<ol start="2">
+<li>
+<p>不同对齐方法的鲁棒性（表2，(p=0.05)）</p>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94NLSR-Neuron-Level-Safety-Realignment-of-Large-Language-Models-Against-Harmful-Fine-Tuning/image-20251029130625191.png" alt="image-20251029130625191"></p>
+</li>
+</ol>
+<ul>
+<li>SFT对齐模型安全性最弱，即使重对齐后HS仍达46.6%，而DPO、ORPO等偏好对齐模型重对齐后HS更低；</li>
+<li>NLSR相对Aligned平均降低HS 29.5%，且所有对齐方法下FA均保持在94.7%左右。</li>
+</ul>
+</li>
+<li>
+<ol start="3">
+<li>
+<p>不同下游任务的一致性（表3，(p=0.05)）</p>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94NLSR-Neuron-Level-Safety-Realignment-of-Large-Language-Models-Against-Harmful-Fine-Tuning/image-20251029130636390.png" alt="image-20251029130636390"></p>
+</li>
+</ol>
+<ul>
+<li>AGNEWS任务：NLSR的HS=19.7%（Aligned为55.7%），FA=87.8%（与Aligned接近）；</li>
+<li>GSM8K任务：NLSR的HS=15.4%（Aligned为53.2%），FA=55.6%（优于所有基线，包括Aligned的51.0%）；</li>
+<li>优势：无需额外安全数据，不干扰下游微调流程。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-5-Analysis（分析）">2.5 Analysis（分析）</h3>
+<h4 id="2-5-1-自适应安全关键层剪枝的必要性">2.5.1 自适应安全关键层剪枝的必要性</h4>
+<ul>
+<li>层相似度波动：微调前后不同层的安全关键区域相似度差异大，安全关键神经元数量减少时，相似度显著下降；</li>
+<li>对齐方法差异：同一相似度阈值下，不同对齐方法的安全受损层数差异显著（如($\tau=0.2$)时，ORPO受损层数不到KTO的20%）；</li>
+<li>结论：固定阈值剪枝无法适配不同安全区域和对齐方法，自适应剪枝是保证安全的关键。</li>
+</ul>
+<h4 id="2-5-2-安全关键神经元的相似性">2.5.2 安全关键神经元的相似性</h4>
+<ul>
+<li>层相似度：三种识别方法（Wanda、SNIP、NLSR）识别的安全受损层相似度超0.9（不同剪枝率下）；</li>
+<li>神经元重叠：三种方法识别的安全关键神经元重叠系数超0.6（遍历所有层）；</li>
+<li>结论：安全预放大后，不同识别方法在定位安全关键神经元上具有高一致性，验证神经元级分析的可靠性。</li>
+</ul>
+<h3 id="2-6-Ablation-Study（消融研究）">2.6 Ablation Study（消融研究）</h3>
+<h4 id="2-6-1-预放大系数β的敏感性">2.6.1 预放大系数β的敏感性</h4>
+<ul>
+<li>实验：在tinyBenchmarks（tinyHellaswag、tinyMMLU等）和BeaverTails上评估不同β的影响；</li>
+<li>结果：β=0.9时，模型几乎拒绝所有有害指令（HS最低），且对tinyBenchmarks任务效用影响小（部分任务精度提升），故选为默认值。</li>
+</ul>
+<h4 id="2-6-2-预放大的影响（表4，-P-SR-0-8-）">2.6.2 预放大的影响（表4，(P_{SR}=0.8)）</h4>
+<ul>
+<li>有预放大时，AGNEWS的HS从44.4%（无预放大）降至29.9%，FA从86.9%升至88.0%；</li>
+<li>GSM8K的HS从41.5%（无预放大）降至25.1%，且随稀疏率增加，预放大的安全提升效果更显著（图6）。</li>
+</ul>
+<h4 id="2-6-3-安全关键神经元识别方法的对比（表5）">2.6.3 安全关键神经元识别方法的对比（表5）</h4>
+<ul>
+<li>随机选择区域：HS=46.1%，比Aligned（56.6%）仅低10.5%，安全提升有限；</li>
+<li>NLSR方法：HS=20.4%，FA=96.2%，运行时间196.3s，优于Wanda（HS=31.4%，时间122.1s）和SNIP（HS=30.1%，时间386.6s）。</li>
+</ul>
+<h4 id="2-6-4-安全可迁移性（表6）">2.6.4 安全可迁移性（表6）</h4>
+<ul>
+<li>在HarmBench数据集上验证：(p=0.01)时NLSR的HS=19.0%（Aligned为50.2%），(p=0.1)时HS=23.3%（Aligned为76.1%）；</li>
+<li>结论：NLSR对不同类型的有害指令具有跨数据集迁移性。</li>
+</ul>
+<h3 id="2-7-Related-Work（相关工作）">2.7 Related Work（相关工作）</h3>
+<h4 id="2-7-1-微调攻击">2.7.1 微调攻击</h4>
+<ul>
+<li>背景：“微调即服务”普及（OpenAI、Mistral等），LLMs经RLHF/DPO对齐后仍易受攻击；</li>
+<li>特点：仅需100条恶意样本即可使模型适配有害任务，同时保持任务性能。</li>
+</ul>
+<h4 id="2-7-2-LLM安全防护">2.7.2 LLM安全防护</h4>
+<ul>
+<li>微调中防御：Vlguard、Lisa（融合偏好数据）、ConstrainedSFT（约束初始token更新），但干扰微调流程；</li>
+<li>微调前防御：Vaccine、RepNoise（注入扰动），对未知有害指令鲁棒性差；</li>
+<li>微调后防御：SafeLoRA（层级重对齐），易遗漏任务关键神经元；Antidote（移除安全关键神经元），不考虑任务效用；</li>
+<li>本文差异：NLSR为神经元级修复，无训练、不干扰微调，平衡安全与任务性能。</li>
+</ul>
+<h4 id="2-7-3-知识神经元">2.7.3 知识神经元</h4>
+<ul>
+<li>概念：通过修改特定神经元可影响模型输出，SNIP（基于损失梯度）、Wanda（基于激活变化）识别任务关键神经元；</li>
+<li>安全神经元：Chen等用激活对比定位安全神经元，Wei等发现冻结安全神经元不足以防攻击；</li>
+<li>本文延伸：基于安全神经元的“修复”而非“冻结/移除”，最小化对任务性能的影响。</li>
+</ul>
+<h3 id="2-8-Conclusion（结论）">2.8 Conclusion（结论）</h3>
+<ul>
+<li>问题总结：“微调即服务”中，含少量有害指令的任务数据会破坏LLMs安全对齐；</li>
+<li>方法核心：NLSR框架通过预放大构建超对齐参考模型，识别并修复安全关键神经元，无需额外训练；</li>
+<li>实验结论：在多种任务、中毒比例、对齐方法下，NLSR实现安全重对齐，同时保持下游任务精度；</li>
+<li>关键发现：微调攻击未显著破坏模型的安全概念，仅扰动输出模式，神经元级修复可有效恢复安全。</li>
+</ul>
+<h3 id="2-9-补充章节">2.9 补充章节</h3>
+<h4 id="2-9-1-Reference-Model-Setting（参考模型细节）">2.9.1 Reference Model Setting（参考模型细节）</h4>
+<ul>
+<li>构成：由低对齐模型（SFT，用BeaverTails 2000条问答对训练）和中对齐模型（偏好优化，如DPO，用PKU-SafeRLHF-30K 2000条偏好对训练）外推合成，非单一基础模型或仅安全指令微调模型。</li>
+</ul>
+<h4 id="2-9-2-More-Results（扩展结果）">2.9.2 More Results（扩展结果）</h4>
+<ul>
+<li>稀疏率与任务性能权衡：稀疏率增加（安全神经元减少），HS上升、FA提升（图7(a)）；</li>
+<li>域外任务影响：修复安全神经元对域外任务（tinyArc、tinyMMLU）性能有提升、不变或下降（图7(b)），提升源于指令跟随能力增强；</li>
+<li>层位置影响：更新8-11层安全区域HS降最多，但AGNEWS的FA降幅大（图7©-(d)）；</li>
+<li>多模型泛化：在Qwen2-7B、Mistral-7B、Llama3-8B上，NLSR平均HS=25.1%、FA=95.6%，Mistral-7B上HS降18.4%、FA仅降0.1%（表7）；</li>
+<li>干净数据微调：干净数据也会导致安全下降（知识遗忘），NLSR可将Mistral-7B毒性降至10%以下（图8）；</li>
+<li>主题级效果：14个有害主题（动物虐待、隐私侵犯等）上，NLSR的HS不超过原有1/3（图9）。</li>
+</ul>
+<h4 id="2-9-3-Safety-Analysis（安全分析）">2.9.3 Safety Analysis（安全分析）</h4>
+<ul>
+<li>跨任务安全迁移：SST2识别的安全神经元移植到AGNEWS，HS=19.2%、FA=87.8%（表8），归因于精细识别和攻击模式相似；</li>
+<li>安全概念完整性：用SVM/MLP分类良性/恶意输入的隐藏态，准确率超95%（图10），说明微调攻击未破坏安全概念，仅扰动输出模式；</li>
+<li>模块分布：安全关键神经元分布在注意力和MLP模块，初始层MLP多、末层注意力多，中间层部分模块未被识别（图11）。</li>
+</ul>
+<h4 id="2-9-4-Preliminaries（预备知识）">2.9.4 Preliminaries（预备知识）</h4>
+<ul>
+<li>Weak-to-Strong Extrapolation：一阶泰勒展开近似对齐目标($M(\theta_e + \alpha\Delta\theta) \approx M(\theta_e) + \alpha\Delta\theta \cdot \nabla_\theta M(\theta_e)$)，控制($\alpha$)使($|\alpha\Delta\theta| \ll \theta_e$)，保证($M(\theta_s) &gt; M(\theta_e)$)（($\theta_s=\theta_e+\alpha\Delta\theta$)）；</li>
+<li>安全关键神经元识别方法细节：
+<ul>
+<li>SNIP：权重重要性得分$$S(W_{ij})=|W_{ij}\cdot \nabla <em>{W</em>{ij}}\mathcal {L}(s)|$$，矩阵形式$$S(W)=|W\odot \nabla <em>{W}\mathcal {L}(s)|$$，数据集平均$$S(W)=\mathbb {E}</em>{(x,y)\sim D}\left| W\odot \nabla _{W}\mathcal {L}(s)\right|$$；</li>
+<li>Preference SNIP：用偏好数据，损失$$\mathcal{L}(s)=-log \sigma\left(\beta log \frac{\pi_{\theta}\left(y_{safe } | x\right)}{\pi_{ref }\left(y_{safe } | x\right)}-\beta log \frac{\pi_{\theta}\left(y_{unsafe } | x\right)}{\pi_{ref }\left(y_{unsafe } | x\right)}\right)$$；</li>
+<li>Wanda：最小化激活输出差异$$\operatorname* {min}<em>{M}| WX</em>{in}-(M\odot W)X_{in}| <em>{F}$$，重要性得分$$S(W)=|W| \odot\left(I \mathbb{E}</em>{X_{in } \sim D}\left|X_{in }\right|_{2}\right)$$。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-9-5-Qualitative-Examples（定性例子）">2.9.5 Qualitative Examples（定性例子）</h4>
+<ul>
+<li>表9（不同中毒比例）、表10（不同对齐方法）、表11（不同下游任务）均显示：Aligned、Vlguard、Lisa等基线生成有害响应（如推荐电子项圈虐待宠物、指导仿制警车），而NLSR生成无害响应（如拒绝有害行为、强调法律风险），直观验证NLSR的安全效果。</li>
+</ul>
+<h2 id="3-整体评价">3. 整体评价</h2>
+<ul>
+<li><strong>核心思想</strong>：论文针对LLMs“微调即服务”的安全漏洞，提出无训练的NLSR框架，通过预放大构建超对齐参考模型、识别安全关键神经元、自适应剪枝并移植修复，在SST-2、AGNEWS、GSM8K等任务中实现安全恢复（HS降低38.3%+）且保持任务精度，同时发现微调攻击未破坏安全概念仅扰动输出模式。</li>
+<li><strong>未来方向</strong>：探索NLSR在更多模型架构（如Transformer-XL）中的适配性；优化安全关键神经元识别的计算效率；结合动态预放大系数以适应不同任务场景的安全需求。</li>
 </ul>
 
       
@@ -412,7 +591,7 @@ id="rq3轻量检索模块对slm的改进效果表4">（3）RQ3：轻量检索模
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/null-index/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/12/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/null-index/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/12/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -435,14 +614,14 @@ id="rq3轻量检索模块对slm的改进效果表4">（3）RQ3：轻量检索模
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

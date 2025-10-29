@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="CONTRANS：基于概念移植的弱到强对齐工程 COLING 该论文假设不同大小及家族的 LLM 特征空间中存在共享概念表示，实验发现 CONTRANS 框架能从弱对齐模型提炼概念向量并经仿射变换移植到强未对齐模型，在情绪、真实性、毒性等任务上有效且数据要求与计算成本低。论文还揭示了概念在预训练阶段形成、对齐阶段激活及存在形成参数阈值的机制。 一、研究背景与动机 大语言模型（LLM）虽在海量数据训">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CONTRANS: Weak-to-Strong Alignment Engineering via Concept Transplantation">
+<meta property="og:url" content="http://example.com/posts/2510.029v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="CONTRANS：基于概念移植的弱到强对齐工程 COLING 该论文假设不同大小及家族的 LLM 特征空间中存在共享概念表示，实验发现 CONTRANS 框架能从弱对齐模型提炼概念向量并经仿射变换移植到强未对齐模型，在情绪、真实性、毒性等任务上有效且数据要求与计算成本低。论文还揭示了概念在预训练阶段形成、对齐阶段激活及存在形成参数阈值的机制。 一、研究背景与动机 大语言模型（LLM）虽在海量数据训">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-28T14:41:19.864Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.029v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.029v1/","path":"/posts/2510.029v1/","title":"CONTRANS: Weak-to-Strong Alignment Engineering via Concept Transplantation"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CONTRANS: Weak-to-Strong Alignment Engineering via Concept Transplantation | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">CONTRANS：基于概念移植的弱到强对齐工程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF%E4%B8%8E%E5%8A%A8%E6%9C%BA"><span class="nav-number">1.1.</span> <span class="nav-text">一、研究背景与动机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%A0%B8%E5%BF%83%E5%81%87%E8%AE%BE%E4%B8%8E%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.2.</span> <span class="nav-text">二、核心假设与相关工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A0%B8%E5%BF%83%E5%81%87%E8%AE%BE"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 核心假设</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C%E5%AF%B9%E6%AF%94"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 相关工作对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81CONTRANS%E6%A1%86%E6%9E%B6%EF%BC%9A%E4%B8%89%E6%AD%A5%E5%AE%9E%E7%8E%B0%E6%A6%82%E5%BF%B5%E7%A7%BB%E6%A4%8D"><span class="nav-number">1.3.</span> <span class="nav-text">三、CONTRANS框架：三步实现概念移植</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%AD%A5%E9%AA%A41%EF%BC%9A%E6%A6%82%E5%BF%B5%E6%8F%90%E7%82%BC%EF%BC%88%E4%BB%8E%E6%BA%90%E6%A8%A1%E5%9E%8B%E6%8F%90%E5%8F%96%E5%AF%B9%E9%BD%90%E6%A6%82%E5%BF%B5%EF%BC%89"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 步骤1：概念提炼（从源模型提取对齐概念）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C%EF%BC%9A"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">具体操作：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%AD%A5%E9%AA%A42%EF%BC%9A%E6%A6%82%E5%BF%B5%E9%87%8D%E6%9E%84%EF%BC%88%E9%80%82%E9%85%8D%E7%9B%AE%E6%A0%87%E6%A8%A1%E5%9E%8B%E7%89%B9%E5%BE%81%E7%A9%BA%E9%97%B4%EF%BC%89"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 步骤2：概念重构（适配目标模型特征空间）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C%EF%BC%9A-2"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">具体操作：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%AD%A5%E9%AA%A43%EF%BC%9A%E6%A6%82%E5%BF%B5%E7%A7%BB%E6%A4%8D%EF%BC%88%E6%B3%A8%E5%85%A5%E7%9B%AE%E6%A0%87%E6%A8%A1%E5%9E%8B%E6%AE%8B%E5%B7%AE%E6%B5%81%EF%BC%89"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. 步骤3：概念移植（注入目标模型残差流）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C%EF%BC%9A-3"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">具体操作：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%A0%B8%E5%BF%83%E7%BB%93%E6%9E%9C"><span class="nav-number">1.4.</span> <span class="nav-text">四、实验设计与核心结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AE%9E%E9%AA%8C1%EF%BC%9A%E8%B7%A8%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%BF%B5%E7%A7%BB%E6%A4%8D%E5%8F%AF%E8%A1%8C%E6%80%A7%EF%BC%88%E4%BB%A5%E6%83%85%E7%BB%AA%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 实验1：跨模型概念移植可行性（以情绪为例）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%EF%BC%9A%E9%AA%8C%E8%AF%81%E2%80%9C%E5%BC%B1%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%83%85%E7%BB%AA%E6%A6%82%E5%BF%B5%E5%8F%AF%E7%A7%BB%E6%A4%8D%E5%88%B0%E5%BC%BA%E6%A8%A1%E5%9E%8B%E2%80%9D"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">目标：验证“弱模型的情绪概念可移植到强模型”</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%BB%93%E6%9E%9C%EF%BC%9A"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">关键结果：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%9E%E9%AA%8C2%EF%BC%9A%E5%AF%B9%E9%BD%90%E6%A6%82%E5%BF%B5%E7%A7%BB%E6%A4%8D%E6%95%88%E6%9E%9C%EF%BC%88%E7%9C%9F%E5%AE%9E%E6%80%A7-%E6%AF%92%E6%80%A7%EF%BC%89"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 实验2：对齐概念移植效果（真实性+毒性）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%EF%BC%9A%E9%AA%8C%E8%AF%81CONTRANS%E5%9C%A8%E6%A0%B8%E5%BF%83%E5%AF%B9%E9%BD%90%E4%BB%BB%E5%8A%A1%E4%B8%8A%E7%9A%84%E6%80%A7%E8%83%BD%EF%BC%8C%E5%AF%B9%E6%AF%94%E4%BC%A0%E7%BB%9F%E5%9F%BA%E7%BA%BF"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">目标：验证CONTRANS在核心对齐任务上的性能，对比传统基线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%BB%93%E6%9E%9C%EF%BC%9A-2"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">关键结果：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E7%9C%9F%E5%AE%9E%E6%80%A7%E5%AF%B9%E9%BD%90%EF%BC%9A%E8%B6%85%E8%B6%8A%E9%83%A8%E5%88%86%E6%8C%87%E4%BB%A4%E5%BE%AE%E8%B0%83%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.4.2.2.1.</span> <span class="nav-text">（1）真实性对齐：超越部分指令微调模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E6%AF%92%E6%80%A7%E6%8A%91%E5%88%B6%EF%BC%9A%E4%BD%8E%E8%AE%A1%E7%AE%97%E6%88%90%E6%9C%AC%E4%B8%8B%E6%98%BE%E8%91%97%E9%99%8D%E6%AF%92"><span class="nav-number">1.4.2.2.2.</span> <span class="nav-text">（2）毒性抑制：低计算成本下显著降毒</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%9E%E9%AA%8C3%EF%BC%9A%E6%A6%82%E5%BF%B5%E5%BD%A2%E6%88%90%E4%B8%8E%E6%BF%80%E6%B4%BB%E6%9C%BA%E5%88%B6"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. 实验3：概念形成与激活机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%EF%BC%9A%E6%8F%AD%E7%A4%BALLM%E4%B8%AD%E2%80%9C%E6%A6%82%E5%BF%B5%E2%80%9D%E7%9A%84%E4%BA%A7%E7%94%9F%E9%98%B6%E6%AE%B5%EF%BC%88%E9%A2%84%E8%AE%AD%E7%BB%83-%E5%AF%B9%E9%BD%90%EF%BC%89"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">目标：揭示LLM中“概念”的产生阶段（预训练&#x2F;对齐）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E9%A2%84%E8%AE%AD%E7%BB%83%E9%98%B6%E6%AE%B5%EF%BC%9A%E6%A6%82%E5%BF%B5%E9%80%90%E6%AD%A5%E5%BD%A2%E6%88%90"><span class="nav-number">1.4.3.1.1.</span> <span class="nav-text">（1）预训练阶段：概念逐步形成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E5%AF%B9%E9%BD%90%E9%98%B6%E6%AE%B5%EF%BC%9A%E6%A6%82%E5%BF%B5%E8%A2%AB%E6%BF%80%E6%B4%BB"><span class="nav-number">1.4.3.1.2.</span> <span class="nav-text">（2）对齐阶段：概念被激活</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%883%EF%BC%89%E6%A8%A1%E5%9E%8B%E5%A4%A7%E5%B0%8F%E9%98%88%E5%80%BC%EF%BC%9A%E5%B0%8F%E6%A8%A1%E5%9E%8B%E6%97%A0%E6%B8%85%E6%99%B0%E6%A6%82%E5%BF%B5"><span class="nav-number">1.4.3.1.3.</span> <span class="nav-text">（3）模型大小阈值：小模型无清晰概念</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E8%B4%A1%E7%8C%AE%E4%B8%8E%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">1.5.</span> <span class="nav-text">五、贡献与局限性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A0%B8%E5%BF%83%E8%B4%A1%E7%8C%AE"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 核心贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 局限性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E7%A0%94%E7%A9%B6%E6%84%8F%E4%B9%89"><span class="nav-number">1.6.</span> <span class="nav-text">六、研究意义</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.029v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CONTRANS: Weak-to-Strong Alignment Engineering via Concept Transplantation | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CONTRANS: Weak-to-Strong Alignment Engineering via Concept Transplantation
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-28 22:41:19" itemprop="dateModified" datetime="2025-10-28T22:41:19+08:00">2025-10-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>CONTRANS：基于概念移植的弱到强对齐工程</h1>
+<p>COLING</p>
+<p>该论文假设不同大小及家族的 LLM 特征空间中存在共享概念表示，实验发现 CONTRANS 框架能从弱对齐模型提炼概念向量并经仿射变换移植到强未对齐模型，在情绪、真实性、毒性等任务上有效且数据要求与计算成本低。论文还揭示了概念在预训练阶段形成、对齐阶段激活及存在形成参数阈值的机制。</p>
+<h2 id="一、研究背景与动机">一、研究背景与动机</h2>
+<p>大语言模型（LLM）虽在海量数据训练下具备强大任务能力，但<strong>预训练目标与人类目标/价值观脱节</strong>，易生成偏见、虚假信息等有害输出，因此“模型对齐”（确保LLM行为符合人类意图）是安全AI的核心问题。</p>
+<p>传统对齐方法（如监督微调SFT、人类反馈强化学习RLHF、直接偏好优化DPO）存在三大关键痛点：</p>
+<ol>
+<li><strong>数据依赖</strong>：需高质量、多样化的人类偏好数据，标注过程耗时耗力；</li>
+<li><strong>计算昂贵</strong>：对齐训练（尤其针对百亿参数级LLM）对算力需求极高，资源受限场景难以承受；</li>
+<li><strong>局限性明显</strong>：存在透明度低、训练不稳定等问题，且难以复用已有的对齐知识。</li>
+</ol>
+<p>现有“弱到强监督”思路（用弱模型指导强模型对齐）仍停留在<strong>外部数据层面</strong>（如用弱模型生成/过滤训练数据），未触及LLM内部隐藏特征空间；而传统表示工程仅针对“单模型内部”干预，无法跨模型（不同大小/家族）迁移概念。</p>
+<p>为此，论文提出<strong>CONTRANS框架</strong>，核心目标是：通过“概念移植”实现<strong>弱模型（已对齐）到强模型（未对齐）的内部特征空间对齐迁移</strong>，以极低计算成本复用对齐知识，解决传统方法的痛点。</p>
+<h2 id="二、核心假设与相关工作">二、核心假设与相关工作</h2>
+<h3 id="1-核心假设">1. 核心假设</h3>
+<p>论文的方法论建立在两个关键实证假设上：</p>
+<ol>
+<li><strong>概念的跨模型共享性</strong>：不同大小、不同家族的LLM，其特征空间中存在“共享的概念表示”（如“诚实”“快乐”等抽象概念）；</li>
+<li><strong>概念的可干预性</strong>：通过调整强模型特征空间中“目标概念的极性”（如增强“诚实”、抑制“毒性”），可控制其输出偏好，无需修改模型参数。</li>
+</ol>
+<h3 id="2-相关工作对比">2. 相关工作对比</h3>
+<table>
+<thead>
+<tr>
+<th>研究方向</th>
+<th>核心思路</th>
+<th>局限性</th>
+<th>CONTRANS的突破</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>表示工程</td>
+<td>单模型内部修改激活值，干预特定概念（情绪、真实性）</td>
+<td>仅支持“单模型内干预”，无法跨模型迁移；若目标模型无该概念，则干预无效</td>
+<td><strong>跨模型表示工程</strong>：从弱模型提取概念，移植到强模型，突破模型大小/家族限制</td>
+</tr>
+<tr>
+<td>弱到强监督</td>
+<td>用弱模型生成标签/数据，指导强模型外部训练（如SFT）</td>
+<td>依赖外部数据，需额外训练；将LLM视为黑箱，不触及内部特征</td>
+<td><strong>内部特征空间干预</strong>：无需外部数据/额外训练，仅移植概念向量，计算成本极低</td>
+</tr>
+</tbody>
+</table>
+<h2 id="三、CONTRANS框架：三步实现概念移植">三、CONTRANS框架：三步实现概念移植</h2>
+<p>CONTRANS是一套“无训练”的对齐框架，核心是将<strong>弱对齐模型（源模型，如7B instruct）的“对齐概念向量”</strong> 移植到<strong>强未对齐模型（目标模型，如13B/70B base）</strong>，分为三个核心步骤：</p>
+<h3 id="1-步骤1：概念提炼（从源模型提取对齐概念）">1. 步骤1：概念提炼（从源模型提取对齐概念）</h3>
+<p>从“已对齐的弱模型（$M^{src}$）”中，用少量正负样本提取目标概念（如“诚实”“无毒”）的向量表示，核心方法是<strong>均值差法</strong>（简单且可扩展到复杂方法）。</p>
+<h4 id="具体操作：">具体操作：</h4>
+<ul>
+<li>准备<strong>概念相关的正负样本对</strong>：例如“诚实”概念中，正样本为“假装你是诚实的人描述世界”的指令+问题，负样本为“假装你是不诚实的人描述世界”的指令+问题；</li>
+<li>输入样本到$M^{src}$，缓存每一层最后一个token的隐藏状态（$h_{pos}^k$为正样本隐藏态，$h_{neg}^k$为负样本隐藏态）；</li>
+<li>计算概念向量：通过正负样本隐藏态的均值差，过滤低层次语言特征，保留概念相关特征方向：<br>
+$$v_{concept}^k = \frac{1}{N} \sum_{i=1}^N (h_{pos(i)}^k - h_{neg(i)}^k)$$<br>
+其中$N$为正负样本对数量（实验中20个即可达良好效果，数据需求极低）。</li>
+</ul>
+<h3 id="2-步骤2：概念重构（适配目标模型特征空间）">2. 步骤2：概念重构（适配目标模型特征空间）</h3>
+<p>源模型与目标模型的<strong>隐藏层维度、特征空间结构不同</strong>（如7B模型维度4096，13B模型维度5120），需通过<strong>仿射变换</strong>将提炼的概念向量投影到目标模型空间，确保可移植性。</p>
+<h4 id="具体操作：-2">具体操作：</h4>
+<ul>
+<li>目标：学习仿射矩阵$F \in \mathbb{R}^{d_1 \times d_2}$（$d_1$为源模型维度，$d_2$为目标模型维度），使源模型隐藏态$h_{src}$经$F$变换后与目标模型隐藏态$h_{tgt}$尽可能接近；</li>
+<li>损失函数：最小化均方误差$|h_{src}F - h_{tgt}|^2$；</li>
+<li>稳定求解：通过奇异值分解（SVD）避免矩阵求逆的数值不稳定问题，最终解析解为：<br>
+$$\hat{F} = V\Sigma^{-1}U^T Y$$<br>
+（其中$h_{src}=U\Sigma V^T$为源模型隐藏态的SVD分解，$Y=h_{tgt}$为目标模型隐藏态）；</li>
+<li>数据选择：用WikiSplit数据集（含Wikipedia文本，与LLM预训练数据一致）提取$h_{src}$和$h_{tgt}$，确保变换适配性。</li>
+</ul>
+<h3 id="3-步骤3：概念移植（注入目标模型残差流）">3. 步骤3：概念移植（注入目标模型残差流）</h3>
+<p>将重构后的概念向量$\hat{v}_{concept}$注入目标模型（$M^{tgt}$）的<strong>残差流</strong>（Transformer层核心特征传递路径），通过超参数$\alpha$控制干预强度，调整目标模型的概念极性。</p>
+<h4 id="具体操作：-3">具体操作：</h4>
+<ul>
+<li>Transformer残差流机制：Transformer层的隐藏态$h^k = h^{k-1} + \text{MLP(ATTN}(h^{k-1}))$，残差流是特征积累的核心路径；</li>
+<li>移植公式：修改目标模型第$k$层隐藏态，引入概念向量偏移：<br>
+$$h_{tgt}^k = h_{tgt}^{k-1} + \text{MLP(ATTN}(h_{tgt}^{k-1})) + \alpha \cdot \hat{v}_{concept}$$<br>
+其中$\alpha \in [0.3,1.5]$，通过验证集网格搜索选择（避免$\alpha$过大导致生成不连贯）；</li>
+<li>核心效果：$\hat{v}_{concept}$相当于为目标模型“注入”弱模型的对齐知识，增强/抑制特定概念的输出偏好（如$\alpha$增大，“诚实”输出概率提升）。</li>
+</ul>
+<h2 id="四、实验设计与核心结果">四、实验设计与核心结果</h2>
+<p>论文围绕“概念可移植性”“对齐效果”“概念形成机制”三大维度设计实验，覆盖<strong>10+ LLM（LLaMA系列、Code LLaMA、Vicuna、Mistral、Gemma等）</strong>，验证概念包括“基础情绪”“真实性”“毒性”三类。</p>
+<h3 id="1-实验1：跨模型概念移植可行性（以情绪为例）">1. 实验1：跨模型概念移植可行性（以情绪为例）</h3>
+<h4 id="目标：验证“弱模型的情绪概念可移植到强模型”">目标：验证“弱模型的情绪概念可移植到强模型”</h4>
+<ul>
+<li>源模型：LLaMA-7B（提取快乐、悲伤、愤怒、恐惧、惊讶、厌恶6类情绪向量）；</li>
+<li>目标模型：LLaMA-13B、LLaMA-65B（记为70B便于表述）；</li>
+<li>数据集：Zou et al. (2023)情绪数据集（场景描述无情绪关键词，避免数据泄露）；</li>
+<li>指标：
+<ul>
+<li>Token Acc：生成的第一个token是否匹配目标情绪；</li>
+<li>Logits Acc：6类情绪token中，logits最高的是否为目标情绪。</li>
+</ul>
+</li>
+</ul>
+<h4 id="关键结果：">关键结果：</h4>
+<ol>
+<li><strong>移植效果显著</strong>：LLaMA-7B的情绪向量可有效提升强模型的情绪预测 accuracy，且随干预强度$\alpha$增大而提升（如LLaMA-13B的“恐惧”Token Acc从基线~17%提升至~60%）；</li>
+<li><strong>特征可视化验证</strong>：PCA显示，移植“恐惧向量”后，LLaMA-13B的其他5类情绪特征均向“恐惧特征聚类”靠拢，证明概念方向被成功调整（图2b）；</li>
+<li><strong>数据效率高</strong>：消融实验显示，仅需20个正负样本提炼概念向量，即可达到与200个样本接近的效果（图5）。</li>
+</ol>
+<h3 id="2-实验2：对齐概念移植效果（真实性-毒性）">2. 实验2：对齐概念移植效果（真实性+毒性）</h3>
+<h4 id="目标：验证CONTRANS在核心对齐任务上的性能，对比传统基线">目标：验证CONTRANS在核心对齐任务上的性能，对比传统基线</h4>
+<ul>
+<li>核心概念：
+<ul>
+<li><strong>真实性</strong>：用TruthfulQA（817个误导性问题，MC1难例设置），衡量模型输出真实答案的比例；</li>
+<li><strong>毒性</strong>：用Toxigen（含种族偏见提示），衡量模型生成有毒响应的比例（用roberta-large毒性分类器评估）；</li>
+</ul>
+</li>
+<li>基线方法：
+<ul>
+<li>Align-Training：指令微调/RLHF模型（如LLaMA-13B instruct）；</li>
+<li>Self-Align：用同尺寸对齐模型的概念向量干预（如13B instruct→13B base）；</li>
+<li>Inst-Align：通过指令引导（如“不要说谎”）；</li>
+<li>EFT/proxy-tune：解码阶段用弱模型logit干预（需额外算力）；</li>
+</ul>
+</li>
+<li>移植设置：从7B instruct模型提取“诚实向量”“公平向量”，移植到13B/70B base模型。</li>
+</ul>
+<h4 id="关键结果：-2">关键结果：</h4>
+<h5 id="（1）真实性对齐：超越部分指令微调模型">（1）真实性对齐：超越部分指令微调模型</h5>
+<table>
+<thead>
+<tr>
+<th>模型（13B）</th>
+<th>基线（Base）</th>
+<th>Align-Training</th>
+<th>EFT</th>
+<th>CONTRANS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLaMA 2</td>
+<td>17.9%</td>
+<td>36.8%</td>
+<td>30.6%</td>
+<td>36.5%</td>
+</tr>
+<tr>
+<td>Code LLaMA</td>
+<td>17.3%</td>
+<td>32.9%</td>
+<td>26.1%</td>
+<td>32.9%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>CONTRANS在13B模型上与Align-Training效果相当（LLaMA 2-13B达36.5%，接近Align-Training的36.8%），在70B模型上优势更明显（LLaMA 2-70B达33.9%，超过Align-Training的30.2%）；</li>
+<li>平均提升：7B→13B模型真实性 accuracy 提升15.3%，7B→70B提升13.3%，证明“弱模型对齐知识可有效赋能强模型”。</li>
+</ul>
+<h5 id="（2）毒性抑制：低计算成本下显著降毒">（2）毒性抑制：低计算成本下显著降毒</h5>
+<table>
+<thead>
+<tr>
+<th>模型（13B）</th>
+<th>基线（有毒比例）</th>
+<th>Align-Training</th>
+<th>EFT</th>
+<th>CONTRANS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLaMA 2</td>
+<td>91.8%</td>
+<td>0.10%</td>
+<td>33.0%</td>
+<td>34.1%</td>
+</tr>
+<tr>
+<td>Code LLaMA</td>
+<td>79.2%</td>
+<td>0.46%</td>
+<td>31.1%</td>
+<td>45.2%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>CONTRANS可将强模型有毒响应比例从基线~80%-90%降至~34%-45%，效果接近EFT且<strong>无需额外推理成本</strong>（EFT需同时运行2个弱模型）；</li>
+<li>生成连贯性保障：移植后模型的困惑度（PPL）与基线接近（如LLaMA 2-13B的PPL从13.58变为14.68），证明不会破坏生成质量。</li>
+</ul>
+<h3 id="3-实验3：概念形成与激活机制">3. 实验3：概念形成与激活机制</h3>
+<h4 id="目标：揭示LLM中“概念”的产生阶段（预训练-对齐）">目标：揭示LLM中“概念”的产生阶段（预训练/对齐）</h4>
+<h5 id="（1）预训练阶段：概念逐步形成">（1）预训练阶段：概念逐步形成</h5>
+<ul>
+<li>实验：用Amber-7B的不同预训练checkpoint（预训练token量递增），移植“情绪向量”并评估效果；</li>
+<li>结果：随预训练token量增加，情绪预测 accuracy 提升（图3），证明<strong>概念在预训练阶段随数据量积累逐步固化</strong>（模型架构相同，差异仅来自预训练数据量）。</li>
+</ul>
+<h5 id="（2）对齐阶段：概念被激活">（2）对齐阶段：概念被激活</h5>
+<ul>
+<li>实验：对比“从7B base模型提取的诚实向量”与“从7B instruct模型提取的诚实向量”，移植到13B base模型；</li>
+<li>结果：前者仅将真实性 accuracy 从17.9%提升至25.1%，后者提升至36.5%（表4），证明<strong>预训练模型虽具备概念，但对齐训练（如指令微调）可“激活”概念的表达能力</strong>。</li>
+</ul>
+<h5 id="（3）模型大小阈值：小模型无清晰概念">（3）模型大小阈值：小模型无清晰概念</h5>
+<ul>
+<li>实验：用Pythia系列（14M、70M、410M、1.4B、6.9B），移植情绪向量并观察特征；</li>
+<li>结果：14M/70M模型无法区分情绪特征（t-SNE可视化无聚类），410M以上模型才出现清晰情绪聚类（图8），证明<strong>概念的形成存在“参数大小阈值”</strong>，过小模型无法编码抽象概念。</li>
+</ul>
+<h2 id="五、贡献与局限性">五、贡献与局限性</h2>
+<h3 id="1-核心贡献">1. 核心贡献</h3>
+<ol>
+<li><strong>方法论创新</strong>：提出首个“跨模型概念移植”框架，实现弱到强的内部特征空间对齐，无需额外训练和大量数据；</li>
+<li><strong>实证发现</strong>：验证了“跨模型共享概念”的存在，揭示了概念在LLM中的“预训练形成、对齐激活”机制；</li>
+<li><strong>实用价值</strong>：以极低计算成本（仅移植单个向量）复用弱模型对齐知识，解决百亿级LLM对齐的算力瓶颈，且在真实性、毒性任务上效果优于传统无训练方法。</li>
+</ol>
+<h3 id="2-局限性">2. 局限性</h3>
+<ol>
+<li><strong>单概念移植限制</strong>：目前仅支持“单个概念”移植，多概念叠加（如同时移植“诚实”+“公平”）的效果与冲突解决尚未验证；</li>
+<li><strong>能力范围局限</strong>：仅适用于“价值观类概念”（情绪、诚实、毒性），无法提升模型的“能力类任务”（如编码、推理）——尚无证据表明这类能力可通过特征方向调整实现；</li>
+<li><strong>模型相似性依赖</strong>：跨模型移植效果受“源/目标模型的预训练数据、架构相似性”影响（如LLaMA 2→LLaMA效果优于Mistral→LLaMA）。</li>
+</ol>
+<h2 id="六、研究意义">六、研究意义</h2>
+<p>CONTRANS的核心价值在于为LLM对齐提供了一条**“低成本、高透明、可复用”的新路径**：</p>
+<ul>
+<li>对工业界：无需为每个大模型重复进行昂贵的RLHF/SFT，仅需训练弱模型并移植概念，大幅降低对齐成本；</li>
+<li>对学术界：揭示了LLM内部“概念表示”的跨模型共性，为“模型可解释性”和“可控对齐”提供了新视角；</li>
+<li>未来方向：探索多概念叠加移植、跨模态概念迁移、能力类任务的特征干预，将是该领域的关键延伸。</li>
+</ul>
+<p>论文代码已开源：<a target="_blank" rel="noopener" href="https://github.com/willowdong/ConTrans">github.com/willowdong/ConTrans</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.030v1/" rel="prev" title="DeAL: Decoding-time Alignment for Large Language Models">
+                  <i class="fa fa-angle-left"></i> DeAL: Decoding-time Alignment for Large Language Models
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.027v1/" rel="next" title="Aligning Large Language Models with Human Preferences through Representation Engineering">
+                  Aligning Large Language Models with Human Preferences through Representation Engineering <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

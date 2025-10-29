@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="SCANS: Mitigating the Exaggerated Safety for LLMs via Safety-Conscious Activation Steering AAAI 一、论文概览 1. 核心问题 安全对齐（Safety Alignment）是大型语言模型（LLMs）抵御恶意指令威胁的关键，但现有安全对齐LLMs普遍存在过度安全（Exaggerated Safety）问题：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SCANS: Mitigating the Exaggerated Safety for LLMs via Safety-Conscious Activation Steering">
+<meta property="og:url" content="http://example.com/posts/2510.042v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="SCANS: Mitigating the Exaggerated Safety for LLMs via Safety-Conscious Activation Steering AAAI 一、论文概览 1. 核心问题 安全对齐（Safety Alignment）是大型语言模型（LLMs）抵御恶意指令威胁的关键，但现有安全对齐LLMs普遍存在过度安全（Exaggerated Safety）问题：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94SCANS-Mitigating-the-Exaggerated-Safety-for-LLMs-via-Safety-Conscious-Activation-Steering/image-20251029170853010.png">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-29T09:13:08.652Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94SCANS-Mitigating-the-Exaggerated-Safety-for-LLMs-via-Safety-Conscious-Activation-Steering/image-20251029170853010.png">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.042v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.042v1/","path":"/posts/2510.042v1/","title":"SCANS: Mitigating the Exaggerated Safety for LLMs via Safety-Conscious Activation Steering"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SCANS: Mitigating the Exaggerated Safety for LLMs via Safety-Conscious Activation Steering | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">SCANS: Mitigating the Exaggerated Safety for LLMs via Safety-Conscious Activation Steering</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">一、论文概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 核心问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%BB%E8%A6%81%E8%B4%A1%E7%8C%AE"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 主要贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 研究方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">二、各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BC%95%E8%A8%80%EF%BC%88Introduction%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 引言（Introduction）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C%EF%BC%88Related-Works%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 相关工作（Related Works）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%96%B9%E6%B3%95%E8%AE%BA%EF%BC%88Methodology%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 方法论（Methodology）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E6%8F%90%E5%8F%96%E6%8B%92%E7%BB%9D%E5%BC%95%E5%AF%BC%E5%90%91%E9%87%8F%EF%BC%88Inducing-the-Refusal-Steering-Vectors%EF%BC%89"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">3.1 提取拒绝引导向量（Inducing the Refusal Steering Vectors）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E9%94%9A%E5%AE%9A%E5%AE%89%E5%85%A8%E5%85%B3%E9%94%AE%E5%B1%82%EF%BC%88Anchoring-the-Safety-Critical-Layers%EF%BC%89"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">3.2 锚定安全关键层（Anchoring the Safety-Critical Layers）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E8%AF%86%E5%88%AB%E5%BC%95%E5%AF%BC%E6%96%B9%E5%90%91%EF%BC%88Identifying-the-Steering-Direction%EF%BC%89"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">3.3 识别引导方向（Identifying the Steering Direction）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AE%9E%E9%AA%8C%EF%BC%88Experiment%EF%BC%89"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 实验（Experiment）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">4.1 实验设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E4%B8%BB%E8%A6%81%E7%BB%93%E6%9E%9C"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">4.2 主要结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%85%B3%E9%94%AE%E5%88%86%E6%9E%90"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">4.3 关键分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%BB%93%E8%AE%BA%EF%BC%88Conclusion%EF%BC%89"><span class="nav-number">1.2.5.</span> <span class="nav-text">5. 结论（Conclusion）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">三、一句话总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.042v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SCANS: Mitigating the Exaggerated Safety for LLMs via Safety-Conscious Activation Steering | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SCANS: Mitigating the Exaggerated Safety for LLMs via Safety-Conscious Activation Steering
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：17:13:08" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>SCANS: Mitigating the Exaggerated Safety for LLMs via Safety-Conscious Activation Steering</h1>
+<p>AAAI</p>
+<h2 id="一、论文概览">一、论文概览</h2>
+<h3 id="1-核心问题">1. 核心问题</h3>
+<p>安全对齐（Safety Alignment）是大型语言模型（LLMs）抵御恶意指令威胁的关键，但现有安全对齐LLMs普遍存在<strong>过度安全（Exaggerated Safety）问题</strong>：因良性查询与有害查询在词汇层面相似（如“kill”在“关灯”场景中无恶意），模型会误拒绝良性查询，严重削弱其“有用性（Helpfulness）”。<br>
+现有解决方案存在局限：</p>
+<ul>
+<li>训练基方法：过度安全相关训练数据稀缺，对“词汇层面有害但语义良性”的查询仍有高误拒率；</li>
+<li>无训练基方法：依赖解码阶段的token分布对比，推理时额外成本高且缓解效果差。</li>
+</ul>
+<h3 id="2-主要贡献">2. 主要贡献</h3>
+<ol>
+<li>提出<strong>无训练、无推理额外成本</strong>的表示工程方法SCANS（Safety-Conscious Activation Steering），通过激活引导控制模型拒绝行为，无需微调或额外解码操作；</li>
+<li>发现LLM<strong>中间层提取的拒绝引导向量（Refusal Steering Vectors）</strong> 会提升“cannot”“reject”等拒绝token的生成概率，引导该层激活可显著降低误拒率；</li>
+<li>SCANS在缓解过度安全的同时，不损害模型的“足够安全（Adequate Safety）”与通用能力：在XSTest和OKTest基准上，平均误拒率分别降低24.7%和26.3%，对有害查询的防御能力及困惑度、MMLU准确率等指标几乎无波动。</li>
+</ol>
+<h3 id="3-研究方法">3. 研究方法</h3>
+<p>SCANS的核心逻辑是“从LLM隐藏状态中挖掘安全相关信息，通过定向激活引导平衡‘过度安全’与‘足够安全’”，分为三个关键步骤：</p>
+<ol>
+<li><strong>提取拒绝引导向量</strong>：利用有害查询集$Q^-$与良性查询集$Q^+$的激活差，生成各层拒绝引导向量，捕捉“从‘愿意回答’到‘拒绝回答’的方向”；</li>
+<li><strong>锚定安全关键层</strong>：通过词汇投影（结合PCA与输出嵌入矩阵点积）发现，<strong>中间层</strong>的引导向量与拒绝token（如“cannot”“reject”）关联最强，确定中间层为安全关键层；</li>
+<li><strong>识别引导方向</strong>：设计基于隐藏状态转移的相似度分类方法$\sigma(q)$：将查询$q$与正向响应（如“Sure”）拼接，计算其隐藏状态转移与“参考伤害方向”的余弦相似度，判断$q$为良性（反向引导）或有害（正向引导），最终调整安全关键层的激活。</li>
+</ol>
+<h2 id="二、各章节详解">二、各章节详解</h2>
+<h3 id="1-引言（Introduction）">1. 引言（Introduction）</h3>
+<ul>
+<li><strong>LLMs安全对齐背景</strong>：LLMs虽在NLP任务中表现突出，但预训练数据中的有害内容使其易遵循恶意指令；安全对齐技术（如RLHF、监督微调）虽提升安全性，却引发过度安全问题（图1示例：“kill the lights”被误判为有害而拒绝）。</li>
+<li><strong>现有方法缺陷</strong>：训练基方法受限于数据稀缺，无训练基方法（如提示工程、对比解码）成本高或效果差。</li>
+<li><strong>研究动机</strong>：基于“LLM表示空间包含安全信息”的观察，通过分析有害查询触发的隐藏状态变化，设计激活引导方法SCANS，解决过度安全问题。</li>
+</ul>
+<h3 id="2-相关工作（Related-Works）">2. 相关工作（Related Works）</h3>
+<table>
+<thead>
+<tr>
+<th>研究方向</th>
+<th>核心内容</th>
+<th>与本文的关联</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM安全（LLM Safety）</td>
+<td>聚焦有害内容检测与缓解，主流方法为监督微调、RLHF，但易导致过度安全（过度防御）。</td>
+<td>本文针对“过度安全”这一安全对齐的副作用展开研究。</td>
+</tr>
+<tr>
+<td>过度安全（Exaggerated Safety）</td>
+<td>由Röttger等人首次提出，指对齐模型误拒良性查询；现有方法在XSTest、OKTest等基准上表现差。</td>
+<td>本文提出的SCANS是首个基于表示工程的无训练方法，显著优于现有基准。</td>
+</tr>
+<tr>
+<td>表示工程（Representation Engineering）</td>
+<td>通过操纵模型表示控制行为（如真实性、情感），常用“均值差”方法提取目标表示。</td>
+<td>本文沿用“均值差”提取拒绝引导向量，首次将其用于缓解过度安全问题。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-方法论（Methodology）">3. 方法论（Methodology）</h3>
+<h4 id="3-1-提取拒绝引导向量（Inducing-the-Refusal-Steering-Vectors）">3.1 提取拒绝引导向量（Inducing the Refusal Steering Vectors）</h4>
+<ul>
+<li>核心逻辑：有害查询$Q^-$会触发模型的防御机制（激活偏向“拒绝”），良性查询$Q^+$会触发“帮助”响应（激活偏向“回答”），二者的激活差即为“拒绝引导向量”。</li>
+<li>数学公式：对第$l$层，拒绝引导向量$v_r^l$定义为：<br>
+$$v_{r}^{l}=\frac{1}{\left|Q^{-}\right|} \sum_{q^{-} \in Q^{-}} a^{l}\left(q^{-}\right)-\frac{1}{\left|Q^{+}\right|} \sum_{q^{+} \in Q^{+}} a^{l}\left(q^{+}\right)$$<br>
+其中$a^l(q)$表示查询$q$在第$l$层最后一个token的激活值。</li>
+<li>物理意义：$v_r^l$代表“从良性回答倾向到有害拒绝倾向”的方向，减去该向量可削弱模型的误拒倾向。</li>
+</ul>
+<h4 id="3-2-锚定安全关键层（Anchoring-the-Safety-Critical-Layers）">3.2 锚定安全关键层（Anchoring the Safety-Critical Layers）</h4>
+<ul>
+<li>
+<p>核心逻辑：若对所有层引导，可能破坏模型输出连贯性；需筛选对拒绝行为影响最大的“安全关键层”。</p>
+</li>
+<li>
+<p>筛选方法：</p>
+<ol>
+<li>将模型层分为前层（Former Layers）、中间层（Middle Layers）、后层（Latter Layers）；</li>
+<li>对各层$v_r^l$做PCA提取第一主成分，与输出嵌入矩阵（LM Head）做点积，得到“词汇投影”（反映该层激活与token的关联）；</li>
+</ol>
+</li>
+<li>
+<p>关键发现（表1）：中间层的词汇投影中，“rejected”“cannot”等拒绝token占比最高，证明<strong>中间层是安全关键层</strong>，仅引导中间层即可平衡“缓解过度安全”与“保留模型能力”。</p>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94SCANS-Mitigating-the-Exaggerated-Safety-for-LLMs-via-Safety-Conscious-Activation-Steering/image-20251029170853010.png" alt="image-20251029170853010"></p>
+</li>
+</ul>
+<h4 id="3-3-识别引导方向（Identifying-the-Steering-Direction）">3.3 识别引导方向（Identifying the Steering Direction）</h4>
+<ul>
+<li>核心挑战：需先判断查询$q$是否为良性，才能确定“反向引导（削弱拒绝，用于良性$q$）”或“正向引导（增强拒绝，用于有害$q$）”。</li>
+<li>解决方案：基于“隐藏状态转移”的分类方法$\sigma(q)$，步骤如下：
+<ol>
+<li>构造输入$q+r_{pos}$（$r_{pos}$为正向响应，如“Sure”），提取两个激活：
+<ul>
+<li>$a_p^l$：$q$部分最后一个token的激活（反映模型对$q$的初始判断）；</li>
+<li>$a_e^l$：$q+r_{pos}$整体最后一个token的激活（反映模型对“$q$+正向响应”的判断）；</li>
+</ul>
+</li>
+<li>计算隐藏状态转移$a_t^l(q)$：<br>
+$$a_{t}^{l}(q)=a_{p}^{l}\left(q+r_{p o s}\right)-a_{e}^{l}\left(q+r_{p o s}\right)$$<br>
+（良性$q$的$a_t^l$偏向“帮助方向”，有害$q$的$a_t^l$偏向“伤害方向”）；</li>
+<li>计算参考伤害方向$d_{harm}^l$（所有有害查询$q^-$的$a_t^l$均值）：<br>
+$$d_{harm }^{l}=\frac{1}{\left|Q^{-}\right|} \sum_{q^{-} \in Q^{-}} a_{t}^{l}\left(q^{-}\right)$$</li>
+<li>计算相似度$s_q$（$a_t^l(q)$与$d_{harm}^l$的余弦相似度均值）：<br>
+$$s_{q}=\frac{1}{|\mathcal{L}|} \sum_{l \in \mathcal{L}} \cos \left(a_{t}^{l}(q), d_{harm }^{l}\right)$$</li>
+<li>分类规则：若$s_q &lt; T$（$T$为阈值，如Llama2-7b-chat设为0.75），则$q$为良性，$\sigma(q)=-1$（反向引导）；否则为有害，$\sigma(q)=1$（正向引导）。</li>
+</ol>
+</li>
+<li>激活引导：对安全关键层，调整后的激活为：<br>
+$$\tilde{a}^{l}=a^{l}+\sigma(q) \cdot \alpha \cdot v_{r}^{l}$$<br>
+其中$\alpha$为引导强度（推荐2-4，过大易生成无意义内容）。</li>
+</ul>
+<h3 id="4-实验（Experiment）">4. 实验（Experiment）</h3>
+<h4 id="4-1-实验设置">4.1 实验设置</h4>
+<ul>
+<li><strong>模型</strong>：Llama2-7b-chat、Llama2-13b-chat、vicuna-7b-v1.5、vicuna-13b-v1.5（附录扩展至Qwen1.5-32B、Llama3-8B、Gemma2-9b）；</li>
+<li><strong>数据</strong>：
+<ul>
+<li>引导向量提取：AdvBench（有害查询）、TruthfulQA（良性查询）各采样64条；</li>
+<li>过度安全评估：XSTest（200有害+250良性）、OKTest（300“词汇有害-语义良性”查询）；</li>
+<li>足够安全评估：AdvBench（456有害）、Malicious（100有害）、RepE-Data（混合查询）；</li>
+<li>模型能力评估：MMLU（多任务QA）、XSum（摘要，ROUGE指标）、WikiText-2/C4（困惑度）；</li>
+</ul>
+</li>
+<li><strong>基准方法</strong>：
+<ul>
+<li>无训练：Prompt（提示工程）、Self-CD（对比解码）；</li>
+<li>训练基：SafeDecoding（安全感知解码）、DRO（连续安全提示优化）；</li>
+</ul>
+</li>
+<li><strong>指标</strong>：拒绝率（误拒率反映过度安全，有害查询拒绝率反映足够安全）、ROUGE-1/2/L、MMLU准确率、困惑度、推理速度/显存。</li>
+</ul>
+<h4 id="4-2-主要结果">4.2 主要结果</h4>
+<ol>
+<li>
+<p><strong>缓解过度安全效果显著</strong>（表2、8）：</p>
+<ul>
+<li>SCANS在XSTest和OKTest上的平均误拒率分别降低24.7%和26.3%，显著优于所有基准（如Llama2-7b-chat的XSTest良性查询拒绝率从58.00%降至9.20%）；</li>
+<li>对混合查询集（XSTest、RepE-Data），SCANS同时保证“良性查询低拒绝率”与“有害查询高拒绝率”，平均处理准确率达97.26%-98.40%。</li>
+</ul>
+</li>
+<li>
+<p><strong>保留足够安全与模型能力</strong>（表2、3）：</p>
+<ul>
+<li>对AdvBench、Malicious等有害数据集，SCANS的拒绝率维持在98%以上，与原模型几乎一致；</li>
+<li>模型能力无显著下降：13B模型的MMLU准确率下降≤1%，XSum的ROUGE指标偏差≤1%，WikiText-2/C4困惑度增加≤1（7B模型下降稍高，但仍可控）。</li>
+</ul>
+</li>
+<li>
+<p><strong>推理成本极低</strong>（表4）：</p>
+<ul>
+<li>Llama2-7b-chat加SCANS后，推理速度从40.60 tokens/s降至39.62 tokens/s，显存从29324MB增至29694MB，远优于Self-CD、SafeDecoding等需额外解码操作的方法。</li>
+</ul>
+</li>
+</ol>
+<h4 id="4-3-关键分析">4.3 关键分析</h4>
+<ul>
+<li>
+<p><strong>分类方法$\sigma(q)$性能优异</strong>（图4、表11）：<br>
+$\sigma(q)$在XSTest上的F1得分为0.911，仅低于GPT-4（0.921），优于Llama Guard（0.819）、GradSafe（0.900）等专用检测方法，证明“隐藏状态转移”能有效区分良性/有害查询。</p>
+</li>
+<li>
+<p><strong>消融研究验证设计合理性</strong>（表5、6、7、图5）：</p>
+<ul>
+<li>引导层选择：前层引导会导致困惑度骤升（如Llama2-7b-chat前层引导的WikiText-2困惑度达2946），中间层引导在“缓解过度安全”与“保留能力”间平衡最优；</li>
+<li>引导强度$\alpha$：$\alpha$在2-4时效果稳定，过大（如$\alpha=10$）会生成无意义内容；</li>
+<li>阈值$T$：$T=0.75$为Llama2-7b-chat的最优值，过小会增加误拒率，过大则降低有害查询拒绝率；</li>
+<li>分类层选择：中间层与后层的“隐藏状态转移-参考伤害方向”相似度区分度最高（图5），证明分类层选择的合理性。</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-结论（Conclusion）">5. 结论（Conclusion）</h3>
+<p>SCANS通过“提取拒绝引导向量、锚定中间安全关键层、基于相似度分类引导方向”的激活引导策略，有效缓解了安全对齐LLMs的过度安全问题。实验证明，SCANS在不损害足够安全与模型能力的前提下，显著降低了误拒率，且推理成本极低。该工作为“用表示工程解决LLMs安全-有用性权衡”提供了新思路，未来将进一步优化分类方法的准确性，并扩展更大模型的对比实验。</p>
+<h2 id="三、一句话总结">三、一句话总结</h2>
+<p>该论文基于“LLM隐藏状态包含安全防御机制，中间层存在拒绝行为向量”的假设，提出SCANS方法：通过提取有害/良性查询的激活差得到拒绝引导向量、锚定中间安全关键层、基于隐藏状态转移相似度分类引导方向来定向调整激活；实验表明，SCANS在XSTest/OKTest上使平均误拒率分别降低24.7%/26.3%，同时保持足够安全与模型能力、推理成本低；最终结论为SCANS是缓解LLMs过度安全问题的高效无训练方法，为表示工程在LLM安全领域的应用提供了参考。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.039v1/" rel="prev" title="Safe LoRA: the Silver Lining of Reducing Safety Risks when Fine-tuning Large Language Models">
+                  <i class="fa fa-angle-left"></i> Safe LoRA: the Silver Lining of Reducing Safety Risks when Fine-tuning Large Language Models
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.041v1/" rel="next" title="SALORA: SAFETY-ALIGNMENT PRESERVED LOW-RANK ADAPTATION">
+                  SALORA: SAFETY-ALIGNMENT PRESERVED LOW-RANK ADAPTATION <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

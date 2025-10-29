@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.018v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.029v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.018v1/" class="post-title-link" itemprop="url">Making Large Language Models Perform Better in Knowledge Graph Completion</a>
+          <a href="/posts/2510.029v1/" class="post-title-link" itemprop="url">CONTRANS: Weak-to-Strong Alignment Engineering via Concept Transplantation</a>
         </h2>
 
         <div class="post-meta-container">
@@ -240,9 +240,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-10-16 00:00:00 / 修改时间：00:37:59" itemprop="dateCreated datePublished" datetime="2025-10-16T00:00:00+08:00">2025-10-16</time>
+      <time title="创建时间：2025-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-28 22:41:19" itemprop="dateModified" datetime="2025-10-28T22:41:19+08:00">2025-10-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +264,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/KGQA/" itemprop="url" rel="index"><span itemprop="name">KGQA</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
         </span>
     </span>
 
@@ -269,14 +275,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.9k</span>
+      <span>5.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>9 分钟</span>
     </span>
 </div>
 
@@ -287,72 +293,227 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1>Making Large Language Models Perform Better in Knowledge Graph Completion</h1>
-<p><strong>ACM MM2024</strong></p>
-<p>该论文聚焦于解决大语言模型（LLM）在知识图谱补全（KGC）中忽视结构信息的核心问题，提出了融合图谱结构信息的新方法，显著提升了LLM的结构感知推理能力。</p>
-<h3 id="一、研究背景与问题">一、研究背景与问题</h3>
+          <h1>CONTRANS：基于概念移植的弱到强对齐工程</h1>
+<p>COLING</p>
+<p>该论文假设不同大小及家族的 LLM 特征空间中存在共享概念表示，实验发现 CONTRANS 框架能从弱对齐模型提炼概念向量并经仿射变换移植到强未对齐模型，在情绪、真实性、毒性等任务上有效且数据要求与计算成本低。论文还揭示了概念在预训练阶段形成、对齐阶段激活及存在形成参数阈值的机制。</p>
+<h2 id="一、研究背景与动机">一、研究背景与动机</h2>
+<p>大语言模型（LLM）虽在海量数据训练下具备强大任务能力，但<strong>预训练目标与人类目标/价值观脱节</strong>，易生成偏见、虚假信息等有害输出，因此“模型对齐”（确保LLM行为符合人类意图）是安全AI的核心问题。</p>
+<p>传统对齐方法（如监督微调SFT、人类反馈强化学习RLHF、直接偏好优化DPO）存在三大关键痛点：</p>
 <ol>
-<li><strong>知识图谱补全的重要性</strong>：知识图谱（KG）以（头实体，关系，尾实体）三元组形式存储知识，广泛应用于推荐系统、问答等领域，但存在大量缺失三元组，需通过KGC任务预测补充。</li>
-<li><strong>现有LLM-based KGC的缺陷</strong>：
-<ul>
-<li>未充分利用LLM的推理能力，且忽略KG关键的结构信息（如子图结构、关系模式）。</li>
-<li>现有方法（如零样本推理ZSR、指令微调IT）将KGC转化为文本预测，易导致LLM的“幻觉”问题，且无法有效融入非文本的结构信息。</li>
-</ul>
-</li>
+<li><strong>数据依赖</strong>：需高质量、多样化的人类偏好数据，标注过程耗时耗力；</li>
+<li><strong>计算昂贵</strong>：对齐训练（尤其针对百亿参数级LLM）对算力需求极高，资源受限场景难以承受；</li>
+<li><strong>局限性明显</strong>：存在透明度低、训练不稳定等问题，且难以复用已有的对齐知识。</li>
 </ol>
-<h3 id="二、核心方法设计">二、核心方法设计</h3>
-<p>论文提出两类方法：一是改进现有LLM范式以融入结构信息，二是提出全新的Knowledge Prefix Adapter（KoPA）框架。</p>
-<h4 id="1-改进现有LLM范式">1. 改进现有LLM范式</h4>
-<p>通过文本形式将KG局部结构信息融入现有范式，作为基础模型。</p>
-<ul>
-<li><strong>结构感知的上下文学习（ICL）</strong>：在输入中添加与测试三元组相关的局部结构演示（如头/尾实体的邻域三元组），包含正负样本，辅助LLM类比推理。</li>
-<li><strong>结构感知的指令微调（IT）</strong>：在微调输入中加入头/尾实体的一跳邻域三元组描述，为LLM提供局部结构背景，但存在文本冗余、上下文长度受限的问题。</li>
-</ul>
-<h4 id="2-创新框架：Knowledge-Prefix-Adapter（KoPA）">2. 创新框架：Knowledge Prefix Adapter（KoPA）</h4>
-<p>通过跨模态映射将KG结构信息高效融入LLM，解决文本形式的缺陷，分为两步：</p>
-<ul>
-<li><strong>步骤1：结构嵌入预训练</strong>：
-<ul>
-<li>借鉴基于嵌入的KGC方法（如RotatE），通过自监督学习（负采样+得分函数），将实体和关系编码为结构嵌入，捕捉KG的子图结构、关系模式等信息。</li>
-<li>定义得分函数(F(h, r, t))衡量三元组合理性，最小化损失函数优化嵌入：(\mathcal{L}<em>{pre} = \frac{1}{|\mathcal{T}|}\sum</em>{(h,r,t)\in\mathcal{T}}(-log\sigma(\gamma - F(h,r,t)) - \sum_{i=1}^{K}p_i log\sigma(F(h_i’,r_i’,t_i’) - \gamma)))。</li>
-</ul>
-</li>
-<li><strong>步骤2：知识前缀适配器</strong>：
-<ul>
-<li>设计投影层（适配器），将结构嵌入映射到LLM的文本表示空间，生成“虚拟知识令牌”。</li>
-<li>将虚拟令牌作为前缀插入输入序列（(S_{kpa} = \kappa \oplus I_{it} \oplus X)），利用LLM的单向注意力机制，让后续文本令牌感知结构信息，同时避免文本冗余（前缀长度固定为3，远短于文本描述）。</li>
-</ul>
-</li>
-</ul>
-<h3 id="三、实验验证与结果">三、实验验证与结果</h3>
-<h4 id="1-实验设置">1. 实验设置</h4>
-<ul>
-<li><strong>数据集</strong>：3个公开KG基准（UMLS、CoDeX-S、FB15K-237N），均为平衡的正负样本三元组。</li>
-<li><strong>基线模型</strong>：分为三类——基于嵌入的方法（TransE、RotatE等）、基于预训练语言模型（PLM）的方法（KG-BERT、PKGC）、基于LLM的方法（ZSR、ICL、IT、KGLLaMA）。</li>
-<li><strong>评价指标</strong>：三元组分类任务的准确率（Acc）、精确率（P）、召回率（R）、F1分数。</li>
-</ul>
-<h4 id="2-核心实验结果">2. 核心实验结果</h4>
-<ul>
-<li><strong>主实验性能</strong>：KoPA在所有数据集上均超越16个基线模型，以CoDeX-S为例，Acc提升1.81%，F1提升1.85%；在FB15K-237N等复杂数据集上，显著优于RotatE等嵌入方法。</li>
-<li><strong>迁移能力验证</strong>：在“归纳设置”（测试集中含训练未见过的实体）下，KoPA在不同归纳率（IR=10%-40%）下，对未见过实体的三元组预测性能优于结构感知IT，且性能下降更少，证明结构嵌入的跨实体迁移性。</li>
-<li><strong>消融实验</strong>：
-<ul>
-<li>移除结构嵌入或替换为随机嵌入，性能显著下降；使用更强的结构嵌入（如RotatE）比弱嵌入（如DistMult）效果更好，验证结构信息的重要性。</li>
-<li>虚拟令牌放在前缀位置的效果（Acc=82.74）远优于中缀（81.21）和后缀（77.29），证明单向注意力下前缀位置的有效性。</li>
-</ul>
-</li>
-<li><strong>泛化能力保留</strong>：在MMLU基准测试中，KoPA微调后LLM的通用能力未大幅下降，且在与KG领域相关的科目（如医学、生物）上性能提升（如UMLS训练后，临床科目Acc+3.0%）。</li>
-</ul>
-<h3 id="四、研究结论与未来方向">四、研究结论与未来方向</h3>
+<p>现有“弱到强监督”思路（用弱模型指导强模型对齐）仍停留在<strong>外部数据层面</strong>（如用弱模型生成/过滤训练数据），未触及LLM内部隐藏特征空间；而传统表示工程仅针对“单模型内部”干预，无法跨模型（不同大小/家族）迁移概念。</p>
+<p>为此，论文提出<strong>CONTRANS框架</strong>，核心目标是：通过“概念移植”实现<strong>弱模型（已对齐）到强模型（未对齐）的内部特征空间对齐迁移</strong>，以极低计算成本复用对齐知识，解决传统方法的痛点。</p>
+<h2 id="二、核心假设与相关工作">二、核心假设与相关工作</h2>
+<h3 id="1-核心假设">1. 核心假设</h3>
+<p>论文的方法论建立在两个关键实证假设上：</p>
 <ol>
-<li><strong>核心结论</strong>：通过结构嵌入预训练+知识前缀适配器，KoPA能高效将KG结构信息融入LLM，解决现有方法的文本冗余和结构感知不足问题，显著提升KGC性能。</li>
-<li><strong>未来方向</strong>：
+<li><strong>概念的跨模型共享性</strong>：不同大小、不同家族的LLM，其特征空间中存在“共享的概念表示”（如“诚实”“快乐”等抽象概念）；</li>
+<li><strong>概念的可干预性</strong>：通过调整强模型特征空间中“目标概念的极性”（如增强“诚实”、抑制“毒性”），可控制其输出偏好，无需修改模型参数。</li>
+</ol>
+<h3 id="2-相关工作对比">2. 相关工作对比</h3>
+<table>
+<thead>
+<tr>
+<th>研究方向</th>
+<th>核心思路</th>
+<th>局限性</th>
+<th>CONTRANS的突破</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>表示工程</td>
+<td>单模型内部修改激活值，干预特定概念（情绪、真实性）</td>
+<td>仅支持“单模型内干预”，无法跨模型迁移；若目标模型无该概念，则干预无效</td>
+<td><strong>跨模型表示工程</strong>：从弱模型提取概念，移植到强模型，突破模型大小/家族限制</td>
+</tr>
+<tr>
+<td>弱到强监督</td>
+<td>用弱模型生成标签/数据，指导强模型外部训练（如SFT）</td>
+<td>依赖外部数据，需额外训练；将LLM视为黑箱，不触及内部特征</td>
+<td><strong>内部特征空间干预</strong>：无需外部数据/额外训练，仅移植概念向量，计算成本极低</td>
+</tr>
+</tbody>
+</table>
+<h2 id="三、CONTRANS框架：三步实现概念移植">三、CONTRANS框架：三步实现概念移植</h2>
+<p>CONTRANS是一套“无训练”的对齐框架，核心是将<strong>弱对齐模型（源模型，如7B instruct）的“对齐概念向量”</strong> 移植到<strong>强未对齐模型（目标模型，如13B/70B base）</strong>，分为三个核心步骤：</p>
+<h3 id="1-步骤1：概念提炼（从源模型提取对齐概念）">1. 步骤1：概念提炼（从源模型提取对齐概念）</h3>
+<p>从“已对齐的弱模型（$M^{src}$）”中，用少量正负样本提取目标概念（如“诚实”“无毒”）的向量表示，核心方法是<strong>均值差法</strong>（简单且可扩展到复杂方法）。</p>
+<h4 id="具体操作：">具体操作：</h4>
 <ul>
-<li>设计统一框架，用LLM完成所有KGC子任务（如实体预测、关系预测）。</li>
-<li>探索KG在LLM下游应用中的灵活适配，提升LLM的可靠性和实用性。</li>
+<li>准备<strong>概念相关的正负样本对</strong>：例如“诚实”概念中，正样本为“假装你是诚实的人描述世界”的指令+问题，负样本为“假装你是不诚实的人描述世界”的指令+问题；</li>
+<li>输入样本到$M^{src}$，缓存每一层最后一个token的隐藏状态（$h_{pos}^k$为正样本隐藏态，$h_{neg}^k$为负样本隐藏态）；</li>
+<li>计算概念向量：通过正负样本隐藏态的均值差，过滤低层次语言特征，保留概念相关特征方向：<br>
+$$v_{concept}^k = \frac{1}{N} \sum_{i=1}^N (h_{pos(i)}^k - h_{neg(i)}^k)$$<br>
+其中$N$为正负样本对数量（实验中20个即可达良好效果，数据需求极低）。</li>
+</ul>
+<h3 id="2-步骤2：概念重构（适配目标模型特征空间）">2. 步骤2：概念重构（适配目标模型特征空间）</h3>
+<p>源模型与目标模型的<strong>隐藏层维度、特征空间结构不同</strong>（如7B模型维度4096，13B模型维度5120），需通过<strong>仿射变换</strong>将提炼的概念向量投影到目标模型空间，确保可移植性。</p>
+<h4 id="具体操作：-2">具体操作：</h4>
+<ul>
+<li>目标：学习仿射矩阵$F \in \mathbb{R}^{d_1 \times d_2}$（$d_1$为源模型维度，$d_2$为目标模型维度），使源模型隐藏态$h_{src}$经$F$变换后与目标模型隐藏态$h_{tgt}$尽可能接近；</li>
+<li>损失函数：最小化均方误差$|h_{src}F - h_{tgt}|^2$；</li>
+<li>稳定求解：通过奇异值分解（SVD）避免矩阵求逆的数值不稳定问题，最终解析解为：<br>
+$$\hat{F} = V\Sigma^{-1}U^T Y$$<br>
+（其中$h_{src}=U\Sigma V^T$为源模型隐藏态的SVD分解，$Y=h_{tgt}$为目标模型隐藏态）；</li>
+<li>数据选择：用WikiSplit数据集（含Wikipedia文本，与LLM预训练数据一致）提取$h_{src}$和$h_{tgt}$，确保变换适配性。</li>
+</ul>
+<h3 id="3-步骤3：概念移植（注入目标模型残差流）">3. 步骤3：概念移植（注入目标模型残差流）</h3>
+<p>将重构后的概念向量$\hat{v}_{concept}$注入目标模型（$M^{tgt}$）的<strong>残差流</strong>（Transformer层核心特征传递路径），通过超参数$\alpha$控制干预强度，调整目标模型的概念极性。</p>
+<h4 id="具体操作：-3">具体操作：</h4>
+<ul>
+<li>Transformer残差流机制：Transformer层的隐藏态$h^k = h^{k-1} + \text{MLP(ATTN}(h^{k-1}))$，残差流是特征积累的核心路径；</li>
+<li>移植公式：修改目标模型第$k$层隐藏态，引入概念向量偏移：<br>
+$$h_{tgt}^k = h_{tgt}^{k-1} + \text{MLP(ATTN}(h_{tgt}^{k-1})) + \alpha \cdot \hat{v}_{concept}$$<br>
+其中$\alpha \in [0.3,1.5]$，通过验证集网格搜索选择（避免$\alpha$过大导致生成不连贯）；</li>
+<li>核心效果：$\hat{v}_{concept}$相当于为目标模型“注入”弱模型的对齐知识，增强/抑制特定概念的输出偏好（如$\alpha$增大，“诚实”输出概率提升）。</li>
+</ul>
+<h2 id="四、实验设计与核心结果">四、实验设计与核心结果</h2>
+<p>论文围绕“概念可移植性”“对齐效果”“概念形成机制”三大维度设计实验，覆盖<strong>10+ LLM（LLaMA系列、Code LLaMA、Vicuna、Mistral、Gemma等）</strong>，验证概念包括“基础情绪”“真实性”“毒性”三类。</p>
+<h3 id="1-实验1：跨模型概念移植可行性（以情绪为例）">1. 实验1：跨模型概念移植可行性（以情绪为例）</h3>
+<h4 id="目标：验证“弱模型的情绪概念可移植到强模型”">目标：验证“弱模型的情绪概念可移植到强模型”</h4>
+<ul>
+<li>源模型：LLaMA-7B（提取快乐、悲伤、愤怒、恐惧、惊讶、厌恶6类情绪向量）；</li>
+<li>目标模型：LLaMA-13B、LLaMA-65B（记为70B便于表述）；</li>
+<li>数据集：Zou et al. (2023)情绪数据集（场景描述无情绪关键词，避免数据泄露）；</li>
+<li>指标：
+<ul>
+<li>Token Acc：生成的第一个token是否匹配目标情绪；</li>
+<li>Logits Acc：6类情绪token中，logits最高的是否为目标情绪。</li>
 </ul>
 </li>
+</ul>
+<h4 id="关键结果：">关键结果：</h4>
+<ol>
+<li><strong>移植效果显著</strong>：LLaMA-7B的情绪向量可有效提升强模型的情绪预测 accuracy，且随干预强度$\alpha$增大而提升（如LLaMA-13B的“恐惧”Token Acc从基线~17%提升至~60%）；</li>
+<li><strong>特征可视化验证</strong>：PCA显示，移植“恐惧向量”后，LLaMA-13B的其他5类情绪特征均向“恐惧特征聚类”靠拢，证明概念方向被成功调整（图2b）；</li>
+<li><strong>数据效率高</strong>：消融实验显示，仅需20个正负样本提炼概念向量，即可达到与200个样本接近的效果（图5）。</li>
 </ol>
+<h3 id="2-实验2：对齐概念移植效果（真实性-毒性）">2. 实验2：对齐概念移植效果（真实性+毒性）</h3>
+<h4 id="目标：验证CONTRANS在核心对齐任务上的性能，对比传统基线">目标：验证CONTRANS在核心对齐任务上的性能，对比传统基线</h4>
+<ul>
+<li>核心概念：
+<ul>
+<li><strong>真实性</strong>：用TruthfulQA（817个误导性问题，MC1难例设置），衡量模型输出真实答案的比例；</li>
+<li><strong>毒性</strong>：用Toxigen（含种族偏见提示），衡量模型生成有毒响应的比例（用roberta-large毒性分类器评估）；</li>
+</ul>
+</li>
+<li>基线方法：
+<ul>
+<li>Align-Training：指令微调/RLHF模型（如LLaMA-13B instruct）；</li>
+<li>Self-Align：用同尺寸对齐模型的概念向量干预（如13B instruct→13B base）；</li>
+<li>Inst-Align：通过指令引导（如“不要说谎”）；</li>
+<li>EFT/proxy-tune：解码阶段用弱模型logit干预（需额外算力）；</li>
+</ul>
+</li>
+<li>移植设置：从7B instruct模型提取“诚实向量”“公平向量”，移植到13B/70B base模型。</li>
+</ul>
+<h4 id="关键结果：-2">关键结果：</h4>
+<h5 id="（1）真实性对齐：超越部分指令微调模型">（1）真实性对齐：超越部分指令微调模型</h5>
+<table>
+<thead>
+<tr>
+<th>模型（13B）</th>
+<th>基线（Base）</th>
+<th>Align-Training</th>
+<th>EFT</th>
+<th>CONTRANS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLaMA 2</td>
+<td>17.9%</td>
+<td>36.8%</td>
+<td>30.6%</td>
+<td>36.5%</td>
+</tr>
+<tr>
+<td>Code LLaMA</td>
+<td>17.3%</td>
+<td>32.9%</td>
+<td>26.1%</td>
+<td>32.9%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>CONTRANS在13B模型上与Align-Training效果相当（LLaMA 2-13B达36.5%，接近Align-Training的36.8%），在70B模型上优势更明显（LLaMA 2-70B达33.9%，超过Align-Training的30.2%）；</li>
+<li>平均提升：7B→13B模型真实性 accuracy 提升15.3%，7B→70B提升13.3%，证明“弱模型对齐知识可有效赋能强模型”。</li>
+</ul>
+<h5 id="（2）毒性抑制：低计算成本下显著降毒">（2）毒性抑制：低计算成本下显著降毒</h5>
+<table>
+<thead>
+<tr>
+<th>模型（13B）</th>
+<th>基线（有毒比例）</th>
+<th>Align-Training</th>
+<th>EFT</th>
+<th>CONTRANS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLaMA 2</td>
+<td>91.8%</td>
+<td>0.10%</td>
+<td>33.0%</td>
+<td>34.1%</td>
+</tr>
+<tr>
+<td>Code LLaMA</td>
+<td>79.2%</td>
+<td>0.46%</td>
+<td>31.1%</td>
+<td>45.2%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>CONTRANS可将强模型有毒响应比例从基线~80%-90%降至~34%-45%，效果接近EFT且<strong>无需额外推理成本</strong>（EFT需同时运行2个弱模型）；</li>
+<li>生成连贯性保障：移植后模型的困惑度（PPL）与基线接近（如LLaMA 2-13B的PPL从13.58变为14.68），证明不会破坏生成质量。</li>
+</ul>
+<h3 id="3-实验3：概念形成与激活机制">3. 实验3：概念形成与激活机制</h3>
+<h4 id="目标：揭示LLM中“概念”的产生阶段（预训练-对齐）">目标：揭示LLM中“概念”的产生阶段（预训练/对齐）</h4>
+<h5 id="（1）预训练阶段：概念逐步形成">（1）预训练阶段：概念逐步形成</h5>
+<ul>
+<li>实验：用Amber-7B的不同预训练checkpoint（预训练token量递增），移植“情绪向量”并评估效果；</li>
+<li>结果：随预训练token量增加，情绪预测 accuracy 提升（图3），证明<strong>概念在预训练阶段随数据量积累逐步固化</strong>（模型架构相同，差异仅来自预训练数据量）。</li>
+</ul>
+<h5 id="（2）对齐阶段：概念被激活">（2）对齐阶段：概念被激活</h5>
+<ul>
+<li>实验：对比“从7B base模型提取的诚实向量”与“从7B instruct模型提取的诚实向量”，移植到13B base模型；</li>
+<li>结果：前者仅将真实性 accuracy 从17.9%提升至25.1%，后者提升至36.5%（表4），证明<strong>预训练模型虽具备概念，但对齐训练（如指令微调）可“激活”概念的表达能力</strong>。</li>
+</ul>
+<h5 id="（3）模型大小阈值：小模型无清晰概念">（3）模型大小阈值：小模型无清晰概念</h5>
+<ul>
+<li>实验：用Pythia系列（14M、70M、410M、1.4B、6.9B），移植情绪向量并观察特征；</li>
+<li>结果：14M/70M模型无法区分情绪特征（t-SNE可视化无聚类），410M以上模型才出现清晰情绪聚类（图8），证明<strong>概念的形成存在“参数大小阈值”</strong>，过小模型无法编码抽象概念。</li>
+</ul>
+<h2 id="五、贡献与局限性">五、贡献与局限性</h2>
+<h3 id="1-核心贡献">1. 核心贡献</h3>
+<ol>
+<li><strong>方法论创新</strong>：提出首个“跨模型概念移植”框架，实现弱到强的内部特征空间对齐，无需额外训练和大量数据；</li>
+<li><strong>实证发现</strong>：验证了“跨模型共享概念”的存在，揭示了概念在LLM中的“预训练形成、对齐激活”机制；</li>
+<li><strong>实用价值</strong>：以极低计算成本（仅移植单个向量）复用弱模型对齐知识，解决百亿级LLM对齐的算力瓶颈，且在真实性、毒性任务上效果优于传统无训练方法。</li>
+</ol>
+<h3 id="2-局限性">2. 局限性</h3>
+<ol>
+<li><strong>单概念移植限制</strong>：目前仅支持“单个概念”移植，多概念叠加（如同时移植“诚实”+“公平”）的效果与冲突解决尚未验证；</li>
+<li><strong>能力范围局限</strong>：仅适用于“价值观类概念”（情绪、诚实、毒性），无法提升模型的“能力类任务”（如编码、推理）——尚无证据表明这类能力可通过特征方向调整实现；</li>
+<li><strong>模型相似性依赖</strong>：跨模型移植效果受“源/目标模型的预训练数据、架构相似性”影响（如LLaMA 2→LLaMA效果优于Mistral→LLaMA）。</li>
+</ol>
+<h2 id="六、研究意义">六、研究意义</h2>
+<p>CONTRANS的核心价值在于为LLM对齐提供了一条**“低成本、高透明、可复用”的新路径**：</p>
+<ul>
+<li>对工业界：无需为每个大模型重复进行昂贵的RLHF/SFT，仅需训练弱模型并移植概念，大幅降低对齐成本；</li>
+<li>对学术界：揭示了LLM内部“概念表示”的跨模型共性，为“模型可解释性”和“可控对齐”提供了新视角；</li>
+<li>未来方向：探索多概念叠加移植、跨模态概念迁移、能力类任务的特征干预，将是该领域的关键延伸。</li>
+</ul>
+<p>论文代码已开源：<a target="_blank" rel="noopener" href="https://github.com/willowdong/ConTrans">github.com/willowdong/ConTrans</a></p>
 
       
     </div>
@@ -372,7 +533,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/null-index/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/null-index/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -395,14 +556,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

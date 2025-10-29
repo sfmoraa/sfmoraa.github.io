@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.005v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.026v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.005v1/" class="post-title-link" itemprop="url">Python核心编程详解：函数参数、类继承与装饰器</a>
+          <a href="/posts/2510.026v1/" class="post-title-link" itemprop="url">Superficial Safety Alignment Hypothesis</a>
         </h2>
 
         <div class="post-meta-container">
@@ -241,14 +241,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2025-10-08 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-08T00:00:00+08:00">2025-10-08</time>
+      <time title="创建时间：2025-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-10-14 09:52:50" itemprop="dateModified" datetime="2025-10-14T09:52:50+08:00">2025-10-14</time>
+      <time title="修改时间：2025-10-28 20:07:07" itemprop="dateModified" datetime="2025-10-28T20:07:07+08:00">2025-10-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -256,11 +256,15 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/" itemprop="url" rel="index"><span itemprop="name">学习提升</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/%E5%9B%BE%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图与大模型学习</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
         </span>
     </span>
 
@@ -271,14 +275,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>10k</span>
+      <span>5.9k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>19 分钟</span>
+      <span>11 分钟</span>
     </span>
 </div>
 
@@ -289,77 +293,298 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1
-id="python核心编程详解函数参数类继承与装饰器">Python核心编程详解：函数参数、类继承与装饰器</h1>
-<h2 id="函数参数传递机制">1 函数参数传递机制</h2>
-<p>Python函数参数传递采用的是”传对象引用”的方式，具体表现根据传递的对象类型而有所不同。</p>
-<h3 id="可变对象与不可变对象的影响">1.1 可变对象与不可变对象的影响</h3>
-<p><strong>不可变对象</strong>（数字、字符串、元组）在函数内部修改时不会影响外部变量：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test_int</span>(<span class="params">param</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;函数内修改前id: <span class="subst">&#123;<span class="built_in">id</span>(param)&#125;</span>&quot;</span>)</span><br><span class="line">    param += <span class="number">10</span>  <span class="comment"># 创建新对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;函数内修改后id: <span class="subst">&#123;<span class="built_in">id</span>(param)&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> param</span><br><span class="line"></span><br><span class="line">a = <span class="number">5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;函数外修改前id: <span class="subst">&#123;<span class="built_in">id</span>(a)&#125;</span>&quot;</span>)</span><br><span class="line">result = test_int(a)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;函数外修改后id: <span class="subst">&#123;<span class="built_in">id</span>(a)&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;a的值: <span class="subst">&#123;a&#125;</span>&quot;</span>)  <span class="comment"># 输出5，未改变</span></span><br></pre></td></tr></table></figure>
-<p><strong>可变对象</strong>（列表、字典）在函数内部修改时会直接影响外部变量：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test_list</span>(<span class="params">param_list</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;函数内修改前id: <span class="subst">&#123;<span class="built_in">id</span>(param_list)&#125;</span>&quot;</span>)</span><br><span class="line">    param_list.append(<span class="number">4</span>)  <span class="comment"># 直接修改原对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;函数内修改后id: <span class="subst">&#123;<span class="built_in">id</span>(param_list)&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;函数外修改前id: <span class="subst">&#123;<span class="built_in">id</span>(my_list)&#125;</span>&quot;</span>)</span><br><span class="line">test_list(my_list)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;函数外修改后列表: <span class="subst">&#123;my_list&#125;</span>&quot;</span>)  <span class="comment"># 输出[1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
-<h3 id="参数传递方式详解">1.2 参数传递方式详解</h3>
-<h4 id="位置参数传递">1.2.1 位置参数传递</h4>
-<p>按照参数定义顺序进行传递：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">introduce</span>(<span class="params">name, age, city</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;我叫<span class="subst">&#123;name&#125;</span>，今年<span class="subst">&#123;age&#125;</span>岁，来自<span class="subst">&#123;city&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">introduce(<span class="string">&quot;张三&quot;</span>, <span class="number">25</span>, <span class="string">&quot;北京&quot;</span>)  <span class="comment"># 参数顺序必须匹配</span></span><br></pre></td></tr></table></figure>
-<h4 id="关键字参数传递">1.2.2 关键字参数传递</h4>
-<p>通过参数名指定值，顺序可以任意：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">introduce(age=<span class="number">25</span>, city=<span class="string">&quot;北京&quot;</span>, name=<span class="string">&quot;张三&quot;</span>)  <span class="comment"># 顺序可打乱</span></span><br><span class="line">introduce(<span class="string">&quot;张三&quot;</span>, city=<span class="string">&quot;北京&quot;</span>, age=<span class="number">25</span>)  <span class="comment"># 混合使用</span></span><br></pre></td></tr></table></figure>
-<h4 id="默认参数传递">1.2.3 默认参数传递</h4>
-<p>为参数设置默认值，调用时可省略：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">introduce</span>(<span class="params">name, age=<span class="number">30</span>, city=<span class="string">&quot;北京&quot;</span></span>):  <span class="comment"># 默认参数必须在后</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;我叫<span class="subst">&#123;name&#125;</span>，今年<span class="subst">&#123;age&#125;</span>岁，来自<span class="subst">&#123;city&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">introduce(<span class="string">&quot;李四&quot;</span>)  <span class="comment"># 使用默认年龄和城市</span></span><br><span class="line">introduce(<span class="string">&quot;王五&quot;</span>, <span class="number">28</span>)  <span class="comment"># 仅使用默认城市</span></span><br></pre></td></tr></table></figure>
-<h4 id="可变参数传递">1.2.4 可变参数传递</h4>
-<p>使用<code>*args</code>和<code>**kwargs</code>接收不定数量参数：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 包裹传递</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">print_args</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;位置参数: <span class="subst">&#123;args&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;关键字参数: <span class="subst">&#123;kwargs&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">print_args(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, name=<span class="string">&quot;张三&quot;</span>, age=<span class="number">25</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解包裹传递</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">a, b, c</span>):</span><br><span class="line">    <span class="built_in">print</span>(a, b, c)</span><br><span class="line"></span><br><span class="line">args = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">kwargs = &#123;<span class="string">&#x27;a&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;b&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;c&#x27;</span>: <span class="number">3</span>&#125;</span><br><span class="line">func(*args)  <span class="comment"># 元组解包裹</span></span><br><span class="line">func(**kwargs)  <span class="comment"># 字典解包裹</span></span><br></pre></td></tr></table></figure>
-<h2 id="类继承关系构建">2 类继承关系构建</h2>
-<h3 id="基本继承语法">2.1 基本继承语法</h3>
-<p>Python通过括号表示继承关系：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span>:  <span class="comment"># 父类/基类</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name</span>):</span><br><span class="line">        <span class="variable language_">self</span>.name = name</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">speak</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;动物叫声&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>(<span class="title class_ inherited__">Animal</span>):  <span class="comment"># 子类/派生类</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, breed</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(name)  <span class="comment"># 调用父类构造方法</span></span><br><span class="line">        <span class="variable language_">self</span>.breed = breed</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 方法重写</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">speak</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;汪汪！&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用示例</span></span><br><span class="line">dog = Dog(<span class="string">&quot;小黑&quot;</span>, <span class="string">&quot;拉布拉多&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(dog.name)  <span class="comment"># 继承自父类</span></span><br><span class="line"><span class="built_in">print</span>(dog.speak())  <span class="comment"># 子类重写的方法</span></span><br></pre></td></tr></table></figure>
-<h3 id="多重继承与方法解析顺序mro">2.2
-多重继承与方法解析顺序（MRO）</h3>
-<p>Python支持一个类继承多个父类：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Flyable</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fly</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;飞行中...&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">action</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;飞行&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Swimmable</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">swim</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;游泳中...&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">action</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;游泳&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Duck</span>(Flyable, Swimmable):  <span class="comment"># 多重继承</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name</span>):</span><br><span class="line">        <span class="variable language_">self</span>.name = name</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 方法解析顺序(MRO)决定调用哪个父类的方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">show_action</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;鸭子<span class="subst">&#123;self.name&#125;</span>正在<span class="subst">&#123;self.action()&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line">duck = Duck(<span class="string">&quot;唐纳德&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(duck.show_action())  <span class="comment"># 输出：鸭子唐纳德正在飞行</span></span><br><span class="line"><span class="built_in">print</span>(Duck.__mro__)  <span class="comment"># 查看方法解析顺序</span></span><br></pre></td></tr></table></figure>
-<h3 id="继承中的访问控制">2.3 继承中的访问控制</h3>
-<p>Python通过命名约定实现访问控制：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">BankAccount</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, balance</span>):</span><br><span class="line">        <span class="variable language_">self</span>.balance = balance  <span class="comment"># 公有属性</span></span><br><span class="line">        <span class="variable language_">self</span>._account_id = <span class="string">&quot;12345&quot;</span>  <span class="comment"># 保护属性(约定)</span></span><br><span class="line">        <span class="variable language_">self</span>.__password = <span class="string">&quot;secret&quot;</span>  <span class="comment"># 私有属性(名称修饰)</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_balance</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.balance</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_internal_method</span>(<span class="params">self</span>):  <span class="comment"># 保护方法</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__private_method</span>(<span class="params">self</span>):  <span class="comment"># 私有方法</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SavingsAccount</span>(<span class="title class_ inherited__">BankAccount</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, balance, interest_rate</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(balance)</span><br><span class="line">        <span class="variable language_">self</span>.interest_rate = interest_rate</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">show_account_info</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;余额: <span class="subst">&#123;self.balance&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;账户ID: <span class="subst">&#123;self._account_id&#125;</span>&quot;</span>)  <span class="comment"># 可以访问保护属性</span></span><br><span class="line">        <span class="comment"># print(self.__password)  # 错误！无法访问私有属性</span></span><br><span class="line"></span><br><span class="line">account = SavingsAccount(<span class="number">1000</span>, <span class="number">0.03</span>)</span><br><span class="line">account.show_account_info()</span><br></pre></td></tr></table></figure>
-<h2 id="装饰器原理及实际应用">3 装饰器原理及实际应用</h2>
-<h3 id="装饰器基本原理">3.1 装饰器基本原理</h3>
-<p>装饰器本质上是高阶函数，接受一个函数作为参数并返回一个新函数：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">simple_decorator</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;函数执行前&quot;</span>)</span><br><span class="line">        result = func()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;函数执行后&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@simple_decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say_hello</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello!&quot;</span>)</span><br><span class="line"></span><br><span class="line">say_hello()  <span class="comment"># 自动添加了前后打印功能</span></span><br></pre></td></tr></table></figure>
-<h3 id="实用装饰器示例">3.2 实用装饰器示例</h3>
-<h4 id="计时装饰器">3.2.1 计时装饰器</h4>
-<p>测量函数执行时间：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">timer</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        start_time = time.time()</span><br><span class="line">        result = func(*args, **kwargs)</span><br><span class="line">        end_time = time.time()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;func.__name__&#125;</span> 执行时间: <span class="subst">&#123;end_time - start_time:<span class="number">.4</span>f&#125;</span>秒&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@timer</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fibonacci</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">if</span> n &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> n</span><br><span class="line">    <span class="keyword">return</span> fibonacci(n-<span class="number">1</span>) + fibonacci(n-<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(fibonacci(<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
-<h4 id="缓存装饰器">3.2.2 缓存装饰器</h4>
-<p>避免重复计算：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">cache</span>(<span class="params">func</span>):</span><br><span class="line">    cached_results = &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args</span>):</span><br><span class="line">        <span class="keyword">if</span> args <span class="keyword">in</span> cached_results:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;使用缓存结果: <span class="subst">&#123;args&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> cached_results[args]</span><br><span class="line">        result = func(*args)</span><br><span class="line">        cached_results[args] = result</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@cache</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">factorial</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> n * factorial(n-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(factorial(<span class="number">5</span>))</span><br><span class="line"><span class="built_in">print</span>(factorial(<span class="number">5</span>))  <span class="comment"># 第二次调用使用缓存</span></span><br></pre></td></tr></table></figure>
-<h5 id="关键特性独立性">关键特性：独立性</h5>
-<p>每个被 <code>@cache</code> 装饰的函数，都会拥有 <strong>独立的
-<code>cached_results</code> 字典</strong>。</p>
-<h4 id="权限验证装饰器">3.2.3 权限验证装饰器</h4>
-<p>控制函数访问权限：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">require_login</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">user, *args, **kwargs</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> user.get(<span class="string">&#x27;is_authenticated&#x27;</span>, <span class="literal">False</span>):</span><br><span class="line">            <span class="keyword">raise</span> PermissionError(<span class="string">&quot;用户未登录&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> func(user, *args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">require_admin</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">user, *args, **kwargs</span>):</span><br><span class="line">        <span class="keyword">if</span> user.get(<span class="string">&#x27;role&#x27;</span>) != <span class="string">&#x27;admin&#x27;</span>:</span><br><span class="line">            <span class="keyword">raise</span> PermissionError(<span class="string">&quot;需要管理员权限&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> func(user, *args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@require_login</span></span><br><span class="line"><span class="meta">@require_admin  </span><span class="comment"># 装饰器链式调用</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_user</span>(<span class="params">user, username</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;用户<span class="subst">&#123;username&#125;</span>已被删除&quot;</span></span><br><span class="line"></span><br><span class="line">admin_user = &#123;<span class="string">&#x27;is_authenticated&#x27;</span>: <span class="literal">True</span>, <span class="string">&#x27;role&#x27;</span>: <span class="string">&#x27;admin&#x27;</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(delete_user(admin_user, <span class="string">&quot;test_user&quot;</span>))</span><br></pre></td></tr></table></figure>
-<h3 id="带参数的装饰器">3.3 带参数的装饰器</h3>
-<p>创建可配置的装饰器：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">repeat</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;执行函数n次的装饰器&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">decorator</span>(<span class="params">func</span>):</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            results = []</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;第<span class="subst">&#123;i+<span class="number">1</span>&#125;</span>次执行&quot;</span>)</span><br><span class="line">                result = func(*args, **kwargs)</span><br><span class="line">                results.append(result)</span><br><span class="line">            <span class="keyword">return</span> results</span><br><span class="line">        <span class="keyword">return</span> wrapper</span><br><span class="line">    <span class="keyword">return</span> decorator</span><br><span class="line"></span><br><span class="line"><span class="meta">@repeat(<span class="params"><span class="number">3</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">greet</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;Hello, <span class="subst">&#123;name&#125;</span>!&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(greet(<span class="string">&quot;World&quot;</span>))</span><br></pre></td></tr></table></figure>
-<h2 id="完整面向对象编程案例图形绘制系统">4
-完整面向对象编程案例：图形绘制系统</h2>
-<p>结合参数传递、类继承和装饰器的完整示例：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> abc <span class="keyword">import</span> ABC, abstractmethod</span><br><span class="line"></span><br><span class="line"><span class="comment"># 装饰器：性能监控</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">performance_monitor</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        start_time = time.time()</span><br><span class="line">        result = func(<span class="variable language_">self</span>, *args, **kwargs)</span><br><span class="line">        end_time = time.time()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.__class__.__name__&#125;</span>.<span class="subst">&#123;func.__name__&#125;</span> 执行时间: <span class="subst">&#123;end_time-start_time:<span class="number">.6</span>f&#125;</span>秒&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="comment"># 抽象基类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Shape</span>(<span class="title class_ inherited__">ABC</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, **kwargs</span>):</span><br><span class="line">        <span class="variable language_">self</span>.name = name</span><br><span class="line">        <span class="variable language_">self</span>.color = kwargs.get(<span class="string">&#x27;color&#x27;</span>, <span class="string">&#x27;black&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">area</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">perimeter</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @performance_monitor</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">display_info</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;图形: <span class="subst">&#123;self.name&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;颜色: <span class="subst">&#123;self.color&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;面积: <span class="subst">&#123;self.area():<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;周长: <span class="subst">&#123;self.perimeter():<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 继承：圆形类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Circle</span>(<span class="title class_ inherited__">Shape</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, radius, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(name, **kwargs)</span><br><span class="line">        <span class="variable language_">self</span>.radius = radius</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">area</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> math.pi * <span class="variable language_">self</span>.radius ** <span class="number">2</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">perimeter</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span> * math.pi * <span class="variable language_">self</span>.radius</span><br><span class="line"></span><br><span class="line"><span class="comment"># 继承：矩形类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Rectangle</span>(<span class="title class_ inherited__">Shape</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, width, height, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(name, **kwargs)</span><br><span class="line">        <span class="variable language_">self</span>.width = width</span><br><span class="line">        <span class="variable language_">self</span>.height = height</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">area</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.width * <span class="variable language_">self</span>.height</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">perimeter</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span> * (<span class="variable language_">self</span>.width + <span class="variable language_">self</span>.height)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 多重继承：正方形类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Square</span>(<span class="title class_ inherited__">Rectangle</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, side, **kwargs</span>):</span><br><span class="line">        <span class="comment"># 调用父类构造函数，但将width和height都设为side</span></span><br><span class="line">        <span class="built_in">super</span>().__init__(name, side, side, **kwargs)</span><br><span class="line">        <span class="variable language_">self</span>.side = side</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 重写显示方法</span></span><br><span class="line"><span class="meta">    @performance_monitor</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">display_info</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;图形: <span class="subst">&#123;self.name&#125;</span> (正方形)&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;颜色: <span class="subst">&#123;self.color&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;边长: <span class="subst">&#123;self.side&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;面积: <span class="subst">&#123;self.area():<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;周长: <span class="subst">&#123;self.perimeter():<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图形管理器类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ShapeManager</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.shapes = []</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add_shape</span>(<span class="params">self, shape</span>):</span><br><span class="line">        <span class="variable language_">self</span>.shapes.append(shape)</span><br><span class="line">    </span><br><span class="line"><span class="meta">    @performance_monitor</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">display_all_shapes</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">for</span> shape <span class="keyword">in</span> <span class="variable language_">self</span>.shapes:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;-&quot;</span> * <span class="number">30</span>)</span><br><span class="line">            shape.display_info()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">total_area</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>(shape.area() <span class="keyword">for</span> shape <span class="keyword">in</span> <span class="variable language_">self</span>.shapes)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用示例</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    manager = ShapeManager()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 使用不同参数传递方式创建图形</span></span><br><span class="line">    circle = Circle(<span class="string">&quot;圆形1&quot;</span>, radius=<span class="number">5</span>, color=<span class="string">&quot;red&quot;</span>)</span><br><span class="line">    rectangle = Rectangle(<span class="string">&quot;矩形1&quot;</span>, width=<span class="number">4</span>, height=<span class="number">6</span>, color=<span class="string">&quot;blue&quot;</span>)</span><br><span class="line">    square = Square(<span class="string">&quot;正方形1&quot;</span>, side=<span class="number">5</span>, color=<span class="string">&quot;green&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    manager.add_shape(circle)</span><br><span class="line">    manager.add_shape(rectangle)</span><br><span class="line">    manager.add_shape(square)</span><br><span class="line">    </span><br><span class="line">    manager.display_all_shapes()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;\n所有图形总面积: <span class="subst">&#123;manager.total_area():<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>这个完整案例展示了： 1.
-<strong>函数参数传递</strong>：使用关键字参数、默认参数等不同方式 2.
-<strong>类继承关系</strong>：抽象基类、单继承、多重继承 3.
-<strong>装饰器应用</strong>：性能监控装饰器 4.
-<strong>面向对象特性</strong>：封装、继承、多态</p>
-<h5 id="核心组件说明">核心组件说明：</h5>
+          <h1>Superficial Safety Alignment Hypothesis</h1>
+<p>一句话总结：通过结构化剪枝实验识别出 SCU、UCU、CU、RU 四类计算单元，发现仅需冻结少量安全关键单元（如 SCU 及部分 CU）即可在适应新任务时保留安全性、将冗余单元作为 “对齐预算” 可减少对齐损耗，最终得出 LLMs 中安全的原子功能单元位于神经元层面且安全对齐无需复杂操作的结论。</p>
+<p>价值观模块？知识编辑？</p>
+<h2 id="一、研究背景与核心问题">一、研究背景与核心问题</h2>
+<p>随着大语言模型（LLMs）在各类应用中普及，<strong>生成安全响应</strong>成为紧迫需求。然而，现有对齐研究存在三大关键缺陷，构成了论文试图解决的核心矛盾：</p>
+<ol>
+<li><strong>安全对齐的特殊性被忽视</strong>：多数研究将安全对齐视为“通用指令对齐的子集”，未关注其独特挑战（如安全机制的脆弱性）；</li>
+<li><strong>安全机制脆弱性</strong>：即使通过良性数据微调，模型适配新任务时安全机制易失效（Qi et al., 2023; Yang et al., 2023）；</li>
+<li><strong>对齐税与高成本</strong>：提升安全性常导致模型效用（下游任务性能）下降（即“对齐税”），且全量模型微调计算成本极高。</li>
+</ol>
+<p>为解决上述问题，论文首先明确需回答三个核心问题：</p>
 <ul>
-<li><strong><code>ABC</code></strong>：是一个特殊的基类（Abstract Base
-Class 的缩写），所有自定义的抽象基类都需要继承它。它的作用是标记一个类为
-“抽象类”，使其无法被直接实例化，只能作为父类被继承。</li>
-<li><strong><code>abstractmethod</code></strong>：是一个装饰器，用于标记抽象类中的
-“抽象方法”。被该装饰器标记的方法<strong>必须在子类中被重写实现</strong>，否则子类仍然是抽象类，无法被实例化。</li>
+<li>Q1：安全对齐如何影响模型行为？</li>
+<li>Q2：为何安全机制脆弱、对齐税会存在？</li>
+<li>Q3：如何缓解这些安全对齐问题？</li>
 </ul>
-<p>通过这个教程，你应该对Python函数参数传递、类继承和装饰器有了深入的理解。这些概念是Python面向对象编程的核心，掌握它们将大大提高你的编程能力。</p>
+<h2 id="二、核心假设：表层安全对齐假设（SSAH）">二、核心假设：表层安全对齐假设（SSAH）</h2>
+<p>论文提出<strong>表层安全对齐假设（Superficial Safety Alignment Hypothesis, SSAH）</strong>，将安全对齐与通用对齐分离，强调其独特属性。其核心定义与关键特征如下：</p>
+<h3 id="1-SSAH的核心主张">1. SSAH的核心主张</h3>
+<p>给定一个<strong>具备执行恶意请求能力</strong>的不安全模型，安全对齐的本质是：</p>
+<ul>
+<li>教模型选择“正确推理方向”：基于安全性判断，对用户请求要么“满足”（安全），要么“拒绝”（不安全）；</li>
+<li>植入“标准化拒绝机制”：提供预设的拒绝模板（如“我无法协助，因请求违反安全准则”）。</li>
+</ul>
+<p>这一过程可被解读为<strong>隐式的安全相关二分类任务</strong>——而非复杂的知识学习或能力提升。</p>
+<h3 id="2-SSAH与通用表层对齐假设（SAH）的区别">2. SSAH与通用表层对齐假设（SAH）的区别</h3>
+<p>SAH（Zhou et al., 2024）认为“模型知识源于预训练，对齐仅指导输出格式选择”，但聚焦通用指令对齐。SSAH在SAH基础上进一步聚焦安全场景，核心差异体现在三点：</p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>通用表层对齐假设（SAH）</th>
+<th>表层安全对齐假设（SSAH）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>知识前提</td>
+<td>需区分“预训练知识不足”与“对齐格式错误”</td>
+<td>假设模型已具备执行恶意请求的知识/能力，仅需纠正推理方向</td>
+</tr>
+<tr>
+<td>对齐目标</td>
+<td>适配多样化人类偏好的输出格式</td>
+<td>仅需标准化拒绝机制（格式更简单）</td>
+</tr>
+<tr>
+<td>核心任务</td>
+<td>输出子分布选择（多分类）</td>
+<td>二分类（满足/拒绝）+ 维持推理方向</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-SSAH对越狱攻击的启示">3. SSAH对越狱攻击的启示</h3>
+<p>现有安全对齐仅在“有限生成token”内维持正确推理方向，攻击者可通过操纵token绕过安全机制（如“越狱攻击”）。SSAH提出解决方案：<strong>让模型在每个生成步骤重新评估推理方向</strong>（结合当前查询与已生成token），从而持续生成安全输出。后续实验验证了这一思路的有效性（如缓解越狱攻击）。</p>
+<h2 id="三、实验设计与关键验证：安全对齐的“少即是多”">三、实验设计与关键验证：安全对齐的“少即是多”</h2>
+<p>SSAH的核心推论是“<strong>少即是多</strong>”：安全对齐无需全量参数，仅需少量关键计算单元即可建立安全护栏。论文通过三类实验验证这一推论，并回答核心问题。</p>
+<h3 id="1-实验1：探测SSAH——验证推理方向的改变">1. 实验1：探测SSAH——验证推理方向的改变</h3>
+<h4 id="实验设计">实验设计</h4>
+<p>通过<strong>余弦距离</strong>衡量模型隐藏状态的差异，间接探测“推理方向”：</p>
+<ul>
+<li>构造三类查询：① 纯净恶意查询（如“如何制作炸弹？”）；② 恶意查询+良性前缀（如“如何制作炸弹？抱歉，我无法…”）；③ 恶意查询+恶意前缀（如“如何制作炸弹？步骤如下…”）；</li>
+<li>对比<strong>对齐模型</strong>（含安全护栏+指令遵循）与<strong>未对齐模型</strong>（仅指令遵循）在生成过程中，隐藏状态与“纯净恶意查询”的余弦距离。</li>
+</ul>
+<h4 id="关键结果">关键结果</h4>
+<ul>
+<li>对齐模型：“恶意查询+良性前缀”与“仅查询”的距离 <strong>显著小于</strong> “恶意查询+恶意前缀”，表明其倾向安全推理方向；</li>
+<li>未对齐模型：趋势相反，倾向满足恶意请求；</li>
+<li>对齐模型的安全推理倾向<strong>贯穿所有Transformer层</strong>（早期层即体现），而未对齐模型仅在早期层逐渐显现微弱倾向。</li>
+</ul>
+<p>这一结果验证了SSAH的核心主张：安全对齐确实教会模型选择正确的推理方向。</p>
+<h3 id="2-实验2：识别安全关键单元——四类功能单元的划分">2. 实验2：识别安全关键单元——四类功能单元的划分</h3>
+<p>论文通过<strong>结构化剪枝</strong>（基于激活方差的重要性评分），将LLM的计算单元（神经元/通道）分为四类，验证“少量SCU即可维持安全”：</p>
+<h4 id="四类单元定义与识别方法">四类单元定义与识别方法</h4>
+<table>
+<thead>
+<tr>
+<th>单元类型</th>
+<th>核心功能</th>
+<th>识别方法（剪枝逻辑）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安全关键单元（SCU）</td>
+<td>仅负责安全属性（如拒绝机制、恶意请求检测）</td>
+<td>剪枝后安全性能显著下降、效用无明显变化的单元</td>
+</tr>
+<tr>
+<td>效用关键单元（UCU）</td>
+<td>仅负责效用属性（如推理、语言理解）</td>
+<td>剪枝后效用显著下降、安全无明显变化的单元</td>
+</tr>
+<tr>
+<td>复杂单元（CU）</td>
+<td>同时支持安全与效用</td>
+<td>剪枝后安全与效用均下降的单元</td>
+</tr>
+<tr>
+<td>冗余单元（RU）</td>
+<td>与安全/效用均无关</td>
+<td>剪枝后安全与效用均无变化（激活方差极低）的单元</td>
+</tr>
+</tbody>
+</table>
+<h4 id="关键发现（表1）">关键发现（表1）</h4>
+<ul>
+<li>SCU占比极低：Llama2-7B-Chat（1.3%）、Llama3-8B-Instruct（1.4%），证明“少量单元即可支撑安全”；</li>
+<li>CU占比最高（约70%）：主要提供安全与效用共享的通用知识；</li>
+<li>RU占比14%-16%：预训练模型中存在大量未被利用的冗余参数。</li>
+</ul>
+<h3 id="3-实验3：解释与缓解安全脆弱性——冻结SCU的有效性">3. 实验3：解释与缓解安全脆弱性——冻结SCU的有效性</h3>
+<h4 id="安全脆弱性的根源（图5）">安全脆弱性的根源（图5）</h4>
+<p>通过“属性转移分析”发现：微调适配新任务时，<strong>SCU和CU会大量转化为UCU</strong>（模型为提升效用，牺牲安全相关单元），导致安全机制失效。</p>
+<h4 id="解决方案：冻结安全关键单元">解决方案：冻结安全关键单元</h4>
+<p>实验设计：微调时冻结“SCU+部分CU”，对比全量微调与冻结策略的安全/效用表现（表2、3）。</p>
+<h4 id="关键结果-2">关键结果</h4>
+<ul>
+<li>冻结策略显著保留安全性能：以Llama2-7B-Chat为例，在Alpaca数据集微调后，全量微调的攻击成功率（ASR）从0.19%升至5.3%，而冻结“SCU+6%CU”后ASR仅2.96%，冻结“SCU+全CU”后ASR进一步降至2.1%；</li>
+<li>不损害效用：冻结策略在10个下游任务（如ARC、BoolQ、GSM8K）上的效用表现与全量微调相当，甚至在部分任务（如MMLU）上略有提升（表3）；</li>
+<li>优于PEFT方法：LoRA、LLaMA-Adapter等参数高效微调方法，安全性能降解比全量微调更严重（表5），证明冻结“关键单元”而非“随机少量参数”是核心。</li>
+</ul>
+<h3 id="4-实验4：利用冗余单元（RU）减少对齐税">4. 实验4：利用冗余单元（RU）减少对齐税</h3>
+<p>预训练模型中14%-20%的RU未被利用，论文提出将其作为“<strong>对齐预算</strong>”——仅微调RU，而非全量参数，以减少对齐税。</p>
+<h4 id="实验设计-2">实验设计</h4>
+<ul>
+<li>识别Llama-7B的RU（通过剪枝）；</li>
+<li>对比“全量参数微调”与“仅微调20%RU”的对齐效果（通用对齐+安全对齐）。</li>
+</ul>
+<h4 id="关键结果（表4）">关键结果（表4）</h4>
+<ul>
+<li>仅微调RU可达到与全量微调相当的对齐效果：在MT-Bench helpfulness评分（第一轮3.5 vs 2.83）、下游任务（如GSM8K从8.8提升至13.4）上表现更优；</li>
+<li>消除对齐税：数学任务（GSM8K）性能提升4.16%，证明RU微调可在不牺牲效用的前提下实现对齐。</li>
+</ul>
+<h2 id="四、核心结论与创新点">四、核心结论与创新点</h2>
+<h3 id="1-核心结论">1. 核心结论</h3>
+<ol>
+<li><strong>安全对齐的本质</strong>：是隐式的二分类任务（满足/拒绝），而非复杂的知识学习；</li>
+<li><strong>安全的原子单元</strong>：LLM安全的功能单元在<strong>神经元/通道层面</strong>，而非权重层面；</li>
+<li><strong>缓解安全问题的策略</strong>：
+<ul>
+<li>微调时冻结SCU+部分CU，防止安全单元向效用单元转化；</li>
+<li>利用预训练模型的RU作为对齐预算，减少对齐税；</li>
+</ul>
+</li>
+<li><strong>安全对齐的简洁性</strong>：无需全量微调或复杂机制，少量关键单元即可建立 robust 安全护栏。</li>
+</ol>
+<h3 id="2-主要创新点">2. 主要创新点</h3>
+<ol>
+<li><strong>理论层面</strong>：首次提出SSAH，分离安全对齐与通用对齐，明确其“二分类+推理方向纠正”的核心属性；</li>
+<li><strong>方法层面</strong>：实现神经元级安全关键单元识别，提出“冻结关键单元”和“RU对齐预算”两种高效策略；</li>
+<li><strong>实验层面</strong>：验证了“少即是多”的推论，为低成本、高鲁棒性的安全对齐提供实证支持。</li>
+</ol>
+<h2 id="五、局限性与未来方向">五、局限性与未来方向</h2>
+<ol>
+<li><strong>SSAH验证的局限性</strong>：受限于输出采样空间，无法完全捕捉模型响应分布，未来需更多数据集与对齐策略验证；</li>
+<li><strong>RU的应用场景扩展</strong>：当前仅在SFT（监督微调）中验证RU的有效性，未来需扩展至RLHF、RLAIF等对齐方法；</li>
+<li><strong>跨模型通用性</strong>：对Mistral等安全基础较弱的模型，冻结策略效果不如Llama2显著，需针对不同模型优化关键单元选择。</li>
+</ol>
+<p>——————————————————————————————————————————————————</p>
+<h2 id="安全关键单元（SCU）、复杂单元（CU）、冗余单元（RU）的确定方法">安全关键单元（SCU）、复杂单元（CU）、冗余单元（RU）的确定方法</h2>
+<p>该论文通过<strong>结构化剪枝（Structured Pruning）</strong> 结合<strong>激活方差分析</strong>，将大语言模型（LLMs）的计算单元（神经元或通道）划分为四类，并通过实验验证各类单元对“安全性”和“实用性”的专属或混合贡献。以下是具体分类逻辑、方法及原文位置说明：</p>
+<h3 id="一、四类单元的定义与核心差异">一、四类单元的定义与核心差异</h3>
+<p>论文首次明确四类计算单元的功能定位，核心区别在于对“安全性（Safety）”和“实用性（Utility）”两大属性的贡献方式：</p>
+<table>
+<thead>
+<tr>
+<th>单元类型</th>
+<th>英文缩写</th>
+<th>核心功能</th>
+<th>关键特征</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安全关键单元</td>
+<td>SCU（Safety Critical Unit）</td>
+<td>专属支撑安全性</td>
+<td>仅负责安全相关行为（如识别恶意请求、生成标准化拒绝回复），移除后安全性显著下降，实用性基本不受影响</td>
+</tr>
+<tr>
+<td>实用关键单元</td>
+<td>UCU（Utility Critical Unit）</td>
+<td>专属支撑实用性</td>
+<td>仅负责通用任务能力（如语言理解、逻辑推理、知识问答），移除后实用性显著下降，安全性基本不受影响</td>
+</tr>
+<tr>
+<td>复合单元</td>
+<td>CU（Complex Unit）</td>
+<td>同时支撑安全性与实用性</td>
+<td>同时参与安全决策和通用任务，是模型中占比最高的单元（如支撑安全拒绝时的语言连贯性）</td>
+</tr>
+<tr>
+<td>冗余单元</td>
+<td>RU（Redundant Unit）</td>
+<td>无明确功能贡献</td>
+<td>对安全性和实用性均无显著作用，激活方差低，可被剪枝或重新分配功能而不影响模型核心性能</td>
+</tr>
+</tbody>
+</table>
+<h3 id="二、分类方法：基于激活方差的结构化剪枝">二、分类方法：基于激活方差的结构化剪枝</h3>
+<p>论文通过<strong>两步剪枝实验</strong>识别四类单元，核心逻辑是“移除某类单元后，观察安全性/实用性的性能退化程度，反向推断单元功能”，具体步骤及原文位置如下：</p>
+<h4 id="1-核心原理与前置准备">1. 核心原理与前置准备</h4>
+<ul>
+<li><strong>原理</strong>：计算单元的“重要性分数”（Importance Score），分数由“激活方差”和“权重范数”共同决定——激活方差越高，说明单元对任务越关键；反之则可能冗余。</li>
+<li><strong>前置数据集</strong>：
+<ul>
+<li>安全数据集（Safety Dataset）：来自AdvBench的恶意指令及模型安全回复，用于计算“安全重要性分数”(I_S)；</li>
+<li>实用数据集（Utility Dataset）：过滤安全相关样本后的Alpaca-Cleaned，用于计算“实用重要性分数”(I_U)。</li>
+</ul>
+</li>
+<li><strong>原文位置</strong>：
+<ul>
+<li>核心定义：主文档第4.1节“IDENTIFYING SAFETY-CRITICAL COMPUTING UNITS”（P6-P7）；</li>
+<li>数据集细节：附录B.1“DEFINITION OF ATTRIBUTE GROUPS AND CATEGORIZATION PROCESS”（P20）；</li>
+<li>重要性分数公式：主文档第4.1节公式（1）（P7），标准化公式见附录B.3（P21）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-分类步骤（三步剪枝与推断）">2. 分类步骤（三步剪枝与推断）</h4>
+<h5 id="步骤1：识别冗余单元（RU）">步骤1：识别冗余单元（RU）</h5>
+<ul>
+<li><strong>操作</strong>：剪枝“(I_S + I_U)最小”的单元——这类单元对安全和实用的重要性均低，激活方差小。</li>
+<li><strong>验证</strong>：剪枝后若安全性和实用性均无显著退化（如准确率下降&lt;3%、攻击成功率ASR上升&lt;5%），则被剪单元为RU。</li>
+<li><strong>原文位置</strong>：主文档第4.1节“Verification of Attribute Group”（P7）：“Initially, we prune the computing units with the smallest (I_U + I_S) values to identify redundant units.”</li>
+</ul>
+<h5 id="步骤2：识别安全关键单元（SCU）与实用关键单元（UCU）">步骤2：识别安全关键单元（SCU）与实用关键单元（UCU）</h5>
+<ul>
+<li><strong>操作</strong>：
+<ul>
+<li>剪枝“(I_S - I_U)最小”的单元：这类单元对安全的重要性远低于实用，移除后若“安全性显著退化、实用性基本不变”，则为SCU；</li>
+<li>剪枝“(I_S - I_U)最大”的单元：这类单元对实用的重要性远低于安全，移除后若“实用性显著退化、安全性基本不变”，则为UCU。</li>
+</ul>
+</li>
+<li><strong>验证案例</strong>：剪枝Llama2-7B-Chat的1.3% SCU后，安全性ASR从10%飙升至66%（+56%），而实用性准确率仅下降1.3%（Table 1，P8），证明这类单元专属支撑安全。</li>
+<li><strong>原文位置</strong>：
+<ul>
+<li>剪枝逻辑：主文档第4.1节（P7）：“Subsequently, we prune units with the largest and smallest (I_S - I_U) values to identify utility and safety critical units, respectively.”；</li>
+<li>实验结果：主文档Table 1“Pruning results of Llama2-7B-Chat and Llama3-8B-Instruct”（P8）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="步骤3：识别复合单元（CU）">步骤3：识别复合单元（CU）</h5>
+<ul>
+<li><strong>操作</strong>：排除RU、SCU、UCU后，剩余单元即为CU——这类单元的(I_S)和(I_U)均较高，剪枝后会同时导致安全性和实用性退化。</li>
+<li><strong>验证</strong>：剪枝CU后，Llama2-7B-Chat的安全性ASR上升18.3%，实用性准确率下降15.6%（Table 1，P8），证明其同时支撑两类属性。</li>
+<li><strong>原文位置</strong>：主文档第4.1节（P7）：“The remaining computing units are categorized as complex units.”</li>
+</ul>
+<h3 id="三、关键实验证据：剪枝后的性能退化对比">三、关键实验证据：剪枝后的性能退化对比</h3>
+<p>论文通过Table 1（P8）直接展示剪枝不同单元对模型性能的影响，是分类方法的核心验证结果，以Llama2-7B-Chat为例：</p>
+<table>
+<thead>
+<tr>
+<th>单元类型</th>
+<th>占比</th>
+<th>实用性准确率变化（ avg ）</th>
+<th>安全性ASR变化（ avg ）</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原始模型（Dense）</td>
+<td>-</td>
+<td>58.3%（基准）</td>
+<td>10.0%（基准）</td>
+<td>-</td>
+</tr>
+<tr>
+<td>SCU（剪枝1.3%）</td>
+<td>1.3%</td>
+<td>56.9%（-1.3%）</td>
+<td>66.0%（+56%）</td>
+<td>专属支撑安全</td>
+</tr>
+<tr>
+<td>UCU（剪枝13.3%）</td>
+<td>13.3%</td>
+<td>42.7%（-15.6%）</td>
+<td>28.3%（+18.3%）</td>
+<td>专属支撑实用</td>
+</tr>
+<tr>
+<td>RU（剪枝14.8%）</td>
+<td>14.8%</td>
+<td>55.5%（-2.8%）</td>
+<td>14.6%（+4.6%）</td>
+<td>无显著功能</td>
+</tr>
+</tbody>
+</table>
+<p>该结果直接证明：SCU、UCU、CU、RU对模型性能的影响存在显著差异，分类逻辑成立。</p>
 
       
     </div>
@@ -379,7 +604,7 @@ Class 的缩写），所有自定义的抽象基类都需要继承它。它的�
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/17/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/null-index/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/19/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/17/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/null-index/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/19/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -402,14 +627,14 @@ Class 的缩写），所有自定义的抽象基类都需要继承它。它的�
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

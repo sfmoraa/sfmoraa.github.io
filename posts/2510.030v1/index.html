@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="DeAL: Decoding-time Alignment for Large Language Models 1. 论文概览  核心问题：现有大语言模型（LLMs）的训练时对齐方法（如基于人类反馈的强化学习RLHF）存在无法整合多个自定义奖励、依赖开发者定义的静态通用原则、易被“越狱”等局限，需解决LLM在生成阶段灵活对齐用户自定义目标的问题。 主要贡献：1. 提出DeAL框架，支持在解码阶段自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DeAL: Decoding-time Alignment for Large Language Models">
+<meta property="og:url" content="http://example.com/posts/2510.030v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="DeAL: Decoding-time Alignment for Large Language Models 1. 论文概览  核心问题：现有大语言模型（LLMs）的训练时对齐方法（如基于人类反馈的强化学习RLHF）存在无法整合多个自定义奖励、依赖开发者定义的静态通用原则、易被“越狱”等局限，需解决LLM在生成阶段灵活对齐用户自定义目标的问题。 主要贡献：1. 提出DeAL框架，支持在解码阶段自">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-28T14:50:36.404Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.030v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.030v1/","path":"/posts/2510.030v1/","title":"DeAL: Decoding-time Alignment for Large Language Models"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DeAL: Decoding-time Alignment for Large Language Models | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">DeAL: Decoding-time Alignment for Large Language Models</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">1. 论文概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">2. 各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%BC%95%E8%A8%80-Introduction"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 引言 (Introduction)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C-Related-Work"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 相关工作 (Related Work)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%96%B9%E6%B3%95%E8%AE%BA-Methodology"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 方法论 (Methodology)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%AE%9E%E9%AA%8C-Experiments"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 实验 (Experiments)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E8%AE%A8%E8%AE%BA-Discussion"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 讨论 (Discussion)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E7%BB%93%E8%AE%BA-Conclusion"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.6 结论 (Conclusion)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B4%E4%BD%93%E8%AF%84%E4%BB%B7"><span class="nav-number">1.3.</span> <span class="nav-text">3. 整体评价</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.030v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DeAL: Decoding-time Alignment for Large Language Models | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DeAL: Decoding-time Alignment for Large Language Models
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-28 22:50:36" itemprop="dateModified" datetime="2025-10-28T22:50:36+08:00">2025-10-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>DeAL: Decoding-time Alignment for Large Language Models</h1>
+<h2 id="1-论文概览">1. 论文概览</h2>
+<ul>
+<li><strong>核心问题</strong>：现有大语言模型（LLMs）的训练时对齐方法（如基于人类反馈的强化学习RLHF）存在无法整合多个自定义奖励、依赖开发者定义的静态通用原则、易被“越狱”等局限，需解决LLM在生成阶段灵活对齐用户自定义目标的问题。</li>
+<li><strong>主要贡献</strong>：1. 提出DeAL框架，支持在解码阶段自定义奖励函数，实现LLM的解码时对齐；2. 支持编程可验证约束（如关键词、长度）与抽象对齐目标（如无害性、有帮助性）的模块化组合，能权衡多目标；3. 可与RLHF、提示技术等现有对齐策略互补，提升对齐效果，且能防御“越狱”攻击。</li>
+<li><strong>研究方法</strong>：将LLM解码视为启发式引导的搜索过程，基于A*搜索算法构建搜索代理，结合起始状态调整（拆分提示为任务指令、对齐指令、任务输入）与动作选择（Top-k候选+前瞻机制），并将对齐奖励函数作为启发式，实现解码时对齐。</li>
+</ul>
+<h2 id="2-各章节详解">2. 各章节详解</h2>
+<h3 id="2-1-引言-Introduction">2.1 引言 (Introduction)</h3>
+<ul>
+<li><strong>研究背景与动机</strong>：LLMs（如GPT、Llama、Mistral）无需大量任务特定微调即可处理翻译、摘要等任务，但难以对齐用户指定的动态/自定义目标。现有对齐方法多在训练阶段（如RLHF、监督微调SFT），存在两点局限：一是对齐目标静态且通用，需微调维护自定义模型，与用户意图可能冲突；二是训练阶段学习的原则在生成阶段未必遵守（如安全训练后的模型仍可被“越狱”）。</li>
+<li><strong>本文目标</strong>：提出DeAL框架，在LLM解码阶段施加对齐目标，支持自定义奖励函数与多种对齐目标的灵活组合，提升对齐可靠性，且可与现有对齐策略互补。</li>
+</ul>
+<h3 id="2-2-相关工作-Related-Work">2.2 相关工作 (Related Work)</h3>
+<ul>
+<li><strong>现有研究综述</strong>：1. 自然语言生成的搜索化研究：将生成视为搜索问题，采用A*搜索、前瞻策略及逻辑/有限状态自动机等约束，但未在LLM上验证效果，也未考虑对齐提示的影响；2. LLM对齐研究：主流为训练阶段对齐（如RLHF、偏好数据微调），部分解码时对齐方法仅为DeAL的特例（如基于毒性、有帮助性的参数化奖励，或推理/工具调用的编程约束），但未考虑对齐提示，也未支持奖励的模块化组合。</li>
+<li><strong>本文定位</strong>：将生成搜索框架泛化到LLM，将对齐/系统提示作为搜索超参数，支持丰富的启发式奖励与模块化多对齐目标，统一现有搜索策略，填补“LLM解码时多目标灵活对齐”的研究空白。</li>
+</ul>
+<h3 id="2-3-方法论-Methodology">2.3 方法论 (Methodology)</h3>
+<ul>
+<li><strong>核心方法/模型</strong>：将LLM对齐建模为搜索问题 (&lt;S, V, T, R_{a}&gt;)，其中：
+<ul>
+<li>状态空间 (S)：token序列（如 (&lt;v^1, v^2, …&gt;)）；</li>
+<li>动作集 (V)：LLM的词汇表；</li>
+<li>转移函数 (T)：在当前token序列后添加一个token，生成新状态；</li>
+<li>对齐奖励函数 (R_a)：定义对齐目标（如无害性、关键词覆盖）。<br>
+搜索代理基于A*算法，核心包含“起始状态调整”与“动作选择”两大模块。</li>
+</ul>
+</li>
+<li><strong>技术细节</strong>：
+<ol>
+<li>起始状态调整：将提示 (p) 拆分为任务指令 (p_t)、对齐指令 (p_a)、任务输入 (p_i)，(p_a) 可通过自然语言表达对齐目标，作为搜索超参数手动选择，减少目标状态搜索成本；</li>
+<li>动作选择：
+<ul>
+<li>候选筛选：仅保留LLM预测的Top-k token作为候选动作，降低搜索空间；</li>
+<li>前瞻机制：对部分生成序列生成长度为 (l) 的延续（采用贪心策略），使启发式函数 (h(\cdot)) 能更可靠地评估对齐度（解决部分生成序列难以评分的问题）；</li>
+<li>评分公式：选择下一个动作的评分 (c(y_t)=\log P(y_{1:t}|p)+\lambda h(y_{1:t+l},p))，其中 (\log P(y_{1:t}|p)) 是LLM的生成概率，(\lambda) 控制启发式（对齐目标）的权重；</li>
+</ul>
+</li>
+<li>奖励支持：可整合编程可验证约束（如关键词覆盖、长度）与参数化奖励模型（如基于HH-RLHF训练的无害性/有帮助性奖励模型）。</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-4-实验-Experiments">2.4 实验 (Experiments)</h3>
+<ul>
+<li><strong>实验设置</strong>：
+<ol>
+<li>模型：MPT-7B-Instruct、Falcon-7B-Instruct、Dolly-v2-3B（均为指令微调模型，开源且许可宽松）；</li>
+<li>数据集：
+<ul>
+<li>关键词约束：CommonGen（生成含3-5个指定关键词的连贯句子）；</li>
+<li>长度约束：XSUM子集（生成≤10词的摘要，参考摘要≤10词，共176个测试样本）；</li>
+<li>抽象对齐：HH-RLHF（含无害性/有帮助性标注的对话）、HarmfulQ（仅含恶意提示，用于测试“越狱”防御）；</li>
+</ul>
+</li>
+<li>评估指标：
+<ul>
+<li>关键词约束：软覆盖率（平均覆盖关键词比例）、硬覆盖率（完全覆盖关键词的样本比例）；</li>
+<li>长度约束：长度满足度（符合≤10词的样本比例）、摘要质量（人类标注的忠实性、相关性、连贯性）；</li>
+<li>抽象对齐：人类标注的无害性/有帮助性比例（部分用ChatGPT辅助，但以人类标注为准）。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><strong>主要结果</strong>：
+<ol>
+<li>关键词约束（表1）：DeAL在所有模型上均提升覆盖率，平均软覆盖率+8%、硬覆盖率+17%，弱指令跟随模型（如Dolly-v2-3B）提升更显著（硬覆盖率+21%）；</li>
+<li>长度约束（表2）：仅对齐提示（(p_a)）的长度满足度低，DeAL显著提升满足度，且“(p_a + DeAL)”组合在满足度最高的同时，摘要质量（忠实性、相关性、连贯性）与仅(p_a)无统计差异（(p&gt;&gt;0.05)）；</li>
+<li>抽象对齐（表3）：DeAL（用联合奖励模型(R_{hh})）在HarmfulQ、HH-RLHF无害/有帮助测试集上的对齐效果，分别比安全提示高37%、24%、7%，且优于重排序策略；</li>
+<li>多目标校准（表4）：调整(R_{harmless})与(R_{helpful})的权重可控制生成结果的无害性/有帮助性，如(w_{harmless}=1, w_{helpful}=0)时HarmfulQ无害性100%，(w_{harmless}=0, w_{helpful}=1)时HH-RLHF有帮助性77%；</li>
+<li>与RLHF结合（表5）：DeAL在HarmfulQ上略优于RLHF（0.83 vs 0.80），RLHF在HH-RLHF有帮助性上更优（0.70 vs 0.53），二者结合（RLHF+DeAL）在两数据集上均达最佳（0.93、0.70）；</li>
+<li>防御“越狱”（表6）：延续攻击（添加“Assistant: To do that,”）使安全提示的无害性降至20%，而DeAL（(R_{harmless})）的无害性达73%。</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-5-讨论-Discussion">2.5 讨论 (Discussion)</h3>
+<ul>
+<li><strong>结果分析</strong>：1. DeAL通过解码时启发式引导，解决了训练时对齐的“静态通用”“生成时失效”问题；2. 对齐提示（(p_a)）与模型指令跟随能力可提升DeAL的动作空间质量，如无(p_a)时长度约束任务的摘要质量下降；3. 模块化奖励支持灵活组合，可根据场景校准多目标权重；4. DeAL与RLHF互补，分别在解码/训练阶段生效，结合后提升对齐上限。</li>
+<li><strong>局限性</strong>：1. 无法用于无输出logits访问权限的专有模型；2. 解码延迟高（无批量推理时，因前瞻和参数化奖励，比贪心解码慢2-5倍）；3. 未深入探索不同解码策略组合及领域特定场景的优化。</li>
+</ul>
+<h3 id="2-6-结论-Conclusion">2.6 结论 (Conclusion)</h3>
+<ul>
+<li><strong>总结</strong>：DeAL框架实现了LLM解码阶段的灵活对齐，支持自定义/多对齐目标，可与现有对齐策略（如RLHF、提示）互补，提升对齐可靠性，且在“越狱”防御等安全场景中效果显著。</li>
+<li><strong>未来工作</strong>：1. 优化解码效率（如限制奖励函数类型、预编译语法、用蒸馏模型做前瞻）；2. 探索不同解码策略组合及领域特定场景的适配；3. 深入研究解码时对齐的安全边界与攻击防御。</li>
+</ul>
+<h2 id="3-整体评价">3. 整体评价</h2>
+<ul>
+<li><strong>核心贡献</strong>：提出DeAL框架，将LLM对齐从训练阶段扩展到解码阶段，实现自定义、模块化的多目标对齐，弥补了现有训练时对齐方法的灵活性与可靠性局限。</li>
+<li><strong>适用场景</strong>：1. 需要自定义对齐目标的LLM应用（如含关键词/长度约束的内容生成、行业特定安全对话）；2. 需与RLHF结合提升对齐效果的场景（如通用助手的无害性+有帮助性双目标优化）；3. LLM“越狱”防御等安全敏感场景（如恶意提示过滤）。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.031v1/" rel="prev" title="Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing">
+                  <i class="fa fa-angle-left"></i> Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.029v1/" rel="next" title="CONTRANS: Weak-to-Strong Alignment Engineering via Concept Transplantation">
+                  CONTRANS: Weak-to-Strong Alignment Engineering via Concept Transplantation <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

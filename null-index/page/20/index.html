@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.003v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.044v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.003v1/" class="post-title-link" itemprop="url">使用NumPy实现高斯朴素贝叶斯分类器：鸢尾花数据集全流程教程</a>
+          <a href="/posts/2510.044v1/" class="post-title-link" itemprop="url">Toxicity Detection for Free</a>
         </h2>
 
         <div class="post-meta-container">
@@ -240,15 +240,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2025-10-05 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-05T00:00:00+08:00">2025-10-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-10-14 09:52:29" itemprop="dateModified" datetime="2025-10-14T09:52:29+08:00">2025-10-14</time>
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：21:55:52" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -256,11 +250,15 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/" itemprop="url" rel="index"><span itemprop="name">学习提升</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/%E5%9B%BE%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图与大模型学习</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
         </span>
     </span>
 
@@ -271,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>6.9k</span>
+      <span>4.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>13 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -289,72 +287,176 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1
-id="使用numpy实现高斯朴素贝叶斯分类器鸢尾花数据集全流程教程">使用NumPy实现高斯朴素贝叶斯分类器：鸢尾花数据集全流程教程</h1>
-<h2 id="高斯朴素贝叶斯算法原理">1. 高斯朴素贝叶斯算法原理</h2>
-<p>高斯朴素贝叶斯是基于贝叶斯定理和特征条件独立假设的分类算法。它假设每个特征在给定类别下服从高斯分布（正态分布），适用于连续型特征数据。</p>
-<h3 id="贝叶斯定理公式">1.1 贝叶斯定理公式</h3>
-<p>朴素贝叶斯分类器的核心是贝叶斯定理： <span
-class="math display">$$P(y|x_1,x_2,...,x_n) = \frac{P(y)\prod_{i=1}^n
-P(x_i|y)}{P(x_1,x_2,...,x_n)}$$</span></p>
-<p>其中： - <span
-class="math inline"><em>P</em>(<em>y</em>|<em>x</em><sub>1</sub>, <em>x</em><sub>2</sub>, ..., <em>x</em><sub><em>n</em></sub>)</span>
-是后验概率（给定特征下属于某类的概率） - <span
-class="math inline"><em>P</em>(<em>y</em>)</span>
-是先验概率（各类别的初始概率） - <span
-class="math inline"><em>P</em>(<em>x</em><sub><em>i</em></sub>|<em>y</em>)</span>
-是似然概率（某类别下特征出现的概率） -
-分母是证据因子，在实际比较中可以忽略</p>
-<h3 id="高斯概率密度函数">1.2 高斯概率密度函数</h3>
-<p>对于连续特征，使用高斯概率密度函数： <span
-class="math display">$$P(x_i|y) = \frac{1}{\sqrt{2\pi\sigma_y^2}}
-\exp\left(-\frac{(x_i - \mu_y)^2}{2\sigma_y^2}\right)$$</span> 其中
-<span class="math inline"><em>μ</em><sub><em>y</em></sub></span>
-是特征在类别 y 下的均值，<span
-class="math inline"><em>σ</em><sub><em>y</em></sub></span>
-是标准差。</p>
-<h2 id="鸢尾花数据集介绍">2. 鸢尾花数据集介绍</h2>
-<p>鸢尾花数据集包含3类鸢尾花（山鸢尾、变色鸢尾、维吉尼亚鸢尾），每类50个样本，每个样本有4个特征：
-- 花萼长度（sepal length） - 花萼宽度（sepal width） - 花瓣长度（petal
-length） - 花瓣宽度（petal width）</p>
-<h2 id="环境准备与数据加载">3. 环境准备与数据加载</h2>
-<p>首先导入必要的库并加载数据：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = load_iris()</span><br><span class="line">X = iris.data  <span class="comment"># 特征数据</span></span><br><span class="line">y = iris.target  <span class="comment"># 标签数据</span></span><br><span class="line">feature_names = iris.feature_names  <span class="comment"># 特征名称</span></span><br><span class="line">target_names = iris.target_names  <span class="comment"># 类别名称</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;数据集形状:&quot;</span>, X.shape,y.shape)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;特征名称:&quot;</span>, feature_names)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;类别名称:&quot;</span>, target_names)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;各类别样本数:&quot;</span>, np.bincount(y))</span><br></pre></td></tr></table></figure>
-<h2 id="数据预处理与标准化">4. 数据预处理与标准化</h2>
-<p>数据标准化是将特征数据缩放到均值为0，标准差为1的分布，这有助于提高高斯朴素贝叶斯的性能。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 划分训练集和测试集（70%训练，30%测试）</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(</span><br><span class="line">    X, y, test_size=<span class="number">0.3</span>, random_state=<span class="number">42</span>, stratify=y</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">train_mean = np.mean(X_train, axis=<span class="number">0</span>)</span><br><span class="line">train_std = np.std(X_train, axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">standardize_data</span>(<span class="params">X,mean,std</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    对数据进行标准化处理</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    X_standardized = (X - mean) / std  <span class="comment"># 标准化公式</span></span><br><span class="line">    <span class="keyword">return</span> X_standardized</span><br><span class="line"></span><br><span class="line">X_train_standardized = standardize_data(X_train, train_mean, train_std)</span><br><span class="line">X_test_standardized = standardize_data(X_test, train_mean, train_std)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;训练集形状:&quot;</span>, X_train_standardized.shape)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;测试集形状:&quot;</span>, X_test_standardized.shape)</span><br></pre></td></tr></table></figure>
-<h2 id="高斯朴素贝叶斯分类器实现">5. 高斯朴素贝叶斯分类器实现</h2>
-<p>下面是用NumPy从头实现高斯朴素贝叶斯分类器的完整代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">GaussianNaiveBayes</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    高斯朴素贝叶斯分类器实现</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.classes = <span class="literal">None</span></span><br><span class="line">        <span class="variable language_">self</span>.priors = &#123;&#125;  <span class="comment"># 先验概率</span></span><br><span class="line">        <span class="variable language_">self</span>.means = &#123;&#125;   <span class="comment"># 每个类别下特征的均值</span></span><br><span class="line">        <span class="variable language_">self</span>.stds = &#123;&#125;    <span class="comment"># 每个类别下特征的标准差</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fit</span>(<span class="params">self, X, y</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        训练模型：计算先验概率、均值和标准差</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="variable language_">self</span>.classes = np.unique(y)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes:</span><br><span class="line">            <span class="comment"># 获取当前类别的所有样本</span></span><br><span class="line">            X_c = X[y == c]</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 计算先验概率（该类样本数占总样本数的比例）</span></span><br><span class="line">            <span class="variable language_">self</span>.priors[c] = X_c.shape[<span class="number">0</span>] / X.shape[<span class="number">0</span>]</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 计算每个特征的均值和标准差</span></span><br><span class="line">            <span class="variable language_">self</span>.means[c] = np.mean(X_c, axis=<span class="number">0</span>)</span><br><span class="line">            <span class="variable language_">self</span>.stds[c] = np.std(X_c, axis=<span class="number">0</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 避免标准差为0导致除零错误（添加一个很小的值）</span></span><br><span class="line">            <span class="variable language_">self</span>.stds[c] = np.where(<span class="variable language_">self</span>.stds[c] == <span class="number">0</span>, <span class="number">1e-9</span>, <span class="variable language_">self</span>.stds[c])</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_gaussian_pdf</span>(<span class="params">self, x, mean, std</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        计算高斯概率密度函数</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        exponent = np.exp(-<span class="number">0.5</span> * ((x - mean) ** <span class="number">2</span>) / (std ** <span class="number">2</span>))</span><br><span class="line">        <span class="keyword">return</span> (<span class="number">1</span> / (np.sqrt(<span class="number">2</span> * np.pi) * std)) * exponent</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_calculate_log_likelihood</span>(<span class="params">self, x, c</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        计算对数似然概率（使用对数防止数值下溢）</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        likelihood = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(x)):</span><br><span class="line">            <span class="comment"># 使用高斯PDF计算每个特征的条件概率</span></span><br><span class="line">            prob = <span class="variable language_">self</span>._gaussian_pdf(x[i], <span class="variable language_">self</span>.means[c][i], <span class="variable language_">self</span>.stds[c][i])</span><br><span class="line">            <span class="comment"># 使用对数相加代替概率相乘，避免数值下溢</span></span><br><span class="line">            likelihood += np.log(prob + <span class="number">1e-9</span>)  <span class="comment"># 添加小值避免log(0)</span></span><br><span class="line">        <span class="keyword">return</span> likelihood</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">predict_single</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        预测单个样本的类别</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        best_class = <span class="literal">None</span></span><br><span class="line">        max_log_posterior = -np.inf</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.classes:</span><br><span class="line">            <span class="comment"># 计算对数先验概率</span></span><br><span class="line">            log_prior = np.log(<span class="variable language_">self</span>.priors[c])</span><br><span class="line">            <span class="comment"># 计算对数似然概率</span></span><br><span class="line">            log_likelihood = <span class="variable language_">self</span>._calculate_log_likelihood(x, c)</span><br><span class="line">            <span class="comment"># 对数后验概率 = 对数先验 + 对数似然</span></span><br><span class="line">            log_posterior = log_prior + log_likelihood</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> log_posterior &gt; max_log_posterior:</span><br><span class="line">                max_log_posterior = log_posterior</span><br><span class="line">                best_class = c</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> best_class</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">self, X</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        预测多个样本的类别</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        predictions = []</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> X:</span><br><span class="line">            predictions.append(<span class="variable language_">self</span>.predict_single(x))</span><br><span class="line">        <span class="keyword">return</span> np.array(predictions)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">score</span>(<span class="params">self, X, y</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        计算模型准确率</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        y_pred = <span class="variable language_">self</span>.predict(X)</span><br><span class="line">        accuracy = np.<span class="built_in">sum</span>(y_pred == y) / <span class="built_in">len</span>(y)</span><br><span class="line">        <span class="keyword">return</span> accuracy</span><br></pre></td></tr></table></figure>
-<h2 id="模型训练与评估">6. 模型训练与评估</h2>
-<p>现在使用我们实现的分类器进行训练和预测：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建模型实例</span></span><br><span class="line">gnb = GaussianNaiveBayes()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">gnb.fit(X_train_standardized, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在测试集上进行预测</span></span><br><span class="line">y_pred = gnb.predict(X_test_standardized)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算准确率</span></span><br><span class="line">accuracy = gnb.score(X_test_standardized, y_test)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;模型准确率: <span class="subst">&#123;accuracy:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 详细评估结果</span></span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> classification_report, confusion_matrix</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n分类报告:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(classification_report(y_test, y_pred, target_names=target_names))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;混淆矩阵:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(confusion_matrix(y_test, y_pred))</span><br></pre></td></tr></table></figure>
-<h2 id="特征条件概率矩阵可视化">7. 特征条件概率矩阵可视化</h2>
-<p>为了更好地理解模型，我们可以可视化每个类别下特征的高斯分布：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">visualize_feature_distributions</span>(<span class="params">model, feature_names, target_names</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    可视化每个特征在不同类别下的高斯分布</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    fig, axes = plt.subplots(<span class="number">2</span>, <span class="number">2</span>, figsize=(<span class="number">12</span>, <span class="number">8</span>))</span><br><span class="line">    axes = axes.ravel()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 生成测试数据点（标准化后的范围）</span></span><br><span class="line">    x_range = np.linspace(-<span class="number">3</span>, <span class="number">3</span>, <span class="number">100</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> feature_idx <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> model.classes:</span><br><span class="line">            mean = model.means[c][feature_idx]</span><br><span class="line">            std = model.stds[c][feature_idx]</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 计算高斯分布</span></span><br><span class="line">            y_dist = (<span class="number">1</span> / (np.sqrt(<span class="number">2</span> * np.pi) * std)) * \</span><br><span class="line">                    np.exp(-<span class="number">0.5</span> * ((x_range - mean) ** <span class="number">2</span>) / (std ** <span class="number">2</span>))</span><br><span class="line">            </span><br><span class="line">            axes[feature_idx].plot(x_range, y_dist, </span><br><span class="line">                                  label=<span class="string">f&#x27;<span class="subst">&#123;target_names[c]&#125;</span>&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        axes[feature_idx].set_title(<span class="string">f&#x27;<span class="subst">&#123;feature_names[feature_idx]&#125;</span>分布&#x27;</span>)</span><br><span class="line">        axes[feature_idx].set_xlabel(<span class="string">&#x27;标准化值&#x27;</span>)</span><br><span class="line">        axes[feature_idx].set_ylabel(<span class="string">&#x27;概率密度&#x27;</span>)</span><br><span class="line">        axes[feature_idx].legend()</span><br><span class="line">    </span><br><span class="line">    plt.tight_layout()</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用可视化函数</span></span><br><span class="line">visualize_feature_distributions(gnb, feature_names, target_names)</span><br></pre></td></tr></table></figure>
-<h2 id="关键知识点总结">8. 关键知识点总结</h2>
-<h3 id="数值稳定性处理">8.1 数值稳定性处理</h3>
-<p>在实际实现中，我们需要注意数值稳定性： -
-<strong>避免除零错误</strong>：为标准差添加一个小值（如1e-9） -
-<strong>防止数值下溢</strong>：使用对数概率代替原始概率相乘 -
-<strong>拉普拉斯平滑</strong>：对于概率计算添加平滑项</p>
-<h3 id="算法优缺点">8.2 算法优缺点</h3>
-<p><strong>优点</strong>： - 简单易懂，实现容易 - 训练和预测速度快 -
-对小规模数据表现良好 - 对缺失数据不敏感</p>
-<p><strong>缺点</strong>： - 特征独立性假设在现实中往往不成立 -
-对输入数据的分布假设比较严格 - 当特征相关性较强时性能可能下降</p>
-<h3 id="应用场景">8.3 应用场景</h3>
-<p>高斯朴素贝叶斯特别适用于： - 特征为连续值的分类问题 -
-需要快速原型验证的场景 - 数据维度较高的文本分类（配合TF-IDF等特征提取）
-- 实时预测系统</p>
-<h2 id="进一步学习建议">9. 进一步学习建议</h2>
+          <h1 id="toxicity-detection-for-free">Toxicity Detection for Free</h1>
+<p>NeurIPS ## 一、论文概览 ### 1. 核心问题
+现有大语言模型（LLMs）存在两大安全相关缺陷：一是安全对齐不完善，可能对有毒提示（如生成钓鱼邮件、犯罪指导）拒绝失败，或对良性提示过度谨慎；二是主流毒性检测器存在明显不足，在低假阳性率（FPR）下真阳性率（TPR）极低（如LlamaGuard在0.1%
+FPR下TPR仅5.25%），且需额外训练数据、推理成本及延迟，无法适配流式响应场景（需等待完整输出或仅检测输入导致漏检）。</p>
+<h3 id="主要贡献">2. 主要贡献</h3>
+<ul>
+<li>提出<strong>MULI（Moderation Using LLM Introspection）</strong>
+：一种低成本毒性检测器，无需额外模型，利用LLM自身响应的首token
+logits实现检测，在多指标上超越现有SOTA方法。</li>
+<li>强调<strong>低FPR下TPR的评估价值</strong>：指出真实场景中LLM供应商对FPR容忍度极低，现有检测器在此指标下表现不佳，而MULI可在0.1%
+FPR下实现42.54%（ToxicChat）和66.85%（LMSYS-Chat-1M）的TPR。</li>
+<li>揭示LLM输出的隐藏信息：证明LLM响应的首token
+logits中蕴含有毒/良性提示的区分信息，为后续LLM内部信息挖掘提供方向。</li>
+</ul>
+<h3 id="研究方法">3. 研究方法</h3>
+<ul>
+<li>核心思路：对齐后的LLM对有毒提示会产生“拒绝倾向”（即使未完全拒绝），这种倾向体现在响应首token的logits中（如“Sorry”“Cannot”等拒绝token的logits在有毒提示下更高）。</li>
+<li>技术路径：
 <ol type="1">
-<li><strong>尝试不同的数据集</strong>：如帕金森数据集，比较不同数据集上的表现</li>
-<li><strong>实现其他变种</strong>：如多项式朴素贝叶斯（用于离散特征）和伯努利朴素贝叶斯</li>
-<li><strong>参数调优</strong>：研究平滑参数对模型性能的影响</li>
-<li><strong>与其他算法对比</strong>：比较与逻辑回归、SVM等算法的性能差异</li>
+<li>提取LLM对输入prompt响应的<strong>首token logits向量</strong><span
+class="math inline"><em>l</em>(<em>x</em>) ∈ ℝ<sup><em>n</em></sup></span>（<span
+class="math inline"><em>n</em></span>为token表大小，如Llama2的36000）；</li>
+<li>用函数<span
+class="math inline"><em>f</em><sup>*</sup></span>处理logits：<span
+class="math inline"><em>f</em><sup>*</sup>(<em>l</em>) = <em>N</em><em>o</em><em>r</em><em>m</em>(ln (<em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>)) − ln (1 − <em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>)))</span>，其中<span
+class="math inline"><em>N</em><em>o</em><em>r</em><em>m</em>(⋅)</span>基于训练集均值和标准差归一化，<span
+class="math inline">ln (<em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>)) − ln (1 − <em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>))</span>计算token的log-odds；</li>
+<li>构建<strong>稀疏逻辑回归（SLR）模型</strong>：以处理后的logits为输入，优化目标为最小化二元交叉熵（BCE）损失与L1正则项，即<span
+class="math inline"><em>m</em><em>i</em><em>n</em><sub><em>w</em>, <em>b</em></sub>∑<sub>{<em>x</em>, <em>y</em>} ∈ 𝒳</sub><em>B</em><em>C</em><em>E</em>(<em>S</em><em>i</em><em>g</em><em>m</em><em>o</em><em>i</em><em>d</em>(<em>w</em><sup><em>T</em></sup><em>f</em>(<em>l</em>(<em>x</em>)) + <em>b</em>), <em>y</em>) + <em>λ</em>∥<em>w</em>∥<sub>1</sub></span>，实现高效分类。</li>
+</ol></li>
+<li>玩具模型铺垫：先通过PoR（拒绝概率，生成100个响应估计拒绝比例）验证“拒绝倾向”的区分能力（有效但低效），再通过PoRT（拒绝token概率，用首token
+logits）证明高效性，为MULI提供理论依据。</li>
+</ul>
+<h2 id="二各章节详解">二、各章节详解</h2>
+<h3 id="引言introduction">1. 引言（Introduction）</h3>
+<ul>
+<li>背景：LLMs在聊天机器人、工具调用等下游任务中广泛应用，但恶意用户可能利用其生成有害内容，需安全对齐（如RLHF）和毒性检测器补充。</li>
+<li>现有方案缺陷：对齐无法完全避免有毒响应或过度拒绝；主流检测器需额外模型（如LlamaGuard），存在训练数据成本、推理延迟，且低FPR下TPR差。</li>
+<li>本文方案：MULI利用LLM自身首token
+logits构建检测器，无额外成本，可在生成响应前拦截有毒提示，适配流式场景。</li>
+</ul>
+<h3 id="相关工作related-work">2. 相关工作（Related Work）</h3>
+<ul>
+<li>安全对齐：通过人类反馈强化学习（RLHF）等方法优化LLM对齐（如Ouyang et
+al. 2022），但进一步提升难度大。</li>
+<li>毒性检测：现有方案包括商业API（OpenAI Moderation API、Azure AI
+Content Safety
+API）和开源模型（LlamaGuard），均需额外推理成本，且低FPR下性能不足。</li>
+</ul>
+<h3 id="预备知识preliminaries">3. 预备知识（Preliminaries）</h3>
+<h4 id="问题设定">3.1 问题设定</h4>
+<ul>
+<li>目标：仅基于输入prompt检测可能导致LLM生成有害响应的有毒提示（无需完整输出，支持流式响应）。</li>
+<li>核心约束：“零额外成本”，不依赖独立的毒性分类器，仅利用LLM自身输出的logits/token分布信息。</li>
+</ul>
+<h4 id="评价指标">3.2 评价指标</h4>
+<ul>
+<li>平衡最优准确率（Acc
+opt）：在正负样本均衡数据集上的预测准确率，反映整体分类能力。</li>
+<li>精确率-召回率曲线下面积（AUPRC）：适配真实场景中“良性提示远多于有毒提示”的类别不平衡问题，是过往研究的核心指标。</li>
+<li>低FPR下的TPR（如TPR@FPR=0.1%）：真实场景中LLM供应商对FPR容忍度极低（如0.1%以下），此指标最具实践意义。</li>
+</ul>
+<h3 id="玩具模型toy-models">4. 玩具模型（Toy Models）</h3>
+<p>通过简单模型验证“LLM首token
+logits含毒性区分信息”的假设，使用ToxicChat数据集的100个良性+100个有毒提示，以Llama2为基础模型。</p>
+<h4 id="拒绝概率por">4.1 拒绝概率（PoR）</h4>
+<ul>
+<li><p>方法：对每个prompt生成100个响应，计算拒绝比例：<span
+class="math inline">$PoR(x)=\frac{1}{100}\sum_{i=1}^{100}\mathbb{1}[r_i是拒绝]$</span>（<span
+class="math inline">𝟙[⋅]</span>为指示函数，响应含“Sorry”等拒绝关键词则记为1）。</p></li>
+<li><p>结果：有毒提示的PoR显著高于良性提示（图4a），但生成100个响应成本极高，且采样误差导致低FPR下TPR为0（表1，PoR100在TPR@FPR=0.1%时为0），无法实用。</p>
+<figure>
+<img
+src="/images/post_images/2025-10-29-论文阅读——Toxicity-Detection-for-Free/image-20251029192414711.png"
+alt="image-20251029192414711" />
+<figcaption aria-hidden="true">image-20251029192414711</figcaption>
+</figure></li>
+</ul>
+<h4 id="拒绝token-logitsport">4.2 拒绝token logits（PoRT）</h4>
+<ul>
+<li>方法：直接使用首token中拒绝token（如“Sorry”“Cannot”“I”）的logits作为特征，计算拒绝token概率<span
+class="math inline"><em>P</em><em>o</em><em>R</em><em>T</em>(<em>x</em>) = ∑<sub><em>t</em> ∈ <em>拒</em><em>绝</em><em>t</em><em>o</em><em>k</em><em>e</em><em>n</em></sub><em>P</em><em>r</em><em>o</em><em>b</em>(<em>t</em>)</span>（<span
+class="math inline"><em>P</em><em>r</em><em>o</em><em>b</em>(<em>t</em>)</span>为token
+t的softmax概率）。</li>
+<li>结果：无需采样，低FPR下性能优于PoR（表1，“Logits
+Cannot”在TPR@FPR=0.1%时为10.0%），且与PoR分类结果高度一致（附录表S1，混淆矩阵准确率86%），证明首token
+logits的有效性。</li>
+</ul>
+<h4 id="玩具模型评估">4.3 玩具模型评估</h4>
+<ul>
+<li>所有模型平衡准确率约80%，但PoR受采样误差限制，低FPR下失效；PoRT无采样误差，低FPR下仍有性能，为MULI的设计提供直接依据。</li>
+</ul>
+<h3 id="muli方法moderation-using-llm-introspection">5.
+MULI方法（Moderation Using LLM Introspection）</h3>
+<p>基于玩具模型结论，扩展至全token表的logits，通过稀疏逻辑回归提取关键信息。</p>
+<h4 id="模型结构">5.1 模型结构</h4>
+<ol type="1">
+<li><strong>输入特征</strong>：LLM对prompt x输出的首token
+logits向量<span
+class="math inline"><em>l</em>(<em>x</em>) ∈ ℝ<sup><em>n</em></sup></span>（<span
+class="math inline"><em>n</em></span>为token数量，如Llama2的36000）。</li>
+<li><strong>特征处理</strong>：用<span
+class="math inline"><em>f</em><sup>*</sup></span>函数将logits转换为归一化log-odds：<span
+class="math inline"><em>f</em><sup>*</sup>(<em>l</em>) = <em>N</em><em>o</em><em>r</em><em>m</em>(ln (<em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>)) − ln (1 − <em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>)))</span>，消除量纲影响，增强鲁棒性。</li>
+<li><strong>分类器</strong>：稀疏逻辑回归（SLR），输出为<span
+class="math inline"><em>S</em><em>L</em><em>R</em>(<em>x</em>) = <em>w</em><sup><em>T</em></sup><em>f</em>(<em>l</em>(<em>x</em>)) + <em>b</em></span>（<span
+class="math inline"><em>w</em></span>为token权重，<span
+class="math inline"><em>b</em></span>为偏置），通过L1正则（<span
+class="math inline"><em>λ</em>∥<em>w</em>∥<sub>1</sub></span>）实现特征选择，仅保留关键token的权重。</li>
 </ol>
-<p>通过本教程，您应该已经掌握了使用NumPy实现高斯朴素贝叶斯分类器的完整流程，包括数据预处理、模型实现、训练预测和结果评估。这种从零开始的实现方式有助于深入理解算法原理和实际应用中的各种细节考虑。</p>
+<h4 id="优化目标">5.2 优化目标</h4>
+<p>最小化BCE损失与L1正则的组合，确保模型拟合且稀疏：<br />
+<span
+class="math inline"><em>m</em><em>i</em><em>n</em><sub><em>w</em>, <em>b</em></sub>∑<sub>{<em>x</em>, <em>y</em>} ∈ 𝒳</sub><em>B</em><em>C</em><em>E</em>(<em>S</em><em>i</em><em>g</em><em>m</em><em>o</em><em>i</em><em>d</em>(<em>S</em><em>L</em><em>R</em>(<em>x</em>)), <em>y</em>) + <em>λ</em>∥<em>w</em>∥<sub>1</sub></span><br />
+其中<span
+class="math inline"><em>y</em> ∈ {0, 1}</span>为prompt的毒性标签（1为有毒，0为良性），<span
+class="math inline"><em>λ</em></span>为正则系数。</p>
+<h3 id="实验experiments">6. 实验（Experiments）</h3>
+<h4 id="实验设置">6.1 实验设置</h4>
+<ul>
+<li><strong>基线模型</strong>：LlamaGuard（开源SOTA）、OpenAI Moderation
+API（OMod，商业API）、GPT-4o、GPT-4o-mini。</li>
+<li><strong>数据集</strong>：
+<ul>
+<li>ToxicChat：训练集（4698良性+384有毒），测试集（4721良性+362有毒，含91个越狱提示）；</li>
+<li>LMSYS-Chat-1M：手动标注子集，训练集（4868良性+1667有毒），测试集（5221良性+1798有毒）；</li>
+<li>OpenAI Moderation API Evaluation Dataset：跨数据集验证。</li>
+</ul></li>
+<li><strong>实现细节</strong>：基础模型为Llama2-7b，SLR训练500轮（SGD优化，学习率<span
+class="math inline">5 × 10<sup>−4</sup></span>，批大小128）。</li>
+</ul>
+<h4 id="主要结果">6.2 主要结果</h4>
+<ul>
+<li><strong>核心性能超越SOTA</strong>（表2、3）：
+<ul>
+<li>ToxicChat：MULI的AUPRC=91.29%（LlamaGuard为70.14%），TPR@FPR=0.1%=42.54%（LlamaGuard为5.25%）；</li>
+<li>LMSYS-Chat-1M：MULI的TPR@FPR=0.1%=66.85%（LlamaGuard为7.29%），OMod虽接近但在ToxicChat（难数据集）上性能显著落后。</li>
+</ul></li>
+<li><strong>基础模型安全性影响</strong>（图6）：MULI性能与基础LLM的安全性正相关（如Llama2-7b/13b安全性高，MULI的TPR@FPR=0.1%达43.92%/46.13%；未对齐模型如GPT-2的MULI性能仅9.39%）。</li>
+<li><strong>训练集大小敏感性</strong>（图7、表S3）：仅用10个样本（9良性+1有毒）训练的MULI，TPR@FPR=0.1%=13.81%，仍优于LlamaGuard（5.25%），大幅降低训练成本。</li>
+<li><strong>跨数据集鲁棒性</strong>（表4、5）：在OpenAI评估集上，MULI（训练于ToxicChat/LMSYS）的TPR@FPR=0.1%=24.90%/25.86%，远超LlamaGuard（14.56%）和OMod（15.13%）。</li>
+<li><strong>失败案例与权重分析</strong>：
+<ul>
+<li>失败案例为模糊边界样本（如含敏感词的良性提示、长有毒提示）；</li>
+<li>SLR权重显示，拒绝token（如“Cannot”“Unable”）的权重更具区分性（表S4，权重排名接近1，对应有毒提示），验证核心假设。</li>
+</ul></li>
+<li><strong>消融实验</strong>（表6）：<span
+class="math inline"><em>f</em><sup>*</sup></span>和<span
+class="math inline">ln (<em>P</em><em>r</em><em>o</em><em>b</em>)</span>处理的特征效果最优，L1正则确保模型稀疏，无正则时低FPR性能下降。</li>
+</ul>
+<h4 id="其他发现">6.3 其他发现</h4>
+<ul>
+<li>玩具模型“Logits
+Cannot”的性能已接近LlamaGuard（表1，TPR@FPR=0.1%=10.0% vs
+5.25%），证明首token logits的强大潜力；</li>
+<li>MULI支持流式响应：仅需首token
+logits，无需等待完整输出，解决现有检测器的流式适配问题。</li>
+</ul>
+<h3 id="结论conclusion">7. 结论（Conclusion）</h3>
+<ul>
+<li>优势：MULI无需额外模型和推理成本，在平衡准确率、AUPRC及低FPR下TPR均超越SOTA，适配真实场景需求。</li>
+<li>局限性：依赖对齐良好的LLM，对未对齐/对抗微调模型无效；未验证对抗攻击场景；需一次性训练成本（但极小，10个样本即可）。</li>
+<li>未来方向：挖掘LLM输出中的更多隐藏信息，探索跨 demographic
+群体的公平性。</li>
+</ul>
+<h2 id="三一句话总结">三、一句话总结</h2>
+<p>论文假设对齐LLM的响应首token
+logits中蕴含有毒与良性prompt的区分信息，提出通过<span
+class="math inline"><em>f</em><sup>*</sup></span>函数处理首token
+logits后结合稀疏逻辑回归的MULI检测器，在ToxicChat和LMSYS-Chat-1M数据集上，MULI在平衡最优准确率、AUPRC及低FPR（0.1%）下TPR（42.54%/66.85%）均远超LlamaGuard等SOTA方法，证明了无额外成本的高效毒性检测可行性，同时指出其依赖对齐模型的局限性。</p>
 
       
     </div>
@@ -374,7 +476,7 @@ length） - 花瓣宽度（petal width）</p>
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/19/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/null-index/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/21/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/19/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/null-index/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/21/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -397,14 +499,14 @@ length） - 花瓣宽度（petal width）</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

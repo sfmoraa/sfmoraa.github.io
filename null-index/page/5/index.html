@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.019v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.030v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.019v1/" class="post-title-link" itemprop="url">Large Language Models-guided Dynamic Adaptation for Temporal Knowledge Graph Reasoning</a>
+          <a href="/posts/2510.030v1/" class="post-title-link" itemprop="url">DeAL: Decoding-time Alignment for Large Language Models</a>
         </h2>
 
         <div class="post-meta-container">
@@ -240,9 +240,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-10-16 00:00:00 / 修改时间：01:44:01" itemprop="dateCreated datePublished" datetime="2025-10-16T00:00:00+08:00">2025-10-16</time>
+      <time title="创建时间：2025-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-28 22:50:36" itemprop="dateModified" datetime="2025-10-28T22:50:36+08:00">2025-10-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +264,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/TKG/" itemprop="url" rel="index"><span itemprop="name">TKG</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
         </span>
     </span>
 
@@ -269,14 +275,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>3k</span>
+      <span>3.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
+      <span>6 分钟</span>
     </span>
 </div>
 
@@ -287,94 +293,96 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1>Large Language Models-guided Dynamic Adaptation for Temporal Knowledge Graph Reasoning</h1>
-<p><strong>neurips 2024</strong><br>
-该论文提出了一种基于大型语言模型（LLMs）引导的动态适应方法（LLM-DA），旨在解决时间知识图谱推理（TKGR）中传统方法可解释性差、难适应知识动态变化的问题，且无需对LLMs进行微调即可提升推理准确性。</p>
-<h3 id="一、研究背景与问题">一、研究背景与问题</h3>
-<p>现有TKGR方法主要分为两类，但均存在明显缺陷：</p>
-<ol>
-<li><strong>深度学习类方法</strong>（如RE-NET、RE-GCN）：依赖图神经网络等模型捕捉时间模式，却因“黑箱”特性缺乏可解释性，且难以动态更新以适配TKG新增知识。</li>
-<li><strong>规则类方法</strong>（如TLogic）：通过时间逻辑规则推理，虽可解释性强，但难以高效学习和更新能精准捕捉时间模式的规则。</li>
-</ol>
-<p>同时，LLMs虽具备强大的时间推理能力和知识储备，但应用于TKGR时存在两大问题：一是自身推理过程不可解释，易产生“幻觉”降低结果可信度；二是微调需大量资源，无法及时整合TKG中不断演化的知识。</p>
-<h3 id="二、核心方法：LLM-DA框架">二、核心方法：LLM-DA框架</h3>
-<p>LLM-DA通过四个关键阶段实现高效、可解释且动态适配的TKGR，整体框架如图2所示。</p>
-<h4 id="1-时间逻辑规则采样（Temporal-Logical-Rules-Sampling）">1. 时间逻辑规则采样（Temporal Logical Rules Sampling）</h4>
+          <h1>DeAL: Decoding-time Alignment for Large Language Models</h1>
+<h2 id="1-论文概览">1. 论文概览</h2>
 <ul>
-<li><strong>核心目标</strong>：从历史数据中提取初始时间逻辑规则，为后续规则生成提供基础。</li>
-<li><strong>关键技术</strong>：采用<strong>约束马尔可夫随机游走</strong>，相比传统随机游走增加两个约束：
+<li><strong>核心问题</strong>：现有大语言模型（LLMs）的训练时对齐方法（如基于人类反馈的强化学习RLHF）存在无法整合多个自定义奖励、依赖开发者定义的静态通用原则、易被“越狱”等局限，需解决LLM在生成阶段灵活对齐用户自定义目标的问题。</li>
+<li><strong>主要贡献</strong>：1. 提出DeAL框架，支持在解码阶段自定义奖励函数，实现LLM的解码时对齐；2. 支持编程可验证约束（如关键词、长度）与抽象对齐目标（如无害性、有帮助性）的模块化组合，能权衡多目标；3. 可与RLHF、提示技术等现有对齐策略互补，提升对齐效果，且能防御“越狱”攻击。</li>
+<li><strong>研究方法</strong>：将LLM解码视为启发式引导的搜索过程，基于A*搜索算法构建搜索代理，结合起始状态调整（拆分提示为任务指令、对齐指令、任务输入）与动作选择（Top-k候选+前瞻机制），并将对齐奖励函数作为启发式，实现解码时对齐。</li>
+</ul>
+<h2 id="2-各章节详解">2. 各章节详解</h2>
+<h3 id="2-1-引言-Introduction">2.1 引言 (Introduction)</h3>
 <ul>
-<li>时间顺序约束：仅选择时间戳早于当前边的候选边，确保规则的时间合理性。</li>
-<li>时间间隔约束：通过指数衰减函数（(w(t)=\exp(-\lambda(t-T)))）对候选边加权，时间越近的边权重越高，使采样更聚焦近期重要关系。</li>
+<li><strong>研究背景与动机</strong>：LLMs（如GPT、Llama、Mistral）无需大量任务特定微调即可处理翻译、摘要等任务，但难以对齐用户指定的动态/自定义目标。现有对齐方法多在训练阶段（如RLHF、监督微调SFT），存在两点局限：一是对齐目标静态且通用，需微调维护自定义模型，与用户意图可能冲突；二是训练阶段学习的原则在生成阶段未必遵守（如安全训练后的模型仍可被“越狱”）。</li>
+<li><strong>本文目标</strong>：提出DeAL框架，在LLM解码阶段施加对齐目标，支持自定义奖励函数与多种对齐目标的灵活组合，提升对齐可靠性，且可与现有对齐策略互补。</li>
+</ul>
+<h3 id="2-2-相关工作-Related-Work">2.2 相关工作 (Related Work)</h3>
+<ul>
+<li><strong>现有研究综述</strong>：1. 自然语言生成的搜索化研究：将生成视为搜索问题，采用A*搜索、前瞻策略及逻辑/有限状态自动机等约束，但未在LLM上验证效果，也未考虑对齐提示的影响；2. LLM对齐研究：主流为训练阶段对齐（如RLHF、偏好数据微调），部分解码时对齐方法仅为DeAL的特例（如基于毒性、有帮助性的参数化奖励，或推理/工具调用的编程约束），但未考虑对齐提示，也未支持奖励的模块化组合。</li>
+<li><strong>本文定位</strong>：将生成搜索框架泛化到LLM，将对齐/系统提示作为搜索超参数，支持丰富的启发式奖励与模块化多对齐目标，统一现有搜索策略，填补“LLM解码时多目标灵活对齐”的研究空白。</li>
+</ul>
+<h3 id="2-3-方法论-Methodology">2.3 方法论 (Methodology)</h3>
+<ul>
+<li><strong>核心方法/模型</strong>：将LLM对齐建模为搜索问题 (&lt;S, V, T, R_{a}&gt;)，其中：
+<ul>
+<li>状态空间 (S)：token序列（如 (&lt;v^1, v^2, …&gt;)）；</li>
+<li>动作集 (V)：LLM的词汇表；</li>
+<li>转移函数 (T)：在当前token序列后添加一个token，生成新状态；</li>
+<li>对齐奖励函数 (R_a)：定义对齐目标（如无害性、关键词覆盖）。<br>
+搜索代理基于A*算法，核心包含“起始状态调整”与“动作选择”两大模块。</li>
 </ul>
 </li>
-<li><strong>过滤操作</strong>：引入过滤算子(\chi(t))，仅保留时间戳满足(t&lt;t_l)（(t_l)为当前边时间戳）的候选路径，提升采样效率。</li>
-</ul>
-<h4 id="2-规则生成（Rule-Generation）">2. 规则生成（Rule Generation）</h4>
-<ul>
-<li><strong>核心目标</strong>：利用LLMs生成高覆盖率、高质量的通用规则，解决初始采样规则覆盖不足的问题。</li>
-<li><strong>关键步骤</strong>：
+<li><strong>技术细节</strong>：
 <ol>
-<li><strong>上下文关系筛选</strong>：通过Sentence-Bert将规则头关系与候选关系嵌入到同一空间，计算余弦相似度后选择Top-k语义最相关的关系（如规则头为“president_of”时，筛选“occupation_of”“politician_of”等），减少LLMs输入冗余。</li>
-<li><strong>LLMs引导规则生成</strong>：将筛选后的Top-k关系与初始采样规则输入LLMs（如ChatGPT-3.5），通过特定提示（Prompt）生成通用规则集(S_g)，示例提示见附录A.1。</li>
-</ol>
+<li>起始状态调整：将提示 (p) 拆分为任务指令 (p_t)、对齐指令 (p_a)、任务输入 (p_i)，(p_a) 可通过自然语言表达对齐目标，作为搜索超参数手动选择，减少目标状态搜索成本；</li>
+<li>动作选择：
+<ul>
+<li>候选筛选：仅保留LLM预测的Top-k token作为候选动作，降低搜索空间；</li>
+<li>前瞻机制：对部分生成序列生成长度为 (l) 的延续（采用贪心策略），使启发式函数 (h(\cdot)) 能更可靠地评估对齐度（解决部分生成序列难以评分的问题）；</li>
+<li>评分公式：选择下一个动作的评分 (c(y_t)=\log P(y_{1:t}|p)+\lambda h(y_{1:t+l},p))，其中 (\log P(y_{1:t}|p)) 是LLM的生成概率，(\lambda) 控制启发式（对齐目标）的权重；</li>
+</ul>
 </li>
-</ul>
-<h4 id="3-动态适应（Dynamic-Adaptation）">3. 动态适应（Dynamic Adaptation）</h4>
-<ul>
-<li><strong>核心目标</strong>：更新LLMs生成的规则以适配TKG的动态演化，避免规则因知识更新失效。</li>
-<li><strong>关键步骤</strong>：
-<ol>
-<li><strong>低质量规则识别</strong>：通过“置信度”指标（(c_\rho=\frac{\text{满足规则体的事实对数量}}{\text{满足完整规则的事实对数量}})）筛选置信度低于阈值(\theta)的规则集(S_{g(\text{low})})。</li>
-<li><strong>基于当前数据更新规则</strong>：对当前数据执行约束马尔可夫随机游走提取新规则，以这些新规则为标准，通过LLMs迭代更新低质量规则，最终得到适配最新知识的规则集(S_d)，示例提示见附录A.2。</li>
-</ol>
-</li>
-</ul>
-<h4 id="4-候选推理（Candidate-Reasoning）">4. 候选推理（Candidate Reasoning）</h4>
-<ul>
-<li><strong>核心目标</strong>：结合规则推理与图推理，生成最终候选答案，平衡可解释性与推理完整性。</li>
-<li><strong>双模块融合</strong>：
-<ol>
-<li><strong>规则推理</strong>：筛选置信度高于阈值(\gamma)的规则集(S_d’)，基于规则推导候选实体，并结合时间衰减函数计算候选得分（(Score_{(\rho,e_o’)})），体现时间因素对规则有效性的影响。</li>
-<li><strong>图推理</strong>：引入图神经网络（如RE-GCN、TiRGN）作为图推理函数(f_g(\text{Query}))，通过内积计算候选得分（(Score_{(\text{graph},e_o’)})），弥补纯规则推理覆盖不全的问题。</li>
-<li><strong>得分融合</strong>：通过权重(\alpha)融合两类得分（(Score_f=\alpha\cdot Score_{(\rho,e_o’)}+(1-\alpha)\cdot Score_{(\text{graph},e_o’)})），其中ICEWS14数据集(\alpha=0.9)，ICEWS05-15数据集(\alpha=0.8)，突出规则推理的主导作用。</li>
+<li>奖励支持：可整合编程可验证约束（如关键词覆盖、长度）与参数化奖励模型（如基于HH-RLHF训练的无害性/有帮助性奖励模型）。</li>
 </ol>
 </li>
 </ul>
-<h3 id="三、实验验证">三、实验验证</h3>
-<h4 id="1-实验设置">1. 实验设置</h4>
+<h3 id="2-4-实验-Experiments">2.4 实验 (Experiments)</h3>
 <ul>
-<li><strong>数据集</strong>：采用ICEWS系列时间知识图谱（ICEWS14、ICEWS05-15、ICEWS18），涵盖国际政治事件与社会动态，数据分为历史数据（训练集）、当前数据（验证集）、未来数据（测试集）。</li>
-<li><strong>基线方法</strong>：
+<li><strong>实验设置</strong>：
+<ol>
+<li>模型：MPT-7B-Instruct、Falcon-7B-Instruct、Dolly-v2-3B（均为指令微调模型，开源且许可宽松）；</li>
+<li>数据集：
 <ul>
-<li>传统TKGR方法：RE-NET、RE-GCN、TiRGN、TLogic。</li>
-<li>LLMs-based TKGR方法：GPT-NeoX、Llama-2-7b-CoH、Vicuna-7b-CoH、Mixtral-8x7B-CoH、PPT。</li>
+<li>关键词约束：CommonGen（生成含3-5个指定关键词的连贯句子）；</li>
+<li>长度约束：XSUM子集（生成≤10词的摘要，参考摘要≤10词，共176个测试样本）；</li>
+<li>抽象对齐：HH-RLHF（含无害性/有帮助性标注的对话）、HarmfulQ（仅含恶意提示，用于测试“越狱”防御）；</li>
 </ul>
 </li>
-<li><strong>评价指标</strong>：Mean Reciprocal Rank（MRR）、Hit@1/3/10，均采用“过滤后”结果（排除TKG中已存在的错误四元组）。</li>
-<li><strong>参数设置</strong>：衰减率(\lambda=0.1)，低质量规则阈值(\theta=0.01)，高置信规则阈值(\gamma=0.01)，动态适应迭代次数=5，使用NVIDIA RTX 3090 GPU运行。</li>
-</ul>
-<h4 id="2-核心实验结果">2. 核心实验结果</h4>
+<li>评估指标：
 <ul>
-<li><strong>性能超越基线</strong>：在所有数据集上，LLM-DA（以TiRGN为图推理模块）均优于所有基线。例如在ICEWS14中，MRR达0.471，较Mixtral-8x7B-CoH（0.439）提升7.3%；在ICEWS05-15中，Hit@10达0.728，较TiRGN（0.703）提升3.5%，证明动态适应策略有效。</li>
-<li><strong>动态适应的必要性</strong>：消融实验显示（表2），仅用历史数据（LLM-DA w H）或当前数据（LLM-DA w C）的性能均低于融合动态适应的LLM-DA，且迭代次数越多（图5），MRR越高，说明迭代更新规则能持续适配TKG变化。</li>
-<li><strong>时间分布适配能力</strong>：时间间隔分段预测实验（图4）显示，LLM-DA在各时间间隔的MRR均高于RE-GCN和TiRGN，证明其能应对TKG的时间分布偏移问题。</li>
+<li>关键词约束：软覆盖率（平均覆盖关键词比例）、硬覆盖率（完全覆盖关键词的样本比例）；</li>
+<li>长度约束：长度满足度（符合≤10词的样本比例）、摘要质量（人类标注的忠实性、相关性、连贯性）；</li>
+<li>抽象对齐：人类标注的无害性/有帮助性比例（部分用ChatGPT辅助，但以人类标注为准）。</li>
 </ul>
-<h3 id="四、研究贡献与局限性">四、研究贡献与局限性</h3>
-<h4 id="1-主要贡献">1. 主要贡献</h4>
-<ol>
-<li><strong>首次将LLMs用于规则类TKGR</strong>：通过LLMs提取时间逻辑规则，兼顾LLMs的知识优势与规则推理的可解释性。</li>
-<li><strong>提出动态适应策略</strong>：无需微调LLMs，仅通过迭代更新规则即可适配TKG动态演化，降低资源消耗。</li>
-<li><strong>引入上下文关系筛选</strong>：通过语义相似度筛选关键关系，减少LLMs输入冗余，提升规则生成质量。</li>
+</li>
 </ol>
-<h4 id="2-局限性">2. 局限性</h4>
+</li>
+<li><strong>主要结果</strong>：
 <ol>
-<li>未考虑节点语义：采样规则时仅关注关系，可能降低规则质量。</li>
-<li>规则缺乏查询针对性：生成的通用规则无法适配特定查询需求。</li>
-<li>依赖人工提示：不同数据集需重新设计提示，成本较高，未来需探索自动化提示学习。</li>
+<li>关键词约束（表1）：DeAL在所有模型上均提升覆盖率，平均软覆盖率+8%、硬覆盖率+17%，弱指令跟随模型（如Dolly-v2-3B）提升更显著（硬覆盖率+21%）；</li>
+<li>长度约束（表2）：仅对齐提示（(p_a)）的长度满足度低，DeAL显著提升满足度，且“(p_a + DeAL)”组合在满足度最高的同时，摘要质量（忠实性、相关性、连贯性）与仅(p_a)无统计差异（(p&gt;&gt;0.05)）；</li>
+<li>抽象对齐（表3）：DeAL（用联合奖励模型(R_{hh})）在HarmfulQ、HH-RLHF无害/有帮助测试集上的对齐效果，分别比安全提示高37%、24%、7%，且优于重排序策略；</li>
+<li>多目标校准（表4）：调整(R_{harmless})与(R_{helpful})的权重可控制生成结果的无害性/有帮助性，如(w_{harmless}=1, w_{helpful}=0)时HarmfulQ无害性100%，(w_{harmless}=0, w_{helpful}=1)时HH-RLHF有帮助性77%；</li>
+<li>与RLHF结合（表5）：DeAL在HarmfulQ上略优于RLHF（0.83 vs 0.80），RLHF在HH-RLHF有帮助性上更优（0.70 vs 0.53），二者结合（RLHF+DeAL）在两数据集上均达最佳（0.93、0.70）；</li>
+<li>防御“越狱”（表6）：延续攻击（添加“Assistant: To do that,”）使安全提示的无害性降至20%，而DeAL（(R_{harmless})）的无害性达73%。</li>
 </ol>
-<h3 id="五、交付物提议">五、交付物提议</h3>
-<p>要不要我帮你整理一份<strong>LLM-DA方法核心步骤与实验结果对比表</strong>？表格会清晰呈现各阶段关键操作、核心参数，以及LLM-DA与主流基线在三大数据集上的MRR、Hit@1/3/10指标对比，方便快速掌握方法亮点与性能优势。</p>
+</li>
+</ul>
+<h3 id="2-5-讨论-Discussion">2.5 讨论 (Discussion)</h3>
+<ul>
+<li><strong>结果分析</strong>：1. DeAL通过解码时启发式引导，解决了训练时对齐的“静态通用”“生成时失效”问题；2. 对齐提示（(p_a)）与模型指令跟随能力可提升DeAL的动作空间质量，如无(p_a)时长度约束任务的摘要质量下降；3. 模块化奖励支持灵活组合，可根据场景校准多目标权重；4. DeAL与RLHF互补，分别在解码/训练阶段生效，结合后提升对齐上限。</li>
+<li><strong>局限性</strong>：1. 无法用于无输出logits访问权限的专有模型；2. 解码延迟高（无批量推理时，因前瞻和参数化奖励，比贪心解码慢2-5倍）；3. 未深入探索不同解码策略组合及领域特定场景的优化。</li>
+</ul>
+<h3 id="2-6-结论-Conclusion">2.6 结论 (Conclusion)</h3>
+<ul>
+<li><strong>总结</strong>：DeAL框架实现了LLM解码阶段的灵活对齐，支持自定义/多对齐目标，可与现有对齐策略（如RLHF、提示）互补，提升对齐可靠性，且在“越狱”防御等安全场景中效果显著。</li>
+<li><strong>未来工作</strong>：1. 优化解码效率（如限制奖励函数类型、预编译语法、用蒸馏模型做前瞻）；2. 探索不同解码策略组合及领域特定场景的适配；3. 深入研究解码时对齐的安全边界与攻击防御。</li>
+</ul>
+<h2 id="3-整体评价">3. 整体评价</h2>
+<ul>
+<li><strong>核心贡献</strong>：提出DeAL框架，将LLM对齐从训练阶段扩展到解码阶段，实现自定义、模块化的多目标对齐，弥补了现有训练时对齐方法的灵活性与可靠性局限。</li>
+<li><strong>适用场景</strong>：1. 需要自定义对齐目标的LLM应用（如含关键词/长度约束的内容生成、行业特定安全对话）；2. 需与RLHF结合提升对齐效果的场景（如通用助手的无害性+有帮助性双目标优化）；3. LLM“越狱”防御等安全敏感场景（如恶意提示过滤）。</li>
+</ul>
 
       
     </div>
@@ -394,7 +402,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/null-index/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/null-index/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -417,14 +425,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

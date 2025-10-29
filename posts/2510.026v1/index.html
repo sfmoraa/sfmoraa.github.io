@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Superficial Safety Alignment Hypothesis 一句话总结：通过结构化剪枝实验识别出 SCU、UCU、CU、RU 四类计算单元，发现仅需冻结少量安全关键单元（如 SCU 及部分 CU）即可在适应新任务时保留安全性、将冗余单元作为 “对齐预算” 可减少对齐损耗，最终得出 LLMs 中安全的原子功能单元位于神经元层面且安全对齐无需复杂操作的结论。 价值观模块？知识编辑？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Superficial Safety Alignment Hypothesis">
+<meta property="og:url" content="http://example.com/posts/2510.026v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="Superficial Safety Alignment Hypothesis 一句话总结：通过结构化剪枝实验识别出 SCU、UCU、CU、RU 四类计算单元，发现仅需冻结少量安全关键单元（如 SCU 及部分 CU）即可在适应新任务时保留安全性、将冗余单元作为 “对齐预算” 可减少对齐损耗，最终得出 LLMs 中安全的原子功能单元位于神经元层面且安全对齐无需复杂操作的结论。 价值观模块？知识编辑？">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-28T12:07:07.200Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.026v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.026v1/","path":"/posts/2510.026v1/","title":"Superficial Safety Alignment Hypothesis"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Superficial Safety Alignment Hypothesis | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Superficial Safety Alignment Hypothesis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF%E4%B8%8E%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">一、研究背景与核心问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%A0%B8%E5%BF%83%E5%81%87%E8%AE%BE%EF%BC%9A%E8%A1%A8%E5%B1%82%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90%E5%81%87%E8%AE%BE%EF%BC%88SSAH%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">二、核心假设：表层安全对齐假设（SSAH）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-SSAH%E7%9A%84%E6%A0%B8%E5%BF%83%E4%B8%BB%E5%BC%A0"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. SSAH的核心主张</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SSAH%E4%B8%8E%E9%80%9A%E7%94%A8%E8%A1%A8%E5%B1%82%E5%AF%B9%E9%BD%90%E5%81%87%E8%AE%BE%EF%BC%88SAH%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. SSAH与通用表层对齐假设（SAH）的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-SSAH%E5%AF%B9%E8%B6%8A%E7%8B%B1%E6%94%BB%E5%87%BB%E7%9A%84%E5%90%AF%E7%A4%BA"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. SSAH对越狱攻击的启示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%85%B3%E9%94%AE%E9%AA%8C%E8%AF%81%EF%BC%9A%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90%E7%9A%84%E2%80%9C%E5%B0%91%E5%8D%B3%E6%98%AF%E5%A4%9A%E2%80%9D"><span class="nav-number">1.3.</span> <span class="nav-text">三、实验设计与关键验证：安全对齐的“少即是多”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AE%9E%E9%AA%8C1%EF%BC%9A%E6%8E%A2%E6%B5%8BSSAH%E2%80%94%E2%80%94%E9%AA%8C%E8%AF%81%E6%8E%A8%E7%90%86%E6%96%B9%E5%90%91%E7%9A%84%E6%94%B9%E5%8F%98"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 实验1：探测SSAH——验证推理方向的改变</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">实验设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%BB%93%E6%9E%9C"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">关键结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%9E%E9%AA%8C2%EF%BC%9A%E8%AF%86%E5%88%AB%E5%AE%89%E5%85%A8%E5%85%B3%E9%94%AE%E5%8D%95%E5%85%83%E2%80%94%E2%80%94%E5%9B%9B%E7%B1%BB%E5%8A%9F%E8%83%BD%E5%8D%95%E5%85%83%E7%9A%84%E5%88%92%E5%88%86"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 实验2：识别安全关键单元——四类功能单元的划分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B%E7%B1%BB%E5%8D%95%E5%85%83%E5%AE%9A%E4%B9%89%E4%B8%8E%E8%AF%86%E5%88%AB%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">四类单元定义与识别方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%8F%91%E7%8E%B0%EF%BC%88%E8%A1%A81%EF%BC%89"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">关键发现（表1）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%9E%E9%AA%8C3%EF%BC%9A%E8%A7%A3%E9%87%8A%E4%B8%8E%E7%BC%93%E8%A7%A3%E5%AE%89%E5%85%A8%E8%84%86%E5%BC%B1%E6%80%A7%E2%80%94%E2%80%94%E5%86%BB%E7%BB%93SCU%E7%9A%84%E6%9C%89%E6%95%88%E6%80%A7"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. 实验3：解释与缓解安全脆弱性——冻结SCU的有效性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E8%84%86%E5%BC%B1%E6%80%A7%E7%9A%84%E6%A0%B9%E6%BA%90%EF%BC%88%E5%9B%BE5%EF%BC%89"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">安全脆弱性的根源（图5）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A%E5%86%BB%E7%BB%93%E5%AE%89%E5%85%A8%E5%85%B3%E9%94%AE%E5%8D%95%E5%85%83"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">解决方案：冻结安全关键单元</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%BB%93%E6%9E%9C-2"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">关键结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AE%9E%E9%AA%8C4%EF%BC%9A%E5%88%A9%E7%94%A8%E5%86%97%E4%BD%99%E5%8D%95%E5%85%83%EF%BC%88RU%EF%BC%89%E5%87%8F%E5%B0%91%E5%AF%B9%E9%BD%90%E7%A8%8E"><span class="nav-number">1.3.4.</span> <span class="nav-text">4. 实验4：利用冗余单元（RU）减少对齐税</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1-2"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">实验设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%BB%93%E6%9E%9C%EF%BC%88%E8%A1%A84%EF%BC%89"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">关键结果（表4）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%A0%B8%E5%BF%83%E7%BB%93%E8%AE%BA%E4%B8%8E%E5%88%9B%E6%96%B0%E7%82%B9"><span class="nav-number">1.4.</span> <span class="nav-text">四、核心结论与创新点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A0%B8%E5%BF%83%E7%BB%93%E8%AE%BA"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 核心结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%BB%E8%A6%81%E5%88%9B%E6%96%B0%E7%82%B9"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 主要创新点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%B1%80%E9%99%90%E6%80%A7%E4%B8%8E%E6%9C%AA%E6%9D%A5%E6%96%B9%E5%90%91"><span class="nav-number">1.5.</span> <span class="nav-text">五、局限性与未来方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E5%85%B3%E9%94%AE%E5%8D%95%E5%85%83%EF%BC%88SCU%EF%BC%89%E3%80%81%E5%A4%8D%E6%9D%82%E5%8D%95%E5%85%83%EF%BC%88CU%EF%BC%89%E3%80%81%E5%86%97%E4%BD%99%E5%8D%95%E5%85%83%EF%BC%88RU%EF%BC%89%E7%9A%84%E7%A1%AE%E5%AE%9A%E6%96%B9%E6%B3%95"><span class="nav-number">1.6.</span> <span class="nav-text">安全关键单元（SCU）、复杂单元（CU）、冗余单元（RU）的确定方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9B%9B%E7%B1%BB%E5%8D%95%E5%85%83%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E6%A0%B8%E5%BF%83%E5%B7%AE%E5%BC%82"><span class="nav-number">1.6.1.</span> <span class="nav-text">一、四类单元的定义与核心差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%88%86%E7%B1%BB%E6%96%B9%E6%B3%95%EF%BC%9A%E5%9F%BA%E4%BA%8E%E6%BF%80%E6%B4%BB%E6%96%B9%E5%B7%AE%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E5%89%AA%E6%9E%9D"><span class="nav-number">1.6.2.</span> <span class="nav-text">二、分类方法：基于激活方差的结构化剪枝</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E4%B8%8E%E5%89%8D%E7%BD%AE%E5%87%86%E5%A4%87"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">1. 核心原理与前置准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%88%86%E7%B1%BB%E6%AD%A5%E9%AA%A4%EF%BC%88%E4%B8%89%E6%AD%A5%E5%89%AA%E6%9E%9D%E4%B8%8E%E6%8E%A8%E6%96%AD%EF%BC%89"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">2. 分类步骤（三步剪枝与推断）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E8%AF%86%E5%88%AB%E5%86%97%E4%BD%99%E5%8D%95%E5%85%83%EF%BC%88RU%EF%BC%89"><span class="nav-number">1.6.2.2.1.</span> <span class="nav-text">步骤1：识别冗余单元（RU）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E8%AF%86%E5%88%AB%E5%AE%89%E5%85%A8%E5%85%B3%E9%94%AE%E5%8D%95%E5%85%83%EF%BC%88SCU%EF%BC%89%E4%B8%8E%E5%AE%9E%E7%94%A8%E5%85%B3%E9%94%AE%E5%8D%95%E5%85%83%EF%BC%88UCU%EF%BC%89"><span class="nav-number">1.6.2.2.2.</span> <span class="nav-text">步骤2：识别安全关键单元（SCU）与实用关键单元（UCU）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E8%AF%86%E5%88%AB%E5%A4%8D%E5%90%88%E5%8D%95%E5%85%83%EF%BC%88CU%EF%BC%89"><span class="nav-number">1.6.2.2.3.</span> <span class="nav-text">步骤3：识别复合单元（CU）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%85%B3%E9%94%AE%E5%AE%9E%E9%AA%8C%E8%AF%81%E6%8D%AE%EF%BC%9A%E5%89%AA%E6%9E%9D%E5%90%8E%E7%9A%84%E6%80%A7%E8%83%BD%E9%80%80%E5%8C%96%E5%AF%B9%E6%AF%94"><span class="nav-number">1.6.3.</span> <span class="nav-text">三、关键实验证据：剪枝后的性能退化对比</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.026v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Superficial Safety Alignment Hypothesis | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Superficial Safety Alignment Hypothesis
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-28 20:07:07" itemprop="dateModified" datetime="2025-10-28T20:07:07+08:00">2025-10-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>Superficial Safety Alignment Hypothesis</h1>
+<p>一句话总结：通过结构化剪枝实验识别出 SCU、UCU、CU、RU 四类计算单元，发现仅需冻结少量安全关键单元（如 SCU 及部分 CU）即可在适应新任务时保留安全性、将冗余单元作为 “对齐预算” 可减少对齐损耗，最终得出 LLMs 中安全的原子功能单元位于神经元层面且安全对齐无需复杂操作的结论。</p>
+<p>价值观模块？知识编辑？</p>
+<h2 id="一、研究背景与核心问题">一、研究背景与核心问题</h2>
+<p>随着大语言模型（LLMs）在各类应用中普及，<strong>生成安全响应</strong>成为紧迫需求。然而，现有对齐研究存在三大关键缺陷，构成了论文试图解决的核心矛盾：</p>
+<ol>
+<li><strong>安全对齐的特殊性被忽视</strong>：多数研究将安全对齐视为“通用指令对齐的子集”，未关注其独特挑战（如安全机制的脆弱性）；</li>
+<li><strong>安全机制脆弱性</strong>：即使通过良性数据微调，模型适配新任务时安全机制易失效（Qi et al., 2023; Yang et al., 2023）；</li>
+<li><strong>对齐税与高成本</strong>：提升安全性常导致模型效用（下游任务性能）下降（即“对齐税”），且全量模型微调计算成本极高。</li>
+</ol>
+<p>为解决上述问题，论文首先明确需回答三个核心问题：</p>
+<ul>
+<li>Q1：安全对齐如何影响模型行为？</li>
+<li>Q2：为何安全机制脆弱、对齐税会存在？</li>
+<li>Q3：如何缓解这些安全对齐问题？</li>
+</ul>
+<h2 id="二、核心假设：表层安全对齐假设（SSAH）">二、核心假设：表层安全对齐假设（SSAH）</h2>
+<p>论文提出<strong>表层安全对齐假设（Superficial Safety Alignment Hypothesis, SSAH）</strong>，将安全对齐与通用对齐分离，强调其独特属性。其核心定义与关键特征如下：</p>
+<h3 id="1-SSAH的核心主张">1. SSAH的核心主张</h3>
+<p>给定一个<strong>具备执行恶意请求能力</strong>的不安全模型，安全对齐的本质是：</p>
+<ul>
+<li>教模型选择“正确推理方向”：基于安全性判断，对用户请求要么“满足”（安全），要么“拒绝”（不安全）；</li>
+<li>植入“标准化拒绝机制”：提供预设的拒绝模板（如“我无法协助，因请求违反安全准则”）。</li>
+</ul>
+<p>这一过程可被解读为<strong>隐式的安全相关二分类任务</strong>——而非复杂的知识学习或能力提升。</p>
+<h3 id="2-SSAH与通用表层对齐假设（SAH）的区别">2. SSAH与通用表层对齐假设（SAH）的区别</h3>
+<p>SAH（Zhou et al., 2024）认为“模型知识源于预训练，对齐仅指导输出格式选择”，但聚焦通用指令对齐。SSAH在SAH基础上进一步聚焦安全场景，核心差异体现在三点：</p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>通用表层对齐假设（SAH）</th>
+<th>表层安全对齐假设（SSAH）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>知识前提</td>
+<td>需区分“预训练知识不足”与“对齐格式错误”</td>
+<td>假设模型已具备执行恶意请求的知识/能力，仅需纠正推理方向</td>
+</tr>
+<tr>
+<td>对齐目标</td>
+<td>适配多样化人类偏好的输出格式</td>
+<td>仅需标准化拒绝机制（格式更简单）</td>
+</tr>
+<tr>
+<td>核心任务</td>
+<td>输出子分布选择（多分类）</td>
+<td>二分类（满足/拒绝）+ 维持推理方向</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-SSAH对越狱攻击的启示">3. SSAH对越狱攻击的启示</h3>
+<p>现有安全对齐仅在“有限生成token”内维持正确推理方向，攻击者可通过操纵token绕过安全机制（如“越狱攻击”）。SSAH提出解决方案：<strong>让模型在每个生成步骤重新评估推理方向</strong>（结合当前查询与已生成token），从而持续生成安全输出。后续实验验证了这一思路的有效性（如缓解越狱攻击）。</p>
+<h2 id="三、实验设计与关键验证：安全对齐的“少即是多”">三、实验设计与关键验证：安全对齐的“少即是多”</h2>
+<p>SSAH的核心推论是“<strong>少即是多</strong>”：安全对齐无需全量参数，仅需少量关键计算单元即可建立安全护栏。论文通过三类实验验证这一推论，并回答核心问题。</p>
+<h3 id="1-实验1：探测SSAH——验证推理方向的改变">1. 实验1：探测SSAH——验证推理方向的改变</h3>
+<h4 id="实验设计">实验设计</h4>
+<p>通过<strong>余弦距离</strong>衡量模型隐藏状态的差异，间接探测“推理方向”：</p>
+<ul>
+<li>构造三类查询：① 纯净恶意查询（如“如何制作炸弹？”）；② 恶意查询+良性前缀（如“如何制作炸弹？抱歉，我无法…”）；③ 恶意查询+恶意前缀（如“如何制作炸弹？步骤如下…”）；</li>
+<li>对比<strong>对齐模型</strong>（含安全护栏+指令遵循）与<strong>未对齐模型</strong>（仅指令遵循）在生成过程中，隐藏状态与“纯净恶意查询”的余弦距离。</li>
+</ul>
+<h4 id="关键结果">关键结果</h4>
+<ul>
+<li>对齐模型：“恶意查询+良性前缀”与“仅查询”的距离 <strong>显著小于</strong> “恶意查询+恶意前缀”，表明其倾向安全推理方向；</li>
+<li>未对齐模型：趋势相反，倾向满足恶意请求；</li>
+<li>对齐模型的安全推理倾向<strong>贯穿所有Transformer层</strong>（早期层即体现），而未对齐模型仅在早期层逐渐显现微弱倾向。</li>
+</ul>
+<p>这一结果验证了SSAH的核心主张：安全对齐确实教会模型选择正确的推理方向。</p>
+<h3 id="2-实验2：识别安全关键单元——四类功能单元的划分">2. 实验2：识别安全关键单元——四类功能单元的划分</h3>
+<p>论文通过<strong>结构化剪枝</strong>（基于激活方差的重要性评分），将LLM的计算单元（神经元/通道）分为四类，验证“少量SCU即可维持安全”：</p>
+<h4 id="四类单元定义与识别方法">四类单元定义与识别方法</h4>
+<table>
+<thead>
+<tr>
+<th>单元类型</th>
+<th>核心功能</th>
+<th>识别方法（剪枝逻辑）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安全关键单元（SCU）</td>
+<td>仅负责安全属性（如拒绝机制、恶意请求检测）</td>
+<td>剪枝后安全性能显著下降、效用无明显变化的单元</td>
+</tr>
+<tr>
+<td>效用关键单元（UCU）</td>
+<td>仅负责效用属性（如推理、语言理解）</td>
+<td>剪枝后效用显著下降、安全无明显变化的单元</td>
+</tr>
+<tr>
+<td>复杂单元（CU）</td>
+<td>同时支持安全与效用</td>
+<td>剪枝后安全与效用均下降的单元</td>
+</tr>
+<tr>
+<td>冗余单元（RU）</td>
+<td>与安全/效用均无关</td>
+<td>剪枝后安全与效用均无变化（激活方差极低）的单元</td>
+</tr>
+</tbody>
+</table>
+<h4 id="关键发现（表1）">关键发现（表1）</h4>
+<ul>
+<li>SCU占比极低：Llama2-7B-Chat（1.3%）、Llama3-8B-Instruct（1.4%），证明“少量单元即可支撑安全”；</li>
+<li>CU占比最高（约70%）：主要提供安全与效用共享的通用知识；</li>
+<li>RU占比14%-16%：预训练模型中存在大量未被利用的冗余参数。</li>
+</ul>
+<h3 id="3-实验3：解释与缓解安全脆弱性——冻结SCU的有效性">3. 实验3：解释与缓解安全脆弱性——冻结SCU的有效性</h3>
+<h4 id="安全脆弱性的根源（图5）">安全脆弱性的根源（图5）</h4>
+<p>通过“属性转移分析”发现：微调适配新任务时，<strong>SCU和CU会大量转化为UCU</strong>（模型为提升效用，牺牲安全相关单元），导致安全机制失效。</p>
+<h4 id="解决方案：冻结安全关键单元">解决方案：冻结安全关键单元</h4>
+<p>实验设计：微调时冻结“SCU+部分CU”，对比全量微调与冻结策略的安全/效用表现（表2、3）。</p>
+<h4 id="关键结果-2">关键结果</h4>
+<ul>
+<li>冻结策略显著保留安全性能：以Llama2-7B-Chat为例，在Alpaca数据集微调后，全量微调的攻击成功率（ASR）从0.19%升至5.3%，而冻结“SCU+6%CU”后ASR仅2.96%，冻结“SCU+全CU”后ASR进一步降至2.1%；</li>
+<li>不损害效用：冻结策略在10个下游任务（如ARC、BoolQ、GSM8K）上的效用表现与全量微调相当，甚至在部分任务（如MMLU）上略有提升（表3）；</li>
+<li>优于PEFT方法：LoRA、LLaMA-Adapter等参数高效微调方法，安全性能降解比全量微调更严重（表5），证明冻结“关键单元”而非“随机少量参数”是核心。</li>
+</ul>
+<h3 id="4-实验4：利用冗余单元（RU）减少对齐税">4. 实验4：利用冗余单元（RU）减少对齐税</h3>
+<p>预训练模型中14%-20%的RU未被利用，论文提出将其作为“<strong>对齐预算</strong>”——仅微调RU，而非全量参数，以减少对齐税。</p>
+<h4 id="实验设计-2">实验设计</h4>
+<ul>
+<li>识别Llama-7B的RU（通过剪枝）；</li>
+<li>对比“全量参数微调”与“仅微调20%RU”的对齐效果（通用对齐+安全对齐）。</li>
+</ul>
+<h4 id="关键结果（表4）">关键结果（表4）</h4>
+<ul>
+<li>仅微调RU可达到与全量微调相当的对齐效果：在MT-Bench helpfulness评分（第一轮3.5 vs 2.83）、下游任务（如GSM8K从8.8提升至13.4）上表现更优；</li>
+<li>消除对齐税：数学任务（GSM8K）性能提升4.16%，证明RU微调可在不牺牲效用的前提下实现对齐。</li>
+</ul>
+<h2 id="四、核心结论与创新点">四、核心结论与创新点</h2>
+<h3 id="1-核心结论">1. 核心结论</h3>
+<ol>
+<li><strong>安全对齐的本质</strong>：是隐式的二分类任务（满足/拒绝），而非复杂的知识学习；</li>
+<li><strong>安全的原子单元</strong>：LLM安全的功能单元在<strong>神经元/通道层面</strong>，而非权重层面；</li>
+<li><strong>缓解安全问题的策略</strong>：
+<ul>
+<li>微调时冻结SCU+部分CU，防止安全单元向效用单元转化；</li>
+<li>利用预训练模型的RU作为对齐预算，减少对齐税；</li>
+</ul>
+</li>
+<li><strong>安全对齐的简洁性</strong>：无需全量微调或复杂机制，少量关键单元即可建立 robust 安全护栏。</li>
+</ol>
+<h3 id="2-主要创新点">2. 主要创新点</h3>
+<ol>
+<li><strong>理论层面</strong>：首次提出SSAH，分离安全对齐与通用对齐，明确其“二分类+推理方向纠正”的核心属性；</li>
+<li><strong>方法层面</strong>：实现神经元级安全关键单元识别，提出“冻结关键单元”和“RU对齐预算”两种高效策略；</li>
+<li><strong>实验层面</strong>：验证了“少即是多”的推论，为低成本、高鲁棒性的安全对齐提供实证支持。</li>
+</ol>
+<h2 id="五、局限性与未来方向">五、局限性与未来方向</h2>
+<ol>
+<li><strong>SSAH验证的局限性</strong>：受限于输出采样空间，无法完全捕捉模型响应分布，未来需更多数据集与对齐策略验证；</li>
+<li><strong>RU的应用场景扩展</strong>：当前仅在SFT（监督微调）中验证RU的有效性，未来需扩展至RLHF、RLAIF等对齐方法；</li>
+<li><strong>跨模型通用性</strong>：对Mistral等安全基础较弱的模型，冻结策略效果不如Llama2显著，需针对不同模型优化关键单元选择。</li>
+</ol>
+<p>——————————————————————————————————————————————————</p>
+<h2 id="安全关键单元（SCU）、复杂单元（CU）、冗余单元（RU）的确定方法">安全关键单元（SCU）、复杂单元（CU）、冗余单元（RU）的确定方法</h2>
+<p>该论文通过<strong>结构化剪枝（Structured Pruning）</strong> 结合<strong>激活方差分析</strong>，将大语言模型（LLMs）的计算单元（神经元或通道）划分为四类，并通过实验验证各类单元对“安全性”和“实用性”的专属或混合贡献。以下是具体分类逻辑、方法及原文位置说明：</p>
+<h3 id="一、四类单元的定义与核心差异">一、四类单元的定义与核心差异</h3>
+<p>论文首次明确四类计算单元的功能定位，核心区别在于对“安全性（Safety）”和“实用性（Utility）”两大属性的贡献方式：</p>
+<table>
+<thead>
+<tr>
+<th>单元类型</th>
+<th>英文缩写</th>
+<th>核心功能</th>
+<th>关键特征</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安全关键单元</td>
+<td>SCU（Safety Critical Unit）</td>
+<td>专属支撑安全性</td>
+<td>仅负责安全相关行为（如识别恶意请求、生成标准化拒绝回复），移除后安全性显著下降，实用性基本不受影响</td>
+</tr>
+<tr>
+<td>实用关键单元</td>
+<td>UCU（Utility Critical Unit）</td>
+<td>专属支撑实用性</td>
+<td>仅负责通用任务能力（如语言理解、逻辑推理、知识问答），移除后实用性显著下降，安全性基本不受影响</td>
+</tr>
+<tr>
+<td>复合单元</td>
+<td>CU（Complex Unit）</td>
+<td>同时支撑安全性与实用性</td>
+<td>同时参与安全决策和通用任务，是模型中占比最高的单元（如支撑安全拒绝时的语言连贯性）</td>
+</tr>
+<tr>
+<td>冗余单元</td>
+<td>RU（Redundant Unit）</td>
+<td>无明确功能贡献</td>
+<td>对安全性和实用性均无显著作用，激活方差低，可被剪枝或重新分配功能而不影响模型核心性能</td>
+</tr>
+</tbody>
+</table>
+<h3 id="二、分类方法：基于激活方差的结构化剪枝">二、分类方法：基于激活方差的结构化剪枝</h3>
+<p>论文通过<strong>两步剪枝实验</strong>识别四类单元，核心逻辑是“移除某类单元后，观察安全性/实用性的性能退化程度，反向推断单元功能”，具体步骤及原文位置如下：</p>
+<h4 id="1-核心原理与前置准备">1. 核心原理与前置准备</h4>
+<ul>
+<li><strong>原理</strong>：计算单元的“重要性分数”（Importance Score），分数由“激活方差”和“权重范数”共同决定——激活方差越高，说明单元对任务越关键；反之则可能冗余。</li>
+<li><strong>前置数据集</strong>：
+<ul>
+<li>安全数据集（Safety Dataset）：来自AdvBench的恶意指令及模型安全回复，用于计算“安全重要性分数”(I_S)；</li>
+<li>实用数据集（Utility Dataset）：过滤安全相关样本后的Alpaca-Cleaned，用于计算“实用重要性分数”(I_U)。</li>
+</ul>
+</li>
+<li><strong>原文位置</strong>：
+<ul>
+<li>核心定义：主文档第4.1节“IDENTIFYING SAFETY-CRITICAL COMPUTING UNITS”（P6-P7）；</li>
+<li>数据集细节：附录B.1“DEFINITION OF ATTRIBUTE GROUPS AND CATEGORIZATION PROCESS”（P20）；</li>
+<li>重要性分数公式：主文档第4.1节公式（1）（P7），标准化公式见附录B.3（P21）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-分类步骤（三步剪枝与推断）">2. 分类步骤（三步剪枝与推断）</h4>
+<h5 id="步骤1：识别冗余单元（RU）">步骤1：识别冗余单元（RU）</h5>
+<ul>
+<li><strong>操作</strong>：剪枝“(I_S + I_U)最小”的单元——这类单元对安全和实用的重要性均低，激活方差小。</li>
+<li><strong>验证</strong>：剪枝后若安全性和实用性均无显著退化（如准确率下降&lt;3%、攻击成功率ASR上升&lt;5%），则被剪单元为RU。</li>
+<li><strong>原文位置</strong>：主文档第4.1节“Verification of Attribute Group”（P7）：“Initially, we prune the computing units with the smallest (I_U + I_S) values to identify redundant units.”</li>
+</ul>
+<h5 id="步骤2：识别安全关键单元（SCU）与实用关键单元（UCU）">步骤2：识别安全关键单元（SCU）与实用关键单元（UCU）</h5>
+<ul>
+<li><strong>操作</strong>：
+<ul>
+<li>剪枝“(I_S - I_U)最小”的单元：这类单元对安全的重要性远低于实用，移除后若“安全性显著退化、实用性基本不变”，则为SCU；</li>
+<li>剪枝“(I_S - I_U)最大”的单元：这类单元对实用的重要性远低于安全，移除后若“实用性显著退化、安全性基本不变”，则为UCU。</li>
+</ul>
+</li>
+<li><strong>验证案例</strong>：剪枝Llama2-7B-Chat的1.3% SCU后，安全性ASR从10%飙升至66%（+56%），而实用性准确率仅下降1.3%（Table 1，P8），证明这类单元专属支撑安全。</li>
+<li><strong>原文位置</strong>：
+<ul>
+<li>剪枝逻辑：主文档第4.1节（P7）：“Subsequently, we prune units with the largest and smallest (I_S - I_U) values to identify utility and safety critical units, respectively.”；</li>
+<li>实验结果：主文档Table 1“Pruning results of Llama2-7B-Chat and Llama3-8B-Instruct”（P8）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="步骤3：识别复合单元（CU）">步骤3：识别复合单元（CU）</h5>
+<ul>
+<li><strong>操作</strong>：排除RU、SCU、UCU后，剩余单元即为CU——这类单元的(I_S)和(I_U)均较高，剪枝后会同时导致安全性和实用性退化。</li>
+<li><strong>验证</strong>：剪枝CU后，Llama2-7B-Chat的安全性ASR上升18.3%，实用性准确率下降15.6%（Table 1，P8），证明其同时支撑两类属性。</li>
+<li><strong>原文位置</strong>：主文档第4.1节（P7）：“The remaining computing units are categorized as complex units.”</li>
+</ul>
+<h3 id="三、关键实验证据：剪枝后的性能退化对比">三、关键实验证据：剪枝后的性能退化对比</h3>
+<p>论文通过Table 1（P8）直接展示剪枝不同单元对模型性能的影响，是分类方法的核心验证结果，以Llama2-7B-Chat为例：</p>
+<table>
+<thead>
+<tr>
+<th>单元类型</th>
+<th>占比</th>
+<th>实用性准确率变化（ avg ）</th>
+<th>安全性ASR变化（ avg ）</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原始模型（Dense）</td>
+<td>-</td>
+<td>58.3%（基准）</td>
+<td>10.0%（基准）</td>
+<td>-</td>
+</tr>
+<tr>
+<td>SCU（剪枝1.3%）</td>
+<td>1.3%</td>
+<td>56.9%（-1.3%）</td>
+<td>66.0%（+56%）</td>
+<td>专属支撑安全</td>
+</tr>
+<tr>
+<td>UCU（剪枝13.3%）</td>
+<td>13.3%</td>
+<td>42.7%（-15.6%）</td>
+<td>28.3%（+18.3%）</td>
+<td>专属支撑实用</td>
+</tr>
+<tr>
+<td>RU（剪枝14.8%）</td>
+<td>14.8%</td>
+<td>55.5%（-2.8%）</td>
+<td>14.6%（+4.6%）</td>
+<td>无显著功能</td>
+</tr>
+</tbody>
+</table>
+<p>该结果直接证明：SCU、UCU、CU、RU对模型性能的影响存在显著差异，分类逻辑成立。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.047v1/" rel="prev" title="The Blessing and Curse of Dimensionality in Safety Alignment">
+                  <i class="fa fa-angle-left"></i> The Blessing and Curse of Dimensionality in Safety Alignment
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.043v1/" rel="next" title="Separate the Wheat from the Chaff: A Post-Hoc Approach to Safety Re-Alignment for Fine-Tuned Language Models">
+                  Separate the Wheat from the Chaff: A Post-Hoc Approach to Safety Re-Alignment for Fine-Tuned Language Models <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

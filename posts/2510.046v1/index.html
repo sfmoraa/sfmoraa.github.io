@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Representation Bending for Large Language Model Safety 一、论文概览 1. 核心问题 大型语言模型（LLMs）虽能力强大，但存在生成有害内容、易受对抗攻击（如越狱攻击）、微调后安全性受损等风险，且现有安全技术（如基于人类反馈的微调RLHF、对抗训练）存在局限性：仅针对特定威胁、对未见过的攻击泛化性差、需手动构建系统级防御，或在提升安全性时损失模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Representation Bending for Large Language Model Safety">
+<meta property="og:url" content="http://example.com/posts/2510.046v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="Representation Bending for Large Language Model Safety 一、论文概览 1. 核心问题 大型语言模型（LLMs）虽能力强大，但存在生成有害内容、易受对抗攻击（如越狱攻击）、微调后安全性受损等风险，且现有安全技术（如基于人类反馈的微调RLHF、对抗训练）存在局限性：仅针对特定威胁、对未见过的攻击泛化性差、需手动构建系统级防御，或在提升安全性时损失模">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Representation-Bending-for-Large-Language-Model-Safety/image-20251030000920778.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Representation-Bending-for-Large-Language-Model-Safety/image-20251030001417965.png">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-29T16:16:47.689Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Representation-Bending-for-Large-Language-Model-Safety/image-20251030000920778.png">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.046v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.046v1/","path":"/posts/2510.046v1/","title":"Representation Bending for Large Language Model Safety"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Representation Bending for Large Language Model Safety | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Representation Bending for Large Language Model Safety</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">一、论文概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 核心问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%BB%E8%A6%81%E8%B4%A1%E7%8C%AE"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 主要贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 研究方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">二、各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BC%95%E8%A8%80%EF%BC%881-Introduction%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 引言（1 Introduction）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C%EF%BC%882-Related-Work%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 相关工作（2 Related Work）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%A1%A8%E5%BE%81%E6%89%AD%E6%9B%B2%EF%BC%883-Representation-Bending%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 表征扭曲（3 Representation Bending）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">3.1 核心原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B%EF%BC%88Algorithm-1%EF%BC%89"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">3.2 算法流程（Algorithm 1）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E8%A7%A3%E6%9E%90"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">3.3 损失函数解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-%E6%9E%B6%E6%9E%84%E9%80%89%E6%8B%A9"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">3.4 架构选择</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AE%9E%E9%AA%8C%EF%BC%884-Experiments%EF%BC%89"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 实验（4 Experiments）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E5%AE%9E%E9%AA%8C%E7%BB%86%E8%8A%82"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">4.1 实验细节</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E6%8A%97%E8%B6%8A%E7%8B%B1%E6%94%BB%E5%87%BB%E9%B2%81%E6%A3%92%E6%80%A7"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">4.2 抗越狱攻击鲁棒性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%AE%89%E5%85%A8-%E5%8F%AF%E7%94%A8%E6%80%A7-%E8%83%BD%E5%8A%9B%E6%9D%83%E8%A1%A1"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">4.3 安全-可用性-能力权衡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-%E8%B7%A8%E6%9E%B6%E6%9E%84%E9%80%82%E7%94%A8%E6%80%A7"><span class="nav-number">1.2.4.4.</span> <span class="nav-text">4.4 跨架构适用性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-%E6%A8%A1%E5%9E%8B%E5%86%85%E9%83%A8%E8%A1%8C%E4%B8%BA%E5%88%86%E6%9E%90"><span class="nav-number">1.2.4.5.</span> <span class="nav-text">4.5 模型内部行为分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%BB%93%E8%AE%BA%EF%BC%885-Conclusion%EF%BC%89"><span class="nav-number">1.2.5.</span> <span class="nav-text">5. 结论（5 Conclusion）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%B1%80%E9%99%90%E6%80%A7%EF%BC%886-Limitations%EF%BC%89"><span class="nav-number">1.2.6.</span> <span class="nav-text">6. 局限性（6 Limitations）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E6%9B%B4%E5%B9%BF%E6%B3%9B%E5%BD%B1%E5%93%8D%E4%B8%8E%E9%A3%8E%E9%99%A9%EF%BC%887-Broader-Impact-and-Potential-Risks%EF%BC%89"><span class="nav-number">1.2.7.</span> <span class="nav-text">7. 更广泛影响与风险（7 Broader Impact and Potential Risks）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">三、一句话总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.046v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Representation Bending for Large Language Model Safety | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Representation Bending for Large Language Model Safety
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-30 00:16:47" itemprop="dateModified" datetime="2025-10-30T00:16:47+08:00">2025-10-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>Representation Bending for Large Language Model Safety</h1>
+<h2 id="一、论文概览">一、论文概览</h2>
+<h3 id="1-核心问题">1. 核心问题</h3>
+<p>大型语言模型（LLMs）虽能力强大，但存在生成有害内容、易受对抗攻击（如越狱攻击）、微调后安全性受损等风险，且现有安全技术（如基于人类反馈的微调RLHF、对抗训练）存在局限性：仅针对特定威胁、对未见过的攻击泛化性差、需手动构建系统级防御，或在提升安全性时损失模型的通用能力与可用性。</p>
+<h3 id="2-主要贡献">2. 主要贡献</h3>
+<ul>
+<li>提出<strong>REPBEND</strong>（Representation Bending）方法，通过从根本上扭曲LLMs中有害行为的底层表征，实现可扩展的安全增强，无需针对特定攻击设计防御。</li>
+<li>REPBEND在多种越狱基准测试中实现<strong>最高95%的攻击成功率（ASR）降低</strong>，同时对模型可用性和通用能力的影响可忽略不计。</li>
+<li>推进了LLM“安全性-通用能力”的帕累托前沿，在Mistral 7B、Llama3 8B等模型上的性能优于现有方法（如Circuit Breaker、RMU、NPO、Task Arithmetic）。</li>
+<li>通过Logit Lens和PCA分析验证了REPBEND对模型内部表征的调控效果，证明其不仅改变模型输出，更优化了模型“内在决策逻辑”。</li>
+</ul>
+<h3 id="3-研究方法">3. 研究方法</h3>
+<ul>
+<li>核心思想：将LLMs的“安全表征空间”与“不安全表征空间”扭曲至远离且可区分的状态，通过推动有害表征远离安全表征，提升模型对安全/不安全输入的辨别能力。</li>
+<li>技术路径：将“激活引导”（通过安全/不安全提示的激活差异构建引导向量）的思想融入基于损失的微调，结合LoRA（低秩适应）更新模型参数以避免全量微调的低效。</li>
+<li>损失函数：设计四术语损失函数$L = \frac{1}{2}|v_s|^2 - \alpha \cdot |v_u|^2 - \beta \cdot \cos_sim(A_u) + \gamma \cdot KL_{x \sim p_s}(M|M’)$，分别实现“保留安全表征”“远离不安全表征”“稳定拒绝输出”“维持通用能力”的目标。</li>
+</ul>
+<h2 id="二、各章节详解">二、各章节详解</h2>
+<h3 id="1-引言（1-Introduction）">1. 引言（1 Introduction）</h3>
+<ul>
+<li>背景：LLMs广泛应用于高风险场景（医疗、教育等），但易受对抗操纵（如越狱提示、恶意微调）生成有害内容，且未来AGI的潜在风险进一步加剧了安全需求。</li>
+<li>现有技术缺陷：
+<ul>
+<li>传统对齐技术（SFT、DPO、RLHF）易被绕过，存在“浅层安全对齐”问题；</li>
+<li>对抗训练仅针对已知攻击，泛化性差；</li>
+<li>系统级防御（输入/输出过滤）难以扩展，且未提升模型内在安全性；</li>
+<li>激活引导虽能调控推理行为，但泛化性差且可能损害模型推理能力。</li>
+</ul>
+</li>
+<li>本文切入点：将激活引导与微调结合，通过扭曲表征空间实现“内在安全”，同时保留模型通用能力。</li>
+</ul>
+<h3 id="2-相关工作（2-Related-Work）">2. 相关工作（2 Related Work）</h3>
+<ul>
+<li><strong>对齐技术局限性</strong>：现有对齐方法易被上下文提示或结构修改绕过，难以保证鲁棒性。</li>
+<li><strong>遗忘学习（Unlearning）</strong>：传统遗忘学习针对特定知识（如《哈利·波特》内容），而NPO（Negative Preference Optimization）虽可扩展至有害知识遗忘，但仅针对模型输出，未调控内部表征。</li>
+<li><strong>激活引导（Activation Steering）</strong>：通过安全/不安全提示的激活差异构建引导向量，在推理时调控模型行为，但存在分布外（OOD）泛化差、损害推理能力的问题。</li>
+<li><strong>安全表征工程</strong>：
+<ul>
+<li>RMU（Representation Masking Unlearning）：选择性遗忘不安全知识，但对模型能力损失较大；</li>
+<li>Circuit Breaker（CB）：通过“短路”有害表征提升安全，但调控逻辑复杂，性能弱于REPBEND；</li>
+<li>REPBEND区别：基于简单向量差异设计损失函数，兼顾泛化性与模型能力。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-表征扭曲（3-Representation-Bending）">3. 表征扭曲（3 Representation Bending）</h3>
+<h4 id="3-1-核心原理">3.1 核心原理</h4>
+<p>通过微调使模型的安全表征（由安全提示/不安全提示+安全响应触发）与不安全表征（由不安全提示+不安全响应触发）在激活空间中显著分离，如图1所示：未应用REPBEND时，“制作炸弹”等不安全提示的表征与安全表征重叠，模型无法区分；应用后两者远离且可区分。</p>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Representation-Bending-for-Large-Language-Model-Safety/image-20251030000920778.png" alt="image-20251030000920778"></p>
+<h4 id="3-2-算法流程（Algorithm-1）">3.2 算法流程（Algorithm 1）</h4>
+<ol>
+<li>
+<p>输入：原始模型$M$、三类数据集（$P_{uu}$：不安全提示+不安全响应，$P_{us}$：不安全提示+安全响应，$P_s$：安全提示+安全响应）、微调步数$T$；</p>
+</li>
+<li>
+<p>初始化：基于$M$构建LoRA模型$M’$（仅更新LoRA参数，降低计算成本）；</p>
+</li>
+<li>
+<p>迭代微调（$T$步）：</p>
+<ul>
+<li>采样安全文本（$p_s \sim P_s \cup P_{us}$），计算$M’$与$M$的安全表征差异$v_s = M’(p_s) - M(p_s)$；</li>
+<li>采样不安全文本（$p_{uu} \sim P_{uu}$），计算$M’$与$M$的不安全表征差异$v_u = M’(p_{uu}) - M(p_{uu})$；</li>
+<li>采样不安全相关文本（$p_u \sim P_{uu} \cup P_{us}$），收集$M’$的不安全表征至集合$A_u$；</li>
+</ul>
+</li>
+<li>
+<p>损失计算与优化：最小化损失函数，输出安全模型$M_{safe}=M’$。</p>
+<p>$\begin{array}{l}L=\frac{1}{2}||v_{s}||<em>{2} {-} \alpha {\cdot} ||v</em>{u}||<em>{ 2} {-} \beta {\cdot} \texttt{cos_sim}(A</em>{u}) {+} \gamma\cdot KL_{x\sim p_{s}}(M|M^{\prime})\end{array}$</p>
+</li>
+</ol>
+<h4 id="3-3-损失函数解析">3.3 损失函数解析</h4>
+<ul>
+<li><strong>保留损失（$\frac{1}{2}|v_s|^2$）</strong>：最小化$v_s$的L2范数，使$M’$的安全表征接近$M$，避免安全能力退化；</li>
+<li><strong>遗忘损失（$-\alpha \cdot |v_u|^2$）</strong>：最大化$v_u$的L2范数，使$M’$的不安全表征远离$M$，削弱有害表征；</li>
+<li><strong>余弦相似度损失（$-\beta \cdot \cos_sim(A_u)$）</strong>：最大化$A_u$中表征的余弦相似度，使模型对不安全提示的响应稳定为“拒绝话术”（如“我无法协助”），避免输出随机；</li>
+<li><strong>KL散度损失（$\gamma \cdot KL_{x \sim p_s}(M|M’)$）</strong>：最小化$M$与$M’$在安全文本上的KL散度，保留模型通用能力。</li>
+</ul>
+<h4 id="3-4-架构选择">3.4 架构选择</h4>
+<ul>
+<li>目标层：选择Transformer的<strong>中层至高层（20层及以后）</strong>，因这些层负责输出生成，对有害内容的表征更关键；</li>
+<li>激活提取位置：选择Transformer块输出的残差流（$h_{i4}$），公式如下：<br>
+$$h_{i1}=ATTN\left(norm\left(x_i\right)\right)$$<br>
+$$h_{i2}=x_i + h_{i1}$$<br>
+$$h_{i3}=MLP\left(norm\left(h_{i2}\right)\right)$$<br>
+$$h_{i4}=h_{i2} + h_{i3}$$</li>
+</ul>
+<h3 id="4-实验（4-Experiments）">4. 实验（4 Experiments）</h3>
+<h4 id="4-1-实验细节">4.1 实验细节</h4>
+<ul>
+<li><strong>对比方法</strong>：Task Arithmetic（TA）、NPO、RMU、Circuit Breaker（CB）、公开安全模型（R2D2*、CB*）；</li>
+<li><strong>数据集</strong>：
+<ul>
+<li>训练集：WildGuardMix（1万条安全/不安全样本）、WildJailbreak（1万条有害提示）、UltraChat（1万条通用指令）；</li>
+<li>测试基准：
+<ul>
+<li>黑盒攻击：HarmBench（直接有害请求）、WildGuardTest（分布内基准）、DAN、TrustLLM-Jailbreak、PAP（说服性对抗提示）；</li>
+<li>白盒攻击：GCG（对抗后缀优化）、Prefilling（预填非拒绝开头）、Input Embed（嵌入空间攻击）；</li>
+<li>过拒绝测试：XSTest（模糊良性提示）、WildJailbreak-Benign（似对抗良性提示）；</li>
+<li>通用能力测试：MTBench、MMLU、BBH、TruthfulQA、ARC-C、Winogrande、GSM8K、Codex-Eval；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>训练设置</strong>：基于Mistral 7B v0.2、Llama3 8B等模型，LoRA秩=16、学习率$1e^{-5}$，批量大小16。</li>
+</ul>
+<h4 id="4-2-抗越狱攻击鲁棒性">4.2 抗越狱攻击鲁棒性</h4>
+<ul>
+<li>核心结果：REPBEND在黑盒与白盒攻击中均实现最低ASR（攻击成功率）：
+<ul>
+<li>Mistral 7B：总平均ASR=3.25（原始模型=60.64），降低94.64%；</li>
+<li>Llama3 8B：总平均ASR=3.13（原始模型=34.00），降低90.79%；</li>
+</ul>
+</li>
+<li>泛化性：在分布外（OOD）基准（如GCG、PAP）上表现优异，证明其无需针对特定攻击设计。</li>
+</ul>
+<h4 id="4-3-安全-可用性-能力权衡">4.3 安全-可用性-能力权衡</h4>
+<ul>
+<li>过拒绝：REPBEND在XSTest、WildJailbreak-Benign上的合规率（84.89%、93.60%）接近原始模型，避免“过度拒绝”良性请求；</li>
+<li>通用能力：在8项能力基准上的平均得分与原始模型差异可忽略（如Mistral 7B原始=63.81，REPBEND=57.68）；</li>
+<li>整体性能：REPBEND的“安全-过拒绝-通用能力”综合得分最高（Mistral 7B=81.23，Llama3 8B=83.14），处于帕累托最优。</li>
+</ul>
+<h4 id="4-4-跨架构适用性">4.4 跨架构适用性</h4>
+<p>在Gemma2 2B、Qwen2.5 14B等不同参数规模/架构的模型上，REPBEND仅需微调学习率和步数，即可显著提升安全（如Qwen2.5 14B的HarmBench ASR从17.19降至7.50），证明其可扩展性。</p>
+<h4 id="4-5-模型内部行为分析">4.5 模型内部行为分析</h4>
+<ul>
+<li>Logit Lens可视化：原始模型在高层（20层后）对有害token的预测置信度显著提升（蓝色热图），而REPBEND在高层对拒绝token的置信度高，且强制输入有害序列时会生成低置信度随机token（红色热图）；</li>
+<li>激活分析（PCA与距离度量）：
+<ul>
+<li>PCA显示：原始模型的安全/不安全表征聚类重叠，REPBEND后两者完全分离；</li>
+<li>距离度量：REPBEND使安全/不安全表征的层wise欧氏距离和Jensen-Shannon散度显著增大，且高层增幅更明显。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Representation-Bending-for-Large-Language-Model-Safety/image-20251030001417965.png" alt="image-20251030001417965"></p>
+<h3 id="5-结论（5-Conclusion）">5. 结论（5 Conclusion）</h3>
+<p>REPBEND通过将激活引导融入微调，扭曲模型表征空间以实现内在安全，在多种LLM上实现高安全、低过拒绝、强泛化的平衡，为高风险场景下LLM的安全部署提供了可扩展方案。未来可进一步优化计算效率，应对“重学有害知识”等挑战。</p>
+<h3 id="6-局限性（6-Limitations）">6. 局限性（6 Limitations）</h3>
+<ul>
+<li>鲁棒性：若用不安全数据重新微调，REPBEND模型可能重学有害知识；</li>
+<li>泛化范围：仅在开源模型上验证，未覆盖超大参数私有模型（如GPT-4）；</li>
+<li>超参敏感性：损失系数（$\alpha,\beta,\gamma$）需调优，且调优成本较高。</li>
+</ul>
+<h3 id="7-更广泛影响与风险（7-Broader-Impact-and-Potential-Risks）">7. 更广泛影响与风险（7 Broader Impact and Potential Risks）</h3>
+<ul>
+<li>积极影响：推动AI安全标准制定，支持LLM在医疗、法律等高风险领域的部署；</li>
+<li>潜在风险：可能引发“安全-攻击”军备竞赛，恶意者或反向利用REPBEND的损失函数生成有害模型，且超参搜索需大量计算，存在环境成本。</li>
+</ul>
+<h2 id="三、一句话总结">三、一句话总结</h2>
+<p>论文假设通过扭曲LLMs的安全与不安全表征空间可在提升安全性的同时保留通用能力，提出基于激活引导的微调方法REPBEND，以四术语损失函数结合LoRA调控中层至高层表征，在Mistral 7B、Llama3 8B等模型上实现最高95%的攻击成功率降低，且保持低过拒绝与强泛化性，最终证明REPBEND是一种可扩展、内在安全的LLM安全增强方案，推进了安全与能力的权衡前沿。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.041v1/" rel="prev" title="SALORA: SAFETY-ALIGNMENT PRESERVED LOW-RANK ADAPTATION">
+                  <i class="fa fa-angle-left"></i> SALORA: SAFETY-ALIGNMENT PRESERVED LOW-RANK ADAPTATION
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.038v1/" rel="next" title="Refusal in Language Models Is Mediated by a Single Direction">
+                  Refusal in Language Models Is Mediated by a Single Direction <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

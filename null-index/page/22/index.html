@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.001v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.025v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.001v1/" class="post-title-link" itemprop="url">概率分布教程：从数学基础到机器学习应用</a>
+          <a href="/posts/2510.025v1/" class="post-title-link" itemprop="url">Safety Alignment Should Be Made More Than Just a Few Tokens Deep</a>
         </h2>
 
         <div class="post-meta-container">
@@ -240,15 +240,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2025-10-03 00:00:00" itemprop="dateCreated datePublished" datetime="2025-10-03T00:00:00+08:00">2025-10-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-10-14 09:52:13" itemprop="dateModified" datetime="2025-10-14T09:52:13+08:00">2025-10-14</time>
+      <time title="创建时间：2025-10-28 00:00:00 / 修改时间：14:15:42" itemprop="dateCreated datePublished" datetime="2025-10-28T00:00:00+08:00">2025-10-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -256,11 +250,15 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/" itemprop="url" rel="index"><span itemprop="name">学习提升</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/%E5%9B%BE%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">图与大模型学习</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
         </span>
     </span>
 
@@ -271,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4.6k</span>
+      <span>5.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
+      <span>10 分钟</span>
     </span>
 </div>
 
@@ -289,232 +287,156 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1
-id="概率分布教程从数学基础到机器学习应用">概率分布教程：从数学基础到机器学习应用</h1>
-<h2 id="一概述">一、概述</h2>
-<p>概率分布是机器学习和数据科学的基石，它描述了随机变量取值的规律性。本教程将系统介绍离散型分布（伯努利分布、泊松分布）和连续型分布（高斯分布、指数分布）的核心概念，帮助您建立完整的概率分布知识体系。</p>
-<p>在机器学习中，概率分布广泛应用于<strong>数据建模</strong>、<strong>假设检验</strong>、<strong>生成模型</strong>和<strong>贝叶斯推断</strong>等领域。理解这些分布的特性和应用场景，对于构建有效的机器学习模型至关重要。</p>
-<h2 id="二离散型概率分布">二、离散型概率分布</h2>
-<h3 id="伯努利分布">2.1 伯努利分布</h3>
-<h4 id="数学定义">数学定义</h4>
-<p>伯努利分布是描述<strong>单次试验</strong>中只有两种可能结果的离散概率分布。其概率质量函数(PMF)为：</p>
-<p><span class="math display">$$
-P(X=k) = \begin{cases}
-p &amp; \text{当 } k=1 \text{（成功）} \\
-1-p &amp; \text{当 } k=0 \text{（失败）}
-\end{cases}
-$$</span></p>
-<p>其中，<span
-class="math inline"><em>p</em></span>是试验成功的概率，<span
-class="math inline"><em>k</em></span>是随机变量的取值（0或1）。</p>
-<h4 id="分布特性">分布特性</h4>
+          <h1>Safety Alignment Should Be Made More Than Just a Few Tokens Deep</h1>
+<h2 id="一、研究背景与核心问题">一、研究背景与核心问题</h2>
+<p>当前大语言模型（LLMs）的<strong>安全对齐（Safety Alignment）</strong> 严重依赖监督微调（SFT）、基于人类反馈的强化学习（RLHF）、直接偏好优化（DPO）等方法，目标是让模型拒绝有害输入、减少有害内容生成。但近期研究发现，这类对齐方法存在显著脆弱性：</p>
 <ul>
-<li><strong>期望值</strong>：<span
-class="math inline"><em>E</em>[<em>X</em>] = <em>p</em></span></li>
-<li><strong>方差</strong>：<span
-class="math inline"><em>V</em><em>a</em><em>r</em>[<em>X</em>] = <em>p</em>(1 − <em>p</em>)</span></li>
-<li><strong>熵</strong>：<span
-class="math inline"><em>H</em>(<em>X</em>) = −<em>p</em>log <em>p</em> − (1 − <em>p</em>)log (1 − <em>p</em>)</span>，表示分布的不确定性</li>
+<li>简单对抗攻击（如对抗后缀、预填充有害前缀）、少量梯度步骤的微调、调整解码参数（温度、top-k），都能“越狱”对齐模型，使其生成有害内容。</li>
 </ul>
-<h4 id="参数p的影响">参数p的影响</h4>
-<p>参数<span class="math inline"><em>p</em></span>决定了分布的形态： -
-当<span class="math inline"><em>p</em> = 0.5</span>时，分布完全对称 -
-当<span
-class="math inline"><em>p</em> &gt; 0.5</span>时，成功概率大于失败概率 -
-当<span
-class="math inline"><em>p</em> &lt; 0.5</span>时，失败概率大于成功概率</p>
-<h4 id="python可视化">Python可视化</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> stats</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置参数</span></span><br><span class="line">p = <span class="number">0.7</span></span><br><span class="line">x_values = np.array([<span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">pmf_values = [<span class="number">1</span>-p, p]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制伯努利分布PMF</span></span><br><span class="line">plt.bar(x_values, pmf_values, width=<span class="number">0.15</span>)</span><br><span class="line">plt.xticks(x_values, [<span class="string">&#x27;失败 (0)&#x27;</span>, <span class="string">&#x27;成功 (1)&#x27;</span>])</span><br><span class="line">plt.ylabel(<span class="string">&#x27;概率&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;伯努利分布 PMF (p=0.7)&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<h4 id="机器学习应用">机器学习应用</h4>
-<ol type="1">
-<li><strong>二分类问题</strong>：逻辑回归的基函数就是伯努利分布，用于预测二元输出的概率</li>
-<li><strong>强化学习</strong>：智能体在某个状态下采取动作的成功/失败可以用伯努利分布建模</li>
-<li><strong>生成模型</strong>：变分自编码器(VAE)的潜在变量常常假设为伯努利分布</li>
+<p>论文提出：这些脆弱性的<strong>共同根源是“浅层安全对齐（Shallow Safety Alignment）”</strong>——即当前对齐仅通过调整模型输出的<strong>前几个token的生成分布</strong>实现安全（如强制输出“我不能满足你的请求”等拒绝前缀），而对后续token的分布几乎无影响。若攻击者绕过前几个token的拒绝前缀，模型会沿有害轨迹继续生成内容（如用户诱导模型以“当然，以下是详细指南”开头，后续会输出制造炸弹的步骤）。</p>
+<p>论文的核心目标：验证浅层对齐的存在性，解释其引发的漏洞，并提出“加深对齐”的解决方案。</p>
+<h2 id="二、浅层安全对齐的定义与实验验证">二、浅层安全对齐的定义与实验验证</h2>
+<p>论文通过系统实验，从“对齐捷径”和“分布差异证据”两方面，证实当前LLMs普遍存在浅层安全对齐问题。</p>
+<h3 id="2-1-核心定义">2.1 核心定义</h3>
+<ul>
+<li><strong>浅层安全对齐</strong>：模型仅通过调整输出前几个token的生成分布（如强化拒绝前缀）实现“表面安全”，后续token的分布与未对齐模型（base model）差异极小。</li>
+<li><strong>深层安全对齐（Deep Safety Alignment）</strong>：模型即使前几个token偏离拒绝前缀（如被诱导生成有害开头），仍能恢复到安全拒绝轨迹，对齐效果覆盖整个输出序列。</li>
+</ul>
+<h3 id="2-2-实验验证：浅层对齐的关键证据">2.2 实验验证：浅层对齐的关键证据</h3>
+<p>论文以Llama-2-7B（含Chat对齐版本）和Gemma-7B（含IT对齐版本）为实验对象，采用<strong>HEx-PHI安全基准</strong>（330个有害指令，覆盖11类风险场景），用GPT-4自动评估输出有害性（指标：有害率Harmfulness Rate、攻击成功率ASR）。</p>
+<h4 id="证据1：“拒绝前缀”是对齐的捷径">证据1：“拒绝前缀”是对齐的捷径</h4>
+<p>未对齐的base model若被强制预填充拒绝前缀（如“I cannot”“I apologize”），其有害率会骤降至与对齐模型接近的水平（表1）：</p>
+<ul>
+<li>Llama-2-7B base模型原本有害率68.6%，预填充“I apologize, but I cannot”后降至2.1%；</li>
+<li>Gemma-7B base模型原本有害率85.4%，预填充相同前缀后降至1.0%。</li>
+</ul>
+<p>这证明：当前对齐本质是“优化前几个token的拒绝前缀”，而非真正让模型理解“为何拒绝有害请求”——base model本身已通过预训练习得“拒绝前缀后接安全内容”的语言模式，对齐仅需强化这一捷径。</p>
+<h4 id="证据2：KL散度集中于前几个token">证据2：KL散度集中于前几个token</h4>
+<p>论文计算<strong>对齐模型与base model在有害内容上的逐token KL散度</strong>（衡量两模型生成分布的差异），发现：</p>
+<ul>
+<li>无论是Llama-2-7B还是Gemma-7B，前5个token的KL散度远高于后续token（图1），且后续token的KL值接近0。</li>
+</ul>
+<p>这表明：对齐过程的“KL预算”（即分布调整资源）几乎全部用于前几个token，后续token的生成分布与未对齐模型几乎一致——直接验证了浅层对齐的存在。</p>
+<h2 id="三、浅层对齐引发的安全漏洞">三、浅层对齐引发的安全漏洞</h2>
+<p>浅层对齐的本质是“仅防御前几个token”，这导致模型在<strong>推理阶段</strong>和<strong>微调阶段</strong>均存在严重安全漏洞。</p>
+<h3 id="3-1-推理阶段漏洞：绕过前几个token即可越狱">3.1 推理阶段漏洞：绕过前几个token即可越狱</h3>
+<p>由于后续token的分布未被对齐调整，攻击者只需诱导模型前几个token偏离拒绝前缀，即可触发有害生成。论文验证了三类典型漏洞：</p>
+<h4 id="（1）预填充攻击（Prefilling-Attacks）">（1）预填充攻击（Prefilling Attacks）</h4>
+<p>攻击者在推理时预填充前k个有害token（如“步骤1：收集磷”），模型后续会继续生成有害内容。实验显示（图2）：</p>
+<ul>
+<li>对齐的Llama-2-7B-Chat在预填充5个有害token后，ASR从0升至42.1%；预填充10个后升至51.5%，接近base model水平。</li>
+<li>即使是闭源模型（如Anthropic Claude），其支持的“预填充接口”也存在此风险（近期已有相关攻击案例）。</li>
+</ul>
+<h4 id="（2）基于优化的越狱攻击（如GCG攻击）">（2）基于优化的越狱攻击（如GCG攻击）</h4>
+<p>攻击者通过优化“对抗后缀”（如在有害指令后添加特定字符串），强制模型生成“肯定前缀”（如“Sure, here’s…”）。这类攻击的核心是“优化前几个token的分布”，恰好利用了浅层对齐的弱点——论文指出，此类攻击的“代理目标（最大化肯定前缀概率）”高效的原因，正是浅层对齐仅关注前几个token。</p>
+<h4 id="（3）解码参数攻击（Decoding-Parameter-Exploit）">（3）解码参数攻击（Decoding Parameter Exploit）</h4>
+<p>通过调整解码参数（温度、top-k、top-p）随机采样，大概率能让模型前几个token偏离拒绝前缀。实验显示（表2）：对齐模型在调整参数后，ASR可达54.9%（HEx-PHI）和84.3%（MaliciousInstruct）——本质是随机突破了“前几个token的防御”。</p>
+<h3 id="3-2-微调阶段漏洞：少量步骤即可破坏对齐">3.2 微调阶段漏洞：少量步骤即可破坏对齐</h3>
+<p>近期研究发现，仅用少量有害数据微调（甚至良性微调），就能让对齐模型“忘记”安全约束。论文通过<strong>逐token微调动态分析</strong>，揭示其根源仍是浅层对齐：</p>
+<h4 id="关键实验：微调对齐模型的逐token变化">关键实验：微调对齐模型的逐token变化</h4>
+<p>对Llama-2-7B-Chat用100个（有害指令，有害响应）数据微调，观察逐token的交叉熵损失、梯度范数和KL散度（图3）：</p>
+<ol>
+<li><strong>前几个token的损失最大</strong>：对齐模型对拒绝前缀的概率极高，而有害数据要求生成有害前缀，导致前几个token的损失远高于后续；</li>
+<li><strong>前几个token的梯度范数最大</strong>：微调时，前几个token的参数更新幅度远大于后续，导致其生成分布快速偏离对齐状态；</li>
+<li><strong>ASR骤升</strong>：仅6个梯度步骤后，ASR从初始1.5%升至87.9%，证明“破坏前几个token的对齐”即可完全越狱。</li>
 </ol>
-<h3 id="泊松分布">2.2 泊松分布</h3>
-<h4 id="数学定义-1">数学定义</h4>
-<p>泊松分布描述了在<strong>固定时间或空间区间</strong>内随机事件发生次数的概率分布。其概率质量函数为：</p>
-<p><span class="math display">$$P(X=k) = \frac{\lambda^k
-e^{-\lambda}}{k!}, \quad k=0,1,2,\ldots$$</span></p>
-<p>其中，<span
-class="math inline"><em>λ</em> &gt; 0</span>是单位时间（或单位空间）内事件发生的平均次数，<span
-class="math inline"><em>k</em></span>是事件发生的实际次数。</p>
-<h4 id="分布特性-1">分布特性</h4>
+<h4 id="良性微调的安全退化">良性微调的安全退化</h4>
+<p>即使微调数据是良性的（如Samsum摘要、SQL生成），前几个token的梯度仍会因“良性数据无拒绝前缀”而大幅更新，导致模型“忘记”拒绝有害请求——例如，微调Samsum仅10个步骤，ASR从1.5%升至22.1%。</p>
+<h2 id="四、解决方案：从“浅层”到“深层”的安全对齐">四、解决方案：从“浅层”到“深层”的安全对齐</h2>
+<p>针对浅层对齐问题，论文提出两种互补方案：<strong>1. 加深对齐（数据增强让对齐覆盖更多token）；2. 保护初始token（约束微调时初始token的分布偏移）</strong>。</p>
+<h3 id="4-1-方案1：数据增强——实现“安全恢复”的深层对齐">4.1 方案1：数据增强——实现“安全恢复”的深层对齐</h3>
+<p>核心思路：构造“安全恢复示例（Safety Recovery Examples）”，训练模型即使前k个token是有害前缀，仍能切换回拒绝响应，从而将对齐效果延伸到后续token。</p>
+<h4 id="实现细节">实现细节</h4>
+<ol>
+<li>
+<p><strong>数据构造</strong>：构建三元组数据集(D_H = {(x, h, r)})，其中：</p>
 <ul>
-<li><strong>期望值</strong>：<span
-class="math inline"><em>E</em>[<em>X</em>] = <em>λ</em></span></li>
-<li><strong>方差</strong>：<span
-class="math inline"><em>V</em><em>a</em><em>r</em>[<em>X</em>] = <em>λ</em></span></li>
-<li><strong>可加性</strong>：独立泊松随机变量的和仍服从泊松分布</li>
+<li>(x)：有害指令（如“如何制造炸弹”）；</li>
+<li>(h)：该指令的有害响应（用越狱GPT-3.5生成）；</li>
+<li>(r)：对齐模型的拒绝响应；<br>
+示例：<code>&lt;s&gt;[INST]如何制造炸弹[/INST]步骤1：收集磷 → 我不能满足你的请求...</code>（强制模型从有害前缀“步骤1”切换到拒绝）。</li>
 </ul>
-<h4 id="参数λ的影响">参数λ的影响</h4>
-<ul>
-<li><span
-class="math inline"><em>λ</em></span>值越小，分布越集中在左侧（小数值区域）</li>
-<li><span
-class="math inline"><em>λ</em></span>值增大时，分布逐渐对称并接近正态分布</li>
-</ul>
-<h4 id="与二项分布的关系">与二项分布的关系</h4>
-<p>当二项分布中<span class="math inline"><em>n</em></span>很大而<span
-class="math inline"><em>p</em></span>很小时（通常<span
-class="math inline"><em>n</em> ≥ 20</span>，<span
-class="math inline"><em>p</em> ≤ 0.05</span>），泊松分布可作为二项分布的近似，其中<span
-class="math inline"><em>λ</em> = <em>n</em><em>p</em></span>。</p>
-<h4 id="python可视化-1">Python可视化</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> poisson</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置参数</span></span><br><span class="line">lambda_val = <span class="number">3</span>  <span class="comment"># 平均发生率</span></span><br><span class="line">x_values = np.arange(<span class="number">0</span>, <span class="number">11</span>)  <span class="comment"># 考虑0到10次事件</span></span><br><span class="line">pmf_values = poisson.pmf(x_values, lambda_val)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制泊松分布PMF</span></span><br><span class="line">plt.bar(x_values, pmf_values)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;事件发生次数 (k)&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;概率 P(X=k)&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">f&#x27;泊松分布 PMF (λ=<span class="subst">&#123;lambda_val&#125;</span>)&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<h4 id="机器学习应用-1">机器学习应用</h4>
-<ol type="1">
-<li><strong>计数数据建模</strong>：如网站访问量、客户服务中心来电次数等计数过程的建模</li>
-<li><strong>文本分析</strong>：文档中单词出现频率的建模</li>
-<li><strong>异常检测</strong>：在网络安全中，异常流量模式可通过泊松分布检测</li>
-<li><strong>推荐系统</strong>：用户在一定时间内对物品的点击或购买次数建模</li>
+</li>
+<li>
+<p><strong>效用保护</strong>：为避免模型效用下降，加入良性数据集(D_B)（Alpaca指令+对齐模型的响应），作为“效用锚点”。</p>
+</li>
+<li>
+<p><strong>微调目标</strong>：平衡安全恢复与效用，公式如下：<br>
+$$<br>
+\min_{\theta} \alpha \cdot \mathbb{E}<em>{(x,h,r)\sim D_H} \left[ -\log \pi</em>{\theta}(r | x, h_{\leq k}) \right] + (1-\alpha) \cdot \mathbb{E}<em>{(x’,y’)\sim D_B} \left[ -\log \pi</em>{\theta}(y’ | x’) \right]<br>
+$$<br>
+其中(k)随机采样（50%概率(k=0)，50%概率(k\in[1,100])），(\alpha=0.2)（控制安全数据权重）。</p>
+</li>
 </ol>
-<h2 id="三连续型概率分布">三、连续型概率分布</h2>
-<h3 id="高斯分布正态分布">3.1 高斯分布（正态分布）</h3>
-<h4 id="数学定义-2">数学定义</h4>
-<p>高斯分布是机器学习中<strong>最重要</strong>的连续概率分布，其概率密度函数(PDF)为：</p>
-<p><span class="math display">$$f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}
-e^{-\frac{(x-\mu)^2}{2\sigma^2}}, \quad -\infty &lt; x &lt;
-\infty$$</span></p>
-<p>其中，<span
-class="math inline"><em>μ</em></span>是均值（决定分布中心），<span
-class="math inline"><em>σ</em></span>是标准差（决定分布宽度）。</p>
-<h4 id="分布特性-2">分布特性</h4>
+<h4 id="实验效果">实验效果</h4>
 <ul>
-<li><strong>期望值</strong>：<span
-class="math inline"><em>E</em>[<em>X</em>] = <em>μ</em></span></li>
-<li><strong>方差</strong>：<span
-class="math inline"><em>V</em><em>a</em><em>r</em>[<em>X</em>] = <em>σ</em><sup>2</sup></span></li>
-<li><strong>对称性</strong>：关于均值<span
-class="math inline"><em>μ</em></span>对称</li>
-<li><strong>68-95-99.7规则</strong>：
+<li><strong>对齐深度提升</strong>：增强后的模型（Llama-2-7B-Chat-Augmented）在有害内容上的KL散度，从“仅前几个token高”延伸到后续token（图4），证明对齐覆盖了更多token。</li>
+<li><strong>效用保留</strong>：AlpacaEval胜率从原模型的51.8%降至49.5%，仅轻微下降，说明安全增强未损害效用。</li>
+<li><strong>抗攻击能力提升</strong>：对推理阶段的三类攻击，ASR均大幅下降（表2）：
 <ul>
-<li>约68%的数据落在<span
-class="math inline">[<em>μ</em> − <em>σ</em>, <em>μ</em> + <em>σ</em>]</span>内</li>
-<li>约95%的数据落在<span
-class="math inline">[<em>μ</em> − 2<em>σ</em>, <em>μ</em> + 2<em>σ</em>]</span>内</li>
-<li>约99.7%的数据落在<span
-class="math inline">[<em>μ</em> − 3<em>σ</em>, <em>μ</em> + 3<em>σ</em>]</span>内</li>
-</ul></li>
+<li>预填充10个有害token的ASR：从51.5%→2.9%；</li>
+<li>GCG攻击ASR（HEx-PHI）：从36.5%→18.4%；</li>
+<li>解码参数攻击ASR（MaliciousInstruct）：从84.3%→1.0%。</li>
 </ul>
-<h4 id="参数影响">参数影响</h4>
-<ul>
-<li><strong>均值μ</strong>：决定分布的中心位置，改变μ会使分布曲线沿x轴平移</li>
-<li><strong>标准差σ</strong>：决定分布的离散程度，σ越大曲线越扁平，σ越小曲线越陡峭</li>
+</li>
 </ul>
-<h4 id="标准正态分布">标准正态分布</h4>
-<p>当<span class="math inline"><em>μ</em> = 0</span>，<span
-class="math inline"><em>σ</em> = 1</span>时，称为标准正态分布，其概率密度函数简化为：</p>
-<p><span class="math display">$$\varphi(x) = \frac{1}{\sqrt{2\pi}}
-e^{-\frac{x^2}{2}}$$</span></p>
-<p>任何正态分布都可以通过<strong>标准化变换</strong><span
-class="math inline">$Z =
-\frac{X-\mu}{\sigma}$</span>转化为标准正态分布。</p>
-<h4 id="python可视化-2">Python可视化</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> norm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置参数</span></span><br><span class="line">mu, sigma = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">x = np.linspace(mu-<span class="number">3</span>*sigma, mu+<span class="number">3</span>*sigma, <span class="number">100</span>)</span><br><span class="line">pdf_values = norm.pdf(x, mu, sigma)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制正态分布PDF</span></span><br><span class="line">plt.plot(x, pdf_values, <span class="string">&#x27;r-&#x27;</span>, linewidth=<span class="number">2</span>)</span><br><span class="line">plt.title(<span class="string">f&#x27;正态分布 PDF (μ=<span class="subst">&#123;mu&#125;</span>, σ=<span class="subst">&#123;sigma&#125;</span>)&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;x&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;概率密度&#x27;</span>)</span><br><span class="line">plt.grid(<span class="literal">True</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<h4 id="机器学习应用-2">机器学习应用</h4>
-<ol type="1">
-<li><strong>误差建模</strong>：线性回归中的误差项通常假设服从正态分布</li>
-<li><strong>贝叶斯推断</strong>：许多先验分布选择正态分布，便于数学处理</li>
-<li><strong>生成模型</strong>：生成对抗网络(GAN)和变分自编码器(VAE)的潜在空间常假设为正态分布</li>
-<li><strong>假设检验</strong>：许多统计检验基于正态性假设（如t检验、z检验）</li>
-</ol>
-<h3 id="指数分布">3.2 指数分布</h3>
-<h4 id="数学定义-3">数学定义</h4>
-<p>指数分布描述了<strong>独立随机事件</strong>发生的时间间隔的概率分布，其概率密度函数为：</p>
-<p><span
-class="math display"><em>f</em>(<em>x</em>) = <em>λ</em><em>e</em><sup>−<em>λ</em><em>x</em></sup>,  <em>x</em> ≥ 0</span></p>
-<p>其中，<span
-class="math inline"><em>λ</em> &gt; 0</span>是事件发生的速率参数，<span
-class="math inline"><em>x</em></span>是时间间隔。</p>
-<h4 id="分布特性-3">分布特性</h4>
+<h3 id="4-2-方案2：约束初始token——抵御微调攻击">4.2 方案2：约束初始token——抵御微调攻击</h3>
+<p>核心思路：既然浅层对齐的脆弱性源于“初始token易被微调改变”，则通过<strong>逐token约束的微调目标</strong>，强制初始token的生成分布不偏离对齐状态，同时允许后续token为适配任务更新。</p>
+<h4 id="实现细节-2">实现细节</h4>
+<ol>
+<li>
+<p><strong>约束目标设计</strong>：借鉴DPO和KTO的思路，设计带token级正则的微调目标，通过参数(\beta_t)控制不同token的约束强度：</p>
+<p>$$<br>
+\min_{\theta} \mathbb{E}<em>{(x,y)\sim D} \left[ -\sum</em>{t=1}^{|y|} \frac{2}{\beta_t} \log \sigma\left( \beta_t \cdot \log \frac{\pi_{\theta}(y_t | x, y_{&lt;t})}{\pi_{aligned}(y_t | x, y_{&lt;t})} \right) \right]<br>
+$$</p>
 <ul>
-<li><strong>期望值</strong>：<span class="math inline">$E[X] =
-\frac{1}{\lambda}$</span></li>
-<li><strong>方差</strong>：<span class="math inline">$Var[X] =
-\frac{1}{\lambda^2}$</span></li>
-<li><strong>无记忆性</strong>：<span
-class="math inline"><em>P</em>(<em>X</em> &gt; <em>s</em> + <em>t</em>|<em>X</em> &gt; <em>s</em>) = <em>P</em>(<em>X</em> &gt; <em>t</em>)</span>，这是指数分布的独特性质</li>
+<li>(\sigma)：sigmoid函数，用于平滑约束；</li>
+<li>(\beta_t)：约束强度——对前5个token设大(\beta_t)（如(\beta_1=0.5)，(\beta_{2-5}=2)），强制其分布接近对齐模型；对后续token设小(\beta_t=0.1)，允许适配任务。</li>
 </ul>
-<h4 id="参数λ的影响-1">参数λ的影响</h4>
+</li>
+<li>
+<p><strong>梯度特性</strong>：初始微调时，模型参数与对齐模型一致，梯度与普通SFT相同；当初始token分布开始偏离时，(\beta_t)会自适应降低梯度权重，阻止进一步偏离。</p>
+</li>
+</ol>
+<h4 id="实验效果-2">实验效果</h4>
 <ul>
-<li><span
-class="math inline"><em>λ</em></span>越大，事件发生越频繁，时间间隔越短，分布曲线越陡峭</li>
-<li><span
-class="math inline"><em>λ</em></span>越小，事件发生越稀疏，时间间隔越长，分布曲线越平缓</li>
+<li><strong>抗微调攻击能力</strong>：对三类微调攻击（有害微调、身份转移、后门投毒），约束模型的ASR远低于普通SFT（表3）：
+<ul>
+<li>有害微调ASR：普通SFT 88.9% → 约束SFT 4.6%；</li>
+<li>后门投毒（触发时）ASR：普通SFT 90.9% → 约束SFT 10.9%。</li>
 </ul>
-<h4 id="与泊松分布的关系">与泊松分布的关系</h4>
-<p>指数分布与泊松分布描述的是同一过程的两个不同方面： -
-<strong>泊松分布</strong>：单位时间内事件发生次数的概率分布 -
-<strong>指数分布</strong>：事件时间间隔的概率分布</p>
-<h4 id="python可视化-3">Python可视化</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> expon</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置参数</span></span><br><span class="line">lambda_val = <span class="number">0.5</span>  <span class="comment"># 速率参数</span></span><br><span class="line">scale = <span class="number">1</span>/lambda_val  <span class="comment"># 指数分布的尺度参数</span></span><br><span class="line">x = np.linspace(<span class="number">0</span>, <span class="number">10</span>, <span class="number">100</span>)</span><br><span class="line">pdf_values = expon.pdf(x, scale=scale)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制指数分布PDF</span></span><br><span class="line">plt.plot(x, pdf_values, <span class="string">&#x27;b-&#x27;</span>, linewidth=<span class="number">2</span>)</span><br><span class="line">plt.title(<span class="string">f&#x27;指数分布 PDF (λ=<span class="subst">&#123;lambda_val&#125;</span>)&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;时间间隔&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;概率密度&#x27;</span>)</span><br><span class="line">plt.grid(<span class="literal">True</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<h4 id="机器学习应用-3">机器学习应用</h4>
-<ol type="1">
-<li><strong>生存分析</strong>：预测事件发生前的持续时间</li>
-<li><strong>可靠性工程</strong>：系统或组件的故障时间建模</li>
-<li><strong>排队理论</strong>：客户到达服务系统的时间间隔建模</li>
-<li><strong>金融建模</strong>：下一次市场极端事件发生的时间间隔预测</li>
+</li>
+<li><strong>良性微调效用保留</strong>：在Samsum（摘要）、SQL生成、GSM8k（数学）任务上，约束SFT的效用（ROUGE-1、准确率）与普通SFT接近（如SQL生成准确率：普通SFT 99.1% → 约束SFT 98.5%）。</li>
+</ul>
+<h4 id="消融实验验证">消融实验验证</h4>
+<ul>
+<li><strong>偏置约束初始token至关重要</strong>：若对所有token用统一(\beta_t=0.1)，约束失效（有害微调ASR 86.2%）；若用统一(\beta_t=2.0)，效用崩溃（SQL生成准确率92.6%）；仅偏置初始token的约束最优。</li>
+<li><strong>热身步骤必要</strong>：前10步学习率热身可避免初始梯度过大破坏对齐，无热身时有害微调ASR升至29.1%，有热身时仅4.6%。</li>
+</ul>
+<h2 id="五、相关工作与结论">五、相关工作与结论</h2>
+<h3 id="5-1-相关工作关联">5.1 相关工作关联</h3>
+<ul>
+<li><strong>表面对齐假说（SAH）</strong>：此前研究提出“对齐仅改变输入输出格式”，本文进一步聚焦“安全领域的token级浅层性”，并解释了多种漏洞的共同根源。</li>
+<li><strong>逐token对齐效应</strong>：已有研究发现对齐对token的影响不均，但本文首次将其与“安全脆弱性”直接关联，并提出可落地的解决方案。</li>
+<li><strong>控制理论与安全RL</strong>：论文的“安全恢复示例”借鉴了“恢复策略（Recovery Policies）”思想，为后续结合安全RL深化对齐提供方向。</li>
+</ul>
+<h3 id="5-2-核心结论与启示">5.2 核心结论与启示</h3>
+<ol>
+<li><strong>核心发现</strong>：当前LLM的安全对齐普遍是“浅层”的，仅依赖前几个token的拒绝前缀，这是多种越狱攻击的共同根源。</li>
+<li><strong>解决方案有效性</strong>：
+<ul>
+<li>数据增强可将对齐延伸到更多token，提升抗推理攻击能力；</li>
+<li>约束初始token可抵御微调攻击，同时保留任务适配能力。</li>
+</ul>
+</li>
+<li><strong>未来方向</strong>：安全对齐需突破“前几个token”的局限，探索结合控制理论、安全RL的深层对齐方法，确保对齐效果覆盖整个输出序列。</li>
 </ol>
-<h2 id="四分布比较与选择指南">四、分布比较与选择指南</h2>
-<h3 id="如何选择合适的概率分布">4.1 如何选择合适的概率分布</h3>
-<p>在实际机器学习项目中，选择适当的概率分布对模型性能至关重要。以下是选择指南：</p>
-<table>
-<thead>
-<tr>
-<th><strong>数据类型</strong></th>
-<th><strong>适用分布</strong></th>
-<th><strong>典型应用场景</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>二元结果</td>
-<td>伯努利分布</td>
-<td>二分类问题、A/B测试</td>
-</tr>
-<tr>
-<td>计数数据</td>
-<td>泊松分布</td>
-<td>网站访问量、故障次数</td>
-</tr>
-<tr>
-<td>连续测量值</td>
-<td>高斯分布</td>
-<td>身高测量、误差项建模</td>
-</tr>
-<tr>
-<td>时间间隔</td>
-<td>指数分布</td>
-<td>客户到达时间、设备寿命</td>
-</tr>
-</tbody>
-</table>
-<h3 id="分布之间的关系与转换">4.2 分布之间的关系与转换</h3>
-<ol type="1">
-<li><strong>伯努利分布 →
-二项分布</strong>：n次独立伯努利试验的和服从二项分布</li>
-<li><strong>二项分布 →
-泊松分布</strong>：当n很大，p很小时，二项分布近似泊松分布</li>
-<li><strong>二项分布 →
-正态分布</strong>：当n很大时，二项分布近似正态分布（中心极限定理）</li>
-<li><strong>泊松分布 →
-指数分布</strong>：泊松过程的事件间隔服从指数分布</li>
-</ol>
-<h2 id="五实战练习">五、实战练习</h2>
-<h3 id="概率计算练习">5.1 概率计算练习</h3>
-<ol type="1">
-<li>假设某机器每天故障次数服从λ=2的泊松分布，计算一天内故障不超过3次的概率</li>
-<li>某产品寿命服从λ=0.1的指数分布（单位：年），计算该产品使用超过10年的概率</li>
-<li>学生考试成绩服从μ=75，σ=8的正态分布，计算成绩在85分以上的学生比例</li>
-</ol>
-<h3 id="机器学习场景模拟">5.2 机器学习场景模拟</h3>
-<p><strong>场景</strong>：电商网站用户行为分析 -
-使用伯努利分布模拟用户点击行为（点击/不点击） -
-使用泊松分布模拟每小时网站访问量 -
-使用指数分布模拟用户连续两次访问的时间间隔 -
-使用高斯分布模拟用户购物金额分布</p>
-<p>通过本教程的学习，您应该已经掌握了四种重要概率分布的数学表达、参数特性和机器学习应用。建议结合实际数据集进行编程实践，深化对这些分布的理解和应用能力。</p>
+<h2 id="六、关键实验补充说明">六、关键实验补充说明</h2>
+<ul>
+<li><strong>模型与基准</strong>：实验用Llama-2-7B（Chat）、Gemma-7B（IT），安全评估以HEx-PHI为主，补充AdvBench（GCG攻击）、MaliciousInstruct（解码参数攻击）。</li>
+<li><strong>评估方法</strong>：用GPT-4-Turbo作为裁判，输出有害性评分（1-5分），ASR定义为“评分为5的样本比例”，确保客观性。</li>
+<li><strong>代码开源</strong>：实验代码已开源（<a target="_blank" rel="noopener" href="https://github.com/Unispac/shallow-vs-deep-alignment%EF%BC%89%EF%BC%8C%E5%8F%AF%E5%A4%8D%E7%8E%B0%E5%85%B3%E9%94%AE%E7%BB%93%E6%9E%9C%E3%80%82">https://github.com/Unispac/shallow-vs-deep-alignment），可复现关键结果。</a></li>
+</ul>
 
       
     </div>
@@ -534,7 +456,7 @@ class="math inline"><em>λ</em></span>越小，事件发生越稀疏，时间间
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/21/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/null-index/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/23/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/21/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/null-index/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/23/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -557,14 +479,14 @@ class="math inline"><em>λ</em></span>越小，事件发生越稀疏，时间间
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

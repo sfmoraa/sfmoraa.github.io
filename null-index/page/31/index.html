@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2507.001v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.016v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2507.001v1/" class="post-title-link" itemprop="url">雅思学习——L0 雅思真经第一课</a>
+          <a href="/posts/2510.016v1/" class="post-title-link" itemprop="url">CoLoTa: A Dataset for Entity-based Commonsense Reasoning over Long-Tail Knowledge</a>
         </h2>
 
         <div class="post-meta-container">
@@ -242,7 +242,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-07-01 00:00:00 / 修改时间：14:46:14" itemprop="dateCreated datePublished" datetime="2025-07-01T00:00:00+08:00">2025-07-01</time>
+      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：21:18:25" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -250,7 +250,15 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%9B%85%E6%80%9D%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">雅思学习</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/KGQA/" itemprop="url" rel="index"><span itemprop="name">KGQA</span></a>
         </span>
     </span>
 
@@ -261,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>435</span>
+      <span>2.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -279,53 +287,62 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="listening">Listening</h2>
-<figure>
-<img
-src="/images/post_images/2025-07-01-雅思学习——L0-雅思真经第一课/image-20250701112706880.png"
-alt="image-20250701112706880" />
-<figcaption aria-hidden="true">image-20250701112706880</figcaption>
-</figure>
-<h4 id="考点特色">考点特色：</h4>
+          <h1 id="colota数据集">CoLoTa数据集</h1>
+<p><strong>SIGIR2025</strong></p>
+<p>这篇论文聚焦LLMs在长尾实体常识推理中的短板，提出了CoLoTa数据集，既填补了相关研究空白，也为LLM和KGQA方法的评估提供了新基准，洞察极具价值。</p>
+<h3 id="一研究背景与动机">一、研究背景与动机</h3>
+<p>现有大型语言模型（LLMs）虽在事实知识编码和推理任务中表现出色，但幻觉和推理错误仍是其在高风险场景部署的关键障碍。研究发现，即使是OpenAI-o1等顶尖LLMs，在处理涉及晦涩长尾实体的常识推理任务时，推理错误和幻觉率也极高。</p>
+<p>现有实体类常识推理基准（如StrategyQA、CREAK）多围绕“巴拉克·奥巴马”等热门实体构建，LLMs能凭借训练数据中丰富的相关信息轻松应对。但面对“廖晓娴”这类长尾实体时，LLMs不仅无法拒绝回答或查询事实信息，还会生成幻觉事实并出现推理错误。同时，现有知识图谱问答（KGQA）数据集仅关注事实类问题，缺乏需常识推理的查询，因此亟需新的基准数据集来研究上述问题。</p>
+<h3 id="二colota数据集详情">二、CoLoTa数据集详情</h3>
+<h4 id="数据集构成">1. 数据集构成</h4>
+<p>CoLoTa包含3300条查询，均基于实体类常识推理，涵盖问答和声明验证两大任务，各占1650条。每条查询条目包含五个核心部分：
+-
+查询：以疑问句（问答任务）或陈述句（声明验证任务）呈现，答案非真即假，需结合知识图谱事实和常识推理得出。
+-
+实体标识：提供查询中锚定实体的维基数据（Wikidata）唯一QID和标签，便于获取相关事实。
+-
+知识图谱子图：包含回答查询所需的维基数据三元组，部分三元组还附带限定词以提供额外上下文。
+-
+推理规则：以自然语言公理形式呈现的常识知识，明确推理所需的实体属性和关系条件。
+-
+推理步骤：将推理规则分解为有序步骤，包括从知识图谱提取事实和对提取事实进行逻辑推理，每个涉及事实提取的步骤均对应维基数据三元组。</p>
+<h4 id="构建方法">2. 构建方法</h4>
 <ul>
-<li>（Sec1）生活场景：旅游（机场、火车站、景点）、咨询（住房、工作、俱乐部）、银行、医疗</li>
-<li>（Sec3）学习场景：图书馆、论文作业、考前复习</li>
+<li>查询筛选：从StrategyQA（问答任务）和CREAK（声明验证任务）中筛选查询，要求回答所需事实可在维基数据中获取，且经两名标注者独立验证通过。优先选择StrategyQA中推理步骤多、CREAK中解释长且推理技能多样的查询。</li>
+<li>实体替换：通过SPARQL查询在维基数据中检索与原热门实体属性相似的候选实体，随机选择维基数据三元组数量少的长尾实体替换原实体。对无特定目标实体的查询，引入长尾实体作为锚定实体。</li>
+<li>查询重写：参考相关方案优化查询表述，修正语法问题（如语序不当）、调整表述形式（如避免测验式语气），并移除原查询中不正确的隐含假设，确保查询自然且准确。</li>
 </ul>
-<h4 id="学习方法">学习方法：</h4>
+<h4 id="核心特征">3. 核心特征</h4>
 <ul>
-<li>精听跟读：做题——对着听力原文放音，记录没听出来的单词，重复读</li>
+<li>聚焦长尾知识：以维基数据三元组数量衡量实体流行度，CoLoTa中实体的三元组数量远少于原数据集，分布偏向小值，明确聚焦长尾实体。</li>
+<li>推理技能多样：涵盖领域无关（如时间推理、数值比较）和领域相关（如历史推理、地理推理）两类推理技能，且在问答和声明验证任务中分布广泛，如问答任务中时间推理占比25%、地理推理占12%。</li>
 </ul>
-<h2 id="reading">Reading</h2>
-<h4 id="题型">题型：</h4>
-<p>3篇文章40道题60分钟</p>
-<p>单词、句子、段落、匹配</p>
-<h2 id="writing">Writing</h2>
-<h4 id="题型-1">题型：</h4>
+<h3 id="三实验设计与结果">三、实验设计与结果</h3>
+<h4 id="实验设置">1. 实验设置</h4>
 <ul>
-<li>Task 1：150词 线表饼柱图表说明</li>
-<li>Task 2：250词 议论文、说明文</li>
+<li>基线模型：LLM基线包括GPT-3.5
+Turbo、GPT-4o等5种主流模型，采用零样本和少样本（k=2）思维链（CoT）提示；KGQA基线为KB-Binder和KGR两种基于LLM的方法。</li>
+<li>评估指标：准确率（衡量答案正确性）、回答率（模型给出真/假答案的查询比例）、FActScore（评估回答中原子事实的真实性，基于维基数据）、推理分数（评估推理步骤的逻辑有效性）。</li>
 </ul>
-<h4 id="评分标准">评分标准：</h4>
+<h4 id="关键结果">2. 关键结果</h4>
 <ul>
-<li>TR：回应任务</li>
-<li>CC：逻辑</li>
-<li>LR：词汇水平</li>
-<li>GRA：语法范围和准确度</li>
+<li>LLMs在CoLoTa上表现显著下滑：所有LLM在CoLoTa查询上的准确率和回答率均低于原数据集。问答任务中准确率下降0.15-0.27，声明验证任务下降0.20-0.42，Llama-3.3-70B在声明验证任务零样本CoT设置下准确率从0.84降至0.42。</li>
+<li>KGQA方法无法应对常识推理：KB-Binder在原声明验证任务中准确率最高仅0.35，CoLoTa上更低；KGR在原声明验证任务准确率0.80，但在CoLoTa上骤降至0.20，表明现有KGQA方法难以结合常识知识进行推理。</li>
+<li>LLMs易产生幻觉与推理错误：OpenAI-o1在原数据集上FActScore接近1、推理分数达0.95以上，但在CoLoTa上FActScore最低降至0.58、推理分数最低降至0.79；GPT-3.5-Turbo的FActScore在CoLoTa上也下降0.09-0.20，且LLMs在CoLoTa上回答率仍接近原数据集，说明其在缺乏长尾知识时仍会猜测答案，导致幻觉和推理错误。</li>
 </ul>
-<h4 id="学习方法-1">学习方法：</h4>
+<h3 id="四研究结论与意义">四、研究结论与意义</h3>
+<h4 id="核心结论">1. 核心结论</h4>
 <ul>
-<li><p>逻辑框架模板</p></li>
-<li><p>准确通顺，言之有物</p></li>
+<li>CoLoTa是评估LLM长尾实体常识推理能力和抗幻觉能力的有效基准，现有顶尖LLM在该数据集上仍面临巨大挑战。</li>
+<li>CoLoTa填补了KGQA数据集的空白，是首个需结合常识推理的KGQA基准，现有KGQA方法无法满足其推理需求。</li>
+<li>长尾知识不仅影响LLMs的事实记忆，还会显著增加其常识推理错误和幻觉率，且对声明验证任务的影响大于问答任务。</li>
 </ul>
-<h2 id="speaking">Speaking</h2>
-<h4 id="题型-2">题型：</h4>
+<h4 id="研究意义">2. 研究意义</h4>
 <ul>
-<li>Part 1：5分钟 一般陌生人见面聊天场景</li>
-<li>Part 2：1+2分钟 根据提示卡片上的问题引导思考一分钟后独白</li>
-<li>Part 3：5分钟 根据话题深入互动对话</li>
+<li>为LLM研究提供新方向：推动针对长尾实体常识推理的LLM优化，如探索结合外部知识图谱减少幻觉、提升推理准确性的方法。</li>
+<li>促进KGQA方法创新：促使研究者开发融合事实知识和常识知识的KGQA技术，突破现有方法仅能处理事实类问题的局限。</li>
+<li>完善评估体系：补充了长尾实体常识推理领域的评估基准，为后续相关模型的性能对比和改进提供统一标准。</li>
 </ul>
-<h4 id="学习方法-2">学习方法：</h4>
-<p>背诵输入，句型为重，自然放松，逻辑沟通</p>
 
       
     </div>
@@ -345,7 +362,7 @@ alt="image-20250701112706880" />
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/30/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/30/">30</a><span class="page-number current">31</span><a class="page-number" href="/null-index/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/32/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/30/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/30/">30</a><span class="page-number current">31</span><a class="page-number" href="/null-index/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/32/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -368,14 +385,14 @@ alt="image-20250701112706880" />
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

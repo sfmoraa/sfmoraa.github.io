@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Transformer Encoder与BERT预训练实战教程 1 Transformer Encoder架构原理 1.1 整体架构概述 Transformer Encoder是一个由N个相同层堆叠而成的深度网络结构，每层包含两个核心子层：多头自注意力机制(Multi-Head Self-Attention) 和前馈神经网络(Feed-Forward Network)。每个子层都通过残差连接(Re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Transformer Encoder与BERT预训练实战教程">
+<meta property="og:url" content="http://example.com/posts/2510.022v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="Transformer Encoder与BERT预训练实战教程 1 Transformer Encoder架构原理 1.1 整体架构概述 Transformer Encoder是一个由N个相同层堆叠而成的深度网络结构，每层包含两个核心子层：多头自注意力机制(Multi-Head Self-Attention) 和前馈神经网络(Feed-Forward Network)。每个子层都通过残差连接(Re">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-24T03:22:23.645Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.022v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.022v1/","path":"/posts/2510.022v1/","title":"Transformer Encoder与BERT预训练实战教程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Transformer Encoder与BERT预训练实战教程 | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Transformer Encoder与BERT预训练实战教程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Transformer-Encoder%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">1 Transformer Encoder架构原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 整体架构概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E8%BE%93%E5%85%A5%E7%BC%96%E7%A0%81%E4%B8%8E%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 输入编码与位置编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%A4%9A%E5%A4%B4%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 多头自注意力机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E5%89%8D%E9%A6%88%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%BD%92%E4%B8%80%E5%8C%96"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 前馈神经网络与归一化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-BERT%E9%A2%84%E8%AE%AD%E7%BB%83%E4%BB%BB%E5%8A%A1%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">2 BERT预训练任务详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%8E%A9%E7%A0%81%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B-MLM"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 掩码语言模型(MLM)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E4%B8%8B%E4%B8%80%E5%8F%A5%E9%A2%84%E6%B5%8B-NSP"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 下一句预测(NSP)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AE%9E%E8%B7%B5%E7%8E%AF%E8%8A%82%EF%BC%9ABERT%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98"><span class="nav-number">1.3.</span> <span class="nav-text">3 实践环节：BERT模型实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E%E6%A8%A1%E5%9E%8B%E5%8A%A0%E8%BD%BD"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 环境准备与模型加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%96%87%E6%9C%AC%E9%A2%84%E5%A4%84%E7%90%86%E4%B8%8E%E8%BE%93%E5%85%A5%E5%88%86%E6%9E%90"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 文本预处理与输入分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%9A%90%E8%97%8F%E7%8A%B6%E6%80%81%E5%88%86%E6%9E%90"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 模型推理与隐藏状态分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E5%AE%8C%E6%95%B4%E5%AE%9E%E8%B7%B5%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%96%87%E6%9C%AC%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 完整实践示例：文本相似度计算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%85%B3%E9%94%AE%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">4 关键知识点总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-Transformer-Encoder%E6%A0%B8%E5%BF%83%E8%A6%81%E7%82%B9"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 Transformer Encoder核心要点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-BERT%E9%A2%84%E8%AE%AD%E7%BB%83%E5%85%B3%E9%94%AE%E5%88%9B%E6%96%B0"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 BERT预训练关键创新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E5%AE%9E%E8%B7%B5%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 实践注意事项</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.022v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Transformer Encoder与BERT预训练实战教程 | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Transformer Encoder与BERT预训练实战教程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-24 00:00:00 / 修改时间：11:22:23" itemprop="dateCreated datePublished" datetime="2025-10-24T00:00:00+08:00">2025-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/" itemprop="url" rel="index"><span itemprop="name">学习提升</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/%E9%A2%84%E8%AE%AD%E7%BB%83%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">预训练语言模型</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>11k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>19 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>Transformer Encoder与BERT预训练实战教程</h1>
+<h2 id="1-Transformer-Encoder架构原理">1 Transformer Encoder架构原理</h2>
+<h3 id="1-1-整体架构概述">1.1 整体架构概述</h3>
+<p>Transformer Encoder是一个由N个相同层堆叠而成的深度网络结构，每层包含两个核心子层：<strong>多头自注意力机制(Multi-Head Self-Attention)</strong> 和<strong>前馈神经网络(Feed-Forward Network)</strong>。每个子层都通过残差连接(Residual Connection)和层归一化(LayerNorm)进行包裹，确保训练稳定性。</p>
+<p>编码器的设计哲学是将原始输入序列逐步提炼为富含上下文信息的向量表示，其最小功能单元可概括为：<strong>信息融合(通过Attention) + 特征增强(通过FFN) + 稳定训练(通过残差和LayerNorm)的打包结构</strong>。</p>
+<h3 id="1-2-输入编码与位置编码">1.2 输入编码与位置编码</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 位置编码实现示例</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PositionalEncoding</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, d_model, max_len=<span class="number">512</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        pe = torch.zeros(max_len, d_model)</span><br><span class="line">        position = torch.arange(<span class="number">0</span>, max_len).unsqueeze(<span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 使用正弦和余弦函数生成位置编码</span></span><br><span class="line">        div_term = torch.exp(torch.arange(<span class="number">0</span>, d_model, <span class="number">2</span>) * </span><br><span class="line">                           (-torch.log(torch.tensor(<span class="number">10000.0</span>)) / d_model))</span><br><span class="line">        </span><br><span class="line">        pe[:, <span class="number">0</span>::<span class="number">2</span>] = torch.sin(position * div_term)  <span class="comment"># 偶数维度</span></span><br><span class="line">        pe[:, <span class="number">1</span>::<span class="number">2</span>] = torch.cos(position * div_term)  <span class="comment"># 奇数维度</span></span><br><span class="line">        pe = pe.unsqueeze(<span class="number">0</span>)  <span class="comment"># [1, max_len, d_model]</span></span><br><span class="line">        <span class="variable language_">self</span>.register_buffer(<span class="string">&#x27;pe&#x27;</span>, pe)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="comment"># x: [batch_size, seq_len, d_model]</span></span><br><span class="line">        <span class="keyword">return</span> x + <span class="variable language_">self</span>.pe[:, :x.size(<span class="number">1</span>)]</span><br></pre></td></tr></table></figure>
+<p><strong>位置编码的作用</strong>：弥补Transformer自注意力机制本身不具备的位置感知能力，通过正余弦函数为每个位置生成唯一编码，使模型能够理解词序信息。</p>
+<h3 id="1-3-多头自注意力机制">1.3 多头自注意力机制</h3>
+<p>自注意力机制的核心思想是让序列中的每个词元都能关注序列中的所有其他词元，动态捕捉全局依赖关系。</p>
+<p><strong>计算公式</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Attention(Q, K, V) = softmax(QKᵀ/√dₖ)V</span><br><span class="line">MultiHead(Q, K, V) = Concat(head₁, ..., headₕ)Wᵒ</span><br><span class="line">其中 headᵢ = Attention(QWᵢᵒ, KWᵢᴷ, VWᵢⱽ)</span><br></pre></td></tr></table></figure>
+<p><strong>多头机制的优势</strong>：</p>
+<ul>
+<li><strong>多样化建模</strong>：不同注意力头可以关注不同类型的语义关系（语法结构、语义关联、指代关系等）</li>
+<li><strong>并行计算效率</strong>：拆分后每个头的计算复杂度降低，整体仍可并行处理</li>
+<li><strong>增强表达能力</strong>：多视角建模比单头注意力更灵活</li>
+</ul>
+<h3 id="1-4-前馈神经网络与归一化">1.4 前馈神经网络与归一化</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FeedForward</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, d_model, d_ff=<span class="number">2048</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="comment"># 两层全连接网络，中间维度扩展</span></span><br><span class="line">        <span class="variable language_">self</span>.linear1 = nn.Linear(d_model, d_ff)</span><br><span class="line">        <span class="variable language_">self</span>.relu = nn.ReLU()</span><br><span class="line">        <span class="variable language_">self</span>.linear2 = nn.Linear(d_ff, d_model)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.linear2(<span class="variable language_">self</span>.relu(<span class="variable language_">self</span>.linear1(x)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编码器层完整实现</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">EncoderLayer</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, d_model, num_heads, d_ff</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="variable language_">self</span>.self_attn = MultiHeadAttention(d_model, num_heads)</span><br><span class="line">        <span class="variable language_">self</span>.norm1 = nn.LayerNorm(d_model)</span><br><span class="line">        <span class="variable language_">self</span>.ffn = FeedForward(d_model, d_ff)</span><br><span class="line">        <span class="variable language_">self</span>.norm2 = nn.LayerNorm(d_model)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x, mask=<span class="literal">None</span></span>):</span><br><span class="line">        <span class="comment"># 自注意力 + 残差 + 层归一化</span></span><br><span class="line">        attn_out = <span class="variable language_">self</span>.self_attn(x, x, x, mask)</span><br><span class="line">        x = <span class="variable language_">self</span>.norm1(x + attn_out)  <span class="comment"># 第一次残差连接和归一化</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 前馈网络 + 残差 + 层归一化  </span></span><br><span class="line">        ffn_out = <span class="variable language_">self</span>.ffn(x)</span><br><span class="line">        x = <span class="variable language_">self</span>.norm2(x + ffn_out)  <span class="comment"># 第二次残差连接和归一化</span></span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+<p><strong>层归一化与残差连接的作用</strong>：</p>
+<ul>
+<li><strong>残差连接</strong>：保留原始输入信息，防止深度网络中的梯度消失问题</li>
+<li><strong>层归一化</strong>：对每个样本的所有特征维度进行归一化，稳定训练过程</li>
+</ul>
+<h2 id="2-BERT预训练任务详解">2 BERT预训练任务详解</h2>
+<h3 id="2-1-掩码语言模型-MLM">2.1 掩码语言模型(MLM)</h3>
+<p>BERT采用15%的掩码率，并对被选中的token应用80-10-10的替换策略。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bert_mlm_strategy</span>(<span class="params">input_ids, tokenizer, mask_rate=<span class="number">0.15</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    BERT的MLM掩码策略实现</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    labels = input_ids.clone()</span><br><span class="line">    <span class="comment"># 创建掩码矩阵，15%的位置被选中</span></span><br><span class="line">    mask_matrix = torch.rand(input_ids.shape) &lt; mask_rate</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 避免对特殊标记进行掩码</span></span><br><span class="line">    special_tokens = [tokenizer.cls_token_id, tokenizer.sep_token_id, tokenizer.pad_token_id]</span><br><span class="line">    <span class="keyword">for</span> token <span class="keyword">in</span> special_tokens:</span><br><span class="line">        mask_matrix &amp;= (input_ids != token)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 应用80-10-10策略</span></span><br><span class="line">    random_matrix = torch.rand(input_ids.shape)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 80%替换为[MASK]</span></span><br><span class="line">    mask_mask = mask_matrix &amp; (random_matrix &lt; <span class="number">0.8</span>)</span><br><span class="line">    input_ids[mask_mask] = tokenizer.mask_token_id</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 10%替换为随机词</span></span><br><span class="line">    random_mask = mask_matrix &amp; (random_matrix &gt;= <span class="number">0.8</span>) &amp; (random_matrix &lt; <span class="number">0.9</span>)</span><br><span class="line">    random_words = torch.randint(<span class="built_in">len</span>(tokenizer), input_ids.shape)</span><br><span class="line">    input_ids[random_mask] = random_words[random_mask]</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 10%保持不变</span></span><br><span class="line">    <span class="keyword">return</span> input_ids, labels, mask_matrix</span><br><span class="line"></span><br><span class="line"><span class="comment"># MLM损失计算</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MLMLoss</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="variable language_">self</span>.loss_fn = nn.CrossEntropyLoss()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, predictions, labels, mask_positions</span>):</span><br><span class="line">        <span class="comment"># 只计算被掩码位置的损失</span></span><br><span class="line">        masked_predictions = predictions[mask_positions]</span><br><span class="line">        masked_labels = labels[mask_positions]</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.loss_fn(masked_predictions, masked_labels)</span><br></pre></td></tr></table></figure>
+<p><strong>MLM策略设计原理</strong>：</p>
+<ul>
+<li><strong>80% [MASK]替换</strong>：让模型学习基于上下文预测被掩盖的词</li>
+<li><strong>10% 随机替换</strong>：增强模型对噪声的鲁棒性</li>
+<li><strong>10% 保持不变</strong>：防止模型过度依赖[MASK]标记，保持表示一致性</li>
+</ul>
+<h3 id="2-2-下一句预测-NSP">2.2 下一句预测(NSP)</h3>
+<p>NSP任务旨在让模型理解句子间的逻辑关系，是BERT预训练的重要组成部分。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">prepare_nsp_data</span>(<span class="params">sentence_a, sentence_b, tokenizer, max_length=<span class="number">512</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    准备NSP任务的输入数据</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 添加特殊标记：[CLS]句子A[SEP]句子B[SEP]</span></span><br><span class="line">    inputs = tokenizer(</span><br><span class="line">        sentence_a, </span><br><span class="line">        sentence_b,</span><br><span class="line">        max_length=max_length,</span><br><span class="line">        padding=<span class="string">&#x27;max_length&#x27;</span>,</span><br><span class="line">        truncation=<span class="literal">True</span>,</span><br><span class="line">        return_tensors=<span class="string">&#x27;pt&#x27;</span></span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># token_type_ids用于区分两个句子</span></span><br><span class="line">    <span class="comment"># 句子A对应0，句子B对应1</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&#x27;input_ids&#x27;</span>: inputs[<span class="string">&#x27;input_ids&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;attention_mask&#x27;</span>: inputs[<span class="string">&#x27;attention_mask&#x27;</span>], </span><br><span class="line">        <span class="string">&#x27;token_type_ids&#x27;</span>: inputs[<span class="string">&#x27;token_type_ids&#x27;</span>]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># NSP任务示例</span></span><br><span class="line">sentence_a = <span class="string">&quot;今天天气很好&quot;</span></span><br><span class="line">sentence_b = <span class="string">&quot;我决定去公园散步&quot;</span></span><br><span class="line">nsp_input = prepare_nsp_data(sentence_a, sentence_b, tokenizer)</span><br></pre></td></tr></table></figure>
+<p><strong>NSP任务的输入格式</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[CLS] 句子A [SEP] 句子B [SEP]</span><br></pre></td></tr></table></figure>
+<p><strong>标签类型</strong>：</p>
+<ul>
+<li><strong>IsNext</strong>(50%)：句子B是句子A的实际后续句子</li>
+<li><strong>NotNext</strong>(50%)：句子B是随机选择的无关句子</li>
+</ul>
+<h2 id="3-实践环节：BERT模型实战">3 实践环节：BERT模型实战</h2>
+<h3 id="3-1-环境准备与模型加载">3.1 环境准备与模型加载</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装必要的库</span></span><br><span class="line"><span class="comment"># pip install transformers torch</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertModel, BertTokenizer, BertForPreTraining</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载中文BERT模型和分词器</span></span><br><span class="line">model_name = <span class="string">&#x27;bert-base-chinese&#x27;</span></span><br><span class="line">tokenizer = BertTokenizer.from_pretrained(model_name)</span><br><span class="line">model = BertModel.from_pretrained(model_name)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;词汇表大小: <span class="subst">&#123;tokenizer.vocab_size&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;模型参数数量: <span class="subst">&#123;<span class="built_in">sum</span>(p.numel() <span class="keyword">for</span> p <span class="keyword">in</span> model.parameters()):,&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-文本预处理与输入分析">3.2 文本预处理与输入分析</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">analyze_bert_inputs</span>(<span class="params">text, tokenizer</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    分析BERT的输入张量格式</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 分词和编码</span></span><br><span class="line">    inputs = tokenizer(text, return_tensors=<span class="string">&#x27;pt&#x27;</span>, padding=<span class="literal">True</span>, truncation=<span class="literal">True</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;=== BERT输入张量分析 ===&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;原始文本: <span class="subst">&#123;text&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Tokenized: <span class="subst">&#123;tokenizer.convert_ids_to_tokens(inputs[<span class="string">&#x27;input_ids&#x27;</span>][<span class="number">0</span>])&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;input_ids shape: <span class="subst">&#123;inputs[<span class="string">&#x27;input_ids&#x27;</span>].shape&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;attention_mask shape: <span class="subst">&#123;inputs[<span class="string">&#x27;attention_mask&#x27;</span>].shape&#125;</span>&quot;</span>) </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;token_type_ids shape: <span class="subst">&#123;inputs[<span class="string">&#x27;token_type_ids&#x27;</span>].shape&#125;</span>&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 详细解析每个输入张量的含义</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\n--- 张量含义说明 ---&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;1. input_ids: 词元ID序列，包含[CLS]、文本token和[SEP]&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;2. attention_mask: 注意力掩码，1表示实际token，0表示padding&quot;</span>) </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;3. token_type_ids: 句子标识，0表示第一句话，1表示第二句话&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> inputs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例文本处理</span></span><br><span class="line">text = <span class="string">&quot;自然语言处理是人工智能的重要分支。&quot;</span></span><br><span class="line">inputs = analyze_bert_inputs(text, tokenizer)</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-模型推理与隐藏状态分析">3.3 模型推理与隐藏状态分析</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">extract_bert_hidden_states</span>(<span class="params">model, inputs, layer_to_analyze=-<span class="number">1</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    提取BERT的隐藏状态并进行分析</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    model.<span class="built_in">eval</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        outputs = model(**inputs, output_hidden_states=<span class="literal">True</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 分析输出结构</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\n=== BERT输出分析 ===&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;最后一层隐藏状态 shape: <span class="subst">&#123;outputs.last_hidden_state.shape&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;池化输出 shape: <span class="subst">&#123;outputs.pooler_output.shape <span class="keyword">if</span> outputs.pooler_output <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> <span class="string">&#x27;N/A&#x27;</span>&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;总隐藏层数: <span class="subst">&#123;<span class="built_in">len</span>(outputs.hidden_states)&#125;</span>&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 分析指定层的隐藏状态</span></span><br><span class="line">    <span class="keyword">if</span> layer_to_analyze == -<span class="number">1</span>:</span><br><span class="line">        layer_to_analyze = <span class="built_in">len</span>(outputs.hidden_states) - <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    hidden_state = outputs.hidden_states[layer_to_analyze]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;\n第<span class="subst">&#123;layer_to_analyze&#125;</span>层隐藏状态分析:&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Shape: <span class="subst">&#123;hidden_state.shape&#125;</span>&quot;</span>)  <span class="comment"># [batch_size, seq_len, hidden_size]</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;数值范围: [<span class="subst">&#123;hidden_state.<span class="built_in">min</span>():<span class="number">.4</span>f&#125;</span>, <span class="subst">&#123;hidden_state.<span class="built_in">max</span>():<span class="number">.4</span>f&#125;</span>]&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;平均值: <span class="subst">&#123;hidden_state.mean():<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># [CLS] token的表示（常用于分类任务）</span></span><br><span class="line">    cls_embedding = hidden_state[<span class="number">0</span>, <span class="number">0</span>, :]  <span class="comment"># 取第一个样本的第一个token</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;[CLS] token维度: <span class="subst">&#123;cls_embedding.shape&#125;</span>&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> outputs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行推理</span></span><br><span class="line">outputs = extract_bert_hidden_states(model, inputs)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化注意力权重（可选）</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">visualize_attention</span>(<span class="params">inputs, tokenizer, model, layer=<span class="number">0</span>, head=<span class="number">0</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    可视化特定层和头的注意力权重</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    model.<span class="built_in">eval</span>()</span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        outputs = model(**inputs, output_attentions=<span class="literal">True</span>)</span><br><span class="line">    </span><br><span class="line">    attentions = outputs.attentions  <span class="comment"># 所有层的注意力权重</span></span><br><span class="line">    attention = attentions[layer][<span class="number">0</span>, head]  <span class="comment"># 取第一个样本，指定头的注意力</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 可视化代码（需要matplotlib）</span></span><br><span class="line">    <span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">    </span><br><span class="line">    tokens = tokenizer.convert_ids_to_tokens(inputs[<span class="string">&#x27;input_ids&#x27;</span>][<span class="number">0</span>])</span><br><span class="line">    plt.figure(figsize=(<span class="number">10</span>, <span class="number">8</span>))</span><br><span class="line">    plt.imshow(attention.numpy(), cmap=<span class="string">&#x27;hot&#x27;</span>, interpolation=<span class="string">&#x27;nearest&#x27;</span>)</span><br><span class="line">    plt.xticks(<span class="built_in">range</span>(<span class="built_in">len</span>(tokens)), tokens, rotation=<span class="number">45</span>)</span><br><span class="line">    plt.yticks(<span class="built_in">range</span>(<span class="built_in">len</span>(tokens)), tokens)</span><br><span class="line">    plt.title(<span class="string">f&quot;Attention Weights - Layer <span class="subst">&#123;layer&#125;</span>, Head <span class="subst">&#123;head&#125;</span>&quot;</span>)</span><br><span class="line">    plt.colorbar()</span><br><span class="line">    plt.show()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> attention</span><br></pre></td></tr></table></figure>
+<h3 id="3-4-完整实践示例：文本相似度计算">3.4 完整实践示例：文本相似度计算</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bert_text_similarity</span>(<span class="params">text1, text2, model, tokenizer</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    使用BERT计算两个文本的语义相似度</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 编码文本</span></span><br><span class="line">    inputs1 = tokenizer(text1, return_tensors=<span class="string">&#x27;pt&#x27;</span>, padding=<span class="literal">True</span>, truncation=<span class="literal">True</span>)</span><br><span class="line">    inputs2 = tokenizer(text2, return_tensors=<span class="string">&#x27;pt&#x27;</span>, padding=<span class="literal">True</span>, truncation=<span class="literal">True</span>)</span><br><span class="line">    </span><br><span class="line">    model.<span class="built_in">eval</span>()</span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        <span class="comment"># 获取文本表示</span></span><br><span class="line">        outputs1 = model(**inputs1)</span><br><span class="line">        outputs2 = model(**inputs2)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 使用[CLS] token的表示</span></span><br><span class="line">        embedding1 = outputs1.last_hidden_state[<span class="number">0</span>, <span class="number">0</span>, :]  <span class="comment"># 第一个样本的[CLS] token</span></span><br><span class="line">        embedding2 = outputs2.last_hidden_state[<span class="number">0</span>, <span class="number">0</span>, :]</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 计算余弦相似度</span></span><br><span class="line">        cosine_sim = torch.nn.functional.cosine_similarity(</span><br><span class="line">            embedding1.unsqueeze(<span class="number">0</span>), </span><br><span class="line">            embedding2.unsqueeze(<span class="number">0</span>)</span><br><span class="line">        )</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> cosine_sim.item()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试文本相似度</span></span><br><span class="line">text1 = <span class="string">&quot;今天天气很好，我想去公园散步&quot;</span></span><br><span class="line">text2 = <span class="string">&quot;阳光明媚，我打算去公园走走&quot;</span> </span><br><span class="line">text3 = <span class="string">&quot;机器学习是人工智能的重要分支&quot;</span></span><br><span class="line"></span><br><span class="line">sim12 = bert_text_similarity(text1, text2, model, tokenizer)</span><br><span class="line">sim13 = bert_text_similarity(text1, text3, model, tokenizer)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;相似文本相似度: <span class="subst">&#123;sim12:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;不相似文本相似度: <span class="subst">&#123;sim13:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="4-关键知识点总结">4 关键知识点总结</h2>
+<h3 id="4-1-Transformer-Encoder核心要点">4.1 Transformer Encoder核心要点</h3>
+<ol>
+<li><strong>自注意力机制</strong>：实现序列内全局依赖捕捉，避免RNN的顺序处理限制</li>
+<li><strong>位置编码</strong>：通过正余弦函数注入位置信息，弥补自注意力缺乏位置感知的缺陷</li>
+<li><strong>残差连接与层归一化</strong>：稳定深度网络训练，防止梯度消失</li>
+<li><strong>前馈神经网络</strong>：提供非线性变换能力，增强模型表达能力</li>
+</ol>
+<h3 id="4-2-BERT预训练关键创新">4.2 BERT预训练关键创新</h3>
+<ol>
+<li><strong>掩码语言模型(MLM)</strong>：15%掩码率与80-10-10策略的平衡设计</li>
+<li><strong>下一句预测(NSP)</strong>：句子级语义关系理解能力</li>
+<li><strong>双向上下文利用</strong>：同时考虑左右上下文，突破传统语言模型的单向性限制</li>
+</ol>
+<h3 id="4-3-实践注意事项">4.3 实践注意事项</h3>
+<ol>
+<li><strong>输入格式</strong>：正确处理[CLS]、[SEP]等特殊标记和token_type_ids</li>
+<li><strong>注意力掩码</strong>：区分实际token与padding，避免无效计算</li>
+<li><strong>隐藏状态利用</strong>：根据不同任务选择合适的隐藏层输出（最后层、所有层平均或[CLS] token）</li>
+</ol>
+<p>通过本教程的理论学习和实践操作，你应该已经掌握了Transformer Encoder的核心原理、BERT的预训练机制以及实际应用方法。这些知识为后续的NLP任务微调和模型优化奠定了坚实基础。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.021v1/" rel="prev" title="Structgpt: A general framework for large language model to reason over structured data">
+                  <i class="fa fa-angle-left"></i> Structgpt: A general framework for large language model to reason over structured data
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.023v1/" rel="next" title="Transformer Encoder 与 BERT 预训练模型完整教程">
+                  Transformer Encoder 与 BERT 预训练模型完整教程 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="基于BERT的中文情感分析微调完整教程 1. 任务概述与目标 中文情感分析是自然语言处理中的经典任务，旨在识别文本中蕴含的情感倾向。本教程以ChnSentiCorp中文情感分析数据集为例，详细介绍使用BERT模型进行微调的完整流程，包含数据预处理、模型训练、评估验证等关键环节。 通过本教程，您将掌握以下核心技能：  中文文本数据的预处理和清洗方法 Hugging Face Transformers">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于BERT的中文情感分析微调完整教程">
+<meta property="og:url" content="http://example.com/posts/2510.024v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="基于BERT的中文情感分析微调完整教程 1. 任务概述与目标 中文情感分析是自然语言处理中的经典任务，旨在识别文本中蕴含的情感倾向。本教程以ChnSentiCorp中文情感分析数据集为例，详细介绍使用BERT模型进行微调的完整流程，包含数据预处理、模型训练、评估验证等关键环节。 通过本教程，您将掌握以下核心技能：  中文文本数据的预处理和清洗方法 Hugging Face Transformers">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-27T06:23:57.790Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.024v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.024v1/","path":"/posts/2510.024v1/","title":"基于BERT的中文情感分析微调完整教程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于BERT的中文情感分析微调完整教程 | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">基于BERT的中文情感分析微调完整教程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BB%BB%E5%8A%A1%E6%A6%82%E8%BF%B0%E4%B8%8E%E7%9B%AE%E6%A0%87"><span class="nav-number">1.1.</span> <span class="nav-text">1. 任务概述与目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E%E4%BE%9D%E8%B5%96%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">2. 环境准备与依赖安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E7%A1%AC%E4%BB%B6%E4%B8%8E%E8%BD%AF%E4%BB%B6%E8%A6%81%E6%B1%82"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 硬件与软件要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84Python%E5%BA%93"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 安装必要的Python库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87%E4%B8%8E%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">3. 数据准备与预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%8A%A0%E8%BD%BDChnSentiCorp%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 加载ChnSentiCorp数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E4%B8%AD%E6%96%87%E6%96%87%E6%9C%AC%E9%A2%84%E5%A4%84%E7%90%86%E4%B8%93%E9%A1%B9%E5%A4%84%E7%90%86"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 中文文本预处理专项处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%95%B0%E6%8D%AE%E5%88%92%E5%88%86%E4%B8%8E%E7%BC%96%E7%A0%81%E5%A4%84%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">4. 数据划分与编码处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%92%E5%88%86%E7%AD%96%E7%95%A5"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 数据集划分策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E6%A0%87%E7%AD%BE%E7%BC%96%E7%A0%81%E4%B8%8E%E9%AA%8C%E8%AF%81"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 标签编码与验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%A8%A1%E5%9E%8B%E5%8A%A0%E8%BD%BD%E4%B8%8E%E9%85%8D%E7%BD%AE"><span class="nav-number">1.5.</span> <span class="nav-text">5. 模型加载与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%8A%A0%E8%BD%BD%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%88%86%E8%AF%8D%E5%99%A8"><span class="nav-number">1.5.1.</span> <span class="nav-text">5.1 加载预训练模型和分词器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E6%95%B0%E6%8D%AE%E7%BC%96%E7%A0%81%E4%B8%8EDataset%E5%88%9B%E5%BB%BA"><span class="nav-number">1.5.2.</span> <span class="nav-text">5.2 数据编码与Dataset创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E9%85%8D%E7%BD%AE"><span class="nav-number">1.6.</span> <span class="nav-text">6. 模型训练配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E8%AE%AD%E7%BB%83%E5%8F%82%E6%95%B0%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="nav-number">1.6.1.</span> <span class="nav-text">6.1 训练参数优化配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E5%AE%9A%E4%B9%89"><span class="nav-number">1.6.2.</span> <span class="nav-text">6.2 评估指标定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E4%B8%8E%E9%AA%8C%E8%AF%81"><span class="nav-number">1.7.</span> <span class="nav-text">7. 模型训练与验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E5%88%9B%E5%BB%BATrainer%E5%AE%9E%E4%BE%8B%E5%B9%B6%E5%BC%80%E5%A7%8B%E8%AE%AD%E7%BB%83"><span class="nav-number">1.7.1.</span> <span class="nav-text">7.1 创建Trainer实例并开始训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B%E7%9B%91%E6%8E%A7"><span class="nav-number">1.7.2.</span> <span class="nav-text">7.2 训练过程监控</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="nav-number">1.8.</span> <span class="nav-text">8. 模型评估与性能分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E6%B5%8B%E8%AF%95%E9%9B%86%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0"><span class="nav-number">1.8.1.</span> <span class="nav-text">8.1 测试集性能评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.8.2.</span> <span class="nav-text">8.2 错误分析示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="nav-number">1.9.</span> <span class="nav-text">9. 训练过程可视化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-%E6%8D%9F%E5%A4%B1%E6%9B%B2%E7%BA%BF%E5%92%8C%E5%87%86%E7%A1%AE%E7%8E%87%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="nav-number">1.9.1.</span> <span class="nav-text">9.1 损失曲线和准确率可视化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="nav-number">1.9.2.</span> <span class="nav-text">9.2 混淆矩阵可视化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E6%A8%A1%E5%9E%8B%E5%BA%94%E7%94%A8%E4%B8%8E%E9%83%A8%E7%BD%B2"><span class="nav-number">1.10.</span> <span class="nav-text">10. 模型应用与部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-%E4%BD%BF%E7%94%A8%E8%AE%AD%E7%BB%83%E5%A5%BD%E7%9A%84%E6%A8%A1%E5%9E%8B%E8%BF%9B%E8%A1%8C%E9%A2%84%E6%B5%8B"><span class="nav-number">1.10.1.</span> <span class="nav-text">10.1 使用训练好的模型进行预测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E6%80%BB%E7%BB%93%E4%B8%8E%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.11.</span> <span class="nav-text">11. 总结与优化建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#11-1-%E6%A0%B8%E5%BF%83%E6%88%90%E6%9E%9C"><span class="nav-number">1.11.1.</span> <span class="nav-text">11.1 核心成果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-2-%E8%BF%9B%E4%B8%80%E6%AD%A5%E4%BC%98%E5%8C%96%E6%96%B9%E5%90%91"><span class="nav-number">1.11.2.</span> <span class="nav-text">11.2 进一步优化方向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-3-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5"><span class="nav-number">1.11.3.</span> <span class="nav-text">11.3 常见问题排查</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.024v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="基于BERT的中文情感分析微调完整教程 | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于BERT的中文情感分析微调完整教程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-27 00:00:00 / 修改时间：14:23:57" itemprop="dateCreated datePublished" datetime="2025-10-27T00:00:00+08:00">2025-10-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/" itemprop="url" rel="index"><span itemprop="name">学习提升</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E6%8F%90%E5%8D%87/%E9%A2%84%E8%AE%AD%E7%BB%83%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">预训练语言模型</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>16k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>28 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>基于BERT的中文情感分析微调完整教程</h1>
+<h2 id="1-任务概述与目标">1. 任务概述与目标</h2>
+<p>中文情感分析是自然语言处理中的经典任务，旨在识别文本中蕴含的情感倾向。本教程以<a target="_blank" rel="noopener" href="https://gitcode.com/open-source-toolkit/78ecd/?utm_source=tools_gitcode&amp;index=bottom&amp;type=card&amp;&amp;uuid_tt_dd=10_4542129260-1753420547625-266916&amp;isLogin=1&amp;from_id=143071268&amp;from_link=f94e90f10c969470696f462aef1c3f54">ChnSentiCorp</a>中文情感分析数据集为例，详细介绍使用BERT模型进行微调的完整流程，包含数据预处理、模型训练、评估验证等关键环节。</p>
+<p>通过本教程，您将掌握以下核心技能：</p>
+<ul>
+<li>中文文本数据的预处理和清洗方法</li>
+<li>Hugging Face Transformers库的实战应用</li>
+<li>模型训练超参数配置策略</li>
+<li>训练过程监控与性能评估</li>
+<li>结果可视化分析</li>
+</ul>
+<h2 id="2-环境准备与依赖安装">2. 环境准备与依赖安装</h2>
+<h3 id="2-1-硬件与软件要求">2.1 硬件与软件要求</h3>
+<ul>
+<li><strong>操作系统</strong>：Linux（推荐），Windows/macOS也可行</li>
+<li><strong>GPU</strong>：NVIDIA GPU（显著加速训练过程）</li>
+<li><strong>Python版本</strong>：3.7及以上</li>
+</ul>
+<h3 id="2-2-安装必要的Python库">2.2 安装必要的Python库</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装核心依赖库</span></span><br><span class="line">pip install torch transformers datasets scikit-learn pandas numpy matplotlib seaborn</span><br><span class="line"><span class="comment"># 如需要GPU支持，确保安装对应版本的PyTorch</span></span><br><span class="line">pip install torch==<span class="number">1.13</span><span class="number">.1</span>+cu117 -f https://download.pytorch.org/whl/torch_stable.html</span><br></pre></td></tr></table></figure>
+<h2 id="3-数据准备与预处理">3. 数据准备与预处理</h2>
+<h3 id="3-1-加载ChnSentiCorp数据集">3.1 加载ChnSentiCorp数据集</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> load_dataset</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载中文情感分析数据集</span></span><br><span class="line">dataset = load_dataset(<span class="string">&quot;lansinuote/ChnSentiCorp&quot;</span>,cache_dir=<span class="string">&quot;./data&quot;</span>)</span><br><span class="line"><span class="comment"># 查看数据集结构</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;数据集结构: <span class="subst">&#123;dataset&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;训练集样本数: <span class="subst">&#123;<span class="built_in">len</span>(dataset[<span class="string">&#x27;train&#x27;</span>])&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;验证集样本数: <span class="subst">&#123;<span class="built_in">len</span>(dataset[<span class="string">&#x27;validation&#x27;</span>])&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;测试集样本数: <span class="subst">&#123;<span class="built_in">len</span>(dataset[<span class="string">&#x27;test&#x27;</span>])&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看样本示例</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n样本示例:&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;文本: <span class="subst">&#123;dataset[<span class="string">&#x27;train&#x27;</span>][i][<span class="string">&#x27;text&#x27;</span>]&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;标签: <span class="subst">&#123;dataset[<span class="string">&#x27;train&#x27;</span>][i][<span class="string">&#x27;label&#x27;</span>]&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;---&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>数据集已预设划分，包含训练集、验证集和测试集。</p>
+<h3 id="3-2-中文文本预处理专项处理">3.2 中文文本预处理专项处理</h3>
+<p>中文文本预处理需要特别注意语言特性，以下是最佳实践方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">clean_chinese_text</span>(<span class="params">text</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    中文文本清洗函数</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 去除乱码和特殊字符（保留中文、英文、数字、常见标点）</span></span><br><span class="line">    text = re.sub(<span class="string">r&#x27;[^\u4e00-\u9fa5a-zA-Z0-9，。！？；：&quot;&quot;&#x27;</span><span class="string">&#x27;（）【】《》、·…]&#x27;</span>, <span class="string">&#x27;&#x27;</span>, text)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 处理冗余空格</span></span><br><span class="line">    text = re.sub(<span class="string">r&#x27;\s+&#x27;</span>, <span class="string">&#x27; &#x27;</span>, text).strip()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 处理重复字符（如&quot;好好好好&quot;转为&quot;好&quot;）</span></span><br><span class="line">    text = re.sub(<span class="string">r&#x27;(.)\1&#123;3,&#125;&#x27;</span>, <span class="string">r&#x27;\1&#x27;</span>, text)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> text</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">process_special_text</span>(<span class="params">text</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    处理中文特殊文本：网络用语、emoji、方言等</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># emoji映射</span></span><br><span class="line">    emoji_map = &#123;</span><br><span class="line">        <span class="string">&#x27;😂&#x27;</span>: <span class="string">&#x27;开心&#x27;</span>, <span class="string">&#x27;😭&#x27;</span>: <span class="string">&#x27;难过&#x27;</span>, <span class="string">&#x27;👍&#x27;</span>: <span class="string">&#x27;好评&#x27;</span>, </span><br><span class="line">        <span class="string">&#x27;👎&#x27;</span>: <span class="string">&#x27;差评&#x27;</span>, <span class="string">&#x27;yyds&#x27;</span>: <span class="string">&#x27;非常好&#x27;</span>, <span class="string">&#x27;绝绝子&#x27;</span>: <span class="string">&#x27;极好&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 方言转换</span></span><br><span class="line">    dialect_map = &#123;</span><br><span class="line">        <span class="string">&#x27;孬&#x27;</span>: <span class="string">&#x27;不好&#x27;</span>, <span class="string">&#x27;中&#x27;</span>: <span class="string">&#x27;好&#x27;</span>, <span class="string">&#x27;啥&#x27;</span>: <span class="string">&#x27;什么&#x27;</span>, <span class="string">&#x27;咋&#x27;</span>: <span class="string">&#x27;怎么&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> emoji, desc <span class="keyword">in</span> emoji_map.items():</span><br><span class="line">        text = text.replace(emoji, desc)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">for</span> dialect, standard <span class="keyword">in</span> dialect_map.items():</span><br><span class="line">        text = text.replace(dialect, standard)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> text</span><br><span class="line"></span><br><span class="line"><span class="comment"># 应用文本预处理</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">apply_text_preprocessing</span>(<span class="params">dataset</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    对整个数据集应用文本预处理</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">preprocess_function</span>(<span class="params">examples</span>):</span><br><span class="line">        <span class="comment"># 清洗文本</span></span><br><span class="line">        cleaned_texts = [clean_chinese_text(text) <span class="keyword">for</span> text <span class="keyword">in</span> examples[<span class="string">&#x27;text&#x27;</span>]]</span><br><span class="line">        <span class="comment"># 处理特殊文本</span></span><br><span class="line">        processed_texts = [process_special_text(text) <span class="keyword">for</span> text <span class="keyword">in</span> cleaned_texts]</span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">&#x27;text&#x27;</span>: processed_texts&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> dataset.<span class="built_in">map</span>(preprocess_function, batched=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行预处理</span></span><br><span class="line">dataset = apply_text_preprocessing(dataset)</span><br></pre></td></tr></table></figure>
+<h2 id="4-数据划分与编码处理">4. 数据划分与编码处理</h2>
+<h3 id="4-1-数据集划分策略">4.1 数据集划分策略</h3>
+<p>ChnSentiCorp数据集已提供标准划分，如需自定义划分可采用以下方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> DatasetDict</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果需要自定义数据集划分</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_train_test_split</span>(<span class="params">dataset, train_ratio=<span class="number">0.7</span>, val_ratio=<span class="number">0.2</span>, test_ratio=<span class="number">0.1</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    自定义数据集划分函数</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    total_size = <span class="built_in">len</span>(dataset)</span><br><span class="line">    train_size = <span class="built_in">int</span>(total_size * train_ratio)</span><br><span class="line">    val_size = <span class="built_in">int</span>(total_size * val_ratio)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 随机打乱后划分</span></span><br><span class="line">    dataset = dataset.shuffle(seed=<span class="number">42</span>)</span><br><span class="line">    train_dataset = dataset.select(<span class="built_in">range</span>(train_size))</span><br><span class="line">    val_dataset = dataset.select(<span class="built_in">range</span>(train_size, train_size + val_size))</span><br><span class="line">    test_dataset = dataset.select(<span class="built_in">range</span>(train_size + val_size, total_size))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> DatasetDict(&#123;</span><br><span class="line">        <span class="string">&#x27;train&#x27;</span>: train_dataset,</span><br><span class="line">        <span class="string">&#x27;validation&#x27;</span>: val_dataset,</span><br><span class="line">        <span class="string">&#x27;test&#x27;</span>: test_dataset</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用标准划分</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;使用预设数据集划分&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-标签编码与验证">4.2 标签编码与验证</h3>
+<p>数据集标签通常已正确编码（0表示负面，1表示正面），我们需要验证标签分布：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">analyze_label_distribution</span>(<span class="params">dataset</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    分析各数据集的标签分布</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    distribution = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> split <span class="keyword">in</span> [<span class="string">&#x27;train&#x27;</span>, <span class="string">&#x27;validation&#x27;</span>, <span class="string">&#x27;test&#x27;</span>]:</span><br><span class="line">        labels = dataset[split][<span class="string">&#x27;label&#x27;</span>]</span><br><span class="line">        distribution[split] = Counter(labels)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;split&#125;</span>集标签分布: <span class="subst">&#123;<span class="built_in">dict</span>(distribution[split])&#125;</span>&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> distribution</span><br><span class="line"></span><br><span class="line">label_distribution = analyze_label_distribution(dataset)</span><br></pre></td></tr></table></figure>
+<h2 id="5-模型加载与配置">5. 模型加载与配置</h2>
+<h3 id="5-1-加载预训练模型和分词器">5.1 加载预训练模型和分词器</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertTokenizer, BertForSequenceClassification, AutoConfig</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载中文BERT分词器和模型</span></span><br><span class="line">model_name = <span class="string">&quot;bert-base-chinese&quot;</span></span><br><span class="line">tokenizer = BertTokenizer.from_pretrained(model_name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查标签数量</span></span><br><span class="line">num_labels = <span class="built_in">len</span>(<span class="built_in">set</span>(dataset[<span class="string">&#x27;train&#x27;</span>][<span class="string">&#x27;label&#x27;</span>]))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;分类标签数量: <span class="subst">&#123;num_labels&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载模型配置</span></span><br><span class="line">config = AutoConfig.from_pretrained(</span><br><span class="line">    model_name, </span><br><span class="line">    num_labels=num_labels,</span><br><span class="line">    id2label=&#123;<span class="number">0</span>: <span class="string">&quot;负面&quot;</span>, <span class="number">1</span>: <span class="string">&quot;正面&quot;</span>&#125;,</span><br><span class="line">    label2id=&#123;<span class="string">&quot;负面&quot;</span>: <span class="number">0</span>, <span class="string">&quot;正面&quot;</span>: <span class="number">1</span>&#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">model = BertForSequenceClassification.from_pretrained(</span><br><span class="line">    model_name, </span><br><span class="line">    config=config</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-数据编码与Dataset创建">5.2 数据编码与Dataset创建</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> DataCollatorWithPadding</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">tokenize_function</span>(<span class="params">examples</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    对文本进行分词编码</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> tokenizer(</span><br><span class="line">        examples[<span class="string">&#x27;text&#x27;</span>], </span><br><span class="line">        truncation=<span class="literal">True</span>, </span><br><span class="line">        padding=<span class="literal">True</span>, </span><br><span class="line">        max_length=<span class="number">128</span>,  <span class="comment"># 根据文本长度分布调整</span></span><br><span class="line">        return_tensors=<span class="literal">None</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 应用分词器</span></span><br><span class="line">encoded_dataset = dataset.<span class="built_in">map</span>(tokenize_function, batched=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置PyTorch格式</span></span><br><span class="line">encoded_dataset = encoded_dataset.remove_columns([<span class="string">&#x27;text&#x27;</span>])</span><br><span class="line">encoded_dataset.set_format(<span class="string">&#x27;torch&#x27;</span>, columns=[<span class="string">&#x27;input_ids&#x27;</span>, <span class="string">&#x27;attention_mask&#x27;</span>, <span class="string">&#x27;label&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据收集器</span></span><br><span class="line">data_collator = DataCollatorWithPadding(tokenizer=tokenizer)</span><br></pre></td></tr></table></figure>
+<h2 id="6-模型训练配置">6. 模型训练配置</h2>
+<h3 id="6-1-训练参数优化配置">6.1 训练参数优化配置</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> TrainingArguments, Trainer</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建输出目录</span></span><br><span class="line">output_dir = <span class="string">&quot;./result/bert_chinese_sentiment_results&quot;</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(output_dir):</span><br><span class="line">    os.makedirs(output_dir)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置训练参数</span></span><br><span class="line">training_args = TrainingArguments(</span><br><span class="line">    output_dir=output_dir,</span><br><span class="line">    overwrite_output_dir=<span class="literal">True</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 训练参数</span></span><br><span class="line">    num_train_epochs=<span class="number">3</span>,</span><br><span class="line">    per_device_train_batch_size=<span class="number">16</span>,</span><br><span class="line">    per_device_eval_batch_size=<span class="number">16</span>,</span><br><span class="line">    learning_rate=<span class="number">2e-5</span>,</span><br><span class="line">    weight_decay=<span class="number">0.01</span>,</span><br><span class="line">    warmup_steps=<span class="number">500</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 评估策略</span></span><br><span class="line">    eval_strategy=<span class="string">&quot;epoch&quot;</span>,</span><br><span class="line">    save_strategy=<span class="string">&quot;epoch&quot;</span>,</span><br><span class="line">    load_best_model_at_end=<span class="literal">True</span>,</span><br><span class="line">    metric_for_best_model=<span class="string">&quot;accuracy&quot;</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 日志记录</span></span><br><span class="line">    logging_dir=<span class="string">&quot;./logs&quot;</span>,</span><br><span class="line">    logging_steps=<span class="number">100</span>,</span><br><span class="line">    report_to=<span class="literal">None</span>,  <span class="comment"># 禁用外部日志服务</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 其他配置</span></span><br><span class="line">    dataloader_pin_memory=<span class="literal">False</span>,</span><br><span class="line">    remove_unused_columns=<span class="literal">True</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="6-2-评估指标定义">6.2 评估指标定义</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, precision_recall_fscore_support</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">compute_metrics</span>(<span class="params">eval_pred</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    自定义评估指标计算</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    predictions, labels = eval_pred</span><br><span class="line">    predictions = np.argmax(predictions, axis=<span class="number">1</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 计算各项指标</span></span><br><span class="line">    accuracy = accuracy_score(labels, predictions)</span><br><span class="line">    precision, recall, f1, _ = precision_recall_fscore_support(</span><br><span class="line">        labels, predictions, average=<span class="string">&#x27;binary&#x27;</span></span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&#x27;accuracy&#x27;</span>: accuracy,</span><br><span class="line">        <span class="string">&#x27;precision&#x27;</span>: precision,</span><br><span class="line">        <span class="string">&#x27;recall&#x27;</span>: recall,</span><br><span class="line">        <span class="string">&#x27;f1&#x27;</span>: f1</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="7-模型训练与验证">7. 模型训练与验证</h2>
+<h3 id="7-1-创建Trainer实例并开始训练">7.1 创建Trainer实例并开始训练</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建Trainer实例</span></span><br><span class="line">trainer = Trainer(</span><br><span class="line">    model=model,</span><br><span class="line">    args=training_args,</span><br><span class="line">    train_dataset=encoded_dataset[<span class="string">&quot;train&quot;</span>],</span><br><span class="line">    eval_dataset=encoded_dataset[<span class="string">&quot;validation&quot;</span>],</span><br><span class="line">    tokenizer=tokenizer,</span><br><span class="line">    data_collator=data_collator,</span><br><span class="line">    compute_metrics=compute_metrics,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始训练</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;开始模型训练...&quot;</span>)</span><br><span class="line">train_results = trainer.train()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存最终模型</span></span><br><span class="line">trainer.save_model()</span><br><span class="line">tokenizer.save_pretrained(output_dir)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;训练完成！模型保存在: <span class="subst">&#123;output_dir&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="7-2-训练过程监控">7.2 训练过程监控</h3>
+<p>训练过程中，我们可以实时监控损失和指标变化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取训练历史</span></span><br><span class="line">history = trainer.state.log_history</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取训练指标</span></span><br><span class="line">train_loss = [entry[<span class="string">&#x27;loss&#x27;</span>] <span class="keyword">for</span> entry <span class="keyword">in</span> history <span class="keyword">if</span> <span class="string">&#x27;loss&#x27;</span> <span class="keyword">in</span> entry]</span><br><span class="line">eval_loss = [entry[<span class="string">&#x27;eval_loss&#x27;</span>] <span class="keyword">for</span> entry <span class="keyword">in</span> history <span class="keyword">if</span> <span class="string">&#x27;eval_loss&#x27;</span> <span class="keyword">in</span> entry]</span><br><span class="line">eval_accuracy = [entry[<span class="string">&#x27;eval_accuracy&#x27;</span>] <span class="keyword">for</span> entry <span class="keyword">in</span> history <span class="keyword">if</span> <span class="string">&#x27;eval_accuracy&#x27;</span> <span class="keyword">in</span> entry]</span><br><span class="line">eval_f1 = [entry[<span class="string">&#x27;eval_f1&#x27;</span>] <span class="keyword">for</span> entry <span class="keyword">in</span> history <span class="keyword">if</span> <span class="string">&#x27;eval_f1&#x27;</span> <span class="keyword">in</span> entry]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;训练轮次: <span class="subst">&#123;<span class="built_in">len</span>(train_loss)&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;最终验证准确率: <span class="subst">&#123;eval_accuracy[-<span class="number">1</span>]:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;最终验证F1分数: <span class="subst">&#123;eval_f1[-<span class="number">1</span>]:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="8-模型评估与性能分析">8. 模型评估与性能分析</h2>
+<h3 id="8-1-测试集性能评估">8.1 测试集性能评估</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在测试集上进行最终评估</span></span><br><span class="line">test_results = trainer.evaluate(encoded_dataset[<span class="string">&quot;test&quot;</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n=== 测试集性能评估 ===&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> metric, value <span class="keyword">in</span> test_results.items():</span><br><span class="line">    <span class="keyword">if</span> metric != <span class="string">&#x27;eval_runtime&#x27;</span> <span class="keyword">and</span> metric != <span class="string">&#x27;eval_samples_per_second&#x27;</span> <span class="keyword">and</span> metric != <span class="string">&#x27;eval_steps_per_second&#x27;</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;metric&#125;</span>: <span class="subst">&#123;value:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对比微调前后性能（使用相同测试集）</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">evaluate_baseline_model</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    评估未微调的基线模型性能</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    baseline_model = BertForSequenceClassification.from_pretrained(</span><br><span class="line">        <span class="string">&quot;bert-base-chinese&quot;</span>, </span><br><span class="line">        num_labels=num_labels</span><br><span class="line">    )</span><br><span class="line">    baseline_trainer = Trainer(</span><br><span class="line">        model=baseline_model,</span><br><span class="line">        args=trainer.args,  <span class="comment"># 复用训练器的参数配置，确保评估条件一致</span></span><br><span class="line">        eval_dataset=encoded_dataset[<span class="string">&quot;test&quot;</span>],</span><br><span class="line">        compute_metrics=compute_metrics</span><br><span class="line">    )</span><br><span class="line">    baseline_results = baseline_trainer.evaluate(encoded_dataset[<span class="string">&quot;test&quot;</span>])</span><br><span class="line">    <span class="keyword">return</span> baseline_results</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n正在评估基线模型性能...&quot;</span>)</span><br><span class="line">baseline_results = evaluate_baseline_model()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n=== 性能对比 ===&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;指标\t\t基线模型\t微调后模型\t提升&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> metric <span class="keyword">in</span> [<span class="string">&#x27;eval_accuracy&#x27;</span>, <span class="string">&#x27;eval_f1&#x27;</span>]:</span><br><span class="line">    <span class="keyword">if</span> metric <span class="keyword">in</span> baseline_results <span class="keyword">and</span> metric <span class="keyword">in</span> test_results:</span><br><span class="line">        baseline_val = baseline_results[metric]</span><br><span class="line">        fine_tuned_val = test_results[metric]</span><br><span class="line">        improvement = fine_tuned_val - baseline_val</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;metric&#125;</span>\t<span class="subst">&#123;baseline_val:<span class="number">.4</span>f&#125;</span>\t\t<span class="subst">&#123;fine_tuned_val:<span class="number">.4</span>f&#125;</span>\t\t<span class="subst">&#123;improvement:+<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="8-2-错误分析示例">8.2 错误分析示例</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进行错误分析</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">error_analysis</span>(<span class="params">trainer, dataset, num_samples=<span class="number">10</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    分析模型预测错误的情况</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    predictions = trainer.predict(dataset)</span><br><span class="line">    pred_labels = np.argmax(predictions.predictions, axis=<span class="number">1</span>)</span><br><span class="line">    true_labels = predictions.label_ids</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 找出预测错误的样本</span></span><br><span class="line">    incorrect_indices = np.where(pred_labels != true_labels)[<span class="number">0</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;\n错误分析: 总共<span class="subst">&#123;<span class="built_in">len</span>(true_labels)&#125;</span>个样本，错误预测<span class="subst">&#123;<span class="built_in">len</span>(incorrect_indices)&#125;</span>个&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;随机抽取错误样本分析:&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">min</span>(num_samples, <span class="built_in">len</span>(incorrect_indices))):</span><br><span class="line">        idx = incorrect_indices[i]</span><br><span class="line">        original_text = dataset[idx][<span class="string">&#x27;text&#x27;</span>] <span class="keyword">if</span> <span class="string">&#x27;text&#x27;</span> <span class="keyword">in</span> dataset.features <span class="keyword">else</span> <span class="string">&quot;文本不可用&quot;</span></span><br><span class="line">        true_label = true_labels[idx]</span><br><span class="line">        pred_label = pred_labels[idx]</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;\n样本 <span class="subst">&#123;i+<span class="number">1</span>&#125;</span>:&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;文本: <span class="subst">&#123;original_text&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;真实标签: <span class="subst">&#123;true_label&#125;</span> (<span class="subst">&#123;<span class="string">&#x27;正面&#x27;</span> <span class="keyword">if</span> true_label == <span class="number">1</span> <span class="keyword">else</span> <span class="string">&#x27;负面&#x27;</span>&#125;</span>)&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;预测标签: <span class="subst">&#123;pred_label&#125;</span> (<span class="subst">&#123;<span class="string">&#x27;正面&#x27;</span> <span class="keyword">if</span> pred_label == <span class="number">1</span> <span class="keyword">else</span> <span class="string">&#x27;负面&#x27;</span>&#125;</span>)&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行错误分析</span></span><br><span class="line">error_analysis(trainer, encoded_dataset[<span class="string">&#x27;test&#x27;</span>])</span><br></pre></td></tr></table></figure>
+<h2 id="9-训练过程可视化">9. 训练过程可视化</h2>
+<h3 id="9-1-损失曲线和准确率可视化">9.1 损失曲线和准确率可视化</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">plot_training_metrics</span>(<span class="params">history</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    绘制训练过程中的指标变化曲线</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 提取指标</span></span><br><span class="line">    train_metrics = [entry <span class="keyword">for</span> entry <span class="keyword">in</span> history <span class="keyword">if</span> <span class="string">&#x27;loss&#x27;</span> <span class="keyword">in</span> entry <span class="keyword">and</span> <span class="string">&#x27;eval_loss&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> entry]</span><br><span class="line">    eval_metrics = [entry <span class="keyword">for</span> entry <span class="keyword">in</span> history <span class="keyword">if</span> <span class="string">&#x27;eval_loss&#x27;</span> <span class="keyword">in</span> entry]</span><br><span class="line">    </span><br><span class="line">    steps = [entry[<span class="string">&#x27;step&#x27;</span>] <span class="keyword">for</span> entry <span class="keyword">in</span> eval_metrics]</span><br><span class="line">    eval_loss = [entry[<span class="string">&#x27;eval_loss&#x27;</span>] <span class="keyword">for</span> entry <span class="keyword">in</span> eval_metrics]</span><br><span class="line">    eval_accuracy = [entry.get(<span class="string">&#x27;eval_accuracy&#x27;</span>, <span class="number">0</span>) <span class="keyword">for</span> entry <span class="keyword">in</span> eval_metrics]</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 创建可视化图表</span></span><br><span class="line">    fig, (ax1, ax2) = plt.subplots(<span class="number">1</span>, <span class="number">2</span>, figsize=(<span class="number">15</span>, <span class="number">5</span>))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 损失曲线</span></span><br><span class="line">    ax1.plot(steps, eval_loss, <span class="string">&#x27;b-&#x27;</span>, label=<span class="string">&#x27;验证损失&#x27;</span>)</span><br><span class="line">    ax1.set_xlabel(<span class="string">&#x27;训练步数&#x27;</span>)</span><br><span class="line">    ax1.set_ylabel(<span class="string">&#x27;损失值&#x27;</span>)</span><br><span class="line">    ax1.set_title(<span class="string">&#x27;验证损失变化曲线&#x27;</span>)</span><br><span class="line">    ax1.legend()</span><br><span class="line">    ax1.grid(<span class="literal">True</span>, alpha=<span class="number">0.3</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 准确率曲线</span></span><br><span class="line">    ax2.plot(steps, eval_accuracy, <span class="string">&#x27;r-&#x27;</span>, label=<span class="string">&#x27;验证准确率&#x27;</span>)</span><br><span class="line">    ax2.set_xlabel(<span class="string">&#x27;训练步数&#x27;</span>)</span><br><span class="line">    ax2.set_ylabel(<span class="string">&#x27;准确率&#x27;</span>)</span><br><span class="line">    ax2.set_title(<span class="string">&#x27;验证准确率变化曲线&#x27;</span>)</span><br><span class="line">    ax2.legend()</span><br><span class="line">    ax2.grid(<span class="literal">True</span>, alpha=<span class="number">0.3</span>)</span><br><span class="line">    </span><br><span class="line">    plt.tight_layout()</span><br><span class="line">    plt.savefig(<span class="string">f&#x27;<span class="subst">&#123;output_dir&#125;</span>/training_metrics.png&#x27;</span>, dpi=<span class="number">300</span>, bbox_inches=<span class="string">&#x27;tight&#x27;</span>)</span><br><span class="line">    plt.show()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> fig</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成可视化图表</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&#x27;history&#x27;</span> <span class="keyword">in</span> <span class="built_in">locals</span>():</span><br><span class="line">    plot_training_metrics(history)</span><br></pre></td></tr></table></figure>
+<h3 id="9-2-混淆矩阵可视化">9.2 混淆矩阵可视化</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">plot_confusion_matrix</span>(<span class="params">trainer, dataset</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    绘制混淆矩阵</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    predictions = trainer.predict(dataset)</span><br><span class="line">    pred_labels = np.argmax(predictions.predictions, axis=<span class="number">1</span>)</span><br><span class="line">    true_labels = predictions.label_ids</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 计算混淆矩阵</span></span><br><span class="line">    cm = confusion_matrix(true_labels, pred_labels)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 绘制混淆矩阵</span></span><br><span class="line">    plt.figure(figsize=(<span class="number">8</span>, <span class="number">6</span>))</span><br><span class="line">    sns.heatmap(cm, annot=<span class="literal">True</span>, fmt=<span class="string">&#x27;d&#x27;</span>, cmap=<span class="string">&#x27;Blues&#x27;</span>, </span><br><span class="line">                xticklabels=[<span class="string">&#x27;负面&#x27;</span>, <span class="string">&#x27;正面&#x27;</span>], </span><br><span class="line">                yticklabels=[<span class="string">&#x27;负面&#x27;</span>, <span class="string">&#x27;正面&#x27;</span>])</span><br><span class="line">    plt.xlabel(<span class="string">&#x27;预测标签&#x27;</span>)</span><br><span class="line">    plt.ylabel(<span class="string">&#x27;真实标签&#x27;</span>)</span><br><span class="line">    plt.title(<span class="string">&#x27;混淆矩阵&#x27;</span>)</span><br><span class="line">    plt.savefig(<span class="string">f&#x27;<span class="subst">&#123;output_dir&#125;</span>/confusion_matrix.png&#x27;</span>, dpi=<span class="number">300</span>, bbox_inches=<span class="string">&#x27;tight&#x27;</span>)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制测试集混淆矩阵</span></span><br><span class="line">plot_confusion_matrix(trainer, encoded_dataset[<span class="string">&#x27;test&#x27;</span>])</span><br></pre></td></tr></table></figure>
+<h2 id="10-模型应用与部署">10. 模型应用与部署</h2>
+<h3 id="10-1-使用训练好的模型进行预测">10.1 使用训练好的模型进行预测</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">predict_sentiment</span>(<span class="params">text, model, tokenizer</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    使用微调后的模型预测单条文本情感</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 预处理输入文本</span></span><br><span class="line">    inputs = tokenizer(</span><br><span class="line">        text, </span><br><span class="line">        return_tensors=<span class="string">&quot;pt&quot;</span>, </span><br><span class="line">        truncation=<span class="literal">True</span>, </span><br><span class="line">        padding=<span class="literal">True</span>, </span><br><span class="line">        max_length=<span class="number">128</span></span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 模型预测</span></span><br><span class="line">    model.<span class="built_in">eval</span>()</span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        outputs = model(**inputs)</span><br><span class="line">        predictions = torch.nn.functional.softmax(outputs.logits, dim=-<span class="number">1</span>)</span><br><span class="line">        predicted_label = torch.argmax(predictions, dim=<span class="number">1</span>).item()</span><br><span class="line">        confidence = torch.<span class="built_in">max</span>(predictions).item()</span><br><span class="line">    </span><br><span class="line">    label_map = &#123;<span class="number">0</span>: <span class="string">&quot;负面&quot;</span>, <span class="number">1</span>: <span class="string">&quot;正面&quot;</span>&#125;</span><br><span class="line">    <span class="keyword">return</span> label_map[predicted_label], confidence</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试预测函数</span></span><br><span class="line">test_texts = [</span><br><span class="line">    <span class="string">&quot;这个产品质量很好，性价比高，推荐购买！&quot;</span>,</span><br><span class="line">    <span class="string">&quot;服务态度很差，再也不会来了。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;一般般吧，没什么特别的感觉。&quot;</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n=== 模型预测测试 ===&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> text <span class="keyword">in</span> test_texts:</span><br><span class="line">    label, confidence = predict_sentiment(text, model, tokenizer)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;文本: <span class="subst">&#123;text&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;情感: <span class="subst">&#123;label&#125;</span>, 置信度: <span class="subst">&#123;confidence:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;---&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="11-总结与优化建议">11. 总结与优化建议</h2>
+<p>通过本教程，我们完成了基于BERT的中文情感分析模型的完整微调流程。关键要点总结如下：</p>
+<h3 id="11-1-核心成果">11.1 核心成果</h3>
+<ol>
+<li><strong>数据预处理</strong>：实现了针对中文文本的专项清洗和处理方法</li>
+<li><strong>模型微调</strong>：成功将预训练BERT模型适配到情感分析任务</li>
+<li><strong>性能评估</strong>：通过多维度指标全面评估模型表现</li>
+<li><strong>可视化分析</strong>：直观展示训练过程和模型性能</li>
+</ol>
+<h3 id="11-2-进一步优化方向">11.2 进一步优化方向</h3>
+<ol>
+<li><strong>数据增强</strong>：使用同义词替换、回译等技术扩充训练数据</li>
+<li><strong>超参数调优</strong>：系统调整学习率、批大小等超参数</li>
+<li><strong>模型集成</strong>：结合多个模型的预测结果提升性能</li>
+<li><strong>领域适配</strong>：针对特定领域数据进一步微调</li>
+</ol>
+<h3 id="11-3-常见问题排查">11.3 常见问题排查</h3>
+<ul>
+<li><strong>过拟合</strong>：增加dropout比率、添加正则化、早停策略</li>
+<li><strong>训练不稳定</strong>：减小学习率、使用学习率热身</li>
+<li><strong>性能不达标</strong>：检查数据质量、调整模型架构</li>
+</ul>
+<p>本教程提供了完整的实践框架，您可以根据具体需求调整参数和方法，进一步提升模型在实际应用中的表现。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.023v1/" rel="prev" title="Transformer Encoder 与 BERT 预训练模型完整教程">
+                  <i class="fa fa-angle-left"></i> Transformer Encoder 与 BERT 预训练模型完整教程
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.025v1/" rel="next" title="Safety Alignment Should Be Made More Than Just a Few Tokens Deep">
+                  Safety Alignment Should Be Made More Than Just a Few Tokens Deep <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

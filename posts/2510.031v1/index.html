@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing EMNLP 1. 论文概览  核心问题：大语言模型（LLMs）虽经人类反馈强化学习（RLHF）或监督微调对齐，仍易受精心设计的越狱攻击生成有害内容，现有防御多聚焦于检测或降低有害响应概率，未深入LLM内部机制，亟需基于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing">
+<meta property="og:url" content="http://example.com/posts/2510.031v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing EMNLP 1. 论文概览  核心问题：大语言模型（LLMs）虽经人类反馈强化学习（RLHF）或监督微调对齐，仍易受精心设计的越狱攻击生成有害内容，现有防御多聚焦于检测或降低有害响应概率，未深入LLM内部机制，亟需基于">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-28T16:45:17.919Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.031v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.031v1/","path":"/posts/2510.031v1/","title":"Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#defending-large-language-models-against-jailbreak-attacks-via-layer-specific-editing"><span class="nav-number">1.</span> <span class="nav-text">Defending
+Large Language Models Against Jailbreak Attacks via Layer-specific
+Editing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">1. 论文概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">2. 各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E8%A8%801.-introduction"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 引言（1. Introduction）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C2.-related-work"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 相关工作（2. Related Work）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B6%8A%E7%8B%B1%E6%94%BB%E5%87%BBjailbreak-attacks"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.2.1 越狱攻击（Jailbreak
+Attacks）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B6%8A%E7%8B%B1%E9%98%B2%E5%BE%A1jailbreak-defenses"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.2.2 越狱防御（Jailbreak
+Defenses）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%BC%96%E8%BE%91knowledge-editing"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">2.2.3 知识编辑（Knowledge
+Editing）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#led%E6%96%B9%E6%B3%953.-led-layer-specific-editing-for-enhancing-defense-of-llms"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3
+LED方法（3. LED: Layer-specific Editing for Enhancing Defense of
+LLMs）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%E9%80%89%E6%8B%A9%E7%BC%96%E8%BE%91%E5%B1%82selecting-edited-layers"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.3.1
+步骤1：选择编辑层（Selecting Edited Layers）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%E5%AE%9A%E4%BD%8D%E6%AF%92%E6%80%A7%E5%B1%82locating-toxic-layers"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.3.2
+步骤2：定位毒性层（Locating Toxic Layers）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%E5%B1%82%E7%89%B9%E5%AE%9A%E7%BC%96%E8%BE%91layer-specific-editing"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">2.3.3
+步骤3：层特定编辑（Layer-specific Editing）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#llm%E7%9A%84%E5%AE%89%E5%85%A8%E4%B8%8E%E6%AF%92%E6%80%A7%E5%B1%82%E5%88%86%E6%9E%904.-a-closer-look-at-llms-safety-and-toxic-layers"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4
+LLM的安全与毒性层分析（4. A Closer Look at LLMs: Safety and Toxic
+Layers）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A9%E6%9C%9F%E5%AE%89%E5%85%A8%E5%B1%82%E4%B8%BB%E5%AF%BC%E9%98%B2%E5%BE%A1early-safety-layers-dominates-defense"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">2.4.1
+早期安全层主导防御（Early Safety Layers Dominates Defense）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E5%90%8E%E6%9C%9F%E5%B1%82%E5%90%AB%E6%AF%92%E6%80%A7%E4%BF%A1%E6%81%AFmultiple-later-layers-contain-toxic-information"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">2.4.2
+多个后期层含毒性信息（Multiple Later Layers Contain Toxic
+Information）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C5.-experiments"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 实验（5. Experiments）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AEexperiment-setup"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">2.5.1 实验设置（Experiment
+Setup）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#led%E6%8A%97%E8%B6%8A%E7%8B%B1%E6%94%BB%E5%87%BB%E6%9C%89%E6%95%88%E6%80%A7effectiveness-of-led-against-jailbreak-attacks"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">2.5.2
+LED抗越狱攻击有效性（Effectiveness of LED against Jailbreak
+Attacks）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8Elora%E5%AF%B9%E6%AF%94comparison-with-lora"><span class="nav-number">1.2.5.3.</span> <span class="nav-text">2.5.3 与LoRA对比（Comparison
+with LoRA）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E8%9E%8D%E7%A0%94%E7%A9%B6ablation-studies"><span class="nav-number">1.2.5.4.</span> <span class="nav-text">2.5.4 消融研究（Ablation
+Studies）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA6.-conclusion"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.6 结论（6. Conclusion）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E8%AF%84%E4%BB%B7"><span class="nav-number">1.3.</span> <span class="nav-text">3. 整体评价</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.031v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Defending Large Language Models Against Jailbreak Attacks via Layer-specific Editing
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：00:45:17" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1
+id="defending-large-language-models-against-jailbreak-attacks-via-layer-specific-editing">Defending
+Large Language Models Against Jailbreak Attacks via Layer-specific
+Editing</h1>
+<p>EMNLP</p>
+<h2 id="论文概览">1. 论文概览</h2>
+<ul>
+<li><strong>核心问题</strong>：大语言模型（LLMs）虽经人类反馈强化学习（RLHF）或监督微调对齐，仍易受精心设计的越狱攻击生成有害内容，现有防御多聚焦于检测或降低有害响应概率，未深入LLM内部机制，亟需基于LLM内部机制的抗越狱攻击防御方法。</li>
+<li><strong>主要贡献</strong>：
+<ol type="1">
+<li>发现LLM中仅部分早期层对识别有害提示起关键作用，移除这些层会使LLM对齐失效并生成有害响应；</li>
+<li>提出层特定编辑（LED）方法，通过定位安全层与毒性层并编辑安全层，在增强LLM抗越狱攻击能力的同时保持对良性提示的性能；</li>
+<li>在Llama2、Mistral等模型上验证LED有效性，能有效防御多种最先进越狱攻击，且对模型有用性影响极小。</li>
+</ol></li>
+<li><strong>研究方法</strong>：通过层剪枝分析识别关键安全层与额外防御层（编辑层），通过解码隐藏状态定位毒性层，再以毒性层的安全响应解码结果为目标，编辑安全层与额外防御层，使毒性层仅输出安全响应。</li>
+</ul>
+<h2 id="各章节详解">2. 各章节详解</h2>
+<h3 id="引言1.-introduction">2.1 引言（1. Introduction）</h3>
+<ol type="1">
+<li><strong>LLM现状与问题</strong>：LLMs（如GPT4、Llama2、Mistral）在多任务中表现优异且广泛应用，但即使经过对齐优化，仍易受“越狱攻击”（
+adversarial prompts）诱导生成有害、有偏见内容，威胁安全部署。</li>
+<li><strong>现有防御局限</strong>：现有防御分两类——①通过困惑度过滤、输入变异或LLM自身检测有害提示/响应；②通过安全指令或logit处理器降低有害响应概率，但均易被自适应攻击突破，且未深入LLM内部工作机制。</li>
+<li><strong>研究动机</strong>：基于LLM剪枝与层跳过研究（移除部分层不影响性能）及早期层抗攻击关键作用的观察，通过层级分析识别影响LLM对有害/越狱提示响应的关键层，进而提出防御方法。</li>
+<li><strong>核心发现预览</strong>：存在关键安全层（早期层），移除后LLM对原始有害提示即生成有害响应；部分层（非全部）含触发有害响应的毒性信息，部分层仍保持高拒绝token解码概率。</li>
+</ol>
+<h3 id="相关工作2.-related-work">2.2 相关工作（2. Related Work）</h3>
+<h4 id="越狱攻击jailbreak-attacks">2.2.1 越狱攻击（Jailbreak
+Attacks）</h4>
+<ul>
+<li>早期依赖手工设计提示（如社交媒体收集的有效越狱提示）或对话模板生成提示；</li>
+<li>近期聚焦自动生成提示：梯度方法（如GCG）、无梯度遗传算法、随机搜索迭代优化，或利用辅助LLM（如GPTFuzzer用预训练LLM更新模板、PAIR用攻击LLM选候选提示），但LLM在恶意语境下的脆弱性仍未被充分探索。</li>
+</ul>
+<h4 id="越狱防御jailbreak-defenses">2.2.2 越狱防御（Jailbreak
+Defenses）</h4>
+<ul>
+<li>防御方法与引言分类一致，但均未全面理解LLM内在安全机制，无法从根本上抵御攻击。</li>
+</ul>
+<h4 id="知识编辑knowledge-editing">2.2.3 知识编辑（Knowledge
+Editing）</h4>
+<ul>
+<li>目标：在特定领域修改LLM行为且不影响其他输入性能，分三类——
+<ol type="1">
+<li>微调：用新数据集直接更新知识（如Lee et al., 2022）；</li>
+<li>元学习：训练超网络学习编辑模型而非直接更新权重（如KE、MEND）；</li>
+<li>定位-编辑：利用知识存储于MLP模块的发现，定位并编辑目标知识（如ROME、MEMIT用因果中介分析定位隐藏状态）；</li>
+</ol></li>
+<li>与本文差异：传统知识编辑试图“解毒”毒性层，而本文不直接编辑毒性层（无法完全消除有害知识），而是编辑安全层使毒性层输出安全响应。</li>
+</ul>
+<h3
+id="led方法3.-led-layer-specific-editing-for-enhancing-defense-of-llms">2.3
+LED方法（3. LED: Layer-specific Editing for Enhancing Defense of
+LLMs）</h3>
+<p>LED含三个核心步骤，流程如图2所示：</p>
+<figure>
+<img
+src="/images/post_images/2025-10-29-论文阅读——Defending-Large-Language-Models-Against-Jailbreak-Attacks-via-Layer-specific-Editing/image-20251029003349867.png"
+alt="image-20251029003349867" />
+<figcaption aria-hidden="true">image-20251029003349867</figcaption>
+</figure>
+<h4 id="步骤1选择编辑层selecting-edited-layers">2.3.1
+步骤1：选择编辑层（Selecting Edited Layers）</h4>
+<ol type="1">
+<li><strong>识别安全层（S）</strong>：
+<ul>
+<li>过程：通过层剪枝分析，迭代移除LLM（设为L层，记为f）中1个或连续多个层（从层1开始，避免初始嵌入层；最多移除L/2层以保证输出有意义），得到剪枝模型<span
+class="math inline"><em>f</em><sub><em>l</em>, <em>n</em></sub></span>（移除层l至l+n，<span
+class="math inline">1 ≤ <em>l</em> ≤ <em>L</em></span>，<span
+class="math inline">0 ≤ <em>n</em> ≤ <em>m</em><em>i</em><em>n</em>(<em>L</em>/2, <em>L</em> − <em>l</em>)</span>）；</li>
+<li>判定：若<span
+class="math inline"><em>f</em><sub><em>l</em>, <em>n</em></sub></span>对有害提示生成有害响应，停止剪枝，层l至l+n为安全层候选；</li>
+<li>筛选：用<code>layer_frequency</code>统计所有有害提示下安全层候选出现频率，取top-k层为安全层S（公式2，原文未列具体公式，核心为频率排序）。</li>
+</ul></li>
+<li><strong>确定编辑层（E）</strong>：将安全层S与额外防御贡献层（增强编辑鲁棒性）合并，得到最终编辑层E。</li>
+</ol>
+<h4 id="步骤2定位毒性层locating-toxic-layers">2.3.2
+步骤2：定位毒性层（Locating Toxic Layers）</h4>
+<ol type="1">
+<li><strong>毒性层定义</strong>：含促进有害响应生成“毒性区域”的层，通过解码隐藏状态识别。</li>
+<li><strong>定位方法</strong>：输入越狱提示，用LLM原始解码层将层l的隐藏状态<span
+class="math inline"><em>h</em><sub><em>l</em></sub></span>解码到词汇空间<span
+class="math inline"><em>v</em><sub><em>l</em></sub> ∈ ℝ<sup>#<em>v</em><em>o</em><em>c</em><em>a</em><em>b</em> × 1</sup></span>，观察解码token概率；</li>
+<li><strong>毒性评分（<span
+class="math inline"><em>T</em>(<em>h</em><sub><em>l</em></sub>)</span>）</strong>：量化层l解码输出中有害响应的比例，公式为：
+<span class="math display">$$T(h_l) =
+\frac{v_l(t_{toxic})}{max(v_l)}$$</span> 其中<span
+class="math inline"><em>t</em><sub><em>t</em><em>o</em><em>x</em><em>i</em><em>c</em></sub></span>是LLM最终层生成的有害token，<span
+class="math inline"><em>v</em><sub><em>l</em></sub>(<em>t</em><sub><em>t</em><em>o</em><em>x</em><em>i</em><em>c</em></sub>)</span>是层l中<span
+class="math inline"><em>t</em><sub><em>t</em><em>o</em><em>x</em><em>i</em><em>c</em></sub></span>的概率，<span
+class="math inline"><em>m</em><em>a</em><em>x</em>(<em>v</em><sub><em>l</em></sub>)</span>是层l解码logits最大值；</li>
+<li><strong>毒性层筛选</strong>：平均毒性评分&gt;0.5的层为毒性层（T），需对齐使其仅输出安全内容。</li>
+</ol>
+<h4 id="步骤3层特定编辑layer-specific-editing">2.3.3
+步骤3：层特定编辑（Layer-specific Editing）</h4>
+<ol type="1">
+<li><strong>输入输出对</strong>：采用<span
+class="math inline">(<em>X</em><sub><em>h</em><em>a</em><em>r</em><em>m</em></sub>, <em>Y</em><sub><em>s</em><em>a</em><em>f</em><em>e</em></sub>)</span>，<span
+class="math inline"><em>X</em><sub><em>h</em><em>a</em><em>r</em><em>m</em></sub></span>为有害提示，<span
+class="math inline"><em>Y</em><sub><em>s</em><em>a</em><em>f</em><em>e</em></sub></span>为期望安全响应；</li>
+<li><strong>编辑损失</strong>：使编辑层对齐毒性层的安全响应解码结果，损失公式为：
+<span
+class="math display"><em>L</em><sub><em>e</em><em>d</em><em>i</em><em>t</em></sub> = −<em>l</em><em>o</em><em>g</em><em>P</em><sub><em>f</em></sub>(<em>Y</em><sub><em>s</em><em>a</em><em>f</em><em>e</em></sub>|<em>X</em><sub><em>h</em><em>a</em><em>r</em><em>m</em></sub>, <em>h</em><sub><em>t</em></sub>)</span>
+其中<span
+class="math inline"><em>h</em><sub><em>t</em></sub></span>是毒性层t的隐藏状态；</li>
+<li><strong>模型更新</strong>：基于<span
+class="math inline"><em>L</em><sub><em>e</em><em>d</em><em>i</em><em>t</em></sub></span>计算编辑层E中每层l的更新方向<span
+class="math inline"><em>Δ</em><sub><em>t</em></sub><sup><em>l</em></sup></span>，更新层l权重，得到抗攻击的鲁棒模型<span
+class="math inline"><em>f</em><sub><em>r</em><em>o</em><em>b</em><em>u</em><em>s</em><em>t</em></sub></span>。</li>
+</ol>
+<h3
+id="llm的安全与毒性层分析4.-a-closer-look-at-llms-safety-and-toxic-layers">2.4
+LLM的安全与毒性层分析（4. A Closer Look at LLMs: Safety and Toxic
+Layers）</h3>
+<h4 id="早期安全层主导防御early-safety-layers-dominates-defense">2.4.1
+早期安全层主导防御（Early Safety Layers Dominates Defense）</h4>
+<ul>
+<li><p>实验：对AdvBench中100个随机有害提示进行层剪枝分析（4个模型：Llama2-13B、Llama2-7B、Mistral-7B、Vicuna-7B）；</p></li>
+<li><p>结果：</p>
+<figure>
+<img
+src="/images/post_images/2025-10-29-论文阅读——Defending-Large-Language-Models-Against-Jailbreak-Attacks-via-Layer-specific-Editing/image-20251029003720163.png"
+alt="image-20251029003720163" />
+<figcaption aria-hidden="true">image-20251029003720163</figcaption>
+</figure>
+<ol type="1">
+<li>所有模型均存在安全层，移除后对自然有害提示的攻击成功率（ASR）显著提升（ASR越高防御越差，图3(a)）；</li>
+<li>安全层集中在早期层（图3(b)），后期层基本不参与有害提示防御，验证早期层识别有害提示的关键作用。</li>
+</ol></li>
+</ul>
+<h4
+id="多个后期层含毒性信息multiple-later-layers-contain-toxic-information">2.4.2
+多个后期层含毒性信息（Multiple Later Layers Contain Toxic
+Information）</h4>
+<ul>
+<li><p>实验：分析Llama2-7B和Mistral-7B对100个越狱提示的层毒性评分（图4）；</p>
+<figure>
+<img
+src="/images/post_images/2025-10-29-论文阅读——Defending-Large-Language-Models-Against-Jailbreak-Attacks-via-Layer-specific-Editing/image-20251029003837313.png"
+alt="image-20251029003837313" />
+<figcaption aria-hidden="true">image-20251029003837313</figcaption>
+</figure></li>
+<li><p>结果：后期层（非仅最终层）普遍高概率输出有害token，需对齐；但不直接编辑毒性层（无法穷尽触发有害内容的越狱提示，且无法防止新方法提取有害知识），而是通过编辑安全层使毒性层生成安全拒绝响应。</p></li>
+</ul>
+<h3 id="实验5.-experiments">2.5 实验（5. Experiments）</h3>
+<h4 id="实验设置experiment-setup">2.5.1 实验设置（Experiment
+Setup）</h4>
+<ol type="1">
+<li><strong>数据集与模型</strong>：
+<ul>
+<li>攻击评估：AdvBench生成越狱提示，用攻击成功率（ASR）为指标；</li>
+<li>层分析与编辑：200个来自Trojan Detection Competition
+2023的有害提示（用于层剪枝与输入输出对），500个越狱提示（用于定位毒性层），两类数据集无重叠；</li>
+<li>有用性评估：MT-bench、Just-Eval；</li>
+<li>测试模型：强对齐模型Llama2-7B，弱对齐模型Mistral-7B。</li>
+</ul></li>
+<li><strong>攻击设置</strong>：5种最先进越狱攻击——PAIR、AutoDAN、GPTFuzzer、GCG、DeepInception，用EasyJailbreak实现，GPT-4生成攻击材料（如有害前缀/后缀）。</li>
+<li><strong>防御设置</strong>：
+<ul>
+<li>对比防御：Self-Reminder、PPL、Paraphrase、Self-Examination、SafeDecoding，及LoRA（低秩适应，同数据集微调作对比）；</li>
+<li>LED参数：
+<ul>
+<li>Mistral-7B：编辑层=top-5安全层{2,3,4,5,6}+额外中层{13,14,15}，毒性层{29,30,31}；</li>
+<li>Llama2-7B：编辑层=top-3安全层{4,5,6}+额外层{13,14,15}，毒性层{29,30,31}。</li>
+</ul></li>
+</ul></li>
+</ol>
+<h4
+id="led抗越狱攻击有效性effectiveness-of-led-against-jailbreak-attacks">2.5.2
+LED抗越狱攻击有效性（Effectiveness of LED against Jailbreak
+Attacks）</h4>
+<ul>
+<li>核心结果（表1）：
+<ol type="1">
+<li>Mistral-7B（弱对齐）：传统防御（如Self-Reminder、PPL）基本无效，LED使自然有害提示ASR降为0，平均越狱攻击ASR降至11.3%；</li>
+<li>Llama2-7B（强对齐）：LED使所有攻击ASR接近0%（如GCG、PAIR攻击ASR均为0）；</li>
+<li>有用性保留（表2）：LED对有用性影响极小，Mistral-7B平均有用性仅降2%，Llama2-7B降1%。</li>
+</ol></li>
+</ul>
+<h4 id="与lora对比comparison-with-lora">2.5.3 与LoRA对比（Comparison
+with LoRA）</h4>
+<ul>
+<li>LoRA局限：微调全部层或仅安全层，对鲁棒性提升有限（仅GPTFuzzer攻击有改善），且需更大数据集才接近LED性能；</li>
+<li>差异原因：LED对齐多毒性层输出，而非仅关注LLM最终输出（LoRA重点）。</li>
+</ul>
+<h4 id="消融研究ablation-studies">2.5.4 消融研究（Ablation
+Studies）</h4>
+<ol type="1">
+<li><strong>安全层选择影响</strong>（表3）：
+<ul>
+<li>单一层编辑：编辑早期层防御效果最优，后期层基本无效；</li>
+<li>多层编辑：仅编辑安全层虽提升防御，但使模型对类有害良性提示过度敏感，有用性下降；编辑安全层+额外中层最优，兼顾鲁棒性与有用性；</li>
+</ul></li>
+<li><strong>编辑模型增强Self-Examination</strong>：用编辑后模型进行Self-Examination（输出后检测有害性），所有攻击防御效果提升，但DeepInception攻击因文本含复杂场景，检测效果仍弱于直接用LED防御。</li>
+</ol>
+<h3 id="结论6.-conclusion">2.6 结论（6. Conclusion）</h3>
+<ol type="1">
+<li><strong>核心结论</strong>：通过层剪枝与解码分析，发现LLM中早期安全层主导防御、后期多层含毒性信息，且防御层分布不均衡（多数层未充分参与防御）；LED通过层编辑增强抗攻击能力并保留有用性。</li>
+<li><strong>局限性</strong>：未确定有害知识的具体位置及有效删除方法，编辑安全层无法直接清除毒性层有害知识。</li>
+</ol>
+<h2 id="整体评价">3. 整体评价</h2>
+<ul>
+<li><strong>核心贡献</strong>：提出层特定编辑（LED）方法，首次基于LLM层级机制识别安全层与毒性层，实现抗越狱攻击防御的同时保持良性提示性能，为LLM安全防御提供了从内部机制出发的新思路。</li>
+<li><strong>未来方向</strong>：确定LLM中有害知识的精确存储位置及有效删除方法；深入研究LLM各组件功能，优化防御机制并扩展其适用范围。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.032v1/" rel="prev" title="How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States">
+                  <i class="fa fa-angle-left"></i> How Alignment and Jailbreak Work: Explain LLM Safety through Intermediate Hidden States
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.030v1/" rel="next" title="DeAL: Decoding-time Alignment for Large Language Models">
+                  DeAL: Decoding-time Alignment for Large Language Models <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

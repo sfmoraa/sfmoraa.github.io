@@ -172,13 +172,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.012v1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.036v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2510.012v1/" class="post-title-link" itemprop="url">GraphRAG-Bench: Challenging Domain-Specific Reasoning for Evaluating Graph Retrieval-Augmented Generation</a>
+          <a href="/posts/2510.036v1/" class="post-title-link" itemprop="url">Improving Alignment and Robustness with Circuit Breakers</a>
         </h2>
 
         <div class="post-meta-container">
@@ -242,7 +242,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-10-15 00:00:00 / 修改时间：14:23:16" itemprop="dateCreated datePublished" datetime="2025-10-15T00:00:00+08:00">2025-10-15</time>
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：12:38:38" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/GraphRAG/" itemprop="url" rel="index"><span itemprop="name">GraphRAG</span></a>
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
         </span>
     </span>
 
@@ -269,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4.6k</span>
+      <span>5.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
+      <span>9 分钟</span>
     </span>
 </div>
 
@@ -287,254 +287,178 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1
-id="graphrag-bench面向图检索增强生成的领域特定推理评估基准arxiv2506.02404">GraphRAG-Bench：面向图检索增强生成的领域特定推理评估基准（arxiv2506.02404）</h1>
-<h2 id="一研究背景与动机">一、研究背景与动机</h2>
-<h3 id="rag技术的局限">1. RAG技术的局限</h3>
-<p>检索增强生成（RAG）虽能通过引入外部语料缓解大语言模型（LLMs）的幻觉问题与领域知识缺失问题，但传统RAG采用“平面检索”模式，仅基于相似度匹配返回碎片化文本块，无法建模概念间的复杂关联，难以应对<strong>多跳推理</strong>（如“2008年雷曼兄弟破产对埃隆·马斯克的特斯拉有何影响？”）和<strong>全局理解</strong>（如“贸易政策变化的核心思想是什么？”）类任务。</p>
-<h3 id="graphrag的兴起与评估缺口">2. GraphRAG的兴起与评估缺口</h3>
-<p>图检索增强生成（GraphRAG）通过将知识以“节点（概念）-边（关系）”的图结构组织，实现概念关联的建模与多跳推理，现有研究可分为三类：
--
-<strong>层次图构建</strong>：如RAPTOR（递归树构建+多层总结）、微软GraphRAG（社区检测+LLM生成摘要），支持“粗到细”检索；
-- <strong>神经图检索</strong>：如GFM-RAG（查询依赖GNN）、G-Retriever（
-Steiner树优化），通过图神经编码器提升多跳推理能力； -
-<strong>动态知识整合</strong>：如DALK（动态知识图谱构建）、ToG（LLM与图谱波束搜索耦合），实现自适应图谱遍历。</p>
-<p>但当前GraphRAG评估存在关键缺口：现有基准（如HotpotQA、2WikiMultiHopQA）仅包含<strong>常识性单跳/浅多跳问题</strong>（如“Dambar
-Shah的孙子是谁？”），答案多为短文本（姓名、日期），无法覆盖领域特定复杂推理，也未评估GraphRAG全流程（图谱构建、知识检索、推理生成）的性能。</p>
-<h2 id="二graphrag-bench基准设计">二、GraphRAG-Bench基准设计</h2>
-<p>GraphRAG-Bench是首个专为GraphRAG设计的<strong>领域特定、高挑战性评估基准</strong>，核心目标是全面衡量GraphRAG在复杂推理任务中的能力，其设计包含三大核心模块：</p>
-<h3 id="问题设计覆盖高难度领域任务">1. 问题设计：覆盖高难度领域任务</h3>
+          <h1>Improving Alignment and Robustness with Circuit Breakers</h1>
+<p>NeurIPS</p>
+<h2 id="1-论文概览">1. 论文概览</h2>
 <ul>
-<li><strong>规模与领域</strong>：包含1018道大学水平题目，覆盖计算机科学16个核心子领域（如计算机视觉、网络、人机交互、AI伦理），语料源自20本权威教材（总字数700万）；</li>
-<li><strong>问题类型</strong>：5类题型对应不同推理能力，具体如下表：</li>
+<li><strong>核心问题</strong>：AI系统易产生有害输出且高度易受对抗攻击，现有拒绝训练易被绕过、对抗训练泛化性差且牺牲模型能力，难以平衡对抗鲁棒性与效用。</li>
+<li><strong>主要贡献</strong>：1. 提出基于表示工程（RepE）的“断路器”方法，直接控制与有害输出相关的内部表示，实现攻击无关的防御；2. 该方法适用于纯文本、多模态语言模型及AI智能体，在抵御未知强攻击的同时几乎不损失模型能力；3. 开发Llama-3-8B-Instruct微调模型Cygnet，将有害输出率降低约两个数量级，实现能力与无害性的帕累托改进。</li>
+<li><strong>研究方法</strong>：基于表示工程设计Representation Rerouting（RR）技术，通过“断路器集”（触发有害表示）和“保留集”（维持良性表示）构建训练数据，结合重定向损失（使有害表示正交于原始表示）和保留损失（维持良性表示），使用LoRA调优实现模型微调。</li>
 </ul>
-<table>
-<colgroup>
-<col style="width: 46%" />
-<col style="width: 20%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr>
-<th>题型（缩写）</th>
-<th>描述</th>
-<th>评估目标</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>填空题（FB）</td>
-<td>需补充上下文依赖的精确术语</td>
-<td>利用图结构中局部语义依赖与实体关联的能力</td>
-</tr>
-<tr>
-<td>单选题（MC）</td>
-<td>4个选项含语义干扰项</td>
-<td>整合实体与边关系，区分语义相似但错误选项的能力</td>
-</tr>
-<tr>
-<td>多选题（MS）</td>
-<td>从4个选项选2-4个正确答案</td>
-<td>处理多跳概念关联，解决选项冲突的能力</td>
-</tr>
-<tr>
-<td>判断题（TF）</td>
-<td>验证陈述正确性</td>
-<td>基于图知识进行逻辑推理的事实准确性</td>
-</tr>
-<tr>
-<td>开放题（OE）</td>
-<td>需生成详细长文本答案</td>
-<td>跨子领域知识整合，生成逻辑连贯长响应的能力</td>
-</tr>
-</tbody>
-</table>
+<h2 id="2-各章节详解">2. 各章节详解</h2>
+<h3 id="2-1-摘要">2.1 摘要</h3>
+<p>论文针对AI系统的有害输出与对抗攻击脆弱性问题，提出受表示工程启发的“断路器”方法。该方法不同于拒绝训练（易被绕过）和对抗训练（泛化差、牺牲能力），直接控制产生有害输出的内部表示：当模型开始生成有害内容时，中断其内部过程。实验表明，该方法可应用于纯文本和多模态模型，在抵御未知强攻击（包括图像“劫持”）时几乎不损失效用；扩展到AI智能体后，有害行为率显著降低，为AI系统安全防护提供新方向。<a target="_blank" rel="noopener" href="http://xn--github-og8itwf47iks6auyv.com/GraySwanAI/circuit-breakers%E3%80%82">代码开源于github.com/GraySwanAI/circuit-breakers。</a></p>
+<h3 id="2-2-1-引言">2.2 1. 引言</h3>
+<h4 id="2-2-1-背景与问题">2.2.1 背景与问题</h4>
 <ul>
-<li><strong>难度设计</strong>：题目需<strong>多跳推理+领域技能</strong>，例如：
-<ul>
-<li>数学计算：“给定输入、Conv1、MaxPool、FC层，计算输出特征图维度”；</li>
-<li>编程实现：“基于关联函数调用完成代码编写”；</li>
-<li>定理证明：“给定定理A和B，证明结论C”。</li>
-</ul></li>
+<li>对抗攻击长期威胁神经网络，利用AI系统固有脆弱性导致输出失效，现有防御难以在不牺牲性能的前提下实现高可靠性，“鲁棒性与效用权衡”被视为固有问题。</li>
+<li>生成模型（如LLM）存在输出侵权、诽谤等风险，AI智能体可能执行有害行为；拒绝训练虽提升对齐性，但易被对抗攻击绕过，且针对特定攻击的防御（如对抗训练）泛化差、资源消耗高，系统级过滤（输入/输出过滤）仍易被规避。</li>
 </ul>
-<h3 id="语料处理构建结构化教材知识">2. 语料处理：构建结构化教材知识</h3>
-<p>为确保语料准确性与结构化，采用四阶段处理流程： -
-<strong>预处理</strong>：区分文本型PDF（PyMuPDF提取）与扫描型PDF（OCR提取），同时提取教材元数据（目录、章节页码范围）；
-- <strong>内容解析</strong>： -
-布局分析：用LayoutLMv3（多模态文档模型）将页面划分为标题、段落、公式、表格等语义区域；
-- 公式识别：用YOLO-based模型检测公式边界，避免OCR误识别； -
-OCR优化：用PaddleOCR提取文本区域，保证阅读顺序正确； -
-<strong>后处理</strong>：用MinerU工具按人类阅读顺序重排文本块，解决边界框重叠导致的内容混乱；
--
-<strong>层次构建</strong>：将语料组织为“书名→章节→小节→知识单元”四级树结构，每个节点标注上下文元数据，贴合教材教学逻辑。</p>
-<h3 id="评估框架全流程多维度衡量">3. 评估框架：全流程多维度衡量</h3>
-<p>区别于传统仅评估“答案正确性”的基准，GraphRAG-Bench设计<strong>全流程多维度评估体系</strong>，覆盖GraphRAG三大核心环节：</p>
-<h4 id="图谱构建评估">（1）图谱构建评估</h4>
-<p>衡量图谱构建的“效率-成本-质量”，核心指标如下： -
-<strong>效率</strong>：构建完整图谱的时间（秒）； -
-<strong>成本</strong>：构建过程中LLM消耗的Token数； -
-<strong>质量</strong>：非孤立节点比例（节点是否有边连接，反映图谱连通性）。</p>
-<h4 id="知识检索评估">（2）知识检索评估</h4>
-<p>聚焦检索的“速度-机制”，核心指标如下： -
-<strong>索引时间</strong>：构建检索向量数据库的耗时； -
-<strong>平均检索时间</strong>：单条查询的平均检索耗时； -
-<strong>检索算子</strong>：评估检索机制复杂度（如仅节点检索、节点+关系检索、社区信息检索）。</p>
-<h4 id="生成与推理评估">（3）生成与推理评估</h4>
-<p>创新设计“答案+推理过程”双评估，解决“模型猜对答案但推理错误”的问题： -
-<strong>答案准确性（Accuracy）</strong>： - FB/OE：通过LLM
-prompt评估生成内容与标准答案的语义对齐度； -
-MC/TF：正确得1分，错误得0分； -
-MS：全对得1分，部分对得0.5分，全错得0分； - <strong>推理能力</strong>：
-- R分数：LLM评估生成推理过程与“专家编写黄金推理链”的语义一致性； -
-AR分数：衡量“答案正确时推理也正确”的比例，区分“猜对答案”与“正确推理”。</p>
-<h2 id="三实验设计与核心结果">三、实验设计与核心结果</h2>
-<h3 id="实验设置">1. 实验设置</h3>
+<h4 id="2-2-2-方法思路">2.2.2 方法思路</h4>
+<p>提出“断路器”方法：不消除特定攻击漏洞，而是直接阻止模型生成有害输出的能力。基于表示工程（RepE），将与有害输出相关的内部表示与断路器关联，当模型触发有害表示时，中断生成过程（“短路”有害流程）。该方法具有攻击无关性，无需额外训练、对抗微调或辅助“守卫”模型，无额外计算负担，可与现有监控机制无缝集成。</p>
+<h4 id="2-2-3-实验亮点">2.2.3 实验亮点</h4>
 <ul>
-<li><strong>评估模型</strong>：9个主流GraphRAG方法+2个传统RAG基线（TF-IDF、BM-25）+1个LLM基线（GPT-4o-mini）；</li>
-<li><strong>统一参数</strong>：所有模型使用GPT-4o-mini作为基础LLM，文本分块大小1200
-Token，Top-k检索k=5，其他超参沿用原论文最优值。</li>
+<li>LLM实验：RR技术显著提升对齐性，对未知攻击（嵌入攻击、表示空间攻击）的防御效果远超拒绝训练和对抗训练，Llama-3-8B-Instruct微调模型Cygnet有害输出率降低约两个数量级，且能力提升。</li>
+<li>多模态模型实验：在PGD攻击下，断路器使模型抵御图像“劫持”攻击，且无能力损失（独立图像分类器难以实现）。</li>
+<li>AI智能体实验：在新的函数调用安全基准上，有害函数调用率显著降低，同时保留能力。</li>
 </ul>
-<h3 id="核心实验结果">2. 核心实验结果</h3>
-<h4
-id="图谱构建结构类型决定效率与质量">（1）图谱构建：结构类型决定效率与质量</h4>
-<p>不同GraphRAG采用的图谱结构（树、
-passage图、知识图谱、富知识图谱）性能差异显著，如下表（部分关键模型）：</p>
-<table style="width:100%;">
-<colgroup>
-<col style="width: 9%" />
-<col style="width: 23%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 15%" />
-</colgroup>
-<thead>
-<tr>
-<th>模型</th>
-<th>构建Token成本</th>
-<th>构建时间（秒）</th>
-<th>非孤立节点比例</th>
-<th>结构类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>RAPTOR</td>
-<td>10,142,221</td>
-<td>20396.49</td>
-<td>-（树无孤立节点）</td>
-<td>树结构</td>
-</tr>
-<tr>
-<td>KGP</td>
-<td>15,271,633</td>
-<td>17318.07</td>
-<td>46.03%</td>
-<td>Passage图（实体链接建边）</td>
-</tr>
-<tr>
-<td>G-Retriever</td>
-<td>32,948,161</td>
-<td>5315.27</td>
-<td>89.95%</td>
-<td>知识图谱（OpenIE提取三元组）</td>
-</tr>
-<tr>
-<td>GraphRAG</td>
-<td>79,929,698</td>
-<td>11181.24</td>
-<td>72.51%</td>
-<td>富知识图谱（节点/边加摘要）</td>
-</tr>
-</tbody>
-</table>
-<p><strong>关键结论</strong>： -
-树结构（RAPTOR）Token成本最低，但迭代聚类耗时最长； -
-知识图谱（G-Retriever、HippoRAG）非孤立节点比例最高（~90%），连通性最优；
--
-富知识图谱（GraphRAG、LightRAG）Token成本最高（需生成额外摘要），引入噪声导致连通性下降。</p>
-<h4
-id="知识检索速度与机制复杂度负相关">（2）知识检索：速度与机制复杂度负相关</h4>
-<p>检索效率受“索引方式+检索算子”影响，如下表（关键模型）：</p>
-<table>
-<thead>
-<tr>
-<th>模型</th>
-<th>检索算子</th>
-<th>索引时间（秒）</th>
-<th>平均检索时间（秒）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>RAPTOR</td>
-<td>仅节点</td>
-<td>451.03</td>
-<td>0.02（最快）</td>
-</tr>
-<tr>
-<td>GFM-RAG</td>
-<td>仅节点</td>
-<td>93.55（最快）</td>
-<td>1.96</td>
-</tr>
-<tr>
-<td>HippoRAG</td>
-<td>节点+关系+文本块</td>
-<td>4695.29（最慢）</td>
-<td>2.44</td>
-</tr>
-<tr>
-<td>GraphRAG</td>
-<td>节点+关系+文本块+社区</td>
-<td>1796.65</td>
-<td>44.87</td>
-</tr>
-</tbody>
-</table>
-<p><strong>关键结论</strong>： -
-树结构（RAPTOR）检索最快：层级组织支持快速定位； -
-轻量算子（仅节点检索，如GFM-RAG）索引时间最短； -
-复杂算子（含社区/关系映射，如HippoRAG、GraphRAG）索引耗时显著增加，但部分（如HippoRAG）通过PageRank优化检索速度。</p>
-<h4
-id="生成准确性graphrag优势集中于复杂题型">（3）生成准确性：GraphRAG优势集中于复杂题型</h4>
-<p>各模型平均生成准确性排名（Top5）：RAPTOR（73.58%）&gt;
-HippoRAG（72.64%）&gt; GraphRAG（72.50%）&gt; GFM-RAG（72.10%）&gt;
-KGP（71.86%），且存在显著题型差异： -
-<strong>GraphRAG优势题型</strong>： -
-判断题（TF）：检索补充LLM知识盲区，准确性提升最明显（如RAPTOR较GPT-4o-mini提升6.33%）；
--
-开放题（OE）：检索提供外部事实，减少幻觉，提升回答细节（如HippoRAG较GPT-4o-mini提升3.9%）；
-- <strong>GraphRAG劣势/无效题型</strong>： -
-单选题（MC）：LLM已通过预训练掌握大量常识，检索引入噪声反而降低准确性（如多数模型较GPT-4o-mini下降1-3%）；
--
-填空题（FB）：需精确上下文匹配，检索文本易引入无关信息，部分模型（如LightRAG）准确性下降9%。</p>
-<h4
-id="推理能力graphrag全面提升逻辑连贯性">（4）推理能力：GraphRAG全面提升逻辑连贯性</h4>
-<p>所有GraphRAG模型均提升LLM的推理能力（R分数与AR分数），关键发现： -
-LLM基线缺陷：GPT-4o-mini的AR分数仅39.78%，表明“答案正确但推理错误”的比例极高；
--
-GraphRAG改进：RAPTOR（R=60.81%，AR=45.53%）、HippoRAG（R=60.90%，AR=44.55%）表现最优，证明“多跳检索+结构化知识”能为推理提供有效证据；
--
-领域差异：数学领域所有GraphRAG模型推理能力下降（检索文本多为概念解释，无法匹配符号计算需求）；伦理领域推理能力普遍偏低（需主观价值判断，图结构难以建模模糊伦理概念）。</p>
-<h2 id="四核心洞察与结论">四、核心洞察与结论</h2>
-<h3 id="关键研究发现">1. 关键研究发现</h3>
+<h3 id="2-3-2-相关工作">2.3 2. 相关工作</h3>
+<h4 id="2-3-1-LLM的对抗攻击">2.3.1 LLM的对抗攻击</h4>
 <ul>
-<li><strong>GraphRAG的价值边界</strong>：GraphRAG能显著提升<strong>多跳推理、长文本生成、事实验证</strong>任务性能，但对“LLM预训练已覆盖的常识性单跳任务”（如MC）可能产生负面影响；</li>
-<li><strong>图谱结构的选择依据</strong>：
-<ul>
-<li>追求效率：选择树结构（RAPTOR）或轻量知识图谱（GFM-RAG）；</li>
-<li>追求推理质量：选择标准知识图谱（G-Retriever、HippoRAG），避免富知识图谱的噪声干扰；</li>
-</ul></li>
-<li><strong>评估的必要性</strong>：传统“仅看答案准确性”的评估会高估LLM能力，必须结合“推理过程评估”（如AR分数）才能全面衡量GraphRAG价值。</li>
+<li>手动攻击提示：构成LLM红队测试基础，但缺乏标准化；自动红队（如梯度优化生成对抗后缀）可实现迁移攻击，白盒访问可发起预填充攻击（诱导有害生成）。</li>
+<li>多模态攻击：涵盖排版攻击、梯度优化攻击；LLM智能体的安全性与鲁棒性尚未被充分探索。</li>
 </ul>
-<h3 id="基准与实验意义">2. 基准与实验意义</h3>
+<h4 id="2-3-2-LLM的防御方法">2.3.2 LLM的防御方法</h4>
 <ul>
-<li><strong>基准价值</strong>：GraphRAG-Bench填补了“领域特定GraphRAG评估”的空白，提供全流程多维度评估工具，支持研究者量化GraphRAG的改进效果；</li>
-<li><strong>实践指导</strong>：为GraphRAG落地提供方向——在教育（大学知识问答）、医疗（病历推理）等需“答案+推理”的场景中，GraphRAG较传统RAG更具优势；</li>
-<li><strong>开源资源</strong>：所有数据与代码已开源（https://github.com/jeremycp3/GraphRAG-Bench），支持社区进一步扩展。</li>
+<li>现有防御局限：RLHF、DPO易被先进对抗攻击绕过；对抗训练（如针对GCG攻击的R2D2模型）泛化差、MT-Bench分数下降；推理时防御（困惑度过滤、SmoothLLM）仅对非自适应攻击有效或计算成本高；系统级过滤仍易被规避。</li>
+<li>本文差异：直接操作内部表示，而非输入/输出文本，泛化性更强、计算成本更低。</li>
 </ul>
-<h2 id="五总结">五、总结</h2>
-<p>GraphRAG-Bench通过“高难度领域问题、结构化语料、全流程评估”三大设计，首次实现了GraphRAG复杂推理能力的量化评估。实验表明，GraphRAG在多跳推理与长文本生成任务中显著优于传统RAG与LLM基线，但性能受题型、领域、图谱结构影响较大。未来研究可基于此基准，进一步优化GraphRAG的“噪声控制”（如数学领域符号检索）与“跨领域适配”（如伦理领域价值建模）能力。</p>
+<h4 id="2-3-3-表示工程">2.3.3 表示工程</h4>
+<p>现有研究通过分析/控制内部表示提升模型可控性（如识别中间表示的可解释结构、修改嵌入知识、引导输出），本文基于表示工程的“控制向量”基线，扩展鲁棒遗忘技术（RMU），设计针对有害输出的表示级控制方法。</p>
+<h3 id="2-4-3-基于表示工程的断路器">2.4 3. 基于表示工程的断路器</h3>
+<h4 id="2-4-1-核心概念">2.4.1 核心概念</h4>
+<p>“断路器”是一类技术的统称，通过监控/重映射与有害流程相关的模型表示，将其导向无意义或拒绝表示，阻止有害行为。针对生成模型的多步生成特性，在每个生成步骤中破坏对抗控制，无需识别所有有害输入，仅需覆盖目标有害输出的表示。</p>
+<h4 id="2-4-2-关键组件：数据集与损失函数">2.4.2 关键组件：数据集与损失函数</h4>
+<h5 id="（1）数据集">（1）数据集</h5>
+<ul>
+<li>断路器集（Ds）：包含触发有害表示的样本（如绕过拒绝机制的文本），用于激活断路器。</li>
+<li>保留集（Dr）：包含良性样本（如指令对话、拒绝数据），用于维持模型良性表示与能力。</li>
+<li>数据集构建要点：LLM需添加拒绝数据到保留集以增强拒绝机制；多模态模型需混合文本与图像-有害文本对；AI智能体需结合函数调用有害样本与良性样本。</li>
+</ul>
+<h5 id="（2）损失函数">（2）损失函数</h5>
+<p>算法1（LoRRA+RR损失）流程如下：</p>
+<ol>
+<li>输入：冻结的原始模型M、带LoRA适配器的断路器模型Mcb、表示提取函数rep、Ds、Dr、训练步数T、超参数α。</li>
+<li>训练步骤（t=1到T）：
+<ul>
+<li>采样批次：xs∼Ds，xr∼Dr。</li>
+<li>系数调度：cs=α(1−t/(2T))（断路器损失系数递减），cr=α(t/(2T))（保留损失系数递增）。</li>
+<li>重定向损失（Ls）：$$L_s = \text{ReLU}\left(cosine_sim\left(rep_M(x_s), rep_{Mcb}(x_s)\right)\right)$$，使Mcb的有害表示与M的有害表示正交（ReLU确保相似度不低于0）。</li>
+<li>保留损失（Lr）：$$L_r = \left|rep_M(x_r) - rep_{Mcb}(x_r)\right|_2$$，维持良性表示一致。</li>
+<li>总损失：$$L = c_sL_s + c_rL_r$$。</li>
+</ul>
+</li>
+</ol>
+<h5 id="（3）损失函数变体对比">（3）损失函数变体对比</h5>
+<ul>
+<li>RMU损失：$$\left|rep_{c/b} - \alpha rep_{rand}\right|_2$$（需调α），收敛性差。</li>
+<li>随机单位向量损失：$$\left|rep_{c/b}/\left|rep_{c/b}\right| - rep_{rand}/\left|rep_{rand}\right|\right|_2$$（无需调参），效果不如余弦损失。</li>
+<li>余弦损失（本文采用）：直观且有效，平衡鲁棒性与能力。</li>
+</ul>
+<h3 id="2-5-4-实验">2.5 4. 实验</h3>
+<h4 id="2-5-1-实验1：大型语言模型（LLM）">2.5.1 实验1：大型语言模型（LLM）</h4>
+<h5 id="（1）实验设置">（1）实验设置</h5>
+<ul>
+<li>模型：Mistral-7B-Instruct-v2、Llama-3-8B-Instruct。</li>
+<li>数据集：断路器集（合成有害样本，过滤与HarmBench重复样本）；保留集（UltraChat、XSTest，Llama-3额外添加拒绝数据）。</li>
+<li>训练参数：150步，批次16，α（Mistral=5，Llama-3=10），目标层10/20，LoRA适配器（层0-20），1×A100-80GB训练20分钟。</li>
+<li>评估基准：
+<ul>
+<li>鲁棒性：HarmBench框架，含手动/自动攻击（GCG、PAIR、TAP-T、AutoDAN）、多语言攻击、3类强攻击（预填充攻击、输入嵌入攻击、RepE攻击），用HarmBench分类器+人工验证攻击成功率（ASR）。</li>
+<li>能力：MT-Bench（指令跟随）、OpenLLM排行榜（MMLU、ARC-c、HellaSwag等）。</li>
+<li>基线：原始模型、对抗训练模型（Mistral R2D2）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="（2）实验结果（表1、图2）">（2）实验结果（表1、图2）</h5>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Improving-Alignment-and-Robustness-with-Circuit-Breakers/image-20251029123122011.png" alt="image-20251029123122011"></p>
+<ul>
+<li>鲁棒性：RR使Mistral的平均ASR从76.7%降至9.8%，Llama-3从38.1%降至3.8%，Cygnet降至0.8%；对抗训练模型（R2D2）泛化差（如GCG攻击有效但其他攻击无效）。</li>
+<li>能力：RR模型MT-Bench分数下降&lt;1%（Mistral从7.60→7.53，Llama-3从8.05→8.00），Cygnet提升至8.21；对抗训练模型MT-Bench从7.60→6.00，下降超8%。</li>
+</ul>
+<h4 id="2-5-2-实验2：多模态模型">2.5.2 实验2：多模态模型</h4>
+<h5 id="（1）实验设置-2">（1）实验设置</h5>
+<ul>
+<li>模型：LLaVA-NeXT-Mistral-7B（冻结图像编码器与投影层，仅调语言模型 backbone）。</li>
+<li>数据集：混合LLM的Ds/Dr与多模态Ds（COCO图像描述+有害文本对）、LLaVA-Instruct保留集。</li>
+<li>训练参数：α=5，目标层16，LoRA适配器（层14-16），交替训练文本与多模态样本。</li>
+<li>评估基准：
+<ul>
+<li>鲁棒性：133个有害文本-图像对（54来自HarmBench，79来自MM-SafetyBench），PGD攻击（ε=32/255，1000步），评估合规率；基线：原始模型、加安全提示的模型。</li>
+<li>能力：MMMU（多模态理解）、LLaVA-Wild（视觉对话）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="（2）实验结果（图3、表4）">（2）实验结果（图3、表4）</h5>
+<ul>
+<li>鲁棒性：PGD攻击下，RR模型合规率比原始模型降低84%，比安全提示模型降低85%（平均ASR：原始91.0%→RR 14.3%）。</li>
+<li>能力：MMMU、LLaVA-Wild分数与原始模型差异&lt;0.5%，安全提示模型LLaVA-Wild下降3.3%。</li>
+</ul>
+<h4 id="2-5-3-实验3：AI智能体">2.5.3 实验3：AI智能体</h4>
+<h5 id="（1）实验设置-3">（1）实验设置</h5>
+<ul>
+<li>模型：Llama-3-8B-Instruct（支持函数调用）。</li>
+<li>数据集：断路器集（100个有害函数调用请求，涵盖网络犯罪、虚假信息等）；保留集（Glaive Function Calling v2）。</li>
+<li>评估基准：
+<ul>
+<li>鲁棒性：直接请求（模型决定是否调用）、强制函数调用（预填充函数名）下的有害合规率，用GPT-4-turbo判断。</li>
+<li>能力：Berkeley Function Calling Leaderboard（BFCL）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="（2）实验结果（图4）">（2）实验结果（图4）</h5>
+<ul>
+<li>鲁棒性：强制函数调用下，RR模型有害合规率降低83%（原始82%→RR 14%）。</li>
+<li>能力：BFCL分数从74.8→76.0，无损失。</li>
+</ul>
+<h4 id="2-5-4-消融实验与分析">2.5.4 消融实验与分析</h4>
+<h5 id="（1）数据集消融">（1）数据集消融</h5>
+<ul>
+<li>断路器集增强：添加绕过拒绝机制的样本，ASR降低且能力保留。</li>
+<li>保留集消融：移除拒绝数据，ASR降低但能力下降（MT-Bench分数从8.0→7.7）。</li>
+</ul>
+<h5 id="（2）损失函数消融">（2）损失函数消融</h5>
+<ul>
+<li>RandC（随机中心向量）、RMU损失：不收敛；RandP（随机正向量）：收敛但ASR（9.7%）高于RR（2.5%）；RR的余弦损失稳定性最优。</li>
+</ul>
+<h5 id="（3）表示分析（图6、10-13）">（3）表示分析（图6、10-13）</h5>
+<ul>
+<li>预填充有害文本时，RR模型在层10/20的表示余弦相似度显著下降、范数剧增，表明断路器在生成前已激活； obfuscated有害文本（如“m-e-t-h”）触发断路器在生成过程中激活，阻止有害内容完整输出。</li>
+</ul>
+<h5 id="（4）有害性探测（HP）对比">（4）有害性探测（HP）对比</h5>
+<ul>
+<li>HP（线性/MLP分类器监控有害表示）：比拒绝训练降低ASR，但效果弱于RR（如Llama-3平均ASR：HP(MLP) 6.8%→RR 3.1%）；HP未针对对抗攻击优化，鲁棒性依赖表示监控的持续性。</li>
+</ul>
+<h3 id="2-6-5-局限性与结论">2.6 5. 局限性与结论</h3>
+<h4 id="2-6-1-局限性">2.6.1 局限性</h4>
+<ul>
+<li>攻击范围局限：仅针对“诱导生成有害内容”的对抗攻击，不防御传统对抗攻击（如改变图像分类标签，因无“有害”标签定义）。</li>
+<li>场景局限：聚焦单轮对话，多轮对话场景的有效性需进一步验证。</li>
+</ul>
+<h4 id="2-6-2-结论">2.6.2 结论</h4>
+<p>基于表示工程的“断路器”方法使模型本质上更安全、对未知对抗攻击更鲁棒，适用于LLM、多模态模型及AI智能体，在不牺牲能力的前提下提升安全性，为AI系统在真实场景的可靠部署提供可行路径。</p>
+<h3 id="2-7-附录关键信息（支撑实验）">2.7 附录关键信息（支撑实验）</h3>
+<ul>
+<li>数据集构建：
+<ul>
+<li>LLM断路器集：用无审查LLM生成有害样本，过滤与HarmBench重复样本（BLEU&lt;0.3）。</li>
+<li>多模态断路器集：COCO图像→LLaVA生成描述→无审查LLM生成有害文本对。</li>
+<li>智能体断路器集：Glaive函数定义→生成有害请求→GPT-3.5-turbo生成函数输出，过滤与AgentBench重复样本（BLEU&lt;0.1）。</li>
+</ul>
+</li>
+<li>评估细节：
+<ul>
+<li>多语言攻击：6种语言（高/中/低资源），翻译输入→模型生成→翻译回英文评估。</li>
+<li>输入嵌入攻击：优化嵌入矩阵A（初始为“x x …x”的嵌入），SGD优化500步，早停（损失&lt;0.05/0.01）。</li>
+<li>RepE攻击：有害/无害样本对→提取层激活差→PCA降维得有害方向→推理时添加方向向量调制拒绝倾向。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-整体评价">3. 整体评价</h2>
+<ul>
+<li><strong>核心思想</strong>：论文提出基于表示工程的“断路器”方法，通过重定向与有害输出相关的内部表示，在LLM、多模态模型及AI智能体中实现对未知对抗攻击的鲁棒防御，同时几乎不损失模型能力，首次实现LLM能力与无害性的帕累托改进。</li>
+<li><strong>未来方向</strong>：将有害表示映射到语义方向（如拒绝方向、EOS嵌入）、扩展至多轮对话场景、优化多模态模型中图像与文本表示的协同防御、探索断路器在更复杂AI系统（如多智能体协作）中的应用。</li>
+</ul>
 
       
     </div>
@@ -554,7 +478,7 @@ GraphRAG改进：RAPTOR（R=60.81%，AR=45.53%）、HippoRAG（R=60.90%，AR=44.
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/null-index/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/38/">38</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/9/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/null-index/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/null-index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/null-index/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/null-index/page/63/">63</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/null-index/page/9/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -577,14 +501,14 @@ GraphRAG改进：RAPTOR（R=60.81%，AR=45.53%）、HippoRAG（R=60.90%，AR=44.
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">206k</span>
+    <span title="站点总字数">359k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:14</span>
+    <span title="站点阅读时长">10:53</span>
   </span>
 </div>
 

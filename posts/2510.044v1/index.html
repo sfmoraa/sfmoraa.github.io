@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Toxicity Detection for Free NeurIPS ## 一、论文概览 ### 1. 核心问题 现有大语言模型（LLMs）存在两大安全相关缺陷：一是安全对齐不完善，可能对有毒提示（如生成钓鱼邮件、犯罪指导）拒绝失败，或对良性提示过度谨慎；二是主流毒性检测器存在明显不足，在低假阳性率（FPR）下真阳性率（TPR）极低（如LlamaGuard在0.1% FPR下TPR仅5.2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Toxicity Detection for Free">
+<meta property="og:url" content="http://example.com/posts/2510.044v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="Toxicity Detection for Free NeurIPS ## 一、论文概览 ### 1. 核心问题 现有大语言模型（LLMs）存在两大安全相关缺陷：一是安全对齐不完善，可能对有毒提示（如生成钓鱼邮件、犯罪指导）拒绝失败，或对良性提示过度谨慎；二是主流毒性检测器存在明显不足，在低假阳性率（FPR）下真阳性率（TPR）极低（如LlamaGuard在0.1% FPR下TPR仅5.2">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-29T13:55:52.547Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.044v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.044v1/","path":"/posts/2510.044v1/","title":"Toxicity Detection for Free"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Toxicity Detection for Free | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#toxicity-detection-for-free"><span class="nav-number">1.</span> <span class="nav-text">Toxicity Detection for Free</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E8%B4%A1%E7%8C%AE"><span class="nav-number">1.0.1.</span> <span class="nav-text">2. 主要贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95"><span class="nav-number">1.0.2.</span> <span class="nav-text">3. 研究方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.1.</span> <span class="nav-text">二、各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E8%A8%80introduction"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 引言（Introduction）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9Crelated-work"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 相关工作（Related Work）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86preliminaries"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 预备知识（Preliminaries）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%AE%BE%E5%AE%9A"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">3.1 问题设定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">3.2 评价指标</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%A9%E5%85%B7%E6%A8%A1%E5%9E%8Btoy-models"><span class="nav-number">1.1.4.</span> <span class="nav-text">4. 玩具模型（Toy Models）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%92%E7%BB%9D%E6%A6%82%E7%8E%87por"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">4.1 拒绝概率（PoR）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%92%E7%BB%9Dtoken-logitsport"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">4.2 拒绝token logits（PoRT）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%A9%E5%85%B7%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0"><span class="nav-number">1.1.4.3.</span> <span class="nav-text">4.3 玩具模型评估</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#muli%E6%96%B9%E6%B3%95moderation-using-llm-introspection"><span class="nav-number">1.1.5.</span> <span class="nav-text">5.
+MULI方法（Moderation Using LLM Introspection）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">5.1 模型结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E7%9B%AE%E6%A0%87"><span class="nav-number">1.1.5.2.</span> <span class="nav-text">5.2 优化目标</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8Cexperiments"><span class="nav-number">1.1.6.</span> <span class="nav-text">6. 实验（Experiments）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.1.6.1.</span> <span class="nav-text">6.1 实验设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E7%BB%93%E6%9E%9C"><span class="nav-number">1.1.6.2.</span> <span class="nav-text">6.2 主要结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%8F%91%E7%8E%B0"><span class="nav-number">1.1.6.3.</span> <span class="nav-text">6.3 其他发现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E8%AE%BAconclusion"><span class="nav-number">1.1.7.</span> <span class="nav-text">7. 结论（Conclusion）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-number">1.2.</span> <span class="nav-text">三、一句话总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.044v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Toxicity Detection for Free | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Toxicity Detection for Free
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：21:55:52" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="toxicity-detection-for-free">Toxicity Detection for Free</h1>
+<p>NeurIPS ## 一、论文概览 ### 1. 核心问题
+现有大语言模型（LLMs）存在两大安全相关缺陷：一是安全对齐不完善，可能对有毒提示（如生成钓鱼邮件、犯罪指导）拒绝失败，或对良性提示过度谨慎；二是主流毒性检测器存在明显不足，在低假阳性率（FPR）下真阳性率（TPR）极低（如LlamaGuard在0.1%
+FPR下TPR仅5.25%），且需额外训练数据、推理成本及延迟，无法适配流式响应场景（需等待完整输出或仅检测输入导致漏检）。</p>
+<h3 id="主要贡献">2. 主要贡献</h3>
+<ul>
+<li>提出<strong>MULI（Moderation Using LLM Introspection）</strong>
+：一种低成本毒性检测器，无需额外模型，利用LLM自身响应的首token
+logits实现检测，在多指标上超越现有SOTA方法。</li>
+<li>强调<strong>低FPR下TPR的评估价值</strong>：指出真实场景中LLM供应商对FPR容忍度极低，现有检测器在此指标下表现不佳，而MULI可在0.1%
+FPR下实现42.54%（ToxicChat）和66.85%（LMSYS-Chat-1M）的TPR。</li>
+<li>揭示LLM输出的隐藏信息：证明LLM响应的首token
+logits中蕴含有毒/良性提示的区分信息，为后续LLM内部信息挖掘提供方向。</li>
+</ul>
+<h3 id="研究方法">3. 研究方法</h3>
+<ul>
+<li>核心思路：对齐后的LLM对有毒提示会产生“拒绝倾向”（即使未完全拒绝），这种倾向体现在响应首token的logits中（如“Sorry”“Cannot”等拒绝token的logits在有毒提示下更高）。</li>
+<li>技术路径：
+<ol type="1">
+<li>提取LLM对输入prompt响应的<strong>首token logits向量</strong><span
+class="math inline"><em>l</em>(<em>x</em>) ∈ ℝ<sup><em>n</em></sup></span>（<span
+class="math inline"><em>n</em></span>为token表大小，如Llama2的36000）；</li>
+<li>用函数<span
+class="math inline"><em>f</em><sup>*</sup></span>处理logits：<span
+class="math inline"><em>f</em><sup>*</sup>(<em>l</em>) = <em>N</em><em>o</em><em>r</em><em>m</em>(ln (<em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>)) − ln (1 − <em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>)))</span>，其中<span
+class="math inline"><em>N</em><em>o</em><em>r</em><em>m</em>(⋅)</span>基于训练集均值和标准差归一化，<span
+class="math inline">ln (<em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>)) − ln (1 − <em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>))</span>计算token的log-odds；</li>
+<li>构建<strong>稀疏逻辑回归（SLR）模型</strong>：以处理后的logits为输入，优化目标为最小化二元交叉熵（BCE）损失与L1正则项，即<span
+class="math inline"><em>m</em><em>i</em><em>n</em><sub><em>w</em>, <em>b</em></sub>∑<sub>{<em>x</em>, <em>y</em>} ∈ 𝒳</sub><em>B</em><em>C</em><em>E</em>(<em>S</em><em>i</em><em>g</em><em>m</em><em>o</em><em>i</em><em>d</em>(<em>w</em><sup><em>T</em></sup><em>f</em>(<em>l</em>(<em>x</em>)) + <em>b</em>), <em>y</em>) + <em>λ</em>∥<em>w</em>∥<sub>1</sub></span>，实现高效分类。</li>
+</ol></li>
+<li>玩具模型铺垫：先通过PoR（拒绝概率，生成100个响应估计拒绝比例）验证“拒绝倾向”的区分能力（有效但低效），再通过PoRT（拒绝token概率，用首token
+logits）证明高效性，为MULI提供理论依据。</li>
+</ul>
+<h2 id="二各章节详解">二、各章节详解</h2>
+<h3 id="引言introduction">1. 引言（Introduction）</h3>
+<ul>
+<li>背景：LLMs在聊天机器人、工具调用等下游任务中广泛应用，但恶意用户可能利用其生成有害内容，需安全对齐（如RLHF）和毒性检测器补充。</li>
+<li>现有方案缺陷：对齐无法完全避免有毒响应或过度拒绝；主流检测器需额外模型（如LlamaGuard），存在训练数据成本、推理延迟，且低FPR下TPR差。</li>
+<li>本文方案：MULI利用LLM自身首token
+logits构建检测器，无额外成本，可在生成响应前拦截有毒提示，适配流式场景。</li>
+</ul>
+<h3 id="相关工作related-work">2. 相关工作（Related Work）</h3>
+<ul>
+<li>安全对齐：通过人类反馈强化学习（RLHF）等方法优化LLM对齐（如Ouyang et
+al. 2022），但进一步提升难度大。</li>
+<li>毒性检测：现有方案包括商业API（OpenAI Moderation API、Azure AI
+Content Safety
+API）和开源模型（LlamaGuard），均需额外推理成本，且低FPR下性能不足。</li>
+</ul>
+<h3 id="预备知识preliminaries">3. 预备知识（Preliminaries）</h3>
+<h4 id="问题设定">3.1 问题设定</h4>
+<ul>
+<li>目标：仅基于输入prompt检测可能导致LLM生成有害响应的有毒提示（无需完整输出，支持流式响应）。</li>
+<li>核心约束：“零额外成本”，不依赖独立的毒性分类器，仅利用LLM自身输出的logits/token分布信息。</li>
+</ul>
+<h4 id="评价指标">3.2 评价指标</h4>
+<ul>
+<li>平衡最优准确率（Acc
+opt）：在正负样本均衡数据集上的预测准确率，反映整体分类能力。</li>
+<li>精确率-召回率曲线下面积（AUPRC）：适配真实场景中“良性提示远多于有毒提示”的类别不平衡问题，是过往研究的核心指标。</li>
+<li>低FPR下的TPR（如TPR@FPR=0.1%）：真实场景中LLM供应商对FPR容忍度极低（如0.1%以下），此指标最具实践意义。</li>
+</ul>
+<h3 id="玩具模型toy-models">4. 玩具模型（Toy Models）</h3>
+<p>通过简单模型验证“LLM首token
+logits含毒性区分信息”的假设，使用ToxicChat数据集的100个良性+100个有毒提示，以Llama2为基础模型。</p>
+<h4 id="拒绝概率por">4.1 拒绝概率（PoR）</h4>
+<ul>
+<li><p>方法：对每个prompt生成100个响应，计算拒绝比例：<span
+class="math inline">$PoR(x)=\frac{1}{100}\sum_{i=1}^{100}\mathbb{1}[r_i是拒绝]$</span>（<span
+class="math inline">𝟙[⋅]</span>为指示函数，响应含“Sorry”等拒绝关键词则记为1）。</p></li>
+<li><p>结果：有毒提示的PoR显著高于良性提示（图4a），但生成100个响应成本极高，且采样误差导致低FPR下TPR为0（表1，PoR100在TPR@FPR=0.1%时为0），无法实用。</p>
+<figure>
+<img
+src="/images/post_images/2025-10-29-论文阅读——Toxicity-Detection-for-Free/image-20251029192414711.png"
+alt="image-20251029192414711" />
+<figcaption aria-hidden="true">image-20251029192414711</figcaption>
+</figure></li>
+</ul>
+<h4 id="拒绝token-logitsport">4.2 拒绝token logits（PoRT）</h4>
+<ul>
+<li>方法：直接使用首token中拒绝token（如“Sorry”“Cannot”“I”）的logits作为特征，计算拒绝token概率<span
+class="math inline"><em>P</em><em>o</em><em>R</em><em>T</em>(<em>x</em>) = ∑<sub><em>t</em> ∈ <em>拒</em><em>绝</em><em>t</em><em>o</em><em>k</em><em>e</em><em>n</em></sub><em>P</em><em>r</em><em>o</em><em>b</em>(<em>t</em>)</span>（<span
+class="math inline"><em>P</em><em>r</em><em>o</em><em>b</em>(<em>t</em>)</span>为token
+t的softmax概率）。</li>
+<li>结果：无需采样，低FPR下性能优于PoR（表1，“Logits
+Cannot”在TPR@FPR=0.1%时为10.0%），且与PoR分类结果高度一致（附录表S1，混淆矩阵准确率86%），证明首token
+logits的有效性。</li>
+</ul>
+<h4 id="玩具模型评估">4.3 玩具模型评估</h4>
+<ul>
+<li>所有模型平衡准确率约80%，但PoR受采样误差限制，低FPR下失效；PoRT无采样误差，低FPR下仍有性能，为MULI的设计提供直接依据。</li>
+</ul>
+<h3 id="muli方法moderation-using-llm-introspection">5.
+MULI方法（Moderation Using LLM Introspection）</h3>
+<p>基于玩具模型结论，扩展至全token表的logits，通过稀疏逻辑回归提取关键信息。</p>
+<h4 id="模型结构">5.1 模型结构</h4>
+<ol type="1">
+<li><strong>输入特征</strong>：LLM对prompt x输出的首token
+logits向量<span
+class="math inline"><em>l</em>(<em>x</em>) ∈ ℝ<sup><em>n</em></sup></span>（<span
+class="math inline"><em>n</em></span>为token数量，如Llama2的36000）。</li>
+<li><strong>特征处理</strong>：用<span
+class="math inline"><em>f</em><sup>*</sup></span>函数将logits转换为归一化log-odds：<span
+class="math inline"><em>f</em><sup>*</sup>(<em>l</em>) = <em>N</em><em>o</em><em>r</em><em>m</em>(ln (<em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>)) − ln (1 − <em>S</em><em>o</em><em>f</em><em>t</em><em>m</em><em>a</em><em>x</em>(<em>l</em>)))</span>，消除量纲影响，增强鲁棒性。</li>
+<li><strong>分类器</strong>：稀疏逻辑回归（SLR），输出为<span
+class="math inline"><em>S</em><em>L</em><em>R</em>(<em>x</em>) = <em>w</em><sup><em>T</em></sup><em>f</em>(<em>l</em>(<em>x</em>)) + <em>b</em></span>（<span
+class="math inline"><em>w</em></span>为token权重，<span
+class="math inline"><em>b</em></span>为偏置），通过L1正则（<span
+class="math inline"><em>λ</em>∥<em>w</em>∥<sub>1</sub></span>）实现特征选择，仅保留关键token的权重。</li>
+</ol>
+<h4 id="优化目标">5.2 优化目标</h4>
+<p>最小化BCE损失与L1正则的组合，确保模型拟合且稀疏：<br />
+<span
+class="math inline"><em>m</em><em>i</em><em>n</em><sub><em>w</em>, <em>b</em></sub>∑<sub>{<em>x</em>, <em>y</em>} ∈ 𝒳</sub><em>B</em><em>C</em><em>E</em>(<em>S</em><em>i</em><em>g</em><em>m</em><em>o</em><em>i</em><em>d</em>(<em>S</em><em>L</em><em>R</em>(<em>x</em>)), <em>y</em>) + <em>λ</em>∥<em>w</em>∥<sub>1</sub></span><br />
+其中<span
+class="math inline"><em>y</em> ∈ {0, 1}</span>为prompt的毒性标签（1为有毒，0为良性），<span
+class="math inline"><em>λ</em></span>为正则系数。</p>
+<h3 id="实验experiments">6. 实验（Experiments）</h3>
+<h4 id="实验设置">6.1 实验设置</h4>
+<ul>
+<li><strong>基线模型</strong>：LlamaGuard（开源SOTA）、OpenAI Moderation
+API（OMod，商业API）、GPT-4o、GPT-4o-mini。</li>
+<li><strong>数据集</strong>：
+<ul>
+<li>ToxicChat：训练集（4698良性+384有毒），测试集（4721良性+362有毒，含91个越狱提示）；</li>
+<li>LMSYS-Chat-1M：手动标注子集，训练集（4868良性+1667有毒），测试集（5221良性+1798有毒）；</li>
+<li>OpenAI Moderation API Evaluation Dataset：跨数据集验证。</li>
+</ul></li>
+<li><strong>实现细节</strong>：基础模型为Llama2-7b，SLR训练500轮（SGD优化，学习率<span
+class="math inline">5 × 10<sup>−4</sup></span>，批大小128）。</li>
+</ul>
+<h4 id="主要结果">6.2 主要结果</h4>
+<ul>
+<li><strong>核心性能超越SOTA</strong>（表2、3）：
+<ul>
+<li>ToxicChat：MULI的AUPRC=91.29%（LlamaGuard为70.14%），TPR@FPR=0.1%=42.54%（LlamaGuard为5.25%）；</li>
+<li>LMSYS-Chat-1M：MULI的TPR@FPR=0.1%=66.85%（LlamaGuard为7.29%），OMod虽接近但在ToxicChat（难数据集）上性能显著落后。</li>
+</ul></li>
+<li><strong>基础模型安全性影响</strong>（图6）：MULI性能与基础LLM的安全性正相关（如Llama2-7b/13b安全性高，MULI的TPR@FPR=0.1%达43.92%/46.13%；未对齐模型如GPT-2的MULI性能仅9.39%）。</li>
+<li><strong>训练集大小敏感性</strong>（图7、表S3）：仅用10个样本（9良性+1有毒）训练的MULI，TPR@FPR=0.1%=13.81%，仍优于LlamaGuard（5.25%），大幅降低训练成本。</li>
+<li><strong>跨数据集鲁棒性</strong>（表4、5）：在OpenAI评估集上，MULI（训练于ToxicChat/LMSYS）的TPR@FPR=0.1%=24.90%/25.86%，远超LlamaGuard（14.56%）和OMod（15.13%）。</li>
+<li><strong>失败案例与权重分析</strong>：
+<ul>
+<li>失败案例为模糊边界样本（如含敏感词的良性提示、长有毒提示）；</li>
+<li>SLR权重显示，拒绝token（如“Cannot”“Unable”）的权重更具区分性（表S4，权重排名接近1，对应有毒提示），验证核心假设。</li>
+</ul></li>
+<li><strong>消融实验</strong>（表6）：<span
+class="math inline"><em>f</em><sup>*</sup></span>和<span
+class="math inline">ln (<em>P</em><em>r</em><em>o</em><em>b</em>)</span>处理的特征效果最优，L1正则确保模型稀疏，无正则时低FPR性能下降。</li>
+</ul>
+<h4 id="其他发现">6.3 其他发现</h4>
+<ul>
+<li>玩具模型“Logits
+Cannot”的性能已接近LlamaGuard（表1，TPR@FPR=0.1%=10.0% vs
+5.25%），证明首token logits的强大潜力；</li>
+<li>MULI支持流式响应：仅需首token
+logits，无需等待完整输出，解决现有检测器的流式适配问题。</li>
+</ul>
+<h3 id="结论conclusion">7. 结论（Conclusion）</h3>
+<ul>
+<li>优势：MULI无需额外模型和推理成本，在平衡准确率、AUPRC及低FPR下TPR均超越SOTA，适配真实场景需求。</li>
+<li>局限性：依赖对齐良好的LLM，对未对齐/对抗微调模型无效；未验证对抗攻击场景；需一次性训练成本（但极小，10个样本即可）。</li>
+<li>未来方向：挖掘LLM输出中的更多隐藏信息，探索跨 demographic
+群体的公平性。</li>
+</ul>
+<h2 id="三一句话总结">三、一句话总结</h2>
+<p>论文假设对齐LLM的响应首token
+logits中蕴含有毒与良性prompt的区分信息，提出通过<span
+class="math inline"><em>f</em><sup>*</sup></span>函数处理首token
+logits后结合稀疏逻辑回归的MULI检测器，在ToxicChat和LMSYS-Chat-1M数据集上，MULI在平衡最优准确率、AUPRC及低FPR（0.1%）下TPR（42.54%/66.85%）均远超LlamaGuard等SOTA方法，证明了无额外成本的高效毒性检测可行性，同时指出其依赖对齐模型的局限性。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.040v1/" rel="prev" title="Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations">
+                  <i class="fa fa-angle-left"></i> Safety Arithmetic: A Framework for Test-time Safety Alignment of Language Models by Steering Parameters and Activations
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.047v1/" rel="next" title="The Blessing and Curse of Dimensionality in Safety Alignment">
+                  The Blessing and Curse of Dimensionality in Safety Alignment <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

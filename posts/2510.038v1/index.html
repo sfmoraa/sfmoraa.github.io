@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Refusal in Language Models Is Mediated by a Single Direction NeurIPS 一、论文概览 （一）核心问题 对话式大语言模型（LLM）经指令遵循与安全微调后，能遵循良性请求但拒绝有害请求，这种拒绝行为在聊天模型中普遍存在，但其底层介导机制尚未明确；同时，现有越狱攻击虽能绕过安全防御，但缺乏对攻击机制的深度理解，且当前安全微调机制的鲁棒性亟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Refusal in Language Models Is Mediated by a Single Direction">
+<meta property="og:url" content="http://example.com/posts/2510.038v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="Refusal in Language Models Is Mediated by a Single Direction NeurIPS 一、论文概览 （一）核心问题 对话式大语言模型（LLM）经指令遵循与安全微调后，能遵循良性请求但拒绝有害请求，这种拒绝行为在聊天模型中普遍存在，但其底层介导机制尚未明确；同时，现有越狱攻击虽能绕过安全防御，但缺乏对攻击机制的深度理解，且当前安全微调机制的鲁棒性亟">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-29T06:08:45.071Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.038v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.038v1/","path":"/posts/2510.038v1/","title":"Refusal in Language Models Is Mediated by a Single Direction"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Refusal in Language Models Is Mediated by a Single Direction | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Refusal in Language Models Is Mediated by a Single Direction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">一、论文概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">（一）核心问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E4%B8%BB%E8%A6%81%E8%B4%A1%E7%8C%AE"><span class="nav-number">1.1.2.</span> <span class="nav-text">（二）主要贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.3.</span> <span class="nav-text">（三）研究方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">二、各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BC%95%E8%A8%80%EF%BC%88Introduction%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 引言（Introduction）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%96%B9%E6%B3%95%E8%AE%BA%EF%BC%88Methodology%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 方法论（Methodology）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.1 背景知识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8E%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.2 数据集与模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E6%8F%90%E5%8F%96%E6%8B%92%E7%BB%9D%E6%96%B9%E5%90%91"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">2.3 提取拒绝方向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E6%A8%A1%E5%9E%8B%E5%B9%B2%E9%A2%84"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">2.4 模型干预</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87"><span class="nav-number">1.2.2.5.</span> <span class="nav-text">2.5 评估指标</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%8B%92%E7%BB%9D%E8%A1%8C%E4%B8%BA%E7%94%B1%E5%8D%95%E4%B8%80%E6%96%B9%E5%90%91%E4%BB%8B%E5%AF%BC"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 拒绝行为由单一方向介导</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E6%96%B9%E5%90%91%E6%B6%88%E8%9E%8D%EF%BC%9A%E7%BB%95%E8%BF%87%E6%8B%92%E7%BB%9D"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">3.1 方向消融：绕过拒绝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E6%BF%80%E6%B4%BB%E6%B7%BB%E5%8A%A0%EF%BC%9A%E8%AF%B1%E5%AF%BC%E6%8B%92%E7%BB%9D"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">3.2 激活添加：诱导拒绝</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%9F%BA%E4%BA%8E%E6%9D%83%E9%87%8D%E6%AD%A3%E4%BA%A4%E5%8C%96%E7%9A%84%E7%99%BD%E7%9B%92%E8%B6%8A%E7%8B%B1"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 基于权重正交化的白盒越狱</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E6%9D%83%E9%87%8D%E6%AD%A3%E4%BA%A4%E5%8C%96%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">4.1 权重正交化原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E4%B8%8E%E5%85%B6%E4%BB%96%E8%B6%8A%E7%8B%B1%E6%96%B9%E6%B3%95%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">4.2 与其他越狱方法的对比</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E6%A8%A1%E5%9E%8B%E8%BF%9E%E8%B4%AF%E6%80%A7%E8%AF%84%E4%BC%B0"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">4.3 模型连贯性评估</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%AF%B9%E6%8A%97%E6%80%A7%E5%90%8E%E7%BC%80%E7%9A%84%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90"><span class="nav-number">1.2.5.</span> <span class="nav-text">5. 对抗性后缀的机制分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-%E6%8A%91%E5%88%B6%E6%8B%92%E7%BB%9D%E6%96%B9%E5%90%91%E7%9A%84%E8%A1%A8%E8%BE%BE"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">5.1 抑制拒绝方向的表达</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-%E5%8A%AB%E6%8C%81%E5%85%B3%E9%94%AE%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%A4%B4"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">5.2 劫持关键注意力头</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.2.6.</span> <span class="nav-text">6. 相关工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E8%AE%A8%E8%AE%BA"><span class="nav-number">1.2.7.</span> <span class="nav-text">7. 讨论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">1.2.7.1.</span> <span class="nav-text">7.1 局限性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-%E4%BC%A6%E7%90%86%E8%80%83%E9%87%8F"><span class="nav-number">1.2.7.2.</span> <span class="nav-text">7.2 伦理考量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">三、一句话总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.038v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Refusal in Language Models Is Mediated by a Single Direction | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Refusal in Language Models Is Mediated by a Single Direction
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：14:08:45" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>Refusal in Language Models Is Mediated by a Single Direction</h1>
+<p>NeurIPS</p>
+<h2 id="一、论文概览">一、论文概览</h2>
+<h3 id="（一）核心问题">（一）核心问题</h3>
+<p>对话式大语言模型（LLM）经指令遵循与安全微调后，能遵循良性请求但拒绝有害请求，这种拒绝行为在聊天模型中普遍存在，但其<strong>底层介导机制尚未明确</strong>；同时，现有越狱攻击虽能绕过安全防御，但缺乏对攻击机制的深度理解，且当前安全微调机制的鲁棒性亟待验证。</p>
+<h3 id="（二）主要贡献">（二）主要贡献</h3>
+<ol>
+<li><strong>机制发现</strong>：在13个参数规模达72B的开源聊天模型中，证实拒绝行为由<strong>一维子空间（即“拒绝方向”）介导</strong>——删除该方向会使模型无法拒绝有害指令，添加该方向会使模型对无害指令也产生拒绝。</li>
+<li><strong>方法创新</strong>：提出基于<strong>权重正交化的白盒越狱方法</strong>，通过修改模型权重（将输出矩阵与拒绝方向正交）禁用拒绝机制，且对模型的通用能力（如推理、知识问答）影响极小。</li>
+<li><strong>机制分析</strong>：从机理上解释了对抗性后缀（一种流行的提示级越狱技术）的作用方式——通过抑制拒绝方向在token位置间的传播，并劫持关键注意力头的注意力，从而绕过拒绝机制。</li>
+</ol>
+<h3 id="（三）研究方法">（三）研究方法</h3>
+<ol>
+<li><strong>拒绝方向提取</strong>：采用<strong>均值差法</strong>，计算模型处理有害与无害指令时残差流激活的均值差异，筛选出对拒绝行为调控最有效的“拒绝方向”。</li>
+<li><strong>模型干预</strong>：通过“方向消融”（零除残差流中拒绝方向的分量）和“激活添加”（向激活中加入拒绝方向向量），验证拒绝方向对拒绝行为的调控作用。</li>
+<li><strong>权重正交化</strong>：将模型中所有写入残差流的矩阵（嵌入矩阵、注意力输出矩阵等）与拒绝方向正交，实现与方向消融等效的长期干预。</li>
+<li><strong>评估体系</strong>：
+<ul>
+<li>拒绝行为评估：用JAILBREAKBENCH（100条有害指令）和ALPACA（100条无害指令）作为测试集；</li>
+<li>安全性评估：用META LLAMA GUARD 2判断输出是否有害；</li>
+<li>模型连贯性评估：通过MMLU、ARC、GSM8K、TRUTHFULQA等基准测试，衡量干预对通用能力的影响；</li>
+<li>越狱效果对比：在HARMBENCH（159条标准行为）上与GCG、AutoPrompt等主流越狱方法比较攻击成功率（ASR）。</li>
+</ul>
+</li>
+</ol>
+<h2 id="二、各章节详解">二、各章节详解</h2>
+<h3 id="1-引言（Introduction）">1. 引言（Introduction）</h3>
+<ul>
+<li><strong>背景</strong>：LLM需经多轮微调实现“有益且无害”，但大量越狱攻击（如微调、对抗性提示）试图绕过安全防御；随着模型在高风险场景部署，稳健的有害请求拒绝能力成为安全AI的核心需求。</li>
+<li><strong>动机</strong>：受<strong>机制可解释性</strong>（如Transformer电路分析）和<strong>激活引导</strong>（通过调控激活控制模型输出）领域进展启发，从模型内部表征切入，探索拒绝行为的底层机制。</li>
+<li><strong>目标</strong>：揭示拒绝行为的介导机制，开发可控的拒绝行为调控方法，并理解现有越狱技术的作用原理。</li>
+</ul>
+<h3 id="2-方法论（Methodology）">2. 方法论（Methodology）</h3>
+<h4 id="2-1-背景知识">2.1 背景知识</h4>
+<ul>
+<li><strong>Transformer</strong>： decoder-only结构，残差流激活$x_i^{(l)}$经注意力和MLP模块更新，最终通过Unembed层生成token概率；</li>
+<li><strong>聊天模型</strong>：采用特定模板（如<code>&lt;user&gt;&#123;指令&#125;&lt;end_user&gt;&lt;assistant&gt;</code>），分析聚焦于“指令后token”（即模型开始生成响应的区域）的激活。</li>
+</ul>
+<h4 id="2-2-数据集与模型">2.2 数据集与模型</h4>
+<ul>
+<li><strong>数据集</strong>：
+<ul>
+<li>有害数据集$D_{harmful}$：从ADVBENCH、MALICIOUSINSTRUCT、TDC2023、HARMBENCH抽取，训练/验证集各128/32条，评估用JAILBREAKBENCH（100条）和HARMBENCH测试集（159条）；</li>
+<li>无害数据集$D_{harmless}$：从ALPACA抽取，训练/验证集各128/32条，评估用100条ALPACA指令；</li>
+<li>所有数据集均过滤重叠，确保评估独立性。</li>
+</ul>
+</li>
+<li><strong>模型</strong>：13个开源聊天模型，覆盖5个家族（QWEN CHAT、YI CHAT、GEMMA IT、LLAMA-2 CHAT、LLAMA-3 INSTRUCT），参数1.8B-72B，包含两种对齐方式（APO偏好优化、AFT微调对齐），详情见表1。</li>
+</ul>
+<h4 id="2-3-提取拒绝方向">2.3 提取拒绝方向</h4>
+<ul>
+<li><strong>均值差法</strong>：对每层$l$和指令后token位置$i$，计算有害指令激活均值$\mu_i^{(l)}$与无害指令激活均值$v_i^{(l)}$的差异$r_i^{(l)}=\mu_i^{(l)}-v_i^{(l)}$，该向量的方向代表“有害-无害”激活差异，幅度代表差异大小；</li>
+<li><strong>最优向量选择</strong>：从$|I|×L$个候选向量中，通过验证集（$D_{harmful}^{(val)}$和$D_{harmless}^{(val)}$）评估“绕过拒绝能力”（bypass_score）、“诱导拒绝能力”（induce_score）和“对无害行为影响”（kl_score），筛选出最优拒绝方向$r$（单位向量$\hat{r}$），详情见§C。</li>
+</ul>
+<h4 id="2-4-模型干预">2.4 模型干预</h4>
+<ul>
+<li><strong>激活添加</strong>：在层$l$的所有token位置添加拒绝方向$r^{(l)}$，使无害指令激活向有害激活偏移，诱导拒绝（公式3）；</li>
+<li><strong>方向消融</strong>：在所有层和token位置，零除残差流激活中沿$\hat{r}$的分量，使模型无法表征拒绝方向，禁用拒绝行为（公式4）。</li>
+</ul>
+<h4 id="2-5-评估指标">2.5 评估指标</h4>
+<ul>
+<li><strong>拒绝分数（refusal_score）</strong>：若输出包含“我很抱歉”“作为AI”等拒绝子串（图12），则记1（拒绝），否则记0；</li>
+<li><strong>安全分数（safety_score）</strong>：用META LLAMA GUARD 2（遵循其默认提示模板，图13）判断输出是否安全，安全记1，否则记0；</li>
+<li>补充指标：拒绝 metric（基于拒绝token的概率对数 odds，用于快速筛选指令和评估干预效果，§B）、CE损失（评估模型输出分布与原始分布的差异）。</li>
+</ul>
+<h3 id="3-拒绝行为由单一方向介导">3. 拒绝行为由单一方向介导</h3>
+<p>本章验证“拒绝方向是拒绝行为的必要且充分条件”，核心结果基于JAILBREAKBENCH（有害指令）和ALPACA（无害指令）的评估。</p>
+<h4 id="3-1-方向消融：绕过拒绝">3.1 方向消融：绕过拒绝</h4>
+<p>对模型所有层和token位置消融拒绝方向$\hat{r}$后，模型对有害指令的拒绝率显著下降，不安全输出比例大幅上升（图1）。例如LLAMA-3 8B INSTRUCT在无干预时拒绝率近100%，消融后拒绝率降至1%以下，且输出有害内容（图2示例：原本拒绝生成诽谤美国总统的文章，消融后生成了耸人听闻的诽谤内容）。</p>
+<h4 id="3-2-激活添加：诱导拒绝">3.2 激活添加：诱导拒绝</h4>
+<p>在拒绝方向提取的层$l^*$，向所有token位置添加拒绝方向$r$后，模型对无害指令也会产生拒绝（图3）。例如GEMMA 7B IT在无干预时会正常解释瑜伽的健康益处，添加拒绝方向后，以“瑜伽可能有害”为由拒绝提供信息（图4示例）。</p>
+<h3 id="4-基于权重正交化的白盒越狱">4. 基于权重正交化的白盒越狱</h3>
+<h4 id="4-1-权重正交化原理">4.1 权重正交化原理</h4>
+<p>方向消融是推理时的干预，而权重正交化通过直接修改模型权重实现等效效果：将所有写入残差流的矩阵（嵌入矩阵、注意力输出矩阵、MLP输出矩阵等）与$\hat{r}$正交（公式5：$W_{out}’ = W_{out} - \hat{r}\hat{r}^T W_{out}$），使模型无法向残差流写入拒绝方向，从根源禁用拒绝机制（附录E证明两者等效）。</p>
+<h4 id="4-2-与其他越狱方法的对比">4.2 与其他越狱方法的对比</h4>
+<p>在HARMBENCH测试集（159条有害指令）上，将权重正交化方法（ORTHO）与主流越狱技术（GCG、GCG-M、AutoPrompt、PAIR等）对比，结果见表2：</p>
+<ul>
+<li>ORTHO作为通用越狱方法（无需针对单个提示优化），在QWEN模型家族上表现优异，与针对单个提示优化的GCG（提示特定方法）效果相当（如QWEN 14B的ORTHO-ASR为84.3%，GCG为83.5%）；</li>
+<li>模型对系统提示敏感性存在差异：LLAMA-2家族在包含系统提示时ASR显著下降（如LLAMA-2 7B从79.9%降至22.6%），而QWEN家族受系统提示影响小（如QWEN 7B从74.8%降至79.2%），推测与模型对系统指令的响应机制差异有关（§F.2）。</li>
+</ul>
+<h4 id="4-3-模型连贯性评估">4.3 模型连贯性评估</h4>
+<p>通过MMLU（多任务语言理解）、ARC（推理）、GSM8K（数学推理）、TRUTHFULQA（真实性）等基准测试，评估权重正交化对模型通用能力的影响（表3、表8）：</p>
+<ul>
+<li>除TRUTHFULQA外，正交化模型在其他基准上的表现与原始模型差异极小（多数在99%置信区间内），例如LLAMA-3 70B的MMLU分数从79.9降至79.8，GSM8K从91.2降至90.8；</li>
+<li>TRUTHFULQA分数普遍下降（如GEMMA 7B从47.1降至44.7），因该数据集包含“阴谋论”“刻板印象”等接近拒绝边界的内容，模型安全机制被禁用后响应方式改变（§G.2）。</li>
+</ul>
+<h3 id="5-对抗性后缀的机制分析">5. 对抗性后缀的机制分析</h3>
+<p>以QWEN 1.8B CHAT为研究对象，分析对抗性后缀（通过GCG生成，图21）如何绕过拒绝机制，核心发现如下：</p>
+<h4 id="5-1-抑制拒绝方向的表达">5.1 抑制拒绝方向的表达</h4>
+<p>对比“有害指令”“有害指令+随机后缀”“有害指令+对抗性后缀”“无害指令”四种场景的激活与拒绝方向的余弦相似度（图5）：</p>
+<ul>
+<li>有害指令及添加随机后缀时，激活与拒绝方向的相似度高（表明拒绝方向被强烈表达）；</li>
+<li>添加对抗性后缀后，相似度显著降低，与无害指令的相似度接近（表明拒绝方向的表达被抑制）。</li>
+</ul>
+<h4 id="5-2-劫持关键注意力头">5.2 劫持关键注意力头</h4>
+<p>通过直接特征归因（DFA）筛选出对拒绝方向贡献最大的8个注意力头，分析其行为变化（图6）：</p>
+<ul>
+<li>无后缀或添加随机后缀时，这些头关注“有害指令区域”，向拒绝方向输出强信号；</li>
+<li>添加对抗性后缀后，这些头的注意力转移到“后缀区域”（劫持注意力），对拒绝方向的贡献显著降低（图6a），最终抑制拒绝行为。</li>
+</ul>
+<h3 id="6-相关工作">6. 相关工作</h3>
+<ul>
+<li><strong>理解LLM拒绝</strong>：现有研究多通过删除安全关键神经元、多段干预调控拒绝，但未发现单一方向的介导作用；本文首次证实拒绝由一维子空间调控，且对抗性后缀会抑制该方向（与Zou et al. (2023a)的结论不同）。</li>
+<li><strong>特征作为方向</strong>：均值差法是提取线性特征方向的常用方法，本文将其应用于拒绝行为，且验证了该方向的因果介导作用。</li>
+<li><strong>撤销安全微调</strong>：现有方法需通过微调（需有害指令-输出对），而本文仅需有害指令即可实现，更简洁。</li>
+<li><strong>越狱技术</strong>：社交工程、对抗性后缀等需修改输入，且可能影响模型性能；本文无需修改提示，对模型连贯性影响极小。</li>
+</ul>
+<h3 id="7-讨论">7. 讨论</h3>
+<h4 id="7-1-局限性">7.1 局限性</h4>
+<ol>
+<li><strong>模型泛化性</strong>：仅验证13个开源模型，未覆盖闭源模型或未来更大规模模型；</li>
+<li><strong>拒绝方向提取</strong>：依赖启发式筛选（如层限制$l&lt;0.8L$），可能非最优方法；</li>
+<li><strong>对抗性后缀分析</strong>：仅针对QWEN 1.8B和单个后缀，缺乏更广泛的分析；</li>
+<li><strong>连贯性评估</strong>：现有指标（CE损失、基准测试）无法完全衡量聊天模型的连贯性；</li>
+<li><strong>语义模糊性</strong>：“拒绝方向”仅为功能描述，其真实语义（如“危害”“危险”）尚不明确。</li>
+</ol>
+<h4 id="7-2-伦理考量">7.2 伦理考量</h4>
+<ul>
+<li>方法影响：相比微调，本文方法（5美元内可越狱70B模型）降低了开源模型的越狱门槛，但未显著改变开源模型的风险 profile（因微调已能实现越狱）；</li>
+<li>核心警示：现有安全微调机制脆弱，随模型能力提升和高风险场景部署，需更鲁棒的安全技术；本文的价值在于推动对安全机制局限性的科学共识，为政策和研究提供参考。</li>
+</ul>
+<h2 id="三、一句话总结">三、一句话总结</h2>
+<p>论文假设语言模型的拒绝行为由激活空间中的单一“拒绝方向”介导，通过均值差法从有害与无害指令的激活差异中提取该方向，结合方向消融、激活添加验证其对拒绝行为的调控作用，提出与方向消融等效的权重正交化白盒越狱方法，在13个开源模型上证实该方法能高效禁用拒绝机制且对通用能力影响极小，同时发现对抗性后缀通过抑制拒绝方向表达和劫持注意力头起作用，最终表明当前开源模型的安全微调机制脆弱，对模型内部机制的理解可有效用于控制模型行为。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.046v1/" rel="prev" title="Representation Bending for Large Language Model Safety">
+                  <i class="fa fa-angle-left"></i> Representation Bending for Large Language Model Safety
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.037v1/" rel="next" title="NLSR: Neuron-Level Safety Realignment of Large Language Models Against Harmful Fine-Tuning">
+                  NLSR: Neuron-Level Safety Realignment of Large Language Models Against Harmful Fine-Tuning <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

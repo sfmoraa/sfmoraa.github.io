@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic ACL 1. 论文概览  核心问题：对齐的语言模型在微调（即使使用良性数据集）后常出现安全性受损的问题，导致模型生成有害内容，现有方法难以在不损失任务性能的前提下恢复安全性。 主要贡">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic">
+<meta property="og:url" content="http://example.com/posts/2510.034v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic ACL 1. 论文概览  核心问题：对齐的语言模型在微调（即使使用良性数据集）后常出现安全性受损的问题，导致模型生成有害内容，现有方法难以在不损失任务性能的前提下恢复安全性。 主要贡">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94LANGUAGE-MODELS-ARE-HOMER-SIMPSON!-Safety-Re-Alignment-of-Fine-tuned-Language-Models-through-Task-Arithmetic/image-20251029104549641.png">
+<meta property="og:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94LANGUAGE-MODELS-ARE-HOMER-SIMPSON!-Safety-Re-Alignment-of-Fine-tuned-Language-Models-through-Task-Arithmetic/image-20251029103607039.png">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-29T03:03:34.946Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94LANGUAGE-MODELS-ARE-HOMER-SIMPSON!-Safety-Re-Alignment-of-Fine-tuned-Language-Models-through-Task-Arithmetic/image-20251029104549641.png">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.034v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.034v1/","path":"/posts/2510.034v1/","title":"LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">1. 论文概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">2. 各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-Introduction%EF%BC%88%E5%BC%95%E8%A8%80%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 1. Introduction（引言）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-RESTA-REestoring-Safety-through-Task-Arithmetic%EF%BC%88RESTA%E6%96%B9%E6%B3%95%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 2. RESTA: REestoring Safety through Task Arithmetic（RESTA方法）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.2.1 核心思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-%E7%BA%BF%E6%80%A7%E7%AE%97%E6%9C%AF%EF%BC%88Linear-Arithmetic%EF%BC%89"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.2.2 线性算术（Linear Arithmetic）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-DARE%E6%93%8D%E4%BD%9C%EF%BC%88Drop-and-REscale%EF%BC%89"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">2.2.3 DARE操作（Drop and REscale）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-%E5%AE%89%E5%85%A8%E5%90%91%E9%87%8F%E8%AE%A1%E7%AE%97%EF%BC%88Safety-Vector%EF%BC%89"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">2.2.4 安全向量计算（Safety Vector）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-3-CATQA-A-Categorical-Harmful-QA-Dataset%EF%BC%88CATQA%E6%95%B0%E6%8D%AE%E9%9B%86%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 3. CATQA: A Categorical Harmful QA Dataset（CATQA数据集）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-%E6%95%B0%E6%8D%AE%E9%9B%86%E6%9E%84%E5%BB%BA"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.3.1 数据集构建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-%E5%A4%9A%E8%AF%AD%E8%A8%80%E6%89%A9%E5%B1%95"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.3.2 多语言扩展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-4-Experimental-Setup%EF%BC%88%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE%EF%BC%89"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 4. Experimental Setup（实验设置）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">2.4.1 测试模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-%E5%BE%AE%E8%B0%83%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">2.4.2 微调数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-3-%E8%AF%84%E4%BC%B0%E5%9F%BA%E5%87%86"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">2.4.3 评估基准</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-4-%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.4.4.</span> <span class="nav-text">2.4.4 评估方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-5-Results-and-Discussions%EF%BC%88%E7%BB%93%E6%9E%9C%E4%B8%8E%E8%AE%A8%E8%AE%BA%EF%BC%89"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 5. Results and Discussions（结果与讨论）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-1-PEFT%E5%9C%BA%E6%99%AF%E7%BB%93%E6%9E%9C"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">2.5.1 PEFT场景结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-2-Full-FT%E5%9C%BA%E6%99%AF%E7%BB%93%E6%9E%9C"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">2.5.2 Full-FT场景结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-3-%E5%AE%89%E5%85%A8%E5%90%91%E9%87%8F%E7%9A%84%E6%B3%9B%E5%8C%96%E6%80%A7"><span class="nav-number">1.2.5.3.</span> <span class="nav-text">2.5.3 安全向量的泛化性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-4-%E5%AF%B9%E6%A8%A1%E5%9E%8B%E6%80%A7%E8%83%BD%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">1.2.5.4.</span> <span class="nav-text">2.5.4 对模型性能的影响</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-6-Related-Work%EF%BC%88%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C%EF%BC%89"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.6 6. Related Work（相关工作）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-1-%E7%9B%91%E7%9D%A3%E5%BE%AE%E8%B0%83%E4%B8%8EDelta%E5%8F%82%E6%95%B0"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">2.6.1 监督微调与Delta参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-2-LLM%E5%AE%89%E5%85%A8%E4%B8%8E%E5%A4%B1%E5%87%86"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">2.6.2 LLM安全与失准</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-3-%E4%BB%BB%E5%8A%A1%E5%90%91%E9%87%8F%E4%B8%8E%E6%9D%83%E9%87%8D%E6%8F%92%E5%80%BC"><span class="nav-number">1.2.6.3.</span> <span class="nav-text">2.6.3 任务向量与权重插值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-7-Conclusion%EF%BC%88%E7%BB%93%E8%AE%BA%EF%BC%89"><span class="nav-number">1.2.7.</span> <span class="nav-text">2.7 7. Conclusion（结论）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-8-Limitations%EF%BC%88%E5%B1%80%E9%99%90%E6%80%A7%EF%BC%89"><span class="nav-number">1.2.8.</span> <span class="nav-text">2.8 8. Limitations（局限性）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-9-9-Ethics-Statement%EF%BC%88%E4%BC%A6%E7%90%86%E5%A3%B0%E6%98%8E%EF%BC%89"><span class="nav-number">1.2.9.</span> <span class="nav-text">2.9 9. Ethics Statement（伦理声明）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B4%E4%BD%93%E8%AF%84%E4%BB%B7"><span class="nav-number">1.3.</span> <span class="nav-text">3. 整体评价</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.034v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：11:03:34" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic</h1>
+<p>ACL</p>
+<h2 id="1-论文概览">1. 论文概览</h2>
+<ul>
+<li><strong>核心问题</strong>：对齐的语言模型在微调（即使使用良性数据集）后常出现安全性受损的问题，导致模型生成有害内容，现有方法难以在不损失任务性能的前提下恢复安全性。</li>
+<li><strong>主要贡献</strong>：
+<ol>
+<li>提出RESTA（REstoring Safety through Task Arithmetic）方法，通过简单的任务算术操作（安全向量与模型权重加法）恢复微调语言模型的安全性。</li>
+<li>构建多语言安全评估基准CATQA，包含11类有害场景、550个问题，并扩展至中文和越南语。</li>
+<li>在参数高效微调（PEFT）和全参数微调（Full-FT）、多下游任务（中/英/印地语指令跟随、代码/数学问题解决）及多安全基准上验证RESTA的有效性，且仅造成微小性能损失。</li>
+</ol>
+</li>
+<li><strong>研究方法</strong>：核心是对安全性受损的微调模型（SFT模型）进行元素级安全向量加法，结合DARE（Drop and REscale）操作移除微调过程中产生的冗余delta参数，增强安全向量的作用效果，实现安全性恢复。</li>
+</ul>
+<h2 id="2-各章节详解">2. 各章节详解</h2>
+<h3 id="2-1-1-Introduction（引言）">2.1 1. Introduction（引言）</h3>
+<ul>
+<li><strong>背景</strong>：语言模型（LLM）在代码生成、指令跟随等任务中表现优异，但微调虽提升任务性能（如特定领域适配），却会显著损害模型安全性——即使使用100个样本的有害数据集或常见良性数据集（如Alpaca），也会导致模型失准（如ChatGPT通过微调API变得不安全）。</li>
+<li><strong>方法提出</strong>：为解决该问题，提出RESTA方法，其优势为简单（仅需安全向量加法）、快速、无额外对齐成本，同时引入DARE优化效果。</li>
+<li><strong>实验设计铺垫</strong>：在PEFT和Full-FT两种微调方式下，针对中/英/印地语Alpaca、代码/数学任务验证RESTA；构建CATQA基准（基于OpenAI和Meta的禁止使用场景）评估安全性，并在HARMFULQA、ADVERSARIALQA、DANGEROUSQA三个现有基准上验证泛化性。</li>
+<li><strong>核心比喻</strong>：将LLM比作“霍默·辛普森”（决策时忽视后果），微调使模型为追求性能丢失“安全帽”，RESTA通过简单算术操作恢复该“安全帽”。</li>
+</ul>
+<h3 id="2-2-2-RESTA-REestoring-Safety-through-Task-Arithmetic（RESTA方法）">2.2 2. RESTA: REestoring Safety through Task Arithmetic（RESTA方法）</h3>
+<h4 id="2-2-1-核心思想">2.2.1 核心思想</h4>
+<p>基于“任务算术”（Ilharco et al., 2022a），通过在任务特定方向上添加/减去向量，调节模型性能与安全性；RESTA通过添加安全向量，补偿微调导致的安全性损失。</p>
+<h4 id="2-2-2-线性算术（Linear-Arithmetic）">2.2.2 线性算术（Linear Arithmetic）</h4>
+<ul>
+<li>
+<p>符号定义：</p>
+<ul>
+<li>$\theta_{pre}$：预训练模型参数；</li>
+<li>$\theta_{base}^{+}$：预训练模型经指令微调+安全对齐后的参数（安全基准模型）；</li>
+<li>$\theta_{SFT}^{o}$：$\theta_{base}^{+}$经下游任务微调（SFT）后安全性受损的模型参数；</li>
+<li>$\delta_{SFT}^{o}$：微调引入的非理想任务向量（含任务特定偏移$\delta_{SFT}$和有害安全偏移$-\lambda \cdot \delta_{safe}$，$\lambda \in \mathbb{R}^{+}$）；</li>
+<li>$\delta_{safe}$：安全向量；</li>
+<li>$\gamma \in \mathbb{R}^{+}$：安全向量权重系数。</li>
+</ul>
+</li>
+<li>
+<p>关键公式：</p>
+<ol>
+<li>
+<p>微调导致安全性受损：$$\theta_{SFT}^{o} = \theta_{base}^{+} + \delta_{SFT}^{o}$$</p>
+</li>
+<li>
+<p>非理想任务向量分解：$$\delta_{SFT}^{o} = \delta_{SFT} - \lambda \cdot \delta_{safe}$$</p>
+</li>
+<li>
+<p>RESTA恢复安全：$$\hat{\theta}<em>{SFT}^{+} = \theta</em>{SFT}^{o} + \gamma \cdot \delta_{safe} = \theta_{SFT}^{+} - (\lambda - \gamma) \cdot \delta_{safe}$$</p>
+<p>（$\hat{\theta}<em>{SFT}^{+}$为恢复后的安全模型，$\theta</em>{SFT}^{+} = \theta_{base}^{+} + \delta_{SFT}$为理想微调模型）</p>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-2-3-DARE操作（Drop-and-REscale）">2.2.3 DARE操作（Drop and REscale）</h4>
+<ul>
+<li>目的：移除微调产生的冗余delta参数（$\delta_{SFT}^{o}$），增强安全向量的作用。</li>
+<li>操作：以丢弃率$p$将delta参数置零，剩余参数按$1/(1-p)$缩放；实验中$p=0.3$。</li>
+<li>原理：多数SFT的delta参数冗余，置零不影响任务性能，且减少与安全方向相反的参数，为安全向量提供更大作用空间。</li>
+</ul>
+<h4 id="2-2-4-安全向量计算（Safety-Vector）">2.2.4 安全向量计算（Safety Vector）</h4>
+<ul>
+<li>理论定义：安全向量为安全对齐模型与未对齐模型的参数差：$$\delta_{safe} = \theta_{base}^{+} - \theta_{base}$$（$\theta_{base}$为未对齐基准模型）。</li>
+<li>实际计算：
+<ol>
+<li>由于RLHF/DPO等对齐方法同时优化“有用性”和“安全性”，直接计算$\theta_{base}^{+} - \theta_{base}$会混入有用性偏移；</li>
+<li>采用“失准”（unalignment）操作：对$\theta_{base}^{+}$用含有害问题+有用回答的数据集$D_h$进行SFT，得到仅安全性受损、有用性保留的$\tilde{\theta}<em>{base}$（$\theta</em>{base}$的估计）；</li>
+<li>最终安全向量：$$\delta_{safe} \approx \theta_{base}^{+} - \tilde{\theta}_{base}$$。</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-3-3-CATQA-A-Categorical-Harmful-QA-Dataset（CATQA数据集）">2.3 3. CATQA: A Categorical Harmful QA Dataset（CATQA数据集）</h3>
+<h4 id="2-3-1-数据集构建">2.3.1 数据集构建</h4>
+<ul>
+<li>来源：基于OpenAI和Meta（Llama-2）的禁止使用场景，确定11个主要有害类别，每类分5个子类，每子类10个有害问题，共550个问题（英文）。</li>
+<li>类别示例：非法活动（毒品制造、网络犯罪）、儿童虐待（性剥削、情感虐待）、仇恨/骚扰/暴力（种族仇恨、恐怖主义）等（见表1）。</li>
+</ul>
+<h4 id="2-3-2-多语言扩展">2.3.2 多语言扩展</h4>
+<ul>
+<li>扩展语言：中文、越南语；</li>
+<li>构建流程：用未对齐LLM翻译英文问题，由语言熟练的人工修正翻译错误；计划在论文接受后发布。</li>
+</ul>
+<h3 id="2-4-4-Experimental-Setup（实验设置）">2.4 4. Experimental Setup（实验设置）</h3>
+<h4 id="2-4-1-测试模型">2.4.1 测试模型</h4>
+<ul>
+<li>基础模型：Llama-2-7B Chat（指令微调+人类偏好对齐，安全且有用）；</li>
+<li>微调模型：
+<ul>
+<li>PEFT：基于LoRA的参数高效微调；</li>
+<li>Full-FT：全参数微调；</li>
+<li>变体：SFT（原始微调模型）、SFT+DARE（微调后加DARE）、SFT+RESTA（微调后加安全向量）、SFT+RESTA_d（微调+DARE后加安全向量）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-4-2-微调数据集">2.4.2 微调数据集</h4>
+<ul>
+<li>共5个数据集：
+<ol>
+<li>语言类：中文Alpaca、印地语Alpaca、英语Alpaca（非英语数据集混合50K英语数据以保留英语能力）；</li>
+<li>逻辑类：CodeAlpaca（代码）、GSM8K（数学）。</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-4-3-评估基准">2.4.3 评估基准</h4>
+<ul>
+<li>自建：CATQA（英/中/越）；</li>
+<li>现有：
+<ol>
+<li>HARMFULQA：10个主题、98个子类，196个有害提示（与CATQA类别无重叠）；</li>
+<li>ADVERSARIALQA：500个诱导有害行为的指令，随机选200个评估；</li>
+<li>DANGEROUSQA：200个有毒问题（种族主义、性别歧视等）。</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-4-4-评估方法">2.4.4 评估方法</h4>
+<ul>
+<li>评判器：GPT-4（与人类标注一致性高），采用Bhardwaj and Poria (2023b)的评估提示；</li>
+<li>指标：不安全分数（Unsafety Score）= 有害回答数/总标注回答数，分数越低越安全；</li>
+<li>超参数：$\gamma=0.5$（实验中稳定有效，可针对任务优化）。</li>
+<li>安全向量：通过CATQA部分数据计算获得。</li>
+</ul>
+<h3 id="2-5-5-Results-and-Discussions（结果与讨论）">2.5 5. Results and Discussions（结果与讨论）</h3>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94LANGUAGE-MODELS-ARE-HOMER-SIMPSON!-Safety-Re-Alignment-of-Fine-tuned-Language-Models-through-Task-Arithmetic/image-20251029104549641.png" alt="image-20251029104549641"></p>
+<p>【CATQA不安全分数】领域特定数据集微调后的有害回复比例及RESTA与DARE对微调模型（SFT）的影响。原始Llama-2在CATQA上的不安全分数为2.18。Δ表示受损模型与原始模型分数之差，数值越低越好。</p>
+<h4 id="2-5-1-PEFT场景结果">2.5.1 PEFT场景结果</h4>
+<ul>
+<li>安全性提升：
+<ul>
+<li>CATQA：SFT模型不安全分数平均33.57%，RESTA降至13.22%，RESTA_d进一步降至12.17%（基准模型分数2.18%）；</li>
+<li>现有基准：HARMFULQA（18.21%→5.44%）、ADVERSARIALQA（29.74%→8.58%）、DANGEROUSQA（7.83%→1.41%），均接近基准模型安全性。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-5-2-Full-FT场景结果">2.5.2 Full-FT场景结果</h4>
+<ul>
+<li>安全性提升更显著：
+<ul>
+<li>CATQA：SFT模型不安全分数平均22.16%，RESTA降至4.68%，RESTA_d降至4.34%；</li>
+<li>DANGEROUSQA：RESTA后不安全分数0.65%，优于基准模型（1.51%）；</li>
+</ul>
+</li>
+<li>RESTA+DARE作用：在Full-FT中效果弱于PEFT，原因需进一步研究（可能与模型规模、学习率、微调领域相关）。</li>
+</ul>
+<h4 id="2-5-3-安全向量的泛化性">2.5.3 安全向量的泛化性</h4>
+<ul>
+<li>跨类别泛化：在与CATQA无重叠类别的HARMFULQA上，安全向量仍能显著降低不安全分数；</li>
+<li>跨语言泛化：
+<ul>
+<li>越南语CATQA：PEFT下不安全分数降低26.2%，Full-FT降低21.37%；</li>
+<li>中文CATQA：PEFT降低17.35%，Full-FT降低24.54%；</li>
+</ul>
+</li>
+<li>跨任务泛化：在代码、数学等逻辑密集型任务中，RESTA仍能保持安全性提升。</li>
+</ul>
+<h4 id="2-5-4-对模型性能的影响">2.5.4 对模型性能的影响</h4>
+<ul>
+<li>
+<p>性能损失微小：</p>
+<ul>
+<li>PEFT：RESTA平均降低任务性能2.41%；</li>
+<li>Full-FT：平均降低0.47%；</li>
+</ul>
+</li>
+<li>
+<p>性能-安全权衡：当$\gamma \leq 1$时，模型性能接近原始SFT，而安全性显著提升（见图4）。</p>
+<p><img src="/images/post_images/2025-10-29-%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94LANGUAGE-MODELS-ARE-HOMER-SIMPSON!-Safety-Re-Alignment-of-Fine-tuned-Language-Models-through-Task-Arithmetic/image-20251029103607039.png" alt="image-20251029103607039"></p>
+</li>
+</ul>
+<h3 id="2-6-6-Related-Work（相关工作）">2.6 6. Related Work（相关工作）</h3>
+<h4 id="2-6-1-监督微调与Delta参数">2.6.1 监督微调与Delta参数</h4>
+<ul>
+<li>分类：全参数微调（Howard and Ruder, 2018）、参数高效微调（PEFT，如LoRA；Hu et al., 2021）；</li>
+<li>关联：Yu et al. (2023)发现SFT的delta参数冗余，DARE基于此设计，为本研究提供操作基础。</li>
+</ul>
+<h4 id="2-6-2-LLM安全与失准">2.6.2 LLM安全与失准</h4>
+<ul>
+<li>安全漏洞：Carlini et al. (2023)等指出对齐模型易受提示攻击；Bhardwaj and Poria (2023a)用少量有害数据即可破坏安全性；Qi et al. (2023)发现良性数据集微调也会导致安全受损（与本文问题一致）；</li>
+<li>防御方法：RAIN（Li et al., 2023）无需微调实现对齐，与本文RESTA（微调后恢复安全）互补。</li>
+</ul>
+<h4 id="2-6-3-任务向量与权重插值">2.6.3 任务向量与权重插值</h4>
+<ul>
+<li>基础：神经网络权重插值可保留精度，任务向量（微调前后参数差）可调节模型行为（Ilharco et al., 2022a）；</li>
+<li>关联：本文安全向量源于任务向量思想，通过添加特定方向向量（安全方向）调节模型安全性。</li>
+</ul>
+<h3 id="2-7-7-Conclusion（结论）">2.7 7. Conclusion（结论）</h3>
+<ul>
+<li>RESTA有效性：通过添加安全向量，结合DARE，可显著恢复微调模型的安全性，PEFT和Full-FT场景下分别将有害性从18.6%→5.1%、9.2%→1.5%，且性能损失微小；</li>
+<li>CATQA价值：为多语言、多类别LLM安全评估提供基准；</li>
+<li>泛化性：安全向量在跨类别、跨语言、跨任务场景下均有效。</li>
+</ul>
+<h3 id="2-8-8-Limitations（局限性）">2.8 8. Limitations（局限性）</h3>
+<ul>
+<li>模型规模：未评估Llama-2-70B等大模型，可能影响结论扩展性；</li>
+<li>超参数优化：未广泛测试$\gamma$（安全向量系数）、$p$（DARE丢弃率）等超参数的影响；</li>
+<li>跨模型迁移性：未分析安全向量在不同LLM间的迁移能力。</li>
+</ul>
+<h3 id="2-9-9-Ethics-Statement（伦理声明）">2.9 9. Ethics Statement（伦理声明）</h3>
+<ul>
+<li>潜在风险：研究揭示了LLM的安全漏洞，可能被恶意用户利用；CATQA数据集可能加剧多语言场景下的LLM有害性；</li>
+<li>缓解措施：论文将添加开篇警告；用GPT-4自动标记有害回答，避免人类接触冒犯性文本；强调研究目的是推动LLM安全技术进步。</li>
+</ul>
+<h2 id="3-整体评价">3. 整体评价</h2>
+<ul>
+<li><strong>核心思想</strong>：论文假设微调会导致LLM安全性受损，提出RESTA方法通过安全向量加法结合DARE操作恢复安全性，在PEFT/Full-FT、多任务/多语言场景下实验验证，结果显示有害性显著降低且性能损失小，最终得出RESTA是高效、泛化的LLM安全恢复方法的结论。</li>
+<li><strong>未来方向</strong>：
+<ol>
+<li>评估RESTA在更大规模模型（如Llama-2-70B、GPT系列）上的效果；</li>
+<li>优化超参数（$\gamma$、$p$）以平衡安全性与任务性能，探索自适应超参数策略；</li>
+<li>研究安全向量在不同架构LLM间的迁移性，降低安全向量的计算成本；</li>
+<li>扩展CATQA至更多语言（如西班牙语、阿拉伯语），覆盖更多文化背景下的禁止场景；</li>
+<li>结合其他安全对齐方法（如RLHF），进一步提升RESTA的安全性恢复上限。# LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic</li>
+</ol>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.037v1/" rel="prev" title="NLSR: Neuron-Level Safety Realignment of Large Language Models Against Harmful Fine-Tuning">
+                  <i class="fa fa-angle-left"></i> NLSR: Neuron-Level Safety Realignment of Large Language Models Against Harmful Fine-Tuning
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.033v1/" rel="next" title="InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance">
+                  InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

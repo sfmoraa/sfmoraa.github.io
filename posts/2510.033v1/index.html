@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance EMNLP 1. 论文概览  核心问题：当前大语言模型（LLMs）的训练时对齐方法（如SFT、RLHF）复杂且资源消耗大，现有推理时对齐方法效果差且影响下游任务，同时缺乏针对多模态大语言模型（MLLMs）的无害性对齐方法及评估数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance">
+<meta property="og:url" content="http://example.com/posts/2510.033v1/index.html">
+<meta property="og:site_name" content="Feixiang Shu&#39;s Blog">
+<meta property="og:description" content="InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance EMNLP 1. 论文概览  核心问题：当前大语言模型（LLMs）的训练时对齐方法（如SFT、RLHF）复杂且资源消耗大，现有推理时对齐方法效果差且影响下游任务，同时缺乏针对多模态大语言模型（MLLMs）的无害性对齐方法及评估数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-28T17:42:13.517Z">
+<meta property="article:author" content="Feixiang Shu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/2510.033v1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/2510.033v1/","path":"/posts/2510.033v1/","title":"InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance | Feixiang Shu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Feixiang Shu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88"><span class="nav-number">1.1.</span> <span class="nav-text">1. 论文概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%90%84%E7%AB%A0%E8%8A%82%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">2. 各章节详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%91%98%E8%A6%81"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-%E5%BC%95%E8%A8%80"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 1. 引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 2. 相关工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-LLM%E5%AF%B9%E9%BD%90"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.3.1 LLM对齐</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-LLM%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.3.2 LLM安全问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-3-%E6%BF%80%E6%B4%BB%E5%B7%A5%E7%A8%8B"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">2.3.3 激活工程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-3-%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 3. 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E5%90%91%E9%87%8F%EF%BC%88SRV%EF%BC%89"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">3.1 安全相关向量（SRV）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-InferAligner"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">3.2 InferAligner</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-4-%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 4. 实验设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">4.1 数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">4.2 评估指标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="nav-number">1.2.5.3.</span> <span class="nav-text">4.3 实现细节</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-5-%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.6 5. 实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-%E5%9F%BA%E7%BA%BF%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">5.1 基线模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-%E4%B8%BB%E8%A6%81%E7%BB%93%E6%9E%9C%EF%BC%88%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">5.2 主要结果（领域模型）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-%E5%A4%9A%E6%A8%A1%E6%80%81%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%9C%EF%BC%88LLaVA%EF%BC%89"><span class="nav-number">1.2.6.3.</span> <span class="nav-text">5.3 多模态模型结果（LLaVA）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-6-%E5%88%86%E6%9E%90"><span class="nav-number">1.2.7.</span> <span class="nav-text">2.7 6. 分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-%E6%B6%88%E8%9E%8D%E7%A0%94%E7%A9%B6%EF%BC%88SSV%E6%9D%A5%E6%BA%90%EF%BC%89"><span class="nav-number">1.2.7.1.</span> <span class="nav-text">6.1 消融研究（SSV来源）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-%E5%8F%AF%E6%89%A9%E5%B1%95%E6%80%A7%E4%B8%8E%E9%80%82%E5%BA%94%E6%80%A7"><span class="nav-number">1.2.7.2.</span> <span class="nav-text">6.2 可扩展性与适应性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-%E6%97%A0%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90%E6%A8%A1%E5%9E%8B%E6%97%B6%E7%9A%84%E6%96%B9%E6%A1%88"><span class="nav-number">1.2.7.3.</span> <span class="nav-text">6.3 无安全对齐模型时的方案</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-7-%E7%BB%93%E8%AE%BA"><span class="nav-number">1.2.8.</span> <span class="nav-text">2.8 7. 结论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B4%E4%BD%93%E8%AF%84%E4%BB%B7"><span class="nav-number">1.3.</span> <span class="nav-text">3. 整体评价</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Feixiang Shu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Feixiang Shu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sfmoraa" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sfmoraa" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sfx-sjtu@sjtu.edu.cn" title="E-Mail → mailto:sfx-sjtu@sjtu.edu.cn" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/2510.033v1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Feixiang Shu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance | Feixiang Shu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-10-29 00:00:00 / 修改时间：01:42:13" itemprop="dateCreated datePublished" datetime="2025-10-29T00:00:00+08:00">2025-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">大模型</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%AE%89%E5%85%A8%E5%AF%B9%E9%BD%90/" itemprop="url" rel="index"><span itemprop="name">安全对齐</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1>InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance</h1>
+<p>EMNLP</p>
+<h2 id="1-论文概览">1. 论文概览</h2>
+<ul>
+<li><strong>核心问题</strong>：当前大语言模型（LLMs）的训练时对齐方法（如SFT、RLHF）复杂且资源消耗大，现有推理时对齐方法效果差且影响下游任务，同时缺乏针对多模态大语言模型（MLLMs）的无害性对齐方法及评估数据集。</li>
+<li><strong>主要贡献</strong>：1. 提出InferAligner，一种无需训练的推理时对齐方法，能有效提升模型安全性且保持下游任务性能，无对齐模型时也可使用；2. 首次探索MLLMs的无害性对齐，构建首个多模态安全研究数据集MM-Harmful Bench；3. 实验验证InferAligner在金融、医疗、数学领域模型及MLLMs（如LLaVA）上均有效，显著降低有害指令与越狱攻击的攻击成功率（ASR）。</li>
+<li><strong>研究方法</strong>：提取安全对齐模型的安全引导向量（SSVs），推理时通过目标模型的安全相关向量（SRVs）判断输入是否有害，若有害则在指定Transformer层添加SSVs调整激活值，引导目标模型生成无害响应。</li>
+</ul>
+<h2 id="2-各章节详解">2. 各章节详解</h2>
+<h3 id="2-1-摘要">2.1 摘要</h3>
+<ul>
+<li>背景：LLMs广泛应用于通用助手及定制化场景，对齐是其成功的关键，但现有训练时对齐方法（SFT、RLHF）复杂繁琐。</li>
+<li>方法：提出InferAligner，一种推理时无害性对齐方法，利用安全对齐模型提取的SSVs调整目标模型对有害输入的激活值。</li>
+<li>结果：InferAligner可有效应用于金融、医疗、数学领域模型及MLLMs（如LLaVA），显著降低有害指令与越狱攻击的ASR，同时几乎不影响下游任务性能。</li>
+</ul>
+<h3 id="2-2-1-引言">2.2 1. 引言</h3>
+<ul>
+<li>LLM发展现状：LLMs（如GPT、LLaMA）成为AI应用基础，开源或API可访问的基础模型可微调为定制化目标模型，但需通过对齐确保符合人类价值观，本文聚焦无害性对齐。</li>
+<li>现有对齐方法局限：
+<ul>
+<li>训练时对齐（SFT、RLHF）：对齐效果好，但训练流程复杂、需大量资源，实施难度高。</li>
+<li>现有推理时对齐：如输入添加对齐提示、目标模型自身激活值偏移，对齐效果弱且严重影响下游任务性能。</li>
+</ul>
+</li>
+<li>本文方案：提出InferAligner，通过跨模型引导实现推理时无害性对齐，流程为：用对话模板构建有害/无害提示，计算两者最后token激活值差异得到SRVs，将无害对齐模型的SRVs作为SSVs；推理时用目标模型SRVs判断输入意图，有害则添加SSVs调整激活值，引导生成无害响应。</li>
+</ul>
+<h3 id="2-3-2-相关工作">2.3 2. 相关工作</h3>
+<h4 id="2-3-1-LLM对齐">2.3.1 LLM对齐</h4>
+<ul>
+<li>分类：训练时对齐与推理时对齐。
+<ul>
+<li>训练时对齐：通过SFT（利用标注数据微调）或RLHF（基于人类反馈的强化学习）实现，需多样代表性数据集及大量训练资源，流程复杂。</li>
+<li>推理时对齐：无需复杂训练，如输入添加对齐提示、目标模型自身激活值偏移，但对齐效果弱且影响下游任务性能。</li>
+</ul>
+</li>
+<li>本文目标：提出有效推理时对齐方法，兼顾对齐效果与下游任务性能。</li>
+</ul>
+<h4 id="2-3-2-LLM安全问题">2.3.2 LLM安全问题</h4>
+<ul>
+<li>安全隐患：LLMs存在生成有害内容的风险，如亵渎、暴力描述等。</li>
+<li>越狱攻击：通过精心设计提示（如角色扮演、权限提升、注意力转移）诱导LLMs生成有害响应，凸显无害性对齐的紧迫性。</li>
+</ul>
+<h4 id="2-3-3-激活工程">2.3.3 激活工程</h4>
+<ul>
+<li>定义：通过对模型激活值进行针对性扰动实现对齐的技术，如提取高层概念对应的表征引导模型行为。</li>
+<li>现有方法：
+<ul>
+<li>ITI（推理时干预）：用线性探针识别“真实”注意力头，沿探针方向偏移激活值以生成真实输出。</li>
+<li>RepE（表征工程）：从特定概念数据集的激活值中生成“读取向量”，引导模型行为。</li>
+</ul>
+</li>
+<li>本文创新：首次将激活工程用于推理时无害性对齐，采用跨模型引导（用对齐模型的SSVs）而非目标模型自身向量。</li>
+</ul>
+<h3 id="2-4-3-方法">2.4 3. 方法</h3>
+<h4 id="3-1-安全相关向量（SRV）">3.1 安全相关向量（SRV）</h4>
+<ul>
+<li>核心思想：通过有害与无害提示的最后token激活值差异，提取能感知输入意图、引导输出向无害方向偏移的SRVs。</li>
+<li>计算过程：
+<ol>
+<li>给定有害提示数据集(D^-)（含N个有害提示(P_i^-)）和无害提示数据集(D^+)（含N个无害提示(P_j^+)）。</li>
+<li>计算层l的激活值平均差异：$$v_l’ = \frac{1}{N} \sum_{i=1}^{N} a_l(P_i^-) - \frac{1}{N} \sum_{j=1}^{N} a_l(P_j^+)$$，其中(a_l(P))表示提示P在层l的最后token激活值。</li>
+<li>对(v_l’)归一化得到SRV：$$v_l = \frac{v_l’}{|v_l’|}$$。</li>
+</ol>
+</li>
+<li>关键定义：将无害对齐模型提取的SRVs定义为安全引导向量（SSVs）。</li>
+</ul>
+<h4 id="3-2-InferAligner">3.2 InferAligner</h4>
+<ul>
+<li>核心假设：未对齐/弱对齐的目标模型可能具备感知有害意图的能力，但无法有效利用；无害对齐模型已掌握有害输入响应方式，其SSVs可引导目标模型对齐。</li>
+<li>实现流程：
+<ol>
+<li>输入意图判断（引导门）：用目标模型的SRVs判断输入是否有害，层l的引导门(g_l)计算如下：$$g_l = \begin{cases}1 &amp; \text{if } a_l(P)^T s_l + b_l &gt; 0 \ 0 &amp; \text{otherwise} \end{cases}$$，其中(s_l)是目标模型层l的SRV，(b_l)是意图边界偏置（计算为所有训练样本在(s_l)上的负投影均值，可灵活调整以控制无害性严格程度）；实际使用中可选择最准确的(g_0)作为所有层的引导门。</li>
+<li>激活值调整：对需调整的Transformer层集合(L_G)（ heuristic选择目标模型与对齐模型中能准确判断有害意图的层），层l的激活值调整公式为：$$x_l = x_l’ + \alpha \cdot g_l \cdot \theta_l$$，其中(x_l’)是原始激活值，(x_l)是调整后激活值，(\alpha)是干预强度（通过超参数搜索确定），(\theta_l)是对齐模型层l的SSV。</li>
+</ol>
+</li>
+<li>参数说明：InferAligner含三类参数——(b_l)（意图边界）、(\alpha)（干预强度）、(L_G)（需调整的层）。</li>
+</ul>
+<h3 id="2-5-4-实验设置">2.5 4. 实验设置</h3>
+<h4 id="4-1-数据集">4.1 数据集</h4>
+<table>
+<thead>
+<tr>
+<th>数据集类型</th>
+<th>来源与构成</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SRV构建数据集</td>
+<td>有害指令：AdvBench的520条（含亵渎、暴力等）；无害指令：TruthfulQA生成子集的817条中随机抽520条；各抽64条用于提取SRV/SSV，剩余用于有害性测试。</td>
+</tr>
+<tr>
+<td>领域微调数据集</td>
+<td>金融：Yang等的指令微调数据+1万条UltraChat对话；医疗：MEDQA（含患者档案与医疗问题）+同等对话；数学：GSM8K训练集（侧重推理过程）+同等对话。</td>
+</tr>
+<tr>
+<td>安全评估数据集</td>
+<td>1. 有害性测试集：上述剩余有害指令；2. 越狱测试集：10种越狱提示（角色扮演、权限提升等）×50条有害指令=500条；3. 多模态有害测试集（MM-Harmful Bench）：100条需图文结合的有害指令，含10类恶意意图（歧视、盗窃等）。</td>
+</tr>
+<tr>
+<td>效用评估数据集</td>
+<td>金融：FPB、FiQA SA（情感分析）、Headline（判断任务）；医疗：MEDQA测试集；数学：GSM8K测试集。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="4-2-评估指标">4.2 评估指标</h4>
+<ul>
+<li>有害性指标：攻击成功率（ASR），即生成有害响应的指令占比；LLM用GPT-3.5 turbo判断，MLLM用GPT-4V判断。</li>
+<li>效用指标：下游任务准确率（Acc.），如情感分析、选择题、数学推理等任务的正确率。</li>
+</ul>
+<h4 id="4-3-实现细节">4.3 实现细节</h4>
+<ul>
+<li>基础模型：主要基于LLaMA2-7B，微调后得到领域模型DS-LLaMA2；MLLM用LLaVA-v1.5（基于Vicuna微调，Vicuna源自LLaMA2指令微调）。</li>
+<li>微调参数：DS-LLaMA2微调2轮，AdamW优化器，学习率2e-5，批大小128，最大序列长度2048，8张A800 GPU。</li>
+<li>SSV来源：从LLaMA2-CHAT（安全对齐模型）提取SSV；参数确定：通过初步实验确定（如(\alpha=4.0)，InternLM-Chat因对齐差设为8.0）；解码：最大序列长度256，贪心解码（保证可复现性）。</li>
+</ul>
+<h3 id="2-6-5-实验结果">2.6 5. 实验结果</h3>
+<h4 id="5-1-基线模型">5.1 基线模型</h4>
+<ol>
+<li>DS-LLaMA2-CHAT：LLaMA2-CHAT（经多轮SFT/RLHF）微调领域数据，继承无害性。</li>
+<li>DS-LLaMA2+Safety SFT：LLaMA2用领域数据+100条安全样本（基于GPT-3.5 turbo生成）微调，训练时对齐基线。</li>
+<li>DS-LLaMA2+Self-Reminder：推理时添加Li等的提示，推理时对齐基线。</li>
+<li>DS-LLaMA2+Goal Priority：推理时添加Zhang等的提示（优先无害性），推理时对齐基线。</li>
+</ol>
+<h4 id="5-2-主要结果（领域模型）">5.2 主要结果（领域模型）</h4>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>金融领域（ASR/越狱ASR/Acc.）</th>
+<th>医疗领域（ASR/越狱ASR/Acc.）</th>
+<th>数学领域（ASR/越狱ASR/Acc.）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DS-LLaMA2-CHAT</td>
+<td>0.7%/1.0%/93.7%</td>
+<td>0.2%/1.4%/40.6%</td>
+<td>0.7%/2.6%/36.8%</td>
+</tr>
+<tr>
+<td>DS-LLaMA2</td>
+<td>38.4%/48.2%/92.9%</td>
+<td>31.6%/21.4%/42.7%</td>
+<td>36.8%/42.2%/39.0%</td>
+</tr>
+<tr>
+<td>DS-LLaMA2+Safety SFT</td>
+<td>0.7%/13.4%/92.9%</td>
+<td>0.0%/0.6%/40.1%</td>
+<td>0.2%/14.0%/36.7%</td>
+</tr>
+<tr>
+<td>DS-LLaMA2+Self-Reminder</td>
+<td>25.0%/34.8%/92.8%</td>
+<td>29.2%/25.8%/43.4%</td>
+<td>14.9%/37.2%/38.0%</td>
+</tr>
+<tr>
+<td>DS-LLaMA2+Goal Priority</td>
+<td>21.3%/25.8%/92.4%</td>
+<td>11.0%/13.6%/43.8%</td>
+<td>7.5%/4.2%/39.3%</td>
+</tr>
+<tr>
+<td>DS-LLaMA2+InferAligner</td>
+<td>0.0%/0.2%/92.9%</td>
+<td>0.0%/0.0%/42.7%</td>
+<td>0.0%/0.0%/39.0%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>结论：1. InferAligner优于所有基线，ASR接近0，且保持下游Acc.；2. 训练时对齐模型（如DS-LLaMA2-CHAT、DS-LLaMA2+Safety SFT）因“对齐税”导致医疗/数学领域Acc.下降；3. 推理时对齐方法中，Goal Priority在数学模型上效果较好，但整体弱于InferAligner。</li>
+</ul>
+<h4 id="5-3-多模态模型结果（LLaVA）">5.3 多模态模型结果（LLaVA）</h4>
+<ul>
+<li>原始性能：LLaVA-7B/13B在MM-Harmful Bench上ASR高（未经过训练时对齐）。</li>
+<li>InferAligner效果：添加LLaMA2-CHAT的SSVs后，可拒绝所有多模态有害指令，响应连贯且能说明拒绝理由。</li>
+<li>推理时间：InferAligner无上下文长度增加，推理时间不受影响；Goal Priority因提示长导致推理速度显著下降。</li>
+</ul>
+<h3 id="2-7-6-分析">2.7 6. 分析</h3>
+<h4 id="6-1-消融研究（SSV来源）">6.1 消融研究（SSV来源）</h4>
+<ul>
+<li>目标模型自身SRV作为SSV：添加SSV无法有效降低ASR；减去SSV虽降低ASR，但响应意图模糊（安全分数2.5-3.5，1=极不安全，5=极安全），无法有效对齐。</li>
+<li>对齐模型（LLaMA2-CHAT）的SSV：添加SSV可显著降低ASR，且响应意图清晰、安全分数高；减去SSV会增加响应有害性，间接证明SSV有效性。</li>
+</ul>
+<h4 id="6-2-可扩展性与适应性">6.2 可扩展性与适应性</h4>
+<ul>
+<li>模型规模：InferAligner在LLaMA2-7B/13B上均有效。</li>
+<li>模型系列：在Qwen-7B（用Qwen-7B-Chat的SSV）、InternLM-7B（用InternLM-7B-Chat的SSV）上均有效，证明通用性。</li>
+</ul>
+<h4 id="6-3-无安全对齐模型时的方案">6.3 无安全对齐模型时的方案</h4>
+<ul>
+<li>替代方案：InferAlignerSIMPLE，引导门激活时用预设通用模板拒绝响应。</li>
+<li>局限性：InferAligner可提供拒绝理由，更符合Askell等的无害性定义，因此优先推荐InferAligner。</li>
+</ul>
+<h3 id="2-8-7-结论">2.8 7. 结论</h3>
+<ul>
+<li>总结：InferAligner是一种推理时跨模型引导的无害性对齐方法，通过提取安全对齐模型的SSVs，在推理时判断输入有害性并调整目标模型激活值，实现无害性引导。</li>
+<li>效果：在金融、医疗、数学领域模型及MLLMs（LLaVA）上均有效，显著降低有害指令与越狱攻击的ASR，同时几乎不影响下游任务性能。</li>
+</ul>
+<h2 id="3-整体评价">3. 整体评价</h2>
+<ul>
+<li><strong>核心思想</strong>：针对现有LLM对齐方法复杂、资源消耗大或效果差的问题，提出InferAligner，通过跨模型引导的激活值调整实现推理时无害性对齐，实验验证其在多领域、多模型系列及多模态场景下的有效性，兼顾安全性与下游任务性能。</li>
+<li><strong>未来方向</strong>：1. 将SSVs作为训练时监督信号，引导基础模型原生安全对齐；2. 扩展InferAligner至更多模型系列（如GPT系列、ChatGLM）及模态（如音频、视频）；3. 为InferAligner的参数（如(\alpha)、(L_G)）提供理论层面的最优值推导依据。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2510.034v1/" rel="prev" title="LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic">
+                  <i class="fa fa-angle-left"></i> LANGUAGE MODELS ARE HOMER SIMPSON! Safety Re-Alignment of Fine-tuned Language Models through Task Arithmetic
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2510.036v1/" rel="next" title="Improving Alignment and Robustness with Circuit Breakers">
+                  Improving Alignment and Robustness with Circuit Breakers <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Feixiang Shu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">359k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:53</span>
+  </span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("05/21/2025 10:00:00"); 
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
